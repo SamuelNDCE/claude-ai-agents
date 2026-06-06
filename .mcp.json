@@ -1,5 +1,10 @@
 {
   "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\Users\\Futur\\Documents\\AiWorkspace\\Claude\\codegraph-nv-bridge.js"]
+    },
     "claude-flow": {
       "command": "cmd",
       "args": [
