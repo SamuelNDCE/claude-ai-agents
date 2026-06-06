@@ -160,11 +160,28 @@ function writeMsg(msg) {
 
 const pending = new Map(); // id → { method, params }
 
-// Spawn codegraph
-const cg = spawn("codegraph", ["serve", "--mcp"], {
-  stdio: ["pipe", "pipe", "inherit"],
-  windowsHide: true,
-});
+// Spawn codegraph directly via its npm-shim, bypassing .cmd on Windows.
+// Falls back to system PATH 'codegraph' on non-Windows.
+const CG_SHIM = (() => {
+  try {
+    const { execSync } = require("child_process");
+    // Find the npm global prefix
+    const prefix = execSync("npm root -g", { encoding: "utf8", timeout: 5000 }).trim();
+    const shim = require("path").join(prefix, "@colbymchenry", "codegraph", "npm-shim.js");
+    if (require("fs").existsSync(shim)) return shim;
+  } catch {}
+  return null;
+})();
+
+const cg = CG_SHIM
+  ? spawn(process.execPath, [CG_SHIM, "serve", "--mcp"], {
+      stdio: ["pipe", "pipe", "inherit"],
+      windowsHide: true,
+    })
+  : spawn("codegraph", ["serve", "--mcp"], {
+      stdio: ["pipe", "pipe", "inherit"],
+      shell: process.platform === "win32",
+    });
 
 cg.on("error", (err) => {
   process.stderr.write(`[bridge] codegraph spawn error: ${err.message}\n`);
