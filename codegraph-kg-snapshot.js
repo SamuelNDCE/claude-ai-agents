@@ -79,22 +79,31 @@ async function snapshot() {
     : "";
 
   const funcList = Array.isArray(functions)
-    ? functions.slice(0, 60).map((s) => `- \`${s.name || s}\` (${s.file || ""}:${s.line || ""})`).join("\n")
+    ? functions.slice(0, 60).map((s) => {
+        const n = s.node || s;
+        return `- \`${n.name}\` (${n.filePath || ""}:${n.startLine || ""})`;
+      }).join("\n")
     : "";
 
   const classList = Array.isArray(classes)
-    ? classes.slice(0, 30).map((s) => `- \`${s.name || s}\` (${s.file || ""})`).join("\n")
+    ? classes.slice(0, 30).map((s) => {
+        const n = s.node || s;
+        return `- \`${n.name}\` (${n.filePath || ""})`;
+      }).join("\n")
     : "";
 
   const ifaceList = Array.isArray(interfaces)
-    ? interfaces.slice(0, 30).map((s) => `- \`${s.name || s}\` (${s.file || ""})`).join("\n")
+    ? interfaces.slice(0, 30).map((s) => {
+        const n = s.node || s;
+        return `- \`${n.name}\` (${n.filePath || ""})`;
+      }).join("\n")
     : "";
 
   const content = [
     `# CodeGraph Knowledge Graph — ${projectName}`,
     "",
     `**Project:** \`${projectPath}\`  `,
-    `**Nodes:** ${stats.nodes || "?"}  |  **Edges:** ${stats.edges || "?"}  |  **Files:** ${stats.files || "?"}`,
+    `**Nodes:** ${stats.nodeCount || "?"}  |  **Edges:** ${stats.edgeCount || "?"}  |  **Files:** ${stats.fileCount || "?"}`,
     "",
     "## Files",
     "",
