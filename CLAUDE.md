@@ -41,3 +41,41 @@ This project is indexed by GitNexus as **Claude** (23 symbols, 17 relationships,
 | Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
 
 <!-- gitnexus:end -->
+
+# CodeGraph — Semantic Code Intelligence
+
+CodeGraph v0.9.9 is indexed for this project (23 nodes, 27 edges) and for NeuralVault (62 nodes, 119 edges).
+MCP server: `codegraph-nv-bridge.js` (proxies codegraph + saves results to NeuralVault).
+
+## Token-Saving Protocol (read this)
+
+**Before calling any codegraph tool, call `codegraph_kg_nv` first:**
+```
+codegraph_kg_nv({ query: "your question or symbol name" })
+```
+If NeuralVault has a cached result, use it. Only call the live codegraph tool if the cache misses.
+
+After a full codebase exploration, run the snapshot script to persist the architecture to NV:
+```bash
+node codegraph-kg-snapshot.js [project-path]
+```
+
+## Tools
+
+| Tool | Purpose |
+|------|---------|
+| `codegraph_kg_nv` | Check NV cache FIRST before any other codegraph call |
+| `codegraph_explore` | Answer architecture questions, data flows, code surveys |
+| `codegraph_search` | Find symbols by name |
+| `codegraph_callers` | Who calls a function |
+| `codegraph_callees` | What a function calls |
+| `codegraph_impact` | Blast radius for changing a symbol |
+| `codegraph_node` | Full details for one symbol |
+| `codegraph_files` | Indexed file structure (faster than FS scan) |
+| `codegraph_status` | Index health |
+
+## Maintenance
+
+- Re-index after significant code changes: `codegraph index`
+- Re-snapshot to NV: `node codegraph-kg-snapshot.js`
+- Bridge source: `codegraph-nv-bridge.js`
