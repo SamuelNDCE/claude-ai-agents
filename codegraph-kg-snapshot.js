@@ -12,8 +12,11 @@
 "use strict";
 
 const { execSync } = require("child_process");
+const fs = require("fs");
 const http = require("http");
 const path = require("path");
+
+const VAULT_ROOT = "C:\\Users\\Futur\\Documents\\Obsidian Vault\\Claude";
 
 const NV_HOST = "localhost";
 const NV_PORT = 8900;
@@ -126,19 +129,35 @@ async function snapshot() {
   ].join("\n");
 
   const title = `codegraph-kg-${projectName.toLowerCase().replace(/[^a-z0-9]/g, "-")}`;
+  const noteId = `wiki/codegraph/${title}`;
+  const relPath = `${noteId}.md`;
 
-  const result = await nvPost("/api/note", {
-    title,
+  // Build full frontmatter + content for the file
+  const today = new Date().toISOString().slice(0, 10);
+  const fileContent = [
+    "---",
+    `title: ${title}`,
+    "type: concept",
+    "status: seed",
+    `created: ${today}`,
+    `updated: ${today}`,
+    `tags: [codegraph-kg, architecture, ${projectName}]`,
+    "---",
+    "",
     content,
-    type: "concept",
-    folder: "wiki/codegraph",
-    tags: ["codegraph-kg", "architecture", projectName],
-  });
+  ].join("\n");
 
-  if (result.ok) {
-    console.log(`[kg-snapshot] Saved → ${result.file}`);
-  } else {
-    console.error("[kg-snapshot] Failed to save to NeuralVault:", result);
+  // Write directly to vault for true replacement (API POST appends)
+  const vaultPath = path.join(VAULT_ROOT, relPath);
+  try {
+    fs.mkdirSync(path.dirname(vaultPath), { recursive: true });
+    fs.writeFileSync(vaultPath, fileContent, "utf8");
+    console.log(`[kg-snapshot] Saved → ${relPath}`);
+  } catch (err) {
+    console.warn(`[kg-snapshot] Direct write failed (${err.message}), falling back to API`);
+    const result = await nvPost("/api/note", { id: noteId, title, content, type: "concept", folder: "wiki/codegraph", tags: ["codegraph-kg", "architecture", projectName] });
+    if (result.ok) console.log(`[kg-snapshot] Saved via API → ${result.file}`);
+    else console.error("[kg-snapshot] Failed to save to NeuralVault:", result);
   }
 }
 
