@@ -94,7 +94,7 @@ async function callTool(name, args) {
     });
     return text(JSON.stringify(r));
   }
-  return { content: [{ type: "text", text: `{"error":"unknown tool: ${name}"}` }], isError: true };
+  throw new Error(`unknown tool: ${name}`);
 }
 
 function text(s) {
@@ -133,8 +133,16 @@ rl.on("line", async (line) => {
   }
 
   if (method === "tools/call") {
-    const result = await callTool(params.name, params.arguments || {});
-    send({ jsonrpc: "2.0", id, result });
+    if (!params?.name) {
+      send({ jsonrpc: "2.0", id, error: { code: -32602, message: "Invalid params: missing tool name" } });
+      return;
+    }
+    try {
+      const result = await callTool(params.name, params.arguments || {});
+      send({ jsonrpc: "2.0", id, result });
+    } catch (err) {
+      send({ jsonrpc: "2.0", id, error: { code: -32603, message: err.message } });
+    }
     return;
   }
 
