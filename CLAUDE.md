@@ -79,3 +79,35 @@ node codegraph-kg-snapshot.js [project-path]
 - Re-index after significant code changes: `codegraph index`
 - Re-snapshot to NV: `node codegraph-kg-snapshot.js`
 - Bridge source: `codegraph-nv-bridge.js`
+
+# NeuralVault MCP Integration
+
+`nv-mcp-server.js` runs as a Claude MCP server named `neuralvault`. It exposes NeuralVault's REST API (localhost:8900) as 5 tools directly callable in Claude sessions.
+
+## NV Tools
+
+| Tool | When to use |
+|------|-------------|
+| `nv_observe(title, content)` | Quick save — a fact, decision, or lesson learned |
+| `nv_search(q)` | Find notes by keyword before deep work |
+| `nv_ask(q)` | Natural-language question against the vault |
+| `nv_note(id)` | Read full content of a specific note |
+| `nv_create_note(title, content, type, tags)` | Structured note with frontmatter |
+
+## Memory Bridge
+
+Any call to `mcp__claude-flow__memory_store` automatically triggers a `PostToolUse` hook that also writes the key/value to NV `/api/observe`. Ruflo agent memory and NeuralVault stay in sync without manual intervention.
+
+## Session Pattern
+
+```
+Session start:   curl -s http://localhost:8900/api/context  ← existing NV check
+Mid-session:     nv_search(topic)                           ← find existing knowledge
+Learning saved:  mcp__claude-flow__memory_store → auto-synced to NV
+Specific recall: nv_ask("what did we learn about X?")
+```
+
+## Failure Modes
+
+- NV offline: all nv_* tools return gracefully; the memory hook exits silently (no Claude Code error)
+- Ruflo MCP offline: nv_* tools still work independently from NeuralVault directly
