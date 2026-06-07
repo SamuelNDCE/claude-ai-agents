@@ -1,0 +1,164 @@
+<!-- ============================================================
+     Perpetual Technologies — Scroll Animations
+     Paste the ENTIRE contents of this file into:
+     Odoo Website > Settings > Custom Code > "End of Body HTML"
+     ============================================================ -->
+
+<style>
+  /* Scroll progress bar at top of page */
+  #pt-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #6B21E8 0%, #A855F7 100%);
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  /* Section fade-up reveal */
+  .pt-reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pt-reveal.pt-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Stat number pop (used inside .pt-dark) */
+  @keyframes ptStatPop {
+    0%   { opacity: 0; transform: scale(0.65) translateY(16px); }
+    65%  { transform: scale(1.08) translateY(0); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .pt-stat {
+    opacity: 0;
+    display: block;
+  }
+  .pt-stat.pt-in {
+    animation: ptStatPop 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .pt-stat.pt-in.d1 { animation-delay: 0.15s; }
+  .pt-stat.pt-in.d2 { animation-delay: 0.30s; }
+
+  /* Checklist item stagger */
+  .pt-list-item {
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .pt-list-item.pt-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* CTA button glow pulse */
+  @keyframes ptGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(107, 33, 232, 0); }
+    50%       { box-shadow: 0 4px 22px 2px rgba(107, 33, 232, 0.28); }
+  }
+  .pt-cta-glow {
+    animation: ptGlow 2.8s ease-in-out 1.8s infinite;
+  }
+
+  /* Hero headline word fade-up */
+  .pt-hero-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  .pt-hero-word.pt-in {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+
+<div id="pt-bar"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Scroll progress bar ── */
+  var bar = document.getElementById('pt-bar');
+  if (bar) {
+    window.addEventListener('scroll', function () {
+      var total = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
+    }, { passive: true });
+  }
+
+  /* ── Section scroll reveal ── */
+  document.querySelectorAll('.pt-section').forEach(function (s) {
+    s.classList.add('pt-reveal');
+  });
+
+  /* ── Stat pop inside the dark stats section ── */
+  var dark = document.querySelector('.pt-dark');
+  if (dark) {
+    var statHeadings = Array.from(
+      dark.querySelectorAll('h2, h3, h4')
+    ).filter(function (el) { return /\d/.test(el.textContent); });
+
+    statHeadings.forEach(function (el, i) {
+      el.classList.add('pt-stat');
+      if (i === 1) el.classList.add('d1');
+      if (i === 2) el.classList.add('d2');
+    });
+  }
+
+  /* ── Checklist item stagger (Why Businesses Choose Us) ── */
+  document.querySelectorAll('.pt-band li, .pt-section li').forEach(function (li, i) {
+    li.classList.add('pt-list-item');
+    li.style.transitionDelay = Math.min(i * 0.08, 0.4) + 's';
+  });
+
+  /* ── CTA button glow ── */
+  document.querySelectorAll('a').forEach(function (a) {
+    var href = a.getAttribute('href') || '';
+    var text = a.textContent.trim().toLowerCase();
+    if (
+      href.includes('appointment') ||
+      text.includes('book a free') ||
+      (text.includes('consultation') && text.length < 40)
+    ) {
+      a.classList.add('pt-cta-glow');
+    }
+  });
+
+  /* ── IntersectionObserver — fires pt-in on all animated elements ── */
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      el.classList.add('pt-in');
+      /* Trigger stats and list items nested inside a revealed section */
+      el.querySelectorAll('.pt-stat, .pt-list-item').forEach(function (child) {
+        child.classList.add('pt-in');
+      });
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.pt-reveal, .pt-stat, .pt-list-item').forEach(function (el) {
+    obs.observe(el);
+  });
+
+  /* ── Hero headline word-by-word fade-up ── */
+  var heroH = document.querySelector('.pt-hero h1, .pt-hero h2');
+  if (heroH && !heroH.querySelector('.pt-hero-word')) {
+    var words = heroH.textContent.trim().split(/\s+/);
+    heroH.innerHTML = words.map(function (w) {
+      return '<span class="pt-hero-word">' + w + '</span>';
+    }).join(' ');
+    heroH.querySelectorAll('.pt-hero-word').forEach(function (span, i) {
+      setTimeout(function () { span.classList.add('pt-in'); }, 250 + i * 90);
+    });
+  }
+
+})();
+</script>
