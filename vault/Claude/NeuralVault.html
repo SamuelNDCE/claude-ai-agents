@@ -4,8 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NeuralVault — live neural map</title>
-<link rel="prefetch" href="/manage">
-<script type="speculationrules">{"prerender":[{"source":"list","urls":["/manage"]}]}</script>
 <style>
   :root{
     --bg:#06080d;
@@ -19,50 +17,24 @@
     --ext:#5b6678;
   }
   *{box-sizing:border-box}
-  @keyframes nvFadeIn{from{opacity:0}to{opacity:1}}
-  html{background:#06080d}  /* dark window bg before body renders — no white flash */
-  html,body{margin:0;height:100%;color:var(--ink);
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
     font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
-  body{background:var(--bg);animation:nvFadeIn .3s ease both}
-  /* canvas fades in after one physics tick so nodes aren't all at center on first frame */
-  #stage{animation:nvFadeIn .25s .08s ease both}
   #stage{position:fixed;inset:0;display:block;cursor:grab}
   #stage:active{cursor:grabbing}
 
   .panel{position:fixed;z-index:5;pointer-events:none}
-  /* top nav — the shared site header */
-  #topnav{position:fixed;top:0;left:0;right:0;height:54px;z-index:30;display:flex;align-items:center;
-    justify-content:space-between;padding:0 22px;background:rgba(6,8,13,.8);
-    border-bottom:1px solid rgba(255,255,255,.08);backdrop-filter:blur(12px)}
-  #topnav .brand-cluster{display:flex;align-items:center;gap:14px}
-  #topnav .brand{display:flex;align-items:center;gap:9px;font-weight:650;font-size:14.5px;color:#fff}
-  #topnav .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--source);
+  /* header */
+  #head{top:0;left:0;right:0;padding:22px 26px;
+    background:linear-gradient(180deg,rgba(6,8,13,.85),rgba(6,8,13,0))}
+  #head h1{margin:0;font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:#fff;display:flex;align-items:center;gap:10px}
+  #head h1 .dot{width:9px;height:9px;border-radius:50%;background:var(--source);
     box-shadow:0 0 10px var(--source),0 0 22px var(--source);animation:beat 1.6s ease-in-out infinite}
   @keyframes beat{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
-  #topnav .links{display:flex;gap:4px;align-items:center}
-  /* Ollama status pill */
-  .ollama-status{display:flex;align-items:center;gap:6px;font-size:12px;
-    color:var(--muted);padding:3px 10px 3px 8px;border-radius:999px;
-    border:1px solid transparent;opacity:0;
-    transition:opacity .45s ease,color .3s ease,border-color .3s ease,background .3s ease;
-    white-space:nowrap;text-decoration:none}
-  .ollama-status .os-dot{width:7px;height:7px;border-radius:50%;flex:none;
-    transition:background .3s ease,box-shadow .3s ease}
-  .ollama-status.online{opacity:1;color:rgba(86,211,100,.9);
-    border-color:rgba(86,211,100,.18);background:rgba(86,211,100,.06)}
-  .ollama-status.online .os-dot{background:#56d364;box-shadow:0 0 6px rgba(86,211,100,.8)}
-  .ollama-status.offline{opacity:1;color:rgba(255,82,128,.8);
-    border-color:rgba(255,82,128,.18);background:rgba(255,82,128,.06)}
-  .ollama-status.offline .os-dot{background:#ff5280;box-shadow:none}
-  #topnav .links a{font-size:13px;color:var(--muted);padding:7px 13px;border-radius:8px;text-decoration:none;transition:.15s}
-  #topnav .links a:hover{color:#fff;background:rgba(255,255,255,.06)}
-  #topnav .links a.active{color:#fff;background:rgba(255,255,255,.09)}
-  /* tagline + live badge (under nav) */
-  #head{top:64px;left:24px;right:auto;padding:0;max-width:54ch}
-  #head p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+  #head p{margin:6px 0 0;font-size:12.5px;color:var(--muted);max-width:60ch;line-height:1.5}
 
   /* live stats */
-  #stats{top:66px;right:26px;display:flex;gap:26px;text-align:right}
+  #stats{top:22px;right:26px;display:flex;gap:30px;text-align:right}
   #stats .stat .n{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;
     color:#fff;line-height:1;letter-spacing:-.02em}
   #stats .stat .l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:5px}
@@ -86,26 +58,20 @@
   #tip .tag{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border-radius:999px;
     color:#06080d;font-weight:700}
   #tip .s{font-size:12px;color:#aab4c6;margin-top:7px;line-height:1.5}
-  #tip .rels{margin-top:8px;display:flex;flex-direction:column;gap:4px;border-top:1px solid rgba(255,255,255,.07);padding-top:7px}
-  #tip .rels:empty{display:none}
-  #tip .rel{font-size:11px;display:flex;align-items:baseline;gap:5px;line-height:1.4}
-  #tip .rel .ri{font-size:10px;opacity:.7;flex:none}
-  #tip .rel.par{color:#f09b2a}
-  #tip .rel.chl{color:#3dca6e}
   @media (prefers-reduced-motion:reduce){#head h1 .dot{animation:none}}
 
   /* right pop-out control panel */
-  #panel{position:fixed;z-index:8;top:54px;right:0;height:calc(100vh - 54px);width:272px;box-sizing:border-box;
-    background:rgba(9,13,21,.97);border-left:1px solid rgba(255,255,255,.09);
-    transform:translateX(100%);transition:transform .15s ease;
+  #panel{position:fixed;z-index:8;top:0;right:0;height:100vh;width:272px;box-sizing:border-box;
+    background:rgba(11,15,23,.93);border-left:1px solid rgba(255,255,255,.09);backdrop-filter:blur(12px);
+    transform:translateX(100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);
     padding:24px 20px 28px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;
     box-shadow:-20px 0 50px rgba(0,0,0,.45)}
   #panel.open{transform:none}
   #panelToggle{position:fixed;z-index:9;top:50%;right:0;transform:translateY(-50%);
     background:rgba(11,15,23,.92);border:1px solid rgba(255,255,255,.1);border-right:0;
     border-radius:11px 0 0 11px;color:#cdd6e6;cursor:pointer;padding:16px 9px;font-size:11px;
-    writing-mode:vertical-rl;letter-spacing:.16em;text-transform:uppercase;transition:transform .15s ease}
-  #panelToggle.open{transform:translateY(-50%) translateX(-272px)}
+    writing-mode:vertical-rl;letter-spacing:.16em;text-transform:uppercase;transition:right .3s}
+  #panelToggle.open{right:272px}
   #panelToggle:hover{background:rgba(255,255,255,.13)}
   #panel h3{margin:0;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff}
   #panel h4{margin:6px 0 -4px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#7f8aa0;
@@ -129,55 +95,17 @@
   #panel .tog.on .sw{background:var(--source)}
   #panel .tog.on .sw::after{left:17px;background:#06080d}
 
-  /* ── Controls panel additions ─────────────────────────── */
-  .btn-row{display:flex;gap:6px;margin-top:5px}
-  .btn-row button{flex:1;padding:6px 0;font-size:11px;background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.10);border-radius:5px;color:var(--ink);
-    cursor:pointer;transition:background .15s,border-color .15s,color .15s}
-  .btn-row button:hover{background:rgba(255,255,255,.12)}
-  .btn-row button.active{background:rgba(70,177,255,.15);border-color:rgba(70,177,255,.30);color:#46b1ff}
-  .vb-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 28px;margin-top:5px}
-  .vb-item{font-size:11px;display:flex;justify-content:space-between;padding:1px 0}
-  .vb-item .lbl{color:var(--muted)}
-  .vb-item .cnt{color:var(--ink)}
-  .obs-ta{width:100%;box-sizing:border-box;background:rgba(255,255,255,.03);
-    border:1px solid rgba(255,255,255,.10);border-radius:5px;color:var(--ink);
-    font-size:11px;padding:6px 8px;resize:vertical;min-height:52px;
-    margin-top:5px;font-family:inherit}
-  .obs-ta::placeholder{color:var(--muted)}
-  .obs-ta:focus{outline:none;border-color:rgba(70,177,255,.30)}
-  .obs-btn{width:100%;margin-top:5px;padding:6px 0;font-size:11px;
-    background:rgba(70,177,255,.10);border:1px solid rgba(70,177,255,.22);
-    border-radius:5px;color:#46b1ff;cursor:pointer;transition:background .15s}
-  .obs-btn:hover{background:rgba(70,177,255,.20)}
-  .obs-btn:disabled{opacity:.45;cursor:default}
-  .agent-pulse{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4;
-    word-break:break-word;min-height:16px}
-  .agent-pulse .ap-name{color:var(--concept)}
-  .manage-lnk{display:block;font-size:11px;color:var(--muted);text-decoration:none;
-    margin-top:4px;text-align:right;opacity:.7}
-  .manage-lnk:hover{opacity:1;color:var(--ink)}
-
   /* click-to-read detail panel */
   #detail{position:fixed;z-index:9;top:80px;right:22px;width:300px;
-    max-height:calc(100vh - 110px);overflow-y:auto;
     background:rgba(13,17,26,.96);border:1px solid rgba(255,255,255,.1);border-radius:14px;
     padding:16px 16px 17px;backdrop-filter:blur(10px);box-shadow:0 22px 60px rgba(0,0,0,.6);
-    opacity:0;transform:translateY(-6px);pointer-events:none;transition:.16s ease;
-    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
+    opacity:0;transform:translateY(-6px);pointer-events:none;transition:.16s ease}
   #detail.on{opacity:1;transform:none;pointer-events:auto}
-  #detail .chip-more{color:#b39dff;border-color:rgba(179,157,255,.3);font-size:10.5px}
   #detail .x{position:absolute;top:11px;right:13px;color:var(--muted);cursor:pointer;font-size:17px;line-height:1}
   #detail .x:hover{color:#fff}
   #detail .dt{font-size:16px;font-weight:680;color:#fff;display:flex;align-items:center;gap:9px;margin:0 18px 9px 0}
   #detail .tag{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border-radius:999px;color:#06080d;font-weight:700}
   #detail .ds{font-size:12.5px;color:#aeb8ca;line-height:1.55}
-  #detail .detail-rels{margin-top:10px;display:flex;flex-direction:column;gap:5px;border-top:1px solid rgba(255,255,255,.07);padding-top:9px}
-  #detail .detail-rels:empty{display:none}
-  #detail .detail-rel{font-size:12px;display:flex;align-items:baseline;gap:6px;line-height:1.4;cursor:pointer}
-  #detail .detail-rel .ri{font-size:10px;opacity:.65;flex:none}
-  #detail .detail-rel.par{color:#f09b2a} #detail .detail-rel.par:hover{color:#ffb84d}
-  #detail .detail-rel.chl{color:#3dca6e} #detail .detail-rel.chl:hover{color:#5de08a}
   #detail .nb{margin-top:14px}
   #detail .nb .h{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
   #detail .chip{display:inline-block;font-size:11px;color:#cdd6e6;background:rgba(255,255,255,.06);
@@ -194,7 +122,6 @@
   #legend,#hint{animation:nv-in .6s cubic-bezier(.2,.8,.2,1) both .12s}
 
   /* sharper numeric hierarchy in the top-right readout */
-  #stats{gap:30px}
   #stats .stat .n{letter-spacing:-.03em;font-feature-settings:"tnum" 1;transition:color .3s}
   #stats .stat .l{opacity:.82}
   #head p{color:#8b97ad;max-width:52ch}
@@ -211,7 +138,7 @@
   /* crisper interaction + accessible focus */
   #panel .btnrow button,#panel .seg button{transition:background .15s,color .15s,transform .08s}
   #panel .btnrow button:active{transform:translateY(1px)}
-  #panelToggle{transition:transform .15s ease,background .15s}
+  #panelToggle{transition:right .3s,background .15s}
   :focus-visible{outline:2px solid var(--concept);outline-offset:2px}
 
   /* panel rhythm */
@@ -220,8 +147,72 @@
 
   @media (prefers-reduced-motion:reduce){#head,#stats,#legend,#hint{animation:none}}
 
+  /* ── tab bar ── */
+  #tabBar{display:flex;gap:6px;margin-top:11px;pointer-events:auto}
+  #tabBar button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+    color:#8b97ad;border-radius:99px;padding:5px 14px;font-size:11px;letter-spacing:.07em;
+    cursor:pointer;transition:background .15s,color .15s,border-color .15s;font-family:inherit;
+    text-transform:none;font-weight:500}
+  #tabBar button.active{background:rgba(70,177,255,.12);border-color:rgba(70,177,255,.38);color:#c8e8ff}
+  #tabBar button:hover:not(.active){background:rgba(255,255,255,.09);color:#cdd6e6}
+
+  /* ── tasks overlay ── */
+  #tasksView{position:fixed;inset:0;z-index:7;background:var(--bg);display:none;
+    flex-direction:column;align-items:center}
+  #tasksView.on{display:flex}
+  #tasksHeader{width:560px;max-width:90vw;padding:110px 0 0;display:flex;
+    align-items:baseline;justify-content:space-between}
+  #tasksHeader h2{margin:0;font-size:13px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:#fff}
+  #taskCount{font-size:10.5px;color:var(--muted);letter-spacing:.06em}
+  #tasksAddRow{width:560px;max-width:90vw;display:flex;gap:8px;margin-top:14px}
+  #tasksAddRow input{flex:1;background:rgba(13,17,26,.9);border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;color:var(--ink);font-size:13px;padding:9px 14px;outline:none;
+    font-family:inherit;backdrop-filter:blur(8px);transition:border-color .15s,box-shadow .15s}
+  #tasksAddRow input:focus{border-color:rgba(70,177,255,.55);box-shadow:0 0 0 3px rgba(70,177,255,.14)}
+  #tasksAddRow input::placeholder{color:#4b5a6b}
+  #tasksAddRow button{background:rgba(70,177,255,.14);border:1px solid rgba(70,177,255,.32);
+    color:#c8e8ff;border-radius:10px;padding:9px 16px;font-size:12px;cursor:pointer;
+    font-family:inherit;white-space:nowrap;transition:background .15s,transform .08s;letter-spacing:.04em}
+  #tasksAddRow button:hover{background:rgba(70,177,255,.26)}
+  #tasksAddRow button:active{transform:translateY(1px)}
+  #tasksList{width:560px;max-width:90vw;flex:1;overflow-y:auto;margin-top:18px;
+    padding-bottom:60px}
+  #tasksList::-webkit-scrollbar{width:4px}
+  #tasksList::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px}
+  .task-item{display:flex;align-items:center;gap:12px;padding:10px 14px;
+    border-bottom:1px solid rgba(255,255,255,.045);border-radius:10px;
+    transition:background .12s;cursor:default}
+  .task-item:hover{background:rgba(255,255,255,.035)}
+  .task-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);
+    flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:transparent;transition:background .15s,border-color .15s}
+  .task-chk:hover{border-color:var(--concept)}
+  .task-item.done .task-chk{background:var(--source);border-color:var(--source);color:#06080d}
+  .task-ttl{flex:1;font-size:13px;color:#cdd6e6;line-height:1.4;word-break:break-word}
+  .task-item.done .task-ttl{text-decoration:line-through;color:#3a4659}
+  .task-meta{font-size:10px;color:#2e3a4a;flex:none}
+  #tasksEmpty{color:#3a4659;font-size:13px;text-align:center;padding-top:60px}
+
+  /* ── tags overlay ── */
+  #tagsView{position:fixed;inset:0;z-index:7;background:var(--bg);display:none;
+    flex-direction:column;align-items:center;overflow-y:auto}
+  #tagsView.on{display:flex}
+  #tagsHeader{width:760px;max-width:90vw;padding:110px 0 0;display:flex;
+    align-items:baseline;justify-content:space-between}
+  #tagsHeader h2{margin:0;font-size:13px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:#fff}
+  #tagsMeta{font-size:10.5px;color:var(--muted);letter-spacing:.06em}
+  #tagsCloud{width:760px;max-width:90vw;display:flex;flex-wrap:wrap;gap:9px;
+    margin-top:22px;padding-bottom:60px}
+  .tc{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);
+    color:#cdd6e6;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;
+    font-family:inherit;transition:background .15s,color .15s,border-color .15s}
+  .tc:hover{background:rgba(70,177,255,.16);color:#c8e8ff;border-color:rgba(70,177,255,.35)}
+  .tc .cnt{color:var(--muted);font-size:10px;margin-left:5px}
+
   /* search */
-  #searchWrap{position:fixed;z-index:31;top:10px;left:50%;transform:translateX(-50%);width:300px;max-width:38vw}
+  #searchWrap{position:fixed;z-index:8;top:18px;left:50%;transform:translateX(-50%);width:320px;max-width:46vw}
   #search{width:100%;box-sizing:border-box;background:rgba(13,17,26,.9);border:1px solid rgba(255,255,255,.1);
     border-radius:10px;color:var(--ink);font-size:13px;padding:9px 13px;outline:none;backdrop-filter:blur(8px);
     transition:border-color .15s,box-shadow .15s}
@@ -236,180 +227,21 @@
   #searchResults .r:last-child{border-bottom:0}
   #searchResults .r:hover{background:rgba(255,255,255,.08);color:#fff}
   #searchResults .r .ty{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#7f8aa0;flex:none}
-
-  /* refresh button */
-  #refreshBtn{position:fixed;z-index:8;bottom:52px;right:22px;width:40px;height:40px;border-radius:50%;
-    background:rgba(13,17,26,.9);border:1px solid rgba(255,255,255,.12);color:#cdd6e6;font-size:18px;
-    cursor:pointer;backdrop-filter:blur(8px);transition:background .15s}
-  #refreshBtn:hover{background:rgba(255,255,255,.14);color:#fff}
-  /* gesture camera widget */
-  #gestureWidget{position:fixed;bottom:20px;left:26px;z-index:12;display:none;flex-direction:column;
-    align-items:center;gap:5px;pointer-events:auto}
-  #gestureWidget .gw-wrap{position:relative;width:160px;height:120px;border-radius:10px;overflow:hidden;
-    border:1px solid rgba(255,255,255,.14)}
-  #gestureVideo{width:160px;height:120px;object-fit:cover;display:block;background:#000;transform:scaleX(-1)}
-  #gestureSkel{position:absolute;top:0;left:0;width:160px;height:120px;pointer-events:none}
-  #gestureCloseBtn{position:absolute;top:4px;right:6px;background:transparent;border:0;
-    color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;line-height:1;z-index:1}
-  #gestureCloseBtn:hover{color:#fff}
-  #gestureLbl{font-size:10.5px;color:var(--muted);letter-spacing:.08em;background:rgba(6,8,13,.75);
-    padding:3px 10px;border-radius:6px}
-  #refreshBtn.spin{animation:spin360 .5s ease}
-  @keyframes spin360{to{transform:rotate(360deg)}}
-
-  /* editor (slice 2) */
-  #detail .edit{display:block;width:100%;box-sizing:border-box;margin-top:12px;height:240px;resize:vertical;
-    background:rgba(5,7,12,.7);border:1px solid rgba(255,255,255,.12);border-radius:9px;color:#dfe7f2;
-    font:12px/1.5 ui-monospace,"Cascadia Code",Consolas,monospace;padding:10px;outline:none;display:none}
-  #detail .edit.on{display:block}
-  #detail .editrow{display:none;gap:8px;margin-top:9px}
-  #detail .editrow.on{display:flex}
-  #detail .editrow button{flex:1;height:30px;border-radius:8px;border:1px solid rgba(255,255,255,.12);
-    background:rgba(255,255,255,.06);color:#cdd6e6;font-size:12px;cursor:pointer}
-  #detail .editrow button.save{background:var(--source);color:#06080d;font-weight:650;border:0}
-  #detail .editrow button:hover{filter:brightness(1.1)}
-  /* loading screen */
-  #loadScreen{position:fixed;inset:0;z-index:999;background:#06080d;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;transition:opacity .5s ease;pointer-events:all}
-  #loadScreen svg{animation:ls-spin 28s linear infinite;margin-bottom:22px;filter:drop-shadow(0 0 22px rgba(79,179,255,0.45))}
-  @keyframes ls-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-  @keyframes ls-hub-pulse{0%,100%{opacity:.88}50%{opacity:1}}
-  .ls-title{font:750 18px/1 'Inter',system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;
-    color:#e2e4f0;margin-bottom:7px}
-  .ls-sub{font:400 11px/1 'Inter',system-ui,sans-serif;letter-spacing:.12em;color:#505878}
-  #lsBtn{margin-top:20px;padding:9px 32px;font:600 11px/1 'Inter',system-ui,sans-serif;
-    letter-spacing:.14em;text-transform:uppercase;border-radius:8px;
-    border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
-    color:rgba(255,255,255,.2);cursor:default;transition:all .35s ease;pointer-events:none}
-  #lsBtn.live{background:rgba(70,177,255,.18);border-color:rgba(70,177,255,.38);
-    color:#46b1ff;cursor:pointer;pointer-events:all}
-  #lsBtn.offline{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);
-    color:rgba(255,255,255,.55);cursor:pointer;pointer-events:all}
-  #lsBtn.live:hover{background:rgba(70,177,255,.30)}
-  #lsBtn.offline:hover{background:rgba(255,255,255,.12)}
 </style>
 </head>
 <body>
-<div id="loadScreen"><svg viewBox="-65 -65 130 130" width="150" height="150" xmlns="http://www.w3.org/2000/svg">
-  <defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4fb3ff" stop-opacity="0.32"/><stop offset="38%" stop-color="#4fb3ff" stop-opacity="0.10"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
-  <circle cx="0" cy="0" r="44" fill="url(#cg)"/>
-  <g stroke="rgba(90,150,240,0.17)" stroke-width="0.65" fill="none">
-    <line x1="5" y1="-52" x2="36" y2="-38"/><line x1="51" y1="5" x2="40" y2="34"/>
-    <line x1="8" y1="53" x2="-30" y2="44"/><line x1="-51" y1="14" x2="-55" y2="-6"/>
-    <line x1="-22" y1="-48" x2="-18" y2="-30"/><line x1="-22" y1="-48" x2="-3" y2="-40"/>
-    <line x1="5" y1="-52" x2="-3" y2="-40"/><line x1="20" y1="-48" x2="15" y2="-28"/><line x1="20" y1="-48" x2="-3" y2="-40"/>
-    <line x1="36" y1="-38" x2="30" y2="-16"/><line x1="48" y1="-28" x2="35" y2="20"/><line x1="48" y1="-28" x2="30" y2="-16"/>
-    <line x1="51" y1="5" x2="28" y2="18"/><line x1="55" y1="-10" x2="35" y2="20"/>
-    <line x1="40" y1="34" x2="0" y2="30"/><line x1="40" y1="34" x2="14" y2="30"/>
-    <line x1="22" y1="42" x2="14" y2="30"/><line x1="22" y1="42" x2="0" y2="30"/>
-    <line x1="8" y1="53" x2="14" y2="30"/>
-    <line x1="-30" y1="44" x2="-10" y2="31"/><line x1="-30" y1="44" x2="0" y2="30"/>
-    <line x1="-38" y1="34" x2="-10" y2="31"/><line x1="-38" y1="34" x2="-26" y2="20"/>
-    <line x1="-51" y1="14" x2="-26" y2="20"/><line x1="-51" y1="14" x2="-28" y2="-4"/>
-    <line x1="-55" y1="-6" x2="-28" y2="-4"/>
-    <line x1="-44" y1="-30" x2="-18" y2="-30"/><line x1="-44" y1="-30" x2="-28" y2="-4"/>
-    <line x1="-34" y1="-22" x2="-18" y2="-30"/>
-    <line x1="-22" y1="-48" x2="-5" y2="-22"/><line x1="-22" y1="-48" x2="-8" y2="-5"/>
-    <line x1="5" y1="-52" x2="0" y2="-18"/><line x1="5" y1="-52" x2="-8" y2="-5"/>
-    <line x1="20" y1="-48" x2="8" y2="-20"/><line x1="20" y1="-48" x2="0" y2="-18"/>
-    <line x1="36" y1="-38" x2="16" y2="-8"/><line x1="36" y1="-38" x2="0" y2="-18"/>
-    <line x1="48" y1="-28" x2="20" y2="6"/><line x1="48" y1="-28" x2="16" y2="-8"/>
-    <line x1="51" y1="5" x2="5" y2="14"/><line x1="51" y1="5" x2="20" y2="6"/>
-    <line x1="55" y1="-10" x2="16" y2="-8"/>
-    <line x1="40" y1="34" x2="5" y2="14"/><line x1="40" y1="34" x2="20" y2="6"/>
-    <line x1="22" y1="42" x2="5" y2="14"/>
-    <line x1="8" y1="53" x2="5" y2="14"/>
-    <line x1="-30" y1="44" x2="-15" y2="10"/><line x1="-30" y1="44" x2="-8" y2="-5"/>
-    <line x1="-38" y1="34" x2="-8" y2="-5"/>
-    <line x1="-51" y1="14" x2="-22" y2="8"/><line x1="-51" y1="14" x2="-8" y2="-5"/>
-    <line x1="-55" y1="-6" x2="-8" y2="-5"/>
-    <line x1="-44" y1="-30" x2="-5" y2="-22"/><line x1="-44" y1="-30" x2="-8" y2="-5"/>
-    <line x1="-34" y1="-22" x2="-8" y2="-5"/>
-    <line x1="-3" y1="-40" x2="-18" y2="-30"/><line x1="-18" y1="-30" x2="-28" y2="-4"/><line x1="-28" y1="-4" x2="-26" y2="20"/>
-    <line x1="-26" y1="20" x2="-10" y2="31"/><line x1="-10" y1="31" x2="0" y2="30"/><line x1="0" y1="30" x2="14" y2="30"/>
-    <line x1="14" y1="30" x2="28" y2="18"/><line x1="28" y1="18" x2="35" y2="20"/><line x1="35" y1="20" x2="30" y2="-16"/>
-    <line x1="30" y1="-16" x2="15" y2="-28"/><line x1="15" y1="-28" x2="-3" y2="-40"/><line x1="15" y1="-28" x2="-18" y2="-30"/>
-    <line x1="30" y1="-16" x2="-3" y2="-40"/><line x1="-26" y1="20" x2="0" y2="30"/><line x1="-10" y1="31" x2="14" y2="30"/>
-    <line x1="-28" y1="-4" x2="-18" y2="-30"/><line x1="-26" y1="20" x2="-28" y2="-4"/>
-    <line x1="-3" y1="-40" x2="0" y2="-18"/><line x1="-18" y1="-30" x2="-5" y2="-22"/><line x1="-18" y1="-30" x2="0" y2="-18"/>
-    <line x1="-28" y1="-4" x2="-22" y2="8"/><line x1="-26" y1="20" x2="-15" y2="10"/>
-    <line x1="0" y1="30" x2="5" y2="14"/><line x1="14" y1="30" x2="5" y2="14"/><line x1="14" y1="30" x2="20" y2="6"/>
-    <line x1="28" y1="18" x2="20" y2="6"/><line x1="35" y1="20" x2="20" y2="6"/><line x1="35" y1="20" x2="16" y2="-8"/>
-    <line x1="30" y1="-16" x2="16" y2="-8"/><line x1="15" y1="-28" x2="8" y2="-20"/><line x1="15" y1="-28" x2="16" y2="-8"/>
-    <line x1="-28" y1="-4" x2="-8" y2="-5"/><line x1="-3" y1="-40" x2="-8" y2="-5"/><line x1="15" y1="-28" x2="-8" y2="-5"/>
-    <line x1="28" y1="18" x2="5" y2="14"/><line x1="-10" y1="31" x2="5" y2="14"/><line x1="-26" y1="20" x2="-8" y2="-5"/>
-    <line x1="0" y1="-18" x2="-5" y2="-22"/><line x1="0" y1="-18" x2="8" y2="-20"/><line x1="0" y1="-18" x2="16" y2="-8"/>
-    <line x1="0" y1="-18" x2="-8" y2="-5"/><line x1="0" y1="-18" x2="20" y2="6"/>
-    <line x1="-5" y1="-22" x2="-8" y2="-5"/><line x1="-5" y1="-22" x2="8" y2="-20"/><line x1="-5" y1="-22" x2="-3" y2="-40"/>
-    <line x1="8" y1="-20" x2="16" y2="-8"/><line x1="8" y1="-20" x2="-8" y2="-5"/>
-    <line x1="16" y1="-8" x2="-8" y2="-5"/><line x1="16" y1="-8" x2="20" y2="6"/><line x1="16" y1="-8" x2="5" y2="14"/>
-    <line x1="20" y1="6" x2="5" y2="14"/><line x1="20" y1="6" x2="28" y2="18"/>
-    <line x1="-22" y1="8" x2="-15" y2="10"/><line x1="-22" y1="8" x2="-8" y2="-5"/><line x1="-22" y1="8" x2="-26" y2="20"/>
-    <line x1="-15" y1="10" x2="-8" y2="-5"/><line x1="-15" y1="10" x2="5" y2="14"/>
-    <line x1="-8" y1="-5" x2="5" y2="14"/>
-  </g>
-  <g fill="#8ab4ff">
-    <circle cx="-4" cy="2" r="1.8" opacity="0.55"/><circle cx="5" cy="-3" r="1.6" opacity="0.5"/>
-    <circle cx="0" cy="7" r="1.5" opacity="0.45"/><circle cx="-6" cy="-4" r="1.8" opacity="0.5"/>
-    <circle cx="4" cy="6" r="1.5" opacity="0.45"/><circle cx="3" cy="-8" r="1.6" opacity="0.5"/>
-    <circle cx="-3" cy="8" r="1.5" opacity="0.4"/><circle cx="8" cy="1" r="1.7" opacity="0.5"/>
-    <circle cx="-8" cy="2" r="1.5" opacity="0.45"/><circle cx="2" cy="-10" r="1.5" opacity="0.4"/>
-    <circle cx="-10" cy="3" r="1.4" opacity="0.4"/><circle cx="10" cy="-2" r="1.5" opacity="0.45"/>
-    <circle cx="1" cy="11" r="1.4" opacity="0.38"/><circle cx="-2" cy="-11" r="1.5" opacity="0.4"/>
-    <circle cx="6" cy="-14" r="1.4" opacity="0.38"/><circle cx="-14" cy="5" r="1.4" opacity="0.36"/>
-  </g>
-  <circle cx="-22" cy="-48" r="2" fill="#56d364" opacity="0.78"/><circle cx="5" cy="-52" r="2.5" fill="#56d364" opacity="0.82"/>
-  <circle cx="20" cy="-48" r="2" fill="#46b1ff" opacity="0.78"/><circle cx="36" cy="-38" r="2.5" fill="#56d364" opacity="0.82"/>
-  <circle cx="48" cy="-28" r="2.5" fill="#46b1ff" opacity="0.82"/><circle cx="51" cy="5" r="2.5" fill="#46b1ff" opacity="0.82"/>
-  <circle cx="55" cy="-10" r="2" fill="#56d364" opacity="0.72"/><circle cx="40" cy="34" r="2.5" fill="#56d364" opacity="0.8"/>
-  <circle cx="22" cy="42" r="2" fill="#46b1ff" opacity="0.78"/><circle cx="8" cy="53" r="2" fill="#56d364" opacity="0.78"/>
-  <circle cx="-30" cy="44" r="2" fill="#56d364" opacity="0.78"/><circle cx="-38" cy="34" r="2.5" fill="#56d364" opacity="0.8"/>
-  <circle cx="-51" cy="14" r="2.5" fill="#ff9e3d" opacity="0.82"/><circle cx="-55" cy="-6" r="2" fill="#56d364" opacity="0.72"/>
-  <circle cx="-44" cy="-30" r="2.5" fill="#56d364" opacity="0.8"/><circle cx="-34" cy="-22" r="3" fill="#56d364" opacity="0.83"/>
-  <circle cx="-3" cy="-40" r="3" fill="#56d364" opacity="0.82"/><circle cx="-18" cy="-30" r="3.5" fill="#56d364" opacity="0.83"/>
-  <circle cx="-28" cy="-4" r="4" fill="#56d364" opacity="0.85"/><circle cx="-26" cy="20" r="4" fill="#46b1ff" opacity="0.85"/>
-  <circle cx="-10" cy="31" r="4" fill="#56d364" opacity="0.84"/><circle cx="0" cy="30" r="4" fill="#ff9e3d" opacity="0.85"/>
-  <circle cx="14" cy="30" r="4" fill="#ff9e3d" opacity="0.84"/><circle cx="28" cy="18" r="4" fill="#46b1ff" opacity="0.85"/>
-  <circle cx="35" cy="20" r="3.5" fill="#46b1ff" opacity="0.83"/><circle cx="30" cy="-16" r="4" fill="#56d364" opacity="0.85"/>
-  <circle cx="15" cy="-28" r="3.5" fill="#56d364" opacity="0.83"/>
-  <circle cx="0" cy="-18" r="4.5" fill="#56d364" opacity="0.86"/><circle cx="20" cy="6" r="4.5" fill="#56d364" opacity="0.86"/>
-  <circle cx="-5" cy="-22" r="4.5" fill="#46b1ff" opacity="0.86"/><circle cx="8" cy="-20" r="4" fill="#56d364" opacity="0.84"/>
-  <circle cx="16" cy="-8" r="4.5" fill="#46b1ff" opacity="0.86"/><circle cx="-22" cy="8" r="4" fill="#46b1ff" opacity="0.85"/>
-  <circle cx="-15" cy="10" r="4.5" fill="#ff9e3d" opacity="0.86"/>
-  <circle cx="-8" cy="-5" r="7.5" fill="#b98cff" opacity="0.92" style="animation:ls-hub-pulse 2.8s ease-in-out infinite"/><circle cx="5" cy="14" r="6" fill="#b98cff" opacity="0.88"/>
-</svg><div class="ls-title">NeuralVault</div><div class="ls-sub" id="lsSub">Connecting…</div></div>
 <canvas id="stage"></canvas>
-<!-- agents iframe — hidden, loaded lazily on first hover, shown instantly on click -->
-<iframe id="agentsFrame" style="display:none;position:fixed;inset:0;border:0;width:100%;height:100%;z-index:100;background:#06080d"></iframe>
-<!-- gesture camera widget -->
-<div id="gestureWidget">
-  <div class="gw-wrap">
-    <video id="gestureVideo" playsinline autoplay muted></video>
-    <canvas id="gestureSkel" width="160" height="120"></canvas>
-    <button id="gestureCloseBtn">×</button>
-  </div>
-  <div id="gestureLbl">show hand</div>
-</div>
-
-<div id="topnav">
-  <div class="brand-cluster">
-    <a class="brand" href="/"><span class="dot"></span> NeuralVault</a>
-    <span class="ollama-status" id="ollamaStatus" title="Ollama local LLM">
-      <span class="os-dot"></span><span class="os-label">Ollama</span>
-    </span>
-  </div>
-  <div class="links">
-    <a href="/" class="active" id="navMap">Map</a>
-    <a href="/manage">Agents</a>
-    <a href="#" id="nav3d">3D</a>
-    <a href="#" id="navGestures">✋ Gestures</a>
-    <a href="https://github.com/SamuelNDCE/NeuralVault" target="_blank">GitHub ↗</a>
-  </div>
-</div>
 
 <div class="panel" id="head">
-  <p>A living neural map of the vault — neurons are notes, synapses are wikilinks.</p>
-  <div id="liveBadge" style="margin-top:8px;font-size:11px;letter-spacing:.06em;color:var(--muted)">○ static snapshot</div>
+  <h1><span class="dot"></span> NeuralVault <span style="font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--muted);vertical-align:middle">NV · v0.8.2</span></h1>
+  <div id="tabBar">
+    <button id="tabMap" class="active">🧠 Map</button>
+    <button id="tabTasks">✓ Tasks</button>
+    <button id="tab3d">📷 3D</button>
+    <button id="tabTags">🏷 Tags</button>
+  </div>
+  <p id="headDesc">A living neural map of the vault. Each <b>neuron</b> is a note; each <b>synapse</b> is a wikilink. Thoughts fire across the network in real time, and the strongest paths learn.</p>
+  <div id="liveBadge" style="margin-top:9px;font-size:11px;letter-spacing:.06em;color:var(--muted)">○ static snapshot</div>
 </div>
 
 <div class="panel" id="stats">
@@ -425,67 +257,77 @@
 </div>
 
 <div class="panel" id="legend"></div>
-<div class="panel" id="hint"><b>Click</b> a neuron to read / open · <b>Hover</b> to peek · <b>Drag</b> to orbit · <b>Shift-drag</b> to pan · <b>Scroll</b> to zoom · <b>Double-click</b> to fit · <b>✋ Gestures</b>: 🖐 zoom in · ✊ zoom out · ☝ orbit · ✌ fit · 🤌 select</div>
-<button id="refreshBtn" title="Refresh from vault (re-sync + re-fit)">↻</button>
+<div class="panel" id="hint"><b>Click</b> a neuron to read / open · <b>Hover</b> to peek · <b>Drag</b> a neuron to pull · <b>Drag canvas</b> to orbit · <b>Shift-drag</b> to pan · <b>Scroll</b> to zoom · <b>Double-click</b> to fit</div>
 
-<div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div><div class="rels"></div></div>
+<div id="tasksView">
+  <div id="tasksHeader">
+    <h2>✓ Tasks</h2>
+    <span id="taskCount"></span>
+  </div>
+  <div id="tasksAddRow">
+    <input id="taskInput" type="text" placeholder="Add a task…" autocomplete="off" spellcheck="false" />
+    <button id="taskAddBtn">+ Add</button>
+  </div>
+  <div id="tasksList"></div>
+</div>
+
+<div id="tagsView">
+  <div id="tagsHeader">
+    <h2>🏷 Tags</h2>
+    <span id="tagsMeta"></span>
+  </div>
+  <div id="tagsCloud"></div>
+</div>
+
+<div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div></div>
 
 <div id="detail">
   <span class="x" id="detailX">×</span>
   <div class="dt"><span class="tag"></span><span class="dttl"></span></div>
   <div class="ds"></div>
-  <div class="detail-rels"></div>
   <div class="nb"><div class="h">Connected neurons</div><div class="chips"></div></div>
   <a class="open" id="detailOpen">Open in Obsidian ↗</a>
-  <button class="open" id="detailEdit" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#cdd6e6;margin-top:8px">✎ Edit note</button>
-  <textarea class="edit" id="detailEditor" spellcheck="false" placeholder="note markdown…"></textarea>
-  <div class="editrow" id="detailEditRow">
-    <button id="detailSave" class="save">Save</button>
-    <button id="detailCancel">Cancel</button>
-  </div>
 </div>
 
 <button id="panelToggle">Controls</button>
 <div id="panel">
   <h3>🧠 NeuralVault</h3>
 
-  <h4>View</h4>
-  <div class="btn-row">
-    <button id="fitBtn" title="Zoom to fit all neurons">Fit view</button>
-    <button id="lblBtn" title="Toggle node labels">Labels</button>
-  </div>
+  <h4>Camera</h4>
+  <div class="btnrow"><button id="zOut" title="Zoom out">−</button>
+    <button id="zFit" title="Fit">⤢</button><button id="zIn" title="Zoom in">+</button></div>
+
+  <h4>Appearance</h4>
+  <div class="row"><div class="top"><span class="lbl">Neuron size</span><span class="val" id="nSizeV">1.0×</span></div>
+    <input type="range" id="nSize" min="30" max="300" value="100"></div>
+  <div class="row"><div class="top"><span class="lbl">Substrate density</span><span class="val" id="densV">1200</span></div>
+    <input type="range" id="density" min="0" max="6000" value="1200" step="200"></div>
+
+  <h4>Synapses</h4>
+  <div class="row"><span class="lbl">Strength shown as</span>
+    <div class="seg" id="linkMode">
+      <button data-m="usage" class="on">Usage</button>
+      <button data-m="degree">Degree</button>
+      <button data-m="flat">Flat</button></div></div>
+  <div class="row"><div class="top"><span class="lbl">Visual intensity</span></div>
+    <input type="range" id="linkInt" min="0" max="200" value="100"></div>
+  <div class="row"><div class="top"><span class="lbl">Link strength (pull)</span></div>
+    <input type="range" id="linkStr" min="0" max="100" value="50"></div>
 
   <h4>Learning</h4>
   <div class="tog on" id="learnTog"><span>STDP learning</span><span class="sw"></span></div>
   <div class="row"><div class="top"><span class="lbl">Activity</span><span class="val" id="actV">0 fires/s</span></div></div>
   <div class="row"><div class="top"><span class="lbl">Memory</span><span class="val" id="memV">—</span></div></div>
 
-  <h4>Vault</h4>
-  <div class="vb-grid" id="vbGrid">
-    <div class="vb-item"><span class="lbl">concept</span><span class="cnt" id="vbConcept">—</span></div>
-    <div class="vb-item"><span class="lbl">source</span><span class="cnt" id="vbSource">—</span></div>
-    <div class="vb-item"><span class="lbl">lesson</span><span class="cnt" id="vbLesson">—</span></div>
-    <div class="vb-item"><span class="lbl">entity</span><span class="cnt" id="vbEntity">—</span></div>
-    <div class="vb-item"><span class="lbl">hub</span><span class="cnt" id="vbHub">—</span></div>
-    <div class="vb-item"><span class="lbl">person</span><span class="cnt" id="vbPerson">—</span></div>
-  </div>
-
-  <h4>Observe</h4>
-  <textarea class="obs-ta" id="obsText" rows="3" placeholder="Add a thought to the vault…"></textarea>
-  <button class="obs-btn" id="obsBtn">Save to vault</button>
-
   <h4>Storage</h4>
   <div class="row"><div class="top"><span class="lbl">Brain size</span><span class="val" id="stoTotal">—</span></div></div>
   <div class="row"><div class="top"><span class="lbl">Memory</span><span class="val" id="stoMem">—</span></div></div>
   <div class="row"><div class="top"><span class="lbl">Notes / engine</span><span class="val" id="stoBreak">—</span></div></div>
-
-  <h4>Agents</h4>
-  <div class="agent-pulse" id="agentPulse">—</div>
-  <a class="manage-lnk" href="/manage">→ Agents page</a>
 </div>
 
 <script>
-/* ---------- The brain: extracted from the real wiki (Claude/wiki) ---------- */
+/* ---------- Demo graph (fallback when opened without brain-server.py).
+   Run the server against your own vault to see your real notes. ---------- */
 const TYPES = {
   hub:    {color:'#b98cff', label:'Hub / index'},
   person: {color:'#ffd23d', label:'Person'},
@@ -495,67 +337,63 @@ const TYPES = {
   concept:{color:'#46b1ff', label:'Concept (mental model)'},
   source: {color:'#56d364', label:'Source (session / doc)'},
   ext:    {color:'#6f8bb6', label:'External note'},
-  section:{color:'#a0a0c8', label:'Section (sub-neuron)'},
 };
-function blendHex(c1,c2,t){
-  const r1=parseInt(c1.slice(1,3),16),g1=parseInt(c1.slice(3,5),16),b1=parseInt(c1.slice(5,7),16);
-  const r2=parseInt(c2.slice(1,3),16),g2=parseInt(c2.slice(3,5),16),b2=parseInt(c2.slice(5,7),16);
-  return '#'+[r1+(r2-r1)*t,g1+(g2-g1)*t,b1+(b2-b1)*t].map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');
-}
 
 const EMB_NODES = [
-  {id:'home',  t:'hub',     label:'Claude Home',         s:'The MOC hub of the second brain — every branch links from here.'},
-  {id:'index', t:'hub',     label:'Wiki Index',          s:'Master catalog. Read order: hot → index → a page.'},
-  {id:'hot',   t:'hub',     label:'Hot Cache',           s:'~500-word snapshot of current state, read first each session.'},
-  {id:'samuel',t:'person',  label:'Samuel',              s:'GitHub SamuelNDCE · Windows 11 / PowerShell · TS-JS lean · builds AI agents · into side hustles & content.'},
-  {id:'plugins',t:'entity', label:'Plugins',             s:'14 Claude Code plugins (user scope): superpowers, impeccable, claude-obsidian, frontend-design, ai-engineering…'},
-  {id:'skills', t:'entity', label:'Skills',              s:'Every skill grouped by domain: prompt-eng, second-brain, dev-workflow, frontend/design, docs.'},
-  {id:'mcp',    t:'entity', label:'MCP Servers',         s:'12 servers: account connectors (Opera GX, Gmail, Calendar, Drive, vidIQ, Spotify, Canva, Slack) + plugin + CLI.'},
-  {id:'clis',   t:'entity', label:'CLIs',                s:'npm + Scoop tools: claude-code, gh, vercel, supabase, playwright, opera-browser-cli.'},
-  {id:'tok',    t:'concept',label:'Token Optimization',  s:'Cost is driven by baseline context per turn — prune unused connectors, disable idle plugins, measure.'},
-  {id:'pvc',    t:'concept',label:'Plugins vs Connectors',s:'Two runtimes that DON\'T share context: the claude CLI vs this Cowork chat.'},
-  {id:'mcpc',   t:'concept',label:'What is MCP',         s:'Model Context Protocol — how the agent gains tools: account connectors, plugin-provided, CLI-added.'},
-  {id:'wiki',   t:'concept',label:'LLM Wiki Pattern',    s:'Karpathy\'s compounding knowledge base of small cross-linked notes — re-read a lean index, don\'t re-derive.'},
-  {id:'src',    t:'source', label:'Environment Setup',   s:'2026-06-05 — the session that built the toolchain, plugins, connectors and this wiki.'},
-  {id:'cust',   t:'ext',    label:'How to win customers',s:'Existing note in "Side hustle and money" — Samuel\'s acquisition / retention thinking.'},
-  {id:'perp',   t:'org',    label:'PerpetualTechnologies',s:'Samuel\'s business on Odoo (perpetualtechnologies.odoo.com) — a design target.'},
-  {id:'lab',    t:'system', label:'Homelab',             s:'Self-hosted infra on 192.168.55.74: TrueNAS + Crafty + Minecraft. Could host self-hosted AI.'},
-  {id:'proj',   t:'entity', label:'Projects',            s:'Active work: agent.ts, browser-agent.ts, NumberGuessingGame.py, this neural map, the Perpetual site.'},
-  {id:'kgv',    t:'concept',label:'Knowledge-graph Viz', s:'Render the brain as firing neurons. 4 pillars: fire, remember, find patterns, watch screen. This map is pillar #1.'},
-  {id:'ccs',    t:'concept',label:'Content-creation Stack',s:'vidIQ + Canva connectors signal Samuel is (becoming) a creator — content as a funnel.'},
-  {id:'src2',   t:'source', label:'Brain Enrichment',    s:'2026-06-05 — built this neural map and learned Samuel\'s wider world (business, homelab, creator).'},
+  {id:'home',   t:'hub',     label:'Home',                s:'The map-of-content hub — every branch of your knowledge base links from here.'},
+  {id:'index',  t:'hub',     label:'Index',               s:'Master catalog of notes. A lean page you re-read instead of re-deriving.'},
+  {id:'hot',    t:'hub',     label:'Hot Cache',           s:'A short snapshot of your current focus, read first each session.'},
+  {id:'you',    t:'person',  label:'You',                 s:'The owner of this knowledge base. Point NeuralVault at your own vault to see your real graph.'},
+  {id:'org',    t:'org',     label:'A Project / Org',     s:'A company, client, or project you keep notes about.'},
+  {id:'setup',  t:'system',  label:'Your Setup',          s:'Machines, servers, and infrastructure you track.'},
+  {id:'tools',  t:'entity',  label:'Tools',               s:'Catalog of apps, CLIs, and services in your workflow.'},
+  {id:'notes',  t:'entity',  label:'Notes',               s:'Catalog of all notes, grouped by folder or tag.'},
+  {id:'pkm',    t:'concept', label:'Second Brain',        s:'A personal knowledge base of small, cross-linked notes that compounds over time.'},
+  {id:'links',  t:'concept', label:'Bidirectional Links', s:'Notes connect both ways, forming a navigable graph instead of a folder tree.'},
+  {id:'atomic', t:'concept', label:'Atomic Notes',        s:'One idea per note — easy to link, reuse, and recombine.'},
+  {id:'review', t:'concept', label:'Spaced Review',       s:'Revisit notes over time so knowledge sticks.'},
+  {id:'graph',  t:'concept', label:'Knowledge Graph',     s:'This view — nodes fire and links pulse as the graph updates live.'},
+  {id:'today',  t:'source',  label:"Today's Session",     s:'A captured work session, filed as a dated source note.'},
+  {id:'article',t:'source',  label:'An Article',          s:'Something you read and summarized into the vault.'},
+  {id:'inbox',  t:'ext',     label:'Inbox',               s:'Quick-capture notes waiting to be processed and linked.'},
 ];
 
 const EMB_EDGES = [
-  ['index','samuel'],['index','plugins'],['index','skills'],['index','mcp'],['index','clis'],
-  ['index','tok'],['index','pvc'],['index','mcpc'],['index','wiki'],['index','src'],['index','hot'],
-  ['hot','samuel'],['hot','plugins'],['hot','skills'],['hot','mcp'],['hot','clis'],['hot','tok'],['hot','pvc'],['hot','cust'],
-  ['home','samuel'],['home','plugins'],['home','clis'],['home','mcp'],['home','tok'],
-  ['samuel','plugins'],['samuel','skills'],['samuel','clis'],['samuel','cust'],['samuel','home'],
-  ['plugins','skills'],['plugins','mcp'],['plugins','tok'],['plugins','wiki'],['plugins','clis'],
-  ['skills','mcp'],['skills','tok'],['skills','wiki'],
-  ['mcp','mcpc'],['mcp','clis'],
-  ['clis','plugins'],
-  ['tok','pvc'],['tok','mcp'],['tok','src'],
-  ['pvc','mcpc'],['pvc','mcp'],
-  ['mcpc','tok'],
-  ['wiki','index'],['wiki','src'],['wiki','kgv'],
-  ['src','plugins'],['src','clis'],['src','mcp'],['src','pvc'],['src','tok'],['src','mcpc'],['src','samuel'],
-  // enrichment session
-  ['perp','samuel'],['perp','lab'],['perp','proj'],['perp','cust'],['perp','ccs'],['perp','plugins'],
-  ['lab','samuel'],['lab','clis'],['lab','mcp'],['lab','proj'],
-  ['proj','samuel'],['proj','skills'],['proj','kgv'],['proj','home'],
-  ['kgv','samuel'],['kgv','skills'],['kgv','mcp'],
-  ['ccs','mcp'],['ccs','samuel'],['ccs','kgv'],
-  ['src2','index'],['src2','hot'],['src2','src'],['src2','samuel'],['src2','perp'],
-  ['src2','lab'],['src2','proj'],['src2','kgv'],['src2','ccs'],['src2','home'],
+  ['index','you'],['index','tools'],['index','notes'],['index','pkm'],['index','hot'],['index','today'],
+  ['hot','you'],['hot','tools'],['hot','notes'],['hot','today'],
+  ['home','index'],['home','hot'],['home','you'],
+  ['you','org'],['you','setup'],['you','notes'],['you','today'],['you','home'],
+  ['pkm','links'],['pkm','atomic'],['pkm','review'],['pkm','graph'],['pkm','index'],
+  ['links','notes'],['links','graph'],
+  ['atomic','notes'],['atomic','links'],
+  ['graph','notes'],['graph','pkm'],
+  ['tools','setup'],['tools','org'],
+  ['notes','index'],['notes','atomic'],
+  ['today','you'],['today','notes'],['today','article'],
+  ['article','notes'],['article','pkm'],
+  ['inbox','notes'],['inbox','you'],
+  ['org','you'],['org','setup'],
+  ['setup','tools'],
 ];
 
 /* ---------- setup ---------- */
 const cv = document.getElementById('stage'), ctx = cv.getContext('2d');
 let W,H,DPR; const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let bgGrad=null; const glowCache=new Map(); let physicsKE=1,physicsSleeping=false;
+let viewDirty=true, cachedOrder=null, prevMx2=-9,prevMy2=-9;
+function getGlowCanvas(baseColor,alpha0,glowR){
+  const key=baseColor+alpha0+glowR;
+  if(glowCache.has(key)) return glowCache.get(key);
+  const d=glowR*2, oc=document.createElement('canvas'); oc.width=oc.height=d;
+  const ox=oc.getContext('2d');
+  const rg=ox.createRadialGradient(glowR,glowR,glowR*0.15,glowR,glowR,glowR);
+  rg.addColorStop(0,baseColor+alpha0); rg.addColorStop(1,baseColor+'00');
+  ox.fillStyle=rg; ox.fillRect(0,0,d,d); glowCache.set(key,oc); return oc; }
 function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
-  cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);}
+  cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);
+  bgGrad=ctx.createRadialGradient(W/2,H*0.5,30,W/2,H*0.5,Math.max(W,H)*0.75);
+  bgGrad.addColorStop(0,'rgba(26,34,60,0.42)');bgGrad.addColorStop(1,'rgba(5,7,12,0)');
+  glowCache.clear(); viewDirty=true;}
 addEventListener('resize',resize);resize();
 
 // live, rebuildable graph state — positions persist across refreshes
@@ -563,47 +401,28 @@ let NODES=[], byId={}, adj={}, edges=[];
 function setGraph(rawNodes, rawEdges){
   const prev={}; NODES.forEach(n=>prev[n.id]=n);
   const next = rawNodes.map(rn=>{ const p=prev[rn.id]; const n=Object.assign({},rn);
-    if(p){
-      n.x=p.x;n.y=p.y;n.z=p.z||0;n.vx=p.vx;n.vy=p.vy;n.vz=p.vz||0;n.glow=p.glow;n.dust=p.dust;
-      // Snap to ring if far off (handles stale layout from old code)
-      if(n.t!=='section'){
-        const ox=n.x-W/2,oy=n.y-H/2,oz=n.z||0;
-        const dist=Math.hypot(ox,oy,oz)||1;
-        if(dist<10){ const a1=Math.random()*6.283,a2=Math.acos(2*Math.random()-1),r=200;
-          n.x=W/2+r*Math.sin(a2)*Math.cos(a1);n.y=H/2+r*Math.sin(a2)*Math.sin(a1);n.z=r*Math.cos(a2); } }
-    }
-    else{ const a1=Math.random()*6.283, a2=Math.acos(2*Math.random()-1);
-      const base=rn.t==='hub'?80:rn.t==='section'?220:300;
-      const rad=base+(Math.random()-0.5)*180;
+    if(p){n.x=p.x;n.y=p.y;n.z=p.z||0;n.vx=p.vx;n.vy=p.vy;n.vz=p.vz||0;n.glow=p.glow;n.dust=p.dust;}
+    else{ const a1=Math.random()*6.283, a2=Math.acos(2*Math.random()-1),
+            rad=Math.min(W,H)*0.16*Math.random()+60;
       n.x=W/2+rad*Math.sin(a2)*Math.cos(a1); n.y=H/2+rad*Math.sin(a2)*Math.sin(a1); n.z=rad*Math.cos(a2);
       n.vx=0;n.vy=0;n.vz=0;n.glow=0.7; }
-    if(!n._rjitter) n._rjitter=(Math.random()-0.5)*340;
     return n; });
   const idset=new Set(next.map(n=>n.id));
   byId={}; next.forEach(n=>byId[n.id]=n);
-  // section nodes: color blends 65% toward parent type, sections stay visually smaller
-  next.forEach(n=>{
-    if(n.t==='section'){
-      const par=byId[n.parent||''];
-      const pc=(par&&TYPES[par.t])?TYPES[par.t].color:TYPES.section.color;
-      n._color=blendHex(pc,TYPES.section.color,0.35);
-    } else { n._color=(TYPES[n.t]||TYPES.ext).color; }
-  });
   adj={};  next.forEach(n=>adj[n.id]=new Set());
   const seen=new Set(); edges=[];
   (rawEdges||[]).forEach(e=>{const a=e[0]??e.a, b=e[1]??e.b;
     if(!idset.has(a)||!idset.has(b)||a===b) return;
     const k=a<b?a+'|'+b:b+'|'+a; if(seen.has(k)) return; seen.add(k);
     adj[a].add(b);adj[b].add(a);edges.push({a,b});});
-  // radius = importance: mostly how much DATA the note holds, plus a little connectivity
+  // radius = importance: data held + connectivity + slight vault-size bonus so nodes grow as the vault grows
+  const vaultBonus = Math.sqrt(next.length) * 0.07;
   next.forEach(n=>{n.deg=adj[n.id].size;
-    n.r = Math.min(n.t==='section'?9:26, 4 + Math.sqrt(n.size||0)/6 + Math.sqrt(n.deg)*0.9); }); // size-primary: content chars drive radius, connectivity is secondary
-  const _prevLen=NODES.length; NODES=next; drag=null; _physSleep=false; _sleepTicks=0;
-  const _delta=Math.abs(NODES.length-_prevLen); _wantSettle=Math.max(_wantSettle,_delta>20?180:_delta>3?60:20);
+    n.r = Math.min(26, 5 + vaultBonus + Math.sqrt(n.size||0)/9 + Math.sqrt(n.deg)*1.4); });
+  NODES=next; drag=null; physicsSleeping=false; physicsKE=1; glowCache.clear();
   if(typeof buildSubstrate==='function') buildSubstrate();
   document.getElementById('sNeurons').textContent=NODES.length;
   document.getElementById('sSynapses').textContent=edges.length;
-  if(typeof updateVaultBreakdown==='function') updateVaultBreakdown();
 }
 
 // legend
@@ -611,65 +430,41 @@ document.getElementById('legend').innerHTML = Object.values(TYPES).map(t=>
   `<div class="row"><span class="swatch" style="background:${t.color};box-shadow:0 0 8px ${t.color}"></span>${t.label}</div>`).join('');
 
 /* ---------- 3D force layout ---------- */
-// Concentric orbit rings per type — keeps types separated and spread across the whole sphere
 function physics(){
-  const n=NODES.length; if(!n) return;
-  const springK=0.0001+linkStrength*0.006;
-  const CUT2=700*700;
-  for(let i=0;i<n;i++){ const a=NODES[i];
-    for(let j=i+1;j<n;j++){ const b=NODES[j];
-      const dx=a.x-b.x, dy=a.y-b.y, dz=(a.z||0)-(b.z||0);
-      const d2=dx*dx+dy*dy+dz*dz||1;
-      if(d2>CUT2) continue;
-      const d=Math.sqrt(d2);
-      const w=(a.t==='section'?0.25:1)*(b.t==='section'?0.25:1);
-      const f=Math.min(52000/d2,36)*w, ux=dx/d, uy=dy/d, uz=dz/d;
-      a.vx+=ux*f; a.vy+=uy*f; a.vz+=uz*f; b.vx-=ux*f; b.vy-=uy*f; b.vz-=uz*f; }}
-  edges.forEach(e=>{ const a=byId[e.a],b=byId[e.b]; if(!a||!b) return;
-    const dx=b.x-a.x, dy=b.y-a.y, dz=(b.z||0)-(a.z||0);
-    const d=Math.sqrt(dx*dx+dy*dy+dz*dz)||1;
-    const tgt=(a.t==='section'||b.t==='section')?80:200;
-    const f=(d-tgt)*springK, ux=dx/d, uy=dy/d, uz=dz/d;
-    a.vx+=ux*f; a.vy+=uy*f; a.vz+=uz*f; b.vx-=ux*f; b.vy-=uy*f; b.vz-=uz*f; });
-  // parent-child pull: section neurons orbit close to their parent neuron
-  NODES.forEach(nd=>{
-    if(nd.t!=='section'||!nd.parent) return;
-    const par=byId[nd.parent]; if(!par) return;
-    const dx=par.x-nd.x, dy=par.y-nd.y, dz=(par.z||0)-(nd.z||0);
-    const d=Math.sqrt(dx*dx+dy*dy+dz*dz)||1;
-    const f=(d-70)*0.003, ux=dx/d,uy=dy/d,uz=dz/d;
-    nd.vx+=ux*f; nd.vy+=uy*f; nd.vz+=uz*f;
-    par.vx-=ux*f*0.15; par.vy-=uy*f*0.15; par.vz-=uz*f*0.15;
-  });
+  const n=NODES.length;
+  const springK = 0.001 + linkStrength*0.022;          // ← "Link strength" slider drives cohesion
+  for(let i=0;i<n;i++){const a=NODES[i];
+    for(let j=i+1;j<n;j++){const b=NODES[j];
+      let dx=a.x-b.x,dy=a.y-b.y,dz=a.z-b.z,d2=dx*dx+dy*dy+dz*dz||1,d=Math.sqrt(d2);
+      const f=Math.min(15000/d2, 6), ux=dx/d,uy=dy/d,uz=dz/d;
+      a.vx+=ux*f;a.vy+=uy*f;a.vz+=uz*f; b.vx-=ux*f;b.vy-=uy*f;b.vz-=uz*f;}}
+  edges.forEach(e=>{const a=byId[e.a],b=byId[e.b]; if(!a||!b) return;
+    let dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z,d=Math.sqrt(dx*dx+dy*dy+dz*dz)||1;const tgt=150;
+    const f=(d-tgt)*springK, ux=dx/d,uy=dy/d,uz=dz/d;
+    a.vx+=ux*f;a.vy+=uy*f;a.vz+=uz*f; b.vx-=ux*f;b.vy-=uy*f;b.vz-=uz*f;});
   NODES.forEach(nd=>{ if(nd===drag) return;
-    // shell force — attract each node toward its target radius (hollow sphere, even distribution)
-    const ox=nd.x-W/2, oy=nd.y-H/2, oz=nd.z||0;
-    const r=Math.hypot(ox,oy,oz)||1;
-    // size-stratified: large nodes → center, small nodes → outer, sections → outermost
-    const tgt=nd.t==='hub'?65:nd.t==='section'?295:Math.max(25,280-(nd.r||5)*11);
-    const shellK=0.00030+(nd.r||5)*0.000050;
-    const sf=(r-tgt)*shellK;
-    nd.vx-=(ox/r)*sf; nd.vy-=(oy/r)*sf; nd.vz-=(oz/r)*sf;
-    // soft center-keep to prevent the whole orb drifting off screen
-    nd.vx-=(nd.x-W/2)*0.00008; nd.vy-=(nd.y-H/2)*0.00008; nd.vz-=(nd.z||0)*0.00008;
-    nd.vx+=(Math.random()-0.5)*0.12; nd.vy+=(Math.random()-0.5)*0.12; nd.vz+=(Math.random()-0.5)*0.12;
-    nd.vx*=0.87; nd.vy*=0.87; nd.vz*=0.87; nd.x+=nd.vx; nd.y+=nd.vy; nd.z=(nd.z||0)+nd.vz;
-    const oxb=nd.x-W/2, oyb=nd.y-H/2, dd=Math.hypot(oxb,oyb,nd.z), R=Math.min(W,H)*0.85;
-    if(dd>R){ const k=R/dd; nd.x=W/2+oxb*k; nd.y=H/2+oyb*k; nd.z*=k; nd.vx*=0.3;nd.vy*=0.3;nd.vz*=0.3; } });
+    nd.vx+=(W/2-nd.x)*0.0006; nd.vy+=(H/2-nd.y)*0.0006; nd.vz+=(0-nd.z)*0.0006;  // pull toward centre
+    nd.vx+=(Math.random()-0.5)*0.1; nd.vy+=(Math.random()-0.5)*0.1; nd.vz+=(Math.random()-0.5)*0.1;
+    nd.vx*=0.9; nd.vy*=0.9; nd.vz*=0.9; nd.x+=nd.vx; nd.y+=nd.vy; nd.z+=nd.vz; });
+  let ke=0; NODES.forEach(nd=>{ ke+=nd.vx*nd.vx+nd.vy*nd.vy; });
+  physicsKE=physicsKE*0.93+ke*0.07;
+  physicsSleeping = physicsKE < 0.012*Math.max(2,NODES.length) && !drag;
 }
 
-/* ---------- 3D projection + orbit ---------- */
-let rotY=0, TILT=0.42; const FOC=2800;
-let nodeSize=1, showLabels=false;
+/* ---------- 3D projection + auto-orbit ---------- */
+let rotY=0, TILT=0.42; const FOC=1150;
+let nodeSize=1, autoOrbit=false;
+// per-frame cached trig — avoids recomputing sin/cos thousands of times each frame
 let _crY=1,_srY=0,_cT=Math.cos(0.42),_sT=Math.sin(0.42);
 function refreshTrig(){ _crY=Math.cos(rotY);_srY=Math.sin(rotY);_cT=Math.cos(TILT);_sT=Math.sin(TILT); }
 function project(wx,wy,wz){
-  const x=wx-W/2, y=wy-H/2, z=wz||0;
-  const rx=x*_crY-z*_srY, rz=x*_srY+z*_crY;
-  const ry=y*_cT-rz*_sT, rz2=y*_sT+rz*_cT;
+  const x=wx-W/2, y=wy-H/2, z=wz;
+  const rx=x*_crY - z*_srY, rz=x*_srY + z*_crY;
+  const ry=y*_cT - rz*_sT, rz2=y*_sT + rz*_cT;
   const persp=FOC/(FOC+rz2);
-  return {wpx:rx*persp, wpy:ry*persp, d:rz2, persp}; }
-function projectNode(n){ const p=project(n.x,n.y,n.z||0);
+  return {wpx:rx*persp, wpy:ry*persp, d:rz2, persp};
+}
+function projectNode(n){ const p=project(n.x,n.y,n.z);
   n._wpx=p.wpx; n._wpy=p.wpy; n.sd=p.d; n.persp=p.persp;
   n.sx=W/2+p.wpx*cam.s+cam.x; n.sy=H/2+p.wpy*cam.s+cam.y; n.ss=p.persp*cam.s; }
 function projectAll(){ refreshTrig(); NODES.forEach(projectNode); }
@@ -681,7 +476,7 @@ function projectAll(){ refreshTrig(); NODES.forEach(projectNode); }
    weakens otherwise. The learned weights on the REAL graph are persisted to the server
    (brain-state.json) — the substrate is the visible "thinking", the saved weights are the
    memory a local LLM could one day read.                                                */
-let SUB=[], subByParent={}, subDensity=1400, learning=true;
+let SUB=[], subByParent={}, subDensity=1200, learning=true;
 const subPulses=[];
 let fireCount=0, fireWin=0, fireRate=0;
 const STDP_WIN=1100, A_PLUS=0.28, A_MINUS=0.02, THRESH=1.0;   // faster, wider-window learning
@@ -689,9 +484,9 @@ function buildSubstrate(){
   SUB=[]; subByParent={};
   if(!NODES.length) return;
   const total=Math.min(subDensity,6000), per=Math.max(0,Math.floor(total/NODES.length));
-  NODES.forEach(n=>{ const col=n._color||(TYPES[n.t]||TYPES.ext).color, cnt=per+Math.min(n.deg||0,6)*2;
+  NODES.forEach(n=>{ const col=TYPES[n.t].color, cnt=per+(n.deg||0)*2;
     for(let i=0;i<cnt;i++){ const a1=Math.random()*6.283,a2=Math.acos(2*Math.random()-1),
-        rr=(n.r*2.4+18)*Math.pow(Math.random(),0.55);
+        rr=(n.r*2.4+24)*Math.pow(Math.random(),0.55);
       SUB.push({pid:n.id, ox:rr*Math.sin(a2)*Math.cos(a1), oy:rr*Math.sin(a2)*Math.sin(a1),
         oz:rr*Math.cos(a2), col, act:0, last:-1e9, glow:0, vis:false, nb:[]}); } });
   SUB.forEach((s,idx)=>{ (subByParent[s.pid]=subByParent[s.pid]||[]).push(idx); });
@@ -704,11 +499,25 @@ function buildSubstrate(){
       if(pool&&pool.length) s.nb.push({i:pool[(Math.random()*pool.length)|0], w:0.2+Math.random()*0.3}); } });
   const dv=document.getElementById('densV'); if(dv) dv.textContent=SUB.length.toLocaleString();
 }
-// substrate = visual texture only. NO fake firing — it just softly glows where REAL neurons fire.
-function fireSub(idx){ const s=SUB[idx]; if(s) s.glow=1; }
-function igniteRegion(pid){ const pool=subByParent[pid]; if(!pool) return;
-  for(let k=0;k<Math.min(7,pool.length);k++) fireSub(pool[(Math.random()*pool.length)|0]); }
-function subStep(){ for(const s of SUB) s.glow*=0.9; }   // decay glow only — no synthetic spikes
+function fireSub(idx, now){ const s=SUB[idx]; if(!s) return;
+  s.last=now; s.glow=1; s.act=0; fireCount++;
+  if(subPulses.length>430) return;
+  for(const e of s.nb){ if(subPulses.length>450) break;
+    if(Math.random()<0.45+0.55*e.w) subPulses.push({a:idx,b:e.i,ref:e,p:0,sp:0.035+Math.random()*0.05,col:s.col}); } }
+function igniteRegion(pid, now){ const pool=subByParent[pid]; if(!pool) return;
+  for(let k=0;k<Math.min(7,pool.length);k++) fireSub(pool[(Math.random()*pool.length)|0], now); }
+function subStep(now){ if(!SUB.length) return;
+  const spawn=Math.min(6, 1+SUB.length/700);
+  for(let i=0;i<spawn;i++) if(Math.random()<0.55) fireSub((Math.random()*SUB.length)|0, now);
+  for(let i=subPulses.length-1;i>=0;i--){ const pu=subPulses[i]; pu.p+=pu.sp;
+    if(pu.p>=1){ subPulses.splice(i,1); const a=SUB[pu.a], b=SUB[pu.b]; if(!b) continue;
+      b.act+=pu.ref.w;
+      if(learning && a){ const dtp=now-a.last;                 // ← STDP
+        if(dtp>=0 && dtp<STDP_WIN) pu.ref.w=Math.min(1, pu.ref.w + A_PLUS*(1-dtp/STDP_WIN));
+        else pu.ref.w=Math.max(0.02, pu.ref.w - A_MINUS); }
+      if(b.act>=THRESH) fireSub(pu.b, now); else b.glow=Math.max(b.glow,0.5); } }
+  for(const s of SUB){ s.act*=0.96; s.glow*=0.9; }
+}
 
 /* ---------- firing (live, cascading, self-strengthening) ---------- */
 const pulses=[]; let firings=0; const strengths={};   // synapse usage — persists across refreshes
@@ -725,72 +534,60 @@ function fire(fromId, gen){
   // bias toward already-strong pathways so well-used routes light up more (Hebbian-ish)
   let to=ns[(Math.random()*ns.length)|0];
   if(Math.random()<0.62){ let best=to,bw=-1; ns.forEach(t=>{const w=strengths[ekey(from,t)]||0; if(w>bw){bw=w;best=t;}}); to=best; }
-  pulses.push({a:from,b:to,p:0,sp:0.045+Math.random()*0.04, gen:gen||0});
+  pulses.push({a:from,b:to,p:0,sp:0.011+Math.random()*0.016, gen:gen||0});
+  if(pulses.length>250) pulses.splice(0,pulses.length-250);
 }
-// Activity-driven fire rate — polls /api/activity every 2s and scales perSec
-// Idle (0 calls/10s) → 10/s | Light → 30/s | Active → 70/s | Busy → 125/s | Burst → 150/s
-let _actPerSec = 10;   // start at idle rate; climbs once activity is polled
-let _actTarget  = 10;  // target we're smoothly lerping toward
-(function pollActivity(){
-  fetch('/api/activity').then(r=>r.json()).then(d=>{
-    const c = (d.calls_10s || 0);
-    // smooth log-curve: idle=10, scales ×2.5 from original — cap 150
-    const t = Math.min(150, 10 + 190 * (1 - Math.exp(-c / 9)));
-    _actTarget = t;
-  }).catch(()=>{}).finally(()=>{ setTimeout(pollActivity, 2000); });
-})();
 let acc=0;
-function maybeFire(dt){
-  if(!liveOn) return;               // offline / static snapshot → frozen, no synapses firing
-  // Smoothly ease current rate toward target (10% per frame, feels organic)
-  _actPerSec += (_actTarget - _actPerSec) * 0.10;
-  acc+=dt;
-  const interval = 1000 / _actPerSec;
+function maybeFire(dt){ acc+=dt;
+  const interval = hover?240:110;   // near-constant activity (always on, even with reduce-motion)
   while(acc>interval){acc-=interval; fire(hover?hover.id:null,0);
     if(searchSet && searchSet.size){          // search matches actively pulse-fire
       const ids=[...searchSet], id=ids[(Math.random()*ids.length)|0];
-      if(byId[id]){ fire(id,0); igniteRegion(id); } } } }
+      if(byId[id]){ fire(id,0); igniteRegion(id, performance.now()); } } } }
 
 /* ---------- camera + interaction (pan / zoom / rotate / fit) ---------- */
 let mx=-1,my=-1,hover=null,drag=null,selected=null;
 let cam={x:0,y:0,s:1}, panning=false, orbiting=false;
 let down=false,downX=0,downY=0,downNode=null,moved=false;
-let VAULT='', linkMode='usage', linkInt=1, linkStrength=0.02, searchSet=null;
+let VAULT='', linkMode='usage', linkInt=1, linkStrength=0.5, searchSet=null;
 const tip=document.getElementById('tip');
 function fitView(){ if(!NODES.length) return; projectAll();
   let a=1e9,b=1e9,c=-1e9,d=-1e9;
   NODES.forEach(n=>{a=Math.min(a,n._wpx);b=Math.min(b,n._wpy);c=Math.max(c,n._wpx);d=Math.max(d,n._wpy);});
   const gw=(c-a)||1, gh=(d-b)||1, pad=170;
   cam.s=Math.max(0.4,Math.min(1.7, Math.min((W-pad)/gw,(H-pad*1.5)/gh)));
-  cam.x=-((a+c)/2)*cam.s; cam.y=-((b+d)/2)*cam.s;
+  cam.x=-((a+c)/2)*cam.s; cam.y=-((b+d)/2)*cam.s; viewDirty=true;
 }
 cv.addEventListener('mousemove',e=>{const nx=e.clientX,ny=e.clientY;
   if(down && (Math.abs(nx-downX)>4||Math.abs(ny-downY)>4)) moved=true;
   if(drag){
+    // map cursor → world via the INVERSE projection, so the neuron follows the pointer exactly
+    // (the old code moved raw world x/y and ignored the 3D rotation → it slid off at an angle)
     const persp=drag.persp||1, rz2=drag.sd;
     const rx=((nx-W/2-cam.x)/cam.s)/persp, ry=((ny-H/2-cam.y)/cam.s)/persp;
-    const y=ry*_cT+rz2*_sT, rz=-ry*_sT+rz2*_cT;
-    const x=rx*_crY+rz*_srY, z=-rx*_srY+rz*_crY;
-    drag.x=x+W/2; drag.y=y+H/2; drag.z=z; drag.vx=0;drag.vy=0;drag.vz=0; }
-  else if(orbiting){ rotY+=(nx-mx)*0.006; TILT=Math.max(-1.45,Math.min(1.45,TILT+(ny-my)*0.006)); }
-  else if(panning){ cam.x+=nx-mx; cam.y+=ny-my; }
+    const y =  ry*_cT + rz2*_sT, rz = -ry*_sT + rz2*_cT;   // invert tilt (X)
+    const x =  rx*_crY + rz*_srY, z = -rx*_srY + rz*_crY;  // invert orbit (Y)
+    drag.x=x+W/2; drag.y=y+H/2; drag.z=z; drag.vx=0;drag.vy=0;drag.vz=0; viewDirty=true; }
+  else if(orbiting){ rotY += (nx-mx)*0.006; TILT=Math.max(-1.45,Math.min(1.45,TILT+(ny-my)*0.006)); viewDirty=true; }
+  else if(panning){ cam.x+=nx-mx; cam.y+=ny-my; viewDirty=true; }
   mx=nx;my=ny;});
 cv.addEventListener('mousedown',e=>{ down=true; moved=false; downX=e.clientX; downY=e.clientY;
-  _physSleep=false; _sleepTicks=0;
+  physicsSleeping=false; physicsKE=1;
   downNode=hover;
   if(hover){drag=hover;}
   else if(e.shiftKey){panning=true; cv.style.cursor='grabbing';}
-  else{orbiting=true; cv.style.cursor='grabbing';} });
+  else {orbiting=true; cv.style.cursor='grabbing';}});   // drag empty → orbit in 3D; shift-drag → pan
 addEventListener('mouseup',()=>{
-  if(down && !moved && downNode){ openDetail(downNode); }
+  if(down && !moved && downNode){ openDetail(downNode); }   // a click (not a drag) → read it
   down=false; drag=null; panning=false; orbiting=false; cv.style.cursor='grab';});
 cv.addEventListener('mouseleave',()=>{mx=my=-1; panning=false; down=false;});
 cv.addEventListener('dblclick',()=>fitView());
 cv.addEventListener('wheel',e=>{e.preventDefault();
   const f=Math.exp(-e.deltaY*0.0014), ns=Math.max(0.35,Math.min(3.6,cam.s*f));
   cam.x=(e.clientX-W/2)-((e.clientX-W/2)-cam.x)*(ns/cam.s);
-  cam.y=(e.clientY-H/2)-((e.clientY-H/2)-cam.y)*(ns/cam.s); cam.s=ns;},{passive:false});
-function pickHover(){ if(mx<0||panning){hover=null;tip.classList.remove('on');return;}
+  cam.y=(e.clientY-H/2)-((e.clientY-H/2)-cam.y)*(ns/cam.s); cam.s=ns; viewDirty=true;},{passive:false});
+function pickHover(){ if(mx===prevMx2&&my===prevMy2&&!panning) return; prevMx2=mx;prevMy2=my;
+  if(mx<0||panning){hover=null;tip.classList.remove('on');return;}
   let best=null,bd=1e9;
   NODES.forEach(n=>{const dd=Math.hypot(n.sx-mx,n.sy-my), hitR=n.r*n.ss+12;
     if(dd<hitR&&dd<bd){bd=dd;best=n;}});
@@ -800,19 +597,7 @@ function pickHover(){ if(mx<0||panning){hover=null;tip.classList.remove('on');re
     tip.querySelector('.tag').style.background=T.color;
     tip.querySelector('.ttl').textContent=hover.label;
     tip.querySelector('.s').textContent=hover.s;
-    // Parent / sub-neuron relationships
-    const relsDiv=tip.querySelector('.rels'); relsDiv.innerHTML='';
-    if(hover.parent){ const par=byId[hover.parent]; if(par){
-      const row=document.createElement('div'); row.className='rel par';
-      row.innerHTML=`<span class="ri">↑</span> parent: <b>${par.label}</b>`;
-      relsDiv.appendChild(row); }}
-    const children=NODES.filter(n=>n.t==='section'&&n.parent===hover.id);
-    if(children.length){
-      const row=document.createElement('div'); row.className='rel chl';
-      const names=children.slice(0,5).map(c=>c.label).join(', ')+(children.length>5?' + '+(children.length-5)+' more':'');
-      row.innerHTML=`<span class="ri">↓</span> sub-neurons: <b>${names}</b>`;
-      relsDiv.appendChild(row); }
-    let x=mx+16,y=my+16; if(x>W-320)x=mx-316; if(y>H-150)y=my-140;
+    let x=mx+16,y=my+16; if(x>W-320)x=mx-316; if(y>H-130)y=my-120;
     tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('on');
   } else tip.classList.remove('on');
 }
@@ -827,156 +612,43 @@ function openDetail(n){ selected=n; const T=TYPES[n.t];
   const chips=detail.querySelector('.chips'); chips.innerHTML='';
   const nb=[...(adj[n.id]||[])].map(id=>byId[id]).filter(Boolean)
             .sort((a,b)=>b.deg-a.deg);
-  const SHOW_N=6;
-  nb.forEach((m,i)=>{
-    const c=document.createElement('span'); c.className='chip';
-    c.textContent=m.label; c.onclick=()=>openDetail(m);
-    if(i>=SHOW_N) c.style.display='none';
-    chips.appendChild(c);
-  });
-  if(nb.length>SHOW_N){
-    const tog=document.createElement('span'); tog.className='chip chip-more';
-    tog.textContent=`▸ ${nb.length-SHOW_N} more`;
-    let expanded=false;
-    tog.onclick=()=>{
-      expanded=!expanded;
-      chips.querySelectorAll('.chip:not(.chip-more)').forEach((c,i)=>{
-        if(i>=SHOW_N) c.style.display=expanded?'inline-block':'none';
-      });
-      tog.textContent=expanded?'▴ show less':`▸ ${nb.length-SHOW_N} more`;
-    };
-    chips.appendChild(tog);
-  }
+  nb.forEach(m=>{const c=document.createElement('span');c.className='chip';
+    c.textContent=m.label; c.onclick=()=>openDetail(m); chips.appendChild(c);});
   detail.querySelector('.nb').style.display = nb.length?'block':'none';
-  // Parent / sub-neuron relationships
-  const dRels=detail.querySelector('.detail-rels'); dRels.innerHTML='';
-  if(n.parent){ const par=byId[n.parent]; if(par){
-    const row=document.createElement('div'); row.className='detail-rel par';
-    row.innerHTML=`<span class="ri">↑</span> parent: <b>${par.label}</b>`;
-    row.onclick=()=>openDetail(par); dRels.appendChild(row); }}
-  const dChildren=NODES.filter(c=>c.t==='section'&&c.parent===n.id);
-  if(dChildren.length){
-    const CHILD_SHOW=5;
-    dChildren.forEach((ch,i)=>{
-      const row=document.createElement('div'); row.className='detail-rel chl';
-      row.innerHTML=`<span class="ri">↓</span> <b>${ch.label}</b>`;
-      row.onclick=()=>openDetail(ch);
-      if(i>=CHILD_SHOW) row.style.display='none';
-      dRels.appendChild(row);
-    });
-    if(dChildren.length>CHILD_SHOW){
-      const tog=document.createElement('div'); tog.className='detail-rel';
-      tog.style.cssText='font-size:11px;opacity:.6;padding-left:14px;color:#3dca6e';
-      tog.textContent=`▸ ${dChildren.length-CHILD_SHOW} more`;
-      let ex=false;
-      tog.onclick=()=>{
-        ex=!ex;
-        dRels.querySelectorAll('.detail-rel.chl').forEach((r,i)=>{ if(i>=CHILD_SHOW) r.style.display=ex?'flex':'none'; });
-        tog.textContent=ex?'▴ show less':`▸ ${dChildren.length-CHILD_SHOW} more`;
-      };
-      dRels.appendChild(tog);
-    }
-  }
   const open=document.getElementById('detailOpen');
   if(n.file && VAULT){ open.style.display='block';
     const f=n.file.replace(/\.md$/,'');
     open.onclick=()=>{ location.href='obsidian://open?vault='+encodeURIComponent(VAULT)+'&file='+encodeURIComponent(f); };
   } else { open.style.display='none'; }
-  hideEditor();
-  const eb=document.getElementById('detailEdit'); if(eb) eb.style.display = n.file ? 'block' : 'none';  // only real notes are editable
   detail.classList.add('on');
 }
-function closeDetail(){ selected=null; detail.classList.remove('on'); hideEditor(); }
+function closeDetail(){ selected=null; detail.classList.remove('on'); }
 document.getElementById('detailX').onclick=closeDetail;
 addEventListener('keydown',e=>{ if(e.key==='Escape') closeDetail(); });
 
-/* ---------- Slice 2: inline note editor ---------- */
-const edBox=document.getElementById('detailEditor'), edRow=document.getElementById('detailEditRow'),
-      edBtn=document.getElementById('detailEdit'), edSave=document.getElementById('detailSave'),
-      edCancel=document.getElementById('detailCancel');
-function hideEditor(){ edBox.classList.remove('on'); edRow.classList.remove('on'); if(edBtn) edBtn.style.display='block'; }
-edBtn.onclick=async()=>{ if(!selected) return;
-  edBtn.textContent='loading…';
-  try{ const r=await fetch('api/note?id='+encodeURIComponent(selected.id),{cache:'no-store'});
-    const j=await r.json(); edBox.value=(j&&j.content)||''; }catch(e){ edBox.value=''; }
-  edBtn.textContent='✎ Edit note'; edBtn.style.display='none';
-  edBox.classList.add('on'); edRow.classList.add('on'); edBox.focus(); };
-edCancel.onclick=hideEditor;
-edSave.onclick=async()=>{ if(!selected) return; edSave.textContent='saving…';
-  try{ const r=await fetch('api/save',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({id:selected.id, content:edBox.value})});
-    const j=await r.json();
-    edSave.textContent = (j&&j.ok)?'saved ✓':'failed';
-    if(j&&j.ok){ lastSig=''; pullLive(); }   // re-sync graph (size/links may have changed)
-  }catch(e){ edSave.textContent='failed'; }
-  setTimeout(()=>{ edSave.textContent='Save'; hideEditor(); }, 800); };
-
-/* ---------- refresh button ---------- */
-const refreshBtn=document.getElementById('refreshBtn');
-if(refreshBtn) refreshBtn.onclick=async()=>{ refreshBtn.classList.add('spin');
-  lastSig=''; try{ await pullLive(); await loadState(); }catch(e){} fitView();
-  setTimeout(()=>refreshBtn.classList.remove('spin'),500); };
-
-/* ---------- View buttons ---------- */
-const fitBtn=document.getElementById('fitBtn');
-const lblBtn=document.getElementById('lblBtn');
-if(fitBtn) fitBtn.onclick=()=>fitView();
-if(lblBtn) lblBtn.onclick=()=>{ showLabels=!showLabels; lblBtn.classList.toggle('active',showLabels); };
-
-/* ---------- Vault breakdown (live from NODES) ---------- */
-function updateVaultBreakdown(){
-  const c={};
-  for(const n of NODES){ const t=n.t||'other'; c[t]=(c[t]||0)+1; }
-  const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=c[key]||0; };
-  set('vbConcept','concept'); set('vbSource','source');
-  set('vbLesson','lesson');   set('vbEntity','entity');
-  set('vbHub','hub');         set('vbPerson','person');
-}
-
-/* ---------- Quick observe ---------- */
-const obsText=document.getElementById('obsText');
-const obsBtn=document.getElementById('obsBtn');
-if(obsBtn&&obsText) obsBtn.onclick=async()=>{
-  const txt=obsText.value.trim(); if(!txt) return;
-  obsBtn.textContent='saving…'; obsBtn.disabled=true;
-  try{
-    const r=await fetch('api/observe',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({content:txt})});
-    const j=await r.json().catch(()=>null);
-    if(j&&j.ok){ obsText.value=''; obsBtn.textContent='✓ saved'; }
-    else obsBtn.textContent='✗ failed';
-  }catch(e){ obsBtn.textContent='✗ failed'; }
-  finally{ obsBtn.disabled=false; setTimeout(()=>{ obsBtn.textContent='Save to vault'; },1800); }
-};
-
-/* ---------- Agent pulse ---------- */
-(function pollAgentPulse(){
-  const el=document.getElementById('agentPulse'); if(!el) return;
-  fetch('api/agents').then(r=>r.json()).then(j=>{
-    const active=(j.agents||[]).filter(a=>a.last_result&&a.last_run)
-                               .sort((a,b)=>b.last_run-a.last_run);
-    if(active.length){
-      const a=active[0];
-      const snip=(a.last_result||'').replace(/\n/g,' ').slice(0,80);
-      el.innerHTML=`<span class="ap-name">${a.name}</span>: ${snip}…`;
-    }
-  }).catch(()=>{}).finally(()=>{ setTimeout(pollAgentPulse,30000); });
-})();
-
-/* ---------- controls: zoom (scroll/drag only) + locked synapse/appearance values ---------- */
+/* ---------- controls: zoom + link strength (pull) + link visualisation ---------- */
 function zoomBy(f){ const ns=Math.max(0.35,Math.min(3.6,cam.s*f));
   cam.x*=ns/cam.s; cam.y*=ns/cam.s; cam.s=ns; }
-// Restore saved link values from localStorage — no UI to change them, just honour existing prefs
-(function(){
-  const savedInt=localStorage.getItem('nv_linkInt');
-  const savedStr=localStorage.getItem('nv_linkStr');
-  if(savedInt!==null) linkInt=savedInt/100;
-  if(savedStr!==null) linkStrength=savedStr/100;
-})();
+document.getElementById('zIn').onclick =()=>zoomBy(1.25);
+document.getElementById('zOut').onclick=()=>zoomBy(0.8);
+document.getElementById('zFit').onclick=()=>fitView();
+document.querySelectorAll('#linkMode button').forEach(b=>b.onclick=()=>{
+  linkMode=b.dataset.m;
+  document.querySelectorAll('#linkMode button').forEach(x=>x.classList.toggle('on',x===b)); });
+document.getElementById('linkInt').oninput=e=>{ linkInt=e.target.value/100; };
+const lsEl=document.getElementById('linkStr'); if(lsEl) lsEl.oninput=e=>{ linkStrength=e.target.value/100; };
 // pop-out panel show/hide
 const panel=document.getElementById('panel'), pTog=document.getElementById('panelToggle');
 pTog.onclick=()=>{ const open=panel.classList.toggle('open'); pTog.classList.toggle('open',open);
   pTog.textContent=open?'Hide ✕':'Controls'; };
+// neuron size
+document.getElementById('nSize').oninput=e=>{ nodeSize=e.target.value/100;
+  document.getElementById('nSizeV').textContent=nodeSize.toFixed(1)+'×'; };
+// substrate density (rebuild, debounced)
+let densT=null;
+document.getElementById('density').oninput=e=>{ subDensity=+e.target.value;
+  document.getElementById('densV').textContent=subDensity.toLocaleString()+'…';
+  clearTimeout(densT); densT=setTimeout(buildSubstrate,180); };
 // toggles
 const learnTog=document.getElementById('learnTog');
 learnTog.onclick=()=>{ learning=!learning; learnTog.classList.toggle('on',learning); };
@@ -1014,41 +686,25 @@ function edgeStrength(e,a,b){
 
 /* ---------- render ---------- */
 let last=performance.now();
-let _physSleep=false, _sleepTicks=0, _wantSettle=0;
-const SLEEP_THRESH=1.2, SLEEP_FRAMES=90;
 function draw(now){
   const dt=Math.min(now-last,50);last=now;
-  if(_wantSettle>0){ const steps=Math.min(_wantSettle,2); for(let s=0;s<steps;s++) physics(); _wantSettle-=steps; _sleepTicks=0; }
-  if(!_physSleep){
-    physics();
-    let ke=0; for(const n of NODES) ke+=Math.hypot(n.vx,n.vy,n.vz);
-    if(ke<SLEEP_THRESH){ if(++_sleepTicks>SLEEP_FRAMES) _physSleep=true; }
-    else _sleepTicks=0;
-  } else if(++_sleepTicks>300){ _physSleep=false; _sleepTicks=0; } // 5s heartbeat
-  maybeFire(dt);
-  if(autoOrbit){ rotY += dt * 0.00022; refreshTrig(); _physSleep=false; }
-  projectAll(); subStep(); pickHover();
+  if(!physicsSleeping){ physics(); viewDirty=true; } maybeFire(dt);
+  if(autoOrbit){ rotY += dt * 0.00022; viewDirty=true; }
+  let reprojected=false;
+  if(viewDirty){ projectAll(); cachedOrder=NODES.slice().sort((a,b)=>b.sd-a.sd); viewDirty=false; reprojected=true; }
+  subStep(now); pickHover();
   fireWin+=dt; if(fireWin>=1000){ fireRate = fireRate*0.6 + fireCount*0.4; normalizeStrengths();   // smoothed rate + gentle renorm
     const a=document.getElementById('actV'); if(a) a.textContent=fireCount.toLocaleString()+' fires/s';
     const sf=document.getElementById('sFirings'); if(sf) sf.textContent=Math.round(fireRate).toLocaleString();
     fireCount=0; fireWin=0; }
 
   // ---- everything drawn in screen space (the 3D is projected per-point) ----
-  ctx.setTransform(DPR,0,0,DPR,0,0);
   ctx.clearRect(0,0,W,H);
-  const g=ctx.createRadialGradient(W/2,H*0.5,30,W/2,H*0.5,Math.max(W,H)*0.75);
-  g.addColorStop(0,'rgba(26,34,60,0.42)');g.addColorStop(1,'rgba(5,7,12,0)');
-  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=bgGrad;ctx.fillRect(0,0,W,H);
 
   const foc = hover || selected, focSet = foc?adj[foc.id]:null;
-  // Parent / child ring sets for hover highlight
-  let _hoverPar=null, _hoverChildren=new Set();
-  if(hover){
-    if(hover.parent) _hoverPar=byId[hover.parent];
-    NODES.forEach(n=>{ if(n.t==='section'&&n.parent===hover.id) _hoverChildren.add(n.id); });
-  }
   const sActive = !!searchSet;
-  const order = NODES.slice().sort((a,b)=>b.sd-a.sd);   // depth sort: far → near
+  const order = cachedOrder || NODES;
 
   ctx.globalCompositeOperation='lighter';                // additive → glowing bloom
 
@@ -1056,311 +712,101 @@ function draw(now){
   edges.forEach(e=>{const a=byId[e.a],b=byId[e.b]; if(!a||!b) return;
     const lit = foc && (e.a===foc.id||e.b===foc.id), str=edgeStrength(e,a,b);
     ctx.beginPath();ctx.moveTo(a.sx,a.sy);ctx.lineTo(b.sx,b.sy);
-    if(lit){
-      const isChild=hover&&((a.t==='section'&&a.parent===hover.id)||(b.t==='section'&&b.parent===hover.id));
-      ctx.strokeStyle=isChild?'rgba(61,202,110,0.65)':'rgba(150,195,255,0.5)'; ctx.lineWidth=1.5+str*2.2; }
-    else if(e.learned){ // STDP-grown synapse — warm amber to distinguish from structural edges
-      ctx.strokeStyle='rgba(220,'+(130+str*80|0)+',50,'+(0.15+str*0.38).toFixed(3)+')';
-      ctx.lineWidth=0.5+str*3.0; }
-    else { // faint baseline lifted a bit more so weak synapses read clearly; strong ones unchanged
-      ctx.strokeStyle='rgba('+((108+str*92)|0)+','+((140+str*78)|0)+','+((198+str*42)|0)+','+(0.12+str*0.28).toFixed(3)+')';
-      ctx.lineWidth=0.6+str*str*4.2; }   // quadratic → strong paths still stand out
+    if(lit){ ctx.strokeStyle='rgba(150,195,255,0.5)'; ctx.lineWidth=1.5+str*2.2; }
+    else { // the more a synapse fires, the thicker + a touch brighter (softened, not blinding)
+      ctx.strokeStyle='rgba('+((80+str*105)|0)+','+((120+str*90)|0)+','+((190+str*45)|0)+','+(0.03+str*0.34).toFixed(3)+')';
+      ctx.lineWidth=0.4+str*str*4.4; }   // quadratic → strong paths still stand out
     ctx.stroke();});
 
   // functional substrate: micro-neurons firing + learning (STDP) — inlined hot loop, no allocs
   const W2=W*0.5, H2=H*0.5, camS=cam.s, camX=cam.x, camY=cam.y;
   let lastCol='';
-  for(const s of SUB){ const par=byId[s.pid]; if(!par){s.vis=false;continue;}
-    const p=project(par.x+s.ox, par.y+s.oy, (par.z||0)+s.oz);
-    const sx=W2+p.wpx*camS+camX, sy=H2+p.wpy*camS+camY, persp=p.persp;
-    s.sx=sx; s.sy=sy; s.vis=true;
-    if(sx<-16||sx>W+16||sy<-16||sy>H+16) continue;
-    const dim=(foc&&par!==foc&&!(focSet&&focSet.has(par.id)))||(sActive&&!searchSet.has(par.id));
-    ctx.globalAlpha=Math.min(1,(0.32+s.glow*0.68))*(dim?0.16:1)*Math.min(1,persp);
-    if(s.col!==lastCol){ ctx.fillStyle=s.col; lastCol=s.col; }
-    const rr=Math.max(0.8,(1.1+s.glow*2.0)*nodeSize*persp*camS);
-    ctx.beginPath();ctx.arc(sx,sy,rr,0,7);ctx.fill(); }
+  for(const s of SUB){
+    if(reprojected){
+      s.par=byId[s.pid];
+      if(!s.par){s.vis=false;continue;}
+      const x=s.par.x+s.ox-W2, y=s.par.y+s.oy-H2, z=s.par.z+s.oz;
+      const rx=x*_crY - z*_srY, rz=x*_srY + z*_crY;
+      const ry=y*_cT - rz*_sT, rz2=y*_sT + rz*_cT;
+      s.persp=FOC/(FOC+rz2);
+      s.sx=W2+rx*s.persp*camS+camX; s.sy=H2+ry*s.persp*camS+camY; s.vis=true; }
+    if(!s.vis) continue;
+    if(s.sx<-16||s.sx>W+16||s.sy<-16||s.sy>H+16) continue;   // perf: cull off-screen dust
+    const dim=(foc&&s.par!==foc&&!(focSet&&focSet.has(s.par.id)))||(sActive&&!searchSet.has(s.par.id));
+    ctx.globalAlpha=Math.min(1,(0.32+s.glow*0.68))*(dim?0.16:1)*Math.min(1,s.persp);
+    if(s.col!==lastCol){ ctx.fillStyle=s.col; lastCol=s.col; }  // perf: fewer state changes
+    const rr=(1.0+s.glow*1.9)*nodeSize*s.persp*camS;
+    ctx.beginPath();ctx.arc(s.sx,s.sy,rr<0.5?0.5:rr,0,7);ctx.fill(); }
   ctx.globalAlpha=1;
+  // spikes in transit across the substrate
+  for(const pu of subPulses){ const A=SUB[pu.a],B=SUB[pu.b]; if(!A||!B||!A.vis||!B.vis) continue;
+    const x=A.sx+(B.sx-A.sx)*pu.p, y=A.sy+(B.sy-A.sy)*pu.p;
+    ctx.fillStyle=pu.col; ctx.beginPath();ctx.arc(x,y,Math.max(0.6,1.5*nodeSize),0,7);ctx.fill(); }
 
-  // node halos (glow) — skip gradient for dim+inactive nodes to save GPU
-  for(const n of order){ const col=n._color||(TYPES[n.t]||TYPES.ext).color; n.glow*=0.93;
-    if(sActive&&searchSet.has(n.id)) n.glow=Math.max(n.glow, 0.55+0.45*Math.sin(now*0.007));
+  // node halos (glow) — offscreen canvas cache avoids createRadialGradient every frame
+  for(const n of order){ const T=TYPES[n.t]; n.glow*=0.93;
+    if(sActive&&searchSet.has(n.id)) n.glow=Math.max(n.glow, 0.55+0.45*Math.sin(now*0.007));  // matches pulse
     const dim=(foc&&n!==foc&&!(focSet&&focSet.has(n.id)))||(sActive&&!searchSet.has(n.id));
-    if(dim && n.glow<0.08 && n!==hover) continue;  // skip invisible halos
-    const r=Math.max(1.5,(n.r*nodeSize*(1+n.glow*0.6))*n.ss), glowR=Math.max(r+1, r+6+n.glow*20+(n===foc?16:0));
-    const rg=ctx.createRadialGradient(n.sx,n.sy,r*0.2,n.sx,n.sy,glowR);
-    rg.addColorStop(0,col+(dim?'22':'aa')); rg.addColorStop(1,col+'00');
-    ctx.beginPath();ctx.arc(n.sx,n.sy,glowR,0,7);ctx.fillStyle=rg;ctx.fill(); }
+    const r=Math.max(1.5,(n.r*nodeSize*(1+n.glow*0.6))*n.ss);
+    const glowR=Math.round(Math.max(r+1, r+6+n.glow*20+(n===foc?16:0))/5)*5;
+    const gc=getGlowCanvas(T.color,dim?'22':'aa',glowR);
+    ctx.drawImage(gc,n.sx-glowR,n.sy-glowR,glowR*2,glowR*2); }
 
   // pulses (firing) — bright additive heads racing along synapses + cascades + strengthening
   for(let i=pulses.length-1;i>=0;i--){const pu=pulses[i];
     const a=byId[pu.a],b=byId[pu.b];
     if(!a||!b){ pulses.splice(i,1); continue; }
     pu.p+=pu.sp;
-    if(pu.p>=1){ firings++; fireCount++;
+    if(pu.p>=1){ b.glow=Math.min(1.9,(b.glow||0)+1.3); firings++; fireCount++;
       const k=ekey(pu.a,pu.b), dtp=now-(a.last||-1e9), cur=strengths[k]||0;
       if(learning){ const inc=(dtp>=0&&dtp<STDP_WIN) ? (2 + cur*0.2) : 0.4;   // compounding growth (fast); global norm keeps it bounded
-        strengths[k]=cur+inc;
-        // grow a new learned synapse when co-firing crosses threshold
-        if(strengths[k]>=6 && !adj[pu.a].has(pu.b)){
-          adj[pu.a].add(pu.b); adj[pu.b].add(pu.a);
-          edges.push({a:pu.a,b:pu.b,learned:true});
-          const el=document.getElementById('sSynapses'); if(el) el.textContent=edges.length; } }
+        strengths[k]=cur+inc; }
       else strengths[k]=cur+1;
-      b.last=now; igniteRegion(b.id);                            // a real thought lights its region
+      b.last=now; igniteRegion(b.id, now);                       // a real thought lights its region
       if(pu.gen<3 && Math.random()<0.55) fire(pu.b, pu.gen+1);   // cascade onward
       pulses.splice(i,1); continue; }
-    const x=a.sx+(b.sx-a.sx)*pu.p, y=a.sy+(b.sy-a.sy)*pu.p, col=a._color||(TYPES[a.t]||TYPES.ext).color;
+    const x=a.sx+(b.sx-a.sx)*pu.p, y=a.sy+(b.sy-a.sy)*pu.p, col=TYPES[a.t].color;
     const tp=Math.max(0,pu.p-0.12), tx=a.sx+(b.sx-a.sx)*tp, ty=a.sy+(b.sy-a.sy)*tp;
-    const lg=ctx.createLinearGradient(tx,ty,x,y);
-    lg.addColorStop(0,'rgba(255,255,255,0)');lg.addColorStop(1,col);
-    ctx.strokeStyle=lg;ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();
+    ctx.globalAlpha=0.85;ctx.strokeStyle=col;ctx.lineWidth=2.2;
+    ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();ctx.globalAlpha=1;
     ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,3.0,0,7);ctx.fill();
     ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y,1.4,0,7);ctx.fill();}
 
   // ---- solid layer: neuron cores + labels ----
   ctx.globalCompositeOperation='source-over';
-  for(const n of order){ const col=n._color||(TYPES[n.t]||TYPES.ext).color;
+  for(const n of order){ const T=TYPES[n.t];
     const dim=(foc&&n!==foc&&!(focSet&&focSet.has(n.id)))||(sActive&&!searchSet.has(n.id));
     const r=Math.max(1.6,(n.r*nodeSize*(1+n.glow*0.5))*n.ss);
     ctx.beginPath();ctx.arc(n.sx,n.sy,r,0,7);
-    ctx.globalAlpha=dim?0.5:1; ctx.fillStyle=dim?'#171c28':col; ctx.fill(); ctx.globalAlpha=1;
-    ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,'+(dim?0.05:0.3)+')'; ctx.stroke();
-    // Parent ring (amber) / sub-neuron ring (green) on hover
-    if(_hoverPar&&n===_hoverPar){
-      ctx.beginPath();ctx.arc(n.sx,n.sy,r+5,0,7);
-      ctx.strokeStyle='rgba(240,155,42,0.85)';ctx.lineWidth=2;ctx.stroke(); }
-    else if(_hoverChildren.has(n.id)){
-      ctx.beginPath();ctx.arc(n.sx,n.sy,r+5,0,7);
-      ctx.strokeStyle='rgba(61,202,110,0.85)';ctx.lineWidth=2;ctx.stroke(); } }
+    ctx.globalAlpha=dim?0.5:1; ctx.fillStyle=dim?'#171c28':T.color; ctx.fill(); ctx.globalAlpha=1;
+    ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,'+(dim?0.05:0.3)+')'; ctx.stroke(); }
   // labels — always present but subtle; focus + neighbours brighten, far ones fade
-  ctx.textAlign='center';ctx.textBaseline='top';
+  ctx.textAlign='center';ctx.textBaseline='top';ctx.lineWidth=3;
   for(const n of order){
     if(n.sx<-80||n.sx>W+80||n.sy<-30||n.sy>H+20) continue;   // perf: cull off-screen labels
     const isF=n===foc, near=foc&&focSet&&focSet.has(n.id), match=sActive&&searchSet.has(n.id);
-    if(!showLabels && !isF && !near && !match) continue;   // labels toggle: keep only focus/hover/search
     const depth=Math.min(1,n.persp), r=Math.max(1.6,n.r*nodeSize*n.ss);
     let alpha = (sActive&&!match) ? 0.05 : (isF?1 : (near||match)?0.92 : 0.4*depth);
     if(alpha<0.1) continue;
     ctx.font=(isF?'600 12.5px':'500 10px')+' Inter,system-ui,sans-serif';
-    ctx.lineWidth=3; ctx.strokeStyle='rgba(5,7,12,'+(0.5*alpha+0.18)+')'; ctx.strokeText(n.label,n.sx,n.sy+r+4);
+    ctx.strokeStyle='rgba(5,7,12,'+(0.5*alpha+0.18)+')'; ctx.strokeText(n.label,n.sx,n.sy+r+4);
     ctx.fillStyle='rgba('+(isF?'255,255,255':'212,222,236')+','+alpha+')'; ctx.fillText(n.label,n.sx,n.sy+r+4); }
 
-  _rafId = requestAnimationFrame(draw);
+  if(physicsSleeping && !autoOrbit) setTimeout(()=>requestAnimationFrame(draw),16);
+  else requestAnimationFrame(draw);
 }
 // start from the baked-in snapshot (works even when opened as a plain file)
 setGraph(EMB_NODES, EMB_EDGES);
+for(let k=0;k<120;k++) physics();
+fitView();
 for(let k=0;k<8;k++) fire();
-let _rafId = requestAnimationFrame(draw);
-window.addEventListener('pagehide', () => cancelAnimationFrame(_rafId));
-
-// SPA nav — agents view loads in an iframe, no page navigation needed
-(function(){
-  const frame = document.getElementById('agentsFrame');
-  const agentsLink = document.querySelector('#topnav a[href="/manage"]');
-  let loaded = false;
-
-  function preload(){ if(!loaded){ frame.src='/manage'; loaded=true; } }
-  function showAgents(){
-    preload();
-    cancelAnimationFrame(_rafId);
-    frame.style.display='block';
-    frame.style.opacity='0';
-    frame.style.transition='opacity .22s ease';
-    requestAnimationFrame(()=>{ frame.style.opacity='1'; });
-  }
-  function showMap(){
-    frame.style.transition='opacity .18s ease';
-    frame.style.opacity='0';
-    frame.addEventListener('transitionend',()=>{ frame.style.display='none'; },{ once:true });
-    _rafId=requestAnimationFrame(draw);
-  }
-
-  // start loading iframe on hover so it's ready when clicked
-  agentsLink.addEventListener('mouseover', preload);
-  agentsLink.addEventListener('click', e=>{ e.preventDefault(); showAgents(); });
-
-  // manage.html posts 'showMap' when user clicks Map link inside the iframe
-  window.addEventListener('message', e=>{ if(e.data==='showMap') showMap(); });
-})();
-
-// ---- 3D auto-orbit ----
-let autoOrbit = false;
-const nav3dEl = document.getElementById('nav3d');
-const navMapEl = document.getElementById('navMap');
-nav3dEl.addEventListener('click', e => {
-  e.preventDefault();
-  autoOrbit = !autoOrbit;
-  nav3dEl.classList.toggle('active', autoOrbit);
-  navMapEl.classList.toggle('active', !autoOrbit);
-});
-
-// Map link: reset 3D orbit when active
-navMapEl.addEventListener('click', e => {
-  if(autoOrbit){ autoOrbit=false; nav3dEl.classList.remove('active'); navMapEl.classList.add('active'); }
-});
-
-// ---- Gesture / Camera Mode ----
-let gestureMode = false;
-let gestureStream = null;
-let handsInstance = null;
-let gestureActionTick = 0;
-let lastHandX = null;
-let handVelX = 0;
-
-const navGestureEl  = document.getElementById('navGestures');
-const gwEl          = document.getElementById('gestureWidget');
-const gvEl          = document.getElementById('gestureVideo');
-const gsEl          = document.getElementById('gestureSkel');
-const glEl          = document.getElementById('gestureLbl');
-const gcBtn         = document.getElementById('gestureCloseBtn');
-
-const HAND_CONN = [
-  [0,1],[1,2],[2,3],[3,4],
-  [0,5],[5,6],[6,7],[7,8],
-  [5,9],[9,10],[10,11],[11,12],
-  [9,13],[13,14],[14,15],[15,16],
-  [13,17],[17,18],[18,19],[19,20],
-  [0,17]
-];
-
-function isFingerUp(lm, tip, pip) { return lm[tip].y < lm[pip].y; }
-
-function detectGesture(lm) {
-  if (!lm || lm.length < 21) return 'none';
-  const idx  = isFingerUp(lm, 8,  6);
-  const mid  = isFingerUp(lm, 12, 10);
-  const ring = isFingerUp(lm, 16, 14);
-  const pnk  = isFingerUp(lm, 20, 18);
-  const cnt  = [idx, mid, ring, pnk].filter(Boolean).length;
-  const pinchDist = Math.hypot(lm[4].x - lm[8].x, lm[4].y - lm[8].y);
-  if (pinchDist < 0.08 && !mid)              return 'pinch';
-  if (cnt >= 4)                              return 'open';
-  if (cnt === 0)                             return 'fist';
-  if (idx && !mid && !ring && !pnk)         return 'point';
-  if (idx && mid && !ring && !pnk)          return 'peace';
-  return 'none';
-}
-
-async function startGestures() {
-  gwEl.style.display = 'flex';
-  glEl.textContent = 'loading camera…';
-  navGestureEl.classList.add('active');
-  navMapEl.classList.remove('active');
-
-  if (!window.Hands) {
-    glEl.textContent = 'loading AI…';
-    await new Promise((res, rej) => {
-      const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js';
-      s.crossOrigin = 'anonymous';
-      s.onload = res;
-      s.onerror = () => rej(new Error('MediaPipe CDN unavailable — check internet connection'));
-      document.head.appendChild(s);
-    });
-  }
-
-  try {
-    gestureStream = await navigator.mediaDevices.getUserMedia({
-      video: { width: 320, height: 240, facingMode: 'user' }
-    });
-  } catch(e) {
-    glEl.textContent = '⚠ camera denied';
-    stopGestures(); return;
-  }
-  gvEl.srcObject = gestureStream;
-  await new Promise(res => { gvEl.onloadedmetadata = () => res(); });
-  gvEl.play();
-
-  handsInstance = new Hands({
-    locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`
-  });
-  handsInstance.setOptions({
-    maxNumHands: 1, modelComplexity: 0,
-    minDetectionConfidence: 0.65, minTrackingConfidence: 0.5
-  });
-
-  const gsCtx = gsEl.getContext('2d');
-  let prevGesture = 'none', stableFrames = 0;
-
-  handsInstance.onResults(results => {
-    gsCtx.clearRect(0, 0, 160, 120);
-    if (!results.multiHandLandmarks || !results.multiHandLandmarks.length) {
-      glEl.textContent = '✋ show hand';
-      lastHandX = null; prevGesture = 'none'; stableFrames = 0; return;
-    }
-    const lm = results.multiHandLandmarks[0];
-
-    // skeleton — mirror X so it matches the mirrored video
-    gsCtx.strokeStyle = 'rgba(70,177,255,.75)';
-    gsCtx.lineWidth = 1.5;
-    HAND_CONN.forEach(([a,b]) => {
-      gsCtx.beginPath();
-      gsCtx.moveTo((1-lm[a].x)*160, lm[a].y*120);
-      gsCtx.lineTo((1-lm[b].x)*160, lm[b].y*120);
-      gsCtx.stroke();
-    });
-    lm.forEach(p => {
-      gsCtx.fillStyle = '#46b1ff';
-      gsCtx.beginPath();
-      gsCtx.arc((1-p.x)*160, p.y*120, 2.5, 0, Math.PI*2);
-      gsCtx.fill();
-    });
-
-    const g = detectGesture(lm);
-    if (g === prevGesture) stableFrames++; else { prevGesture = g; stableFrames = 0; }
-
-    const hx = lm[0].x;
-    handVelX = lastHandX !== null ? hx - lastHandX : 0;
-    lastHandX = hx;
-
-    const LABELS = { open:'🖐 zoom in', fist:'✊ zoom out', pinch:'🤌 select', point:'☝ orbit', peace:'✌ fit view', none:'…' };
-    glEl.textContent = stableFrames > 2 ? (LABELS[g] || g) : '…';
-
-    if (stableFrames < 3) return;
-
-    gestureActionTick++;
-    if (gestureActionTick % 3 !== 0) return;   // throttle: act every 3 detected frames
-
-    if      (g === 'open')  { zoomBy(1.018); _physSleep=false; }
-    else if (g === 'fist')  { zoomBy(0.982); _physSleep=false; }
-    else if (g === 'pinch') { if (gestureActionTick % 18 === 0) { if (hover) openDetail(hover); else fitView(); } }
-    else if (g === 'peace') { if (gestureActionTick % 24 === 0) fitView(); }
-    else if (g === 'point') { rotY += (lm[8].x - 0.5) * 0.025; refreshTrig(); }
-    else if (g === 'none' && Math.abs(handVelX) > 0.015) { rotY -= handVelX * 0.4; refreshTrig(); }
-  });
-
-  glEl.textContent = '✋ show hand';
-  gvEl.dataset.grun = '1';
-  (async function sendFrame() {
-    if (!gvEl.dataset.grun) return;
-    if (handsInstance) await handsInstance.send({ image: gvEl }).catch(() => {});
-    requestAnimationFrame(sendFrame);
-  })();
-}
-
-function stopGestures() {
-  if (gestureStream) { gestureStream.getTracks().forEach(t => t.stop()); gestureStream = null; }
-  if (handsInstance) { try { handsInstance.close(); } catch(e){} handsInstance = null; }
-  delete gvEl.dataset.grun;
-  gwEl.style.display = 'none';
-  navGestureEl.classList.remove('active');
-  navMapEl.classList.add('active');
-  gestureMode = false;
-}
-
-navGestureEl.addEventListener('click', e => {
-  e.preventDefault();
-  if (gestureMode) stopGestures();
-  else { gestureMode = true; startGestures().catch(err => { glEl.textContent = '⚠ ' + err.message; stopGestures(); }); }
-});
-gcBtn.addEventListener('click', stopGestures);
+requestAnimationFrame(draw);
 
 // LIVE MODE: when served by brain-server.py, pull the real vault graph and keep syncing
-const badge=document.getElementById('liveBadge');
-function markLive(on){ if(!badge) return;
-  badge.textContent = on ? '● live · auto-syncing your vault every 4s' : '○ static snapshot (run brain-server.py for live mode)';
-  badge.style.color = on ? 'var(--source)' : 'var(--muted)'; }
+const liveBadge=document.getElementById('liveBadge');
+function markLive(on){ if(!liveBadge) return;
+  liveBadge.textContent = on ? '● live · auto-syncing your vault every 4s' : '○ static snapshot (run brain-server.py for live mode)';
+  liveBadge.style.color = on ? 'var(--source)' : 'var(--muted)'; }
 let liveOn=false;
 // learned-weight memory: persists STDP weights on the real graph across sessions.
 // brain-state.json + the notes = the artifact a local LLM could later read.
@@ -1381,8 +827,7 @@ async function pollStorage(){ try{ const r=await fetch('storage',{cache:'no-stor
 let lastSig='';
 async function pullLive(){
   try{
-    const _ctrl=new AbortController(); const _tid=setTimeout(()=>_ctrl.abort(),8000);
-    const r=await fetch('graph.json',{cache:'no-store',signal:_ctrl.signal}); clearTimeout(_tid);
+    const r=await fetch('graph.json',{cache:'no-store'});
     if(!r.ok) throw 0;
     const j=await r.json();
     if(!(j && j.nodes && j.nodes.length)) return;
@@ -1390,38 +835,144 @@ async function pullLive(){
     let ssum=0; for(const n of j.nodes) ssum+=(n.size||0);
     const sig=j.nodes.length+'|'+j.edges.length+'|'+ssum;   // cheap change-detector
     const first=!liveOn;
-    if(first || sig!==lastSig){ lastSig=sig;
-      if(first){ liveOn=true; markLive(true); loadState(); }
-      setTimeout(()=>setGraph(j.nodes, j.edges), 0); }
+    if(first || sig!==lastSig){ lastSig=sig; setGraph(j.nodes, j.edges);   // only rebuild on real change
+      if(first){ liveOn=true; markLive(true); for(let k=0;k<120;k++) physics(); fitView(); loadState(); } }
   }catch(e){ if(!liveOn) markLive(false); }
 }
-pullLive().finally(()=>{
-  setInterval(pullLive, 10000);
-  const sub=document.getElementById('lsSub');
-  if(sub) sub.textContent=liveOn?'live neural map ready':'server offline — using embedded snapshot';
-  const enter=()=>{
-    const ls=document.getElementById('loadScreen'); if(!ls) return;
-    if(_wantSettle>0){ requestAnimationFrame(enter); return; }
-    fitView(); ls.style.opacity='0'; setTimeout(()=>ls.remove(),520);
-  };
-  requestAnimationFrame(enter);
-});
+pullLive().finally(()=> setInterval(pullLive, 4000));
 setInterval(()=>{ if(liveOn) saveState(); }, 30000);           // keep learning, persistently
 pollStorage(); setInterval(pollStorage, 15000);               // storage indicator
 addEventListener('beforeunload', saveState);
-// Ollama reachability indicator
-(function checkOllama(){
-  const el=document.getElementById('ollamaStatus');
-  if(!el) return;
-  fetch('/api/ollama-status').then(r=>r.json()).then(d=>{
-    el.className='ollama-status '+(d.ok?'online':'offline');
-    el.title=d.ok?'Ollama online ('+d.url+')':'Ollama offline — '+d.url;
-    el.querySelector('.os-label').textContent=d.ok?'Ollama':'Ollama ↓';
-  }).catch(()=>{
-    el.className='ollama-status offline';
-    el.querySelector('.os-label').textContent='Ollama ↓';
-  }).finally(()=>{ setTimeout(checkOllama,15000); });
-})();
+
+/* ── Tabs ── */
+const tasksView = document.getElementById('tasksView');
+const tagsView  = document.getElementById('tagsView');
+const tabMap    = document.getElementById('tabMap');
+const tabTasks  = document.getElementById('tabTasks');
+const tab3dEl   = document.getElementById('tab3d');
+const tabTagsEl = document.getElementById('tabTags');
+const taskInput = document.getElementById('taskInput');
+const tasksList = document.getElementById('tasksList');
+const taskCount = document.getElementById('taskCount');
+const headDesc  = document.getElementById('headDesc');
+
+function setTab(tab) {
+  const onMap   = tab === 'map';
+  const onTasks = tab === 'tasks';
+  const on3d    = tab === '3d';
+  const onTags  = tab === 'tags';
+  const showMapUI = onMap || on3d;
+
+  tabMap.classList.toggle('active',   onMap);
+  tabTasks.classList.toggle('active', onTasks);
+  tab3dEl.classList.toggle('active',  on3d);
+  tabTagsEl.classList.toggle('active',onTags);
+
+  tasksView.classList.toggle('on', onTasks);
+  tagsView.classList.toggle('on',  onTags);
+
+  headDesc.style.display  = showMapUI ? '' : 'none';
+  liveBadge.style.display = showMapUI ? '' : 'none';
+  document.getElementById('stats').style.display      = showMapUI ? '' : 'none';
+  document.getElementById('searchWrap').style.display = showMapUI ? '' : 'none';
+  document.getElementById('legend').style.display     = showMapUI ? '' : 'none';
+  document.getElementById('hint').style.display       = showMapUI ? '' : 'none';
+
+  autoOrbit = on3d;
+
+  if (onTasks) { loadTasks(); taskInput.focus(); }
+  if (onTags)  buildTagCloud();
+}
+
+tabMap.onclick   = () => setTab('map');
+tabTasks.onclick = () => setTab('tasks');
+tab3dEl.onclick  = () => setTab(autoOrbit ? 'map' : '3d');
+tabTagsEl.onclick= () => setTab('tags');
+
+/* ── Tag cloud ── */
+function buildTagCloud() {
+  const map = new Map();
+  NODES.forEach(n => {
+    (n.tags || []).forEach(raw => {
+      const t = (raw || '').toLowerCase().replace(/^#/, '').trim();
+      if (!t || t.length > 60) return;
+      const e = map.get(t) || { count: 0, ids: [] };
+      e.count++; e.ids.push(n.id); map.set(t, e);
+    });
+  });
+  const sorted = [...map.entries()].sort((a, b) => b[1].count - a[1].count);
+  document.getElementById('tagsMeta').textContent =
+    sorted.length + ' tags · ' + NODES.length + ' neurons';
+  const cloud = document.getElementById('tagsCloud');
+  cloud.innerHTML = sorted.map(([tag, { count, ids }]) =>
+    `<button class="tc" data-ids="${ids.join(',')}">#${tag}<span class="cnt">${count}</span></button>`
+  ).join('');
+  cloud.querySelectorAll('.tc').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ids = new Set(btn.dataset.ids.split(','));
+      searchSet = ids;
+      setTab('map');
+      const matched = NODES.filter(n => ids.has(n.id));
+      if (matched.length) setTimeout(() => { projectAll(); fitNodes(matched); }, 60);
+    });
+  });
+}
+
+async function loadTasks() {
+  try {
+    const r = await fetch('api/tasks', {cache:'no-store'});
+    if (!r.ok) throw new Error();
+    const j = await r.json();
+    renderTasks(j.tasks || []);
+  } catch {
+    tasksList.innerHTML = '<div id="tasksEmpty">Server not running — start brain-server.py to save tasks.</div>';
+    taskCount.textContent = '';
+  }
+}
+
+function renderTasks(tasks) {
+  const pending = tasks.filter(t => t.status !== 'done');
+  const done    = tasks.filter(t => t.status === 'done');
+  taskCount.textContent = pending.length + ' pending · ' + done.length + ' done';
+  if (!tasks.length) {
+    tasksList.innerHTML = '<div id="tasksEmpty">No tasks yet — add one above.</div>';
+    return;
+  }
+  tasksList.innerHTML = '';
+  [...pending, ...done].forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'task-item' + (t.status === 'done' ? ' done' : '');
+    el.innerHTML =
+      `<div class="task-chk" data-id="${t.id}">${t.status === 'done' ? '✓' : ''}</div>` +
+      `<div class="task-ttl">${t.title.replace(/</g,'&lt;')}</div>` +
+      `<div class="task-meta">${t.created || ''}</div>`;
+    el.querySelector('.task-chk').onclick = () => toggleTask(t.id);
+    tasksList.appendChild(el);
+  });
+}
+
+async function toggleTask(id) {
+  try {
+    await fetch('api/tasks/toggle', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify({id})});
+    loadTasks();
+  } catch {}
+}
+
+async function addTask() {
+  const title = taskInput.value.trim();
+  if (!title) return;
+  taskInput.value = '';
+  try {
+    await fetch('api/tasks', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify({title})});
+    loadTasks();
+  } catch {
+    tasksList.innerHTML = '<div id="tasksEmpty">Could not save — is brain-server.py running?</div>';
+  }
+}
+document.getElementById('taskAddBtn').onclick = addTask;
+taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
 </script>
 </body>
 </html>
