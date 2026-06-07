@@ -344,6 +344,10 @@ addEventListener('resize',resize);resize();
 // live, rebuildable graph state — positions persist across refreshes
 let NODES=[], byId={}, adj={}, edges=[];
 function setGraph(rawNodes, rawEdges){
+  // Strip section sub-neurons — they're heading fragments, not real notes
+  rawNodes = rawNodes.filter(n => n.t !== 'section');
+  const sids = new Set(rawNodes.map(n => n.id));
+  rawEdges = rawEdges.filter(e => { const a=e[0]??e.a, b=e[1]??e.b; return sids.has(a)&&sids.has(b); });
   const prev={}; NODES.forEach(n=>prev[n.id]=n);
   const next = rawNodes.map(rn=>{ const p=prev[rn.id]; const n=Object.assign({},rn);
     if(p){n.x=p.x;n.y=p.y;n.z=p.z||0;n.vx=p.vx;n.vy=p.vy;n.vz=p.vz||0;n.glow=p.glow;n.dust=p.dust;}
@@ -499,8 +503,11 @@ let down=false,downX=0,downY=0,downNode=null,moved=false;
 let VAULT='', linkMode='usage', linkInt=1, linkStrength=0.5, searchSet=null;
 const tip=document.getElementById('tip');
 function fitView(){ if(!NODES.length) return; projectAll();
-  let a=1e9,b=1e9,c=-1e9,d=-1e9;
-  NODES.forEach(n=>{a=Math.min(a,n._wpx);b=Math.min(b,n._wpy);c=Math.max(c,n._wpx);d=Math.max(d,n._wpy);});
+  // Use 5th–95th percentile to ignore perspective-blown outlier nodes
+  const xs=NODES.map(n=>n._wpx).sort((a,b)=>a-b);
+  const ys=NODES.map(n=>n._wpy).sort((a,b)=>a-b);
+  const tr=Math.max(0,Math.floor(NODES.length*0.05));
+  const a=xs[tr],c=xs[xs.length-1-tr],b=ys[tr],d=ys[ys.length-1-tr];
   const gw=(c-a)||1, gh=(d-b)||1, pad=170;
   cam.s=Math.max(0.05,Math.min(1.7, Math.min((W-pad)/gw,(H-pad*1.5)/gh)));
   cam.x=-((a+c)/2)*cam.s; cam.y=-((b+d)/2)*cam.s; viewDirty=true;
