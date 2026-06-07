@@ -617,7 +617,8 @@ function physics(){
     const r=Math.hypot(ox,oy,oz)||1;
     // size-stratified: large nodes → center, small nodes → outer, sections → outermost
     const tgt=nd.t==='hub'?65:nd.t==='section'?295:Math.max(25,280-(nd.r||5)*11);
-    const sf=(r-tgt)*0.00080;
+    const shellK=0.00030+(nd.r||5)*0.000050;
+    const sf=(r-tgt)*shellK;
     nd.vx-=(ox/r)*sf; nd.vy-=(oy/r)*sf; nd.vz-=(oz/r)*sf;
     // soft center-keep to prevent the whole orb drifting off screen
     nd.vx-=(nd.x-W/2)*0.00008; nd.vy-=(nd.y-H/2)*0.00008; nd.vz-=(nd.z||0)*0.00008;
