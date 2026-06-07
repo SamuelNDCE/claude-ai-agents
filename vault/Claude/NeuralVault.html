@@ -713,7 +713,7 @@ function draw(now){
       b.last=now; igniteRegion(b.id, now);                       // a real thought lights its region
       if(pu.gen<3 && Math.random()<0.55) fire(pu.b, pu.gen+1);   // cascade onward
       pulses.splice(i,1); continue; }
-    const x=a.sx+(b.sx-a.sx)*pu.p, y=a.sy+(b.sy-a.sy)*pu.p, col=TYPES[a.t].color;
+    const x=a.sx+(b.sx-a.sx)*pu.p, y=a.sy+(b.sy-a.sy)*pu.p, col=(TYPES[a.t]||TYPES.default).color;
     const tp=Math.max(0,pu.p-0.12), tx=a.sx+(b.sx-a.sx)*tp, ty=a.sy+(b.sy-a.sy)*tp;
     ctx.globalAlpha=0.85;ctx.strokeStyle=col;ctx.lineWidth=2.2;
     ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();ctx.globalAlpha=1;
