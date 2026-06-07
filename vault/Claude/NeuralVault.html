@@ -917,6 +917,149 @@ async function addTask() {
 }
 document.getElementById('taskAddBtn').onclick = addTask;
 taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+// ---- AR Camera Mode ----
+let arMode = false, arStream = null, arHands = null;
+let arGrab = null, arWristPrev = null, arPinchWas = false;
+
+const tabAREl = document.getElementById('tabAR');
+const arCamEl = document.getElementById('arCamera');
+const arOvEl  = document.getElementById('arOverlay');
+let   arOvCtx = null;
+
+const AR_CONN = [
+  [0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],
+  [5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],
+  [13,17],[17,18],[18,19],[19,20],[0,17]
+];
+
+function arLm(lm, i) { return { x: (1 - lm[i].x) * W, y: lm[i].y * H }; }
+
+function arNearest(sx, sy, r) {
+  let best = null, bd = r * r;
+  NODES.forEach(n => { const d = (n.sx-sx)**2+(n.sy-sy)**2; if(d<bd){bd=d;best=n;} });
+  return best;
+}
+
+function arResults(res) {
+  if (!arOvCtx) return;
+  arOvCtx.clearRect(0, 0, W, H);
+  if (!res.multiHandLandmarks || !res.multiHandLandmarks.length) {
+    arGrab=null; arWristPrev=null; arPinchWas=false; return;
+  }
+  const lm = res.multiHandLandmarks[0];
+
+  // skeleton
+  arOvCtx.strokeStyle = 'rgba(70,177,255,.7)'; arOvCtx.lineWidth = 2.5;
+  AR_CONN.forEach(([a,b]) => {
+    const A=arLm(lm,a), B=arLm(lm,b);
+    arOvCtx.beginPath(); arOvCtx.moveTo(A.x,A.y); arOvCtx.lineTo(B.x,B.y); arOvCtx.stroke();
+  });
+  lm.forEach((_,i) => {
+    const p=arLm(lm,i);
+    arOvCtx.fillStyle=(i===4||i===8)?'#ffd23d':'#46b1ff';
+    arOvCtx.beginPath(); arOvCtx.arc(p.x,p.y,i===0?6:3.5,0,6.28); arOvCtx.fill();
+  });
+
+  // pinch
+  const T=arLm(lm,4), IX=arLm(lm,8);
+  const pDist=Math.hypot(T.x-IX.x,T.y-IX.y);
+  const px=(T.x+IX.x)/2, py=(T.y+IX.y)/2;
+  const pinchNow = pDist < Math.min(W,H)*0.08;
+
+  if (pinchNow) {
+    arOvCtx.strokeStyle='rgba(255,210,61,.9)'; arOvCtx.lineWidth=2.5;
+    arOvCtx.beginPath(); arOvCtx.arc(px,py,22,0,6.28); arOvCtx.stroke();
+    if (!arPinchWas) arGrab = arNearest(px, py, 90);
+    if (arGrab) {
+      arGrab.x=(px-W/2-cam.x)/cam.s+W/2;
+      arGrab.y=(py-H/2-cam.y)/cam.s+H/2;
+      arGrab.z=0; arGrab.vx=0; arGrab.vy=0; arGrab.vz=0;
+      physicsSleeping=false;
+    }
+    arPinchWas=true;
+  } else { arGrab=null; arPinchWas=false; }
+
+  // wrist pan (only when not holding a node)
+  const W0=arLm(lm,0);
+  if (arWristPrev && !arGrab) {
+    const dx=W0.x-arWristPrev.x, dy=W0.y-arWristPrev.y;
+    if (Math.hypot(dx,dy)<80) { cam.x+=dx*0.85; cam.y+=dy*0.85; physicsSleeping=false; }
+  }
+  arWristPrev=W0;
+}
+
+async function startAR() {
+  arMode = true;
+  tabAREl.classList.add('active');
+  tabMap.classList.remove('active');
+  document.body.classList.add('ar-mode');
+
+  // size arOverlay to match viewport
+  const dpr = window.devicePixelRatio || 1;
+  arOvEl.width=innerWidth*dpr; arOvEl.height=innerHeight*dpr;
+  arOvEl.style.width=innerWidth+'px'; arOvEl.style.height=innerHeight+'px';
+  arOvCtx=arOvEl.getContext('2d'); arOvCtx.scale(dpr,dpr);
+  arOvEl.style.display='block';
+
+  // hide map chrome — the AR view is full-screen
+  ['stats','searchWrap','legend','hint'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='none';
+  });
+  if(headDesc) headDesc.style.display='none';
+  if(liveBadge) liveBadge.style.display='none';
+
+  // lazy-load MediaPipe Hands CDN
+  if (!window.Hands) {
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js';
+      s.crossOrigin='anonymous'; s.onload=res;
+      s.onerror=()=>rej(new Error('MediaPipe CDN unavailable — check internet'));
+      document.head.appendChild(s);
+    });
+  }
+
+  try {
+    arStream = await navigator.mediaDevices.getUserMedia({
+      video:{width:{ideal:1280},height:{ideal:720},facingMode:'user'}
+    });
+  } catch(e) { stopAR(); return; }
+
+  arCamEl.srcObject=arStream;
+  await new Promise(res=>{arCamEl.onloadedmetadata=()=>res();});
+  arCamEl.play(); arCamEl.style.display='block';
+
+  arHands=new Hands({locateFile:f=>`https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
+  arHands.setOptions({maxNumHands:1,modelComplexity:0,minDetectionConfidence:0.65,minTrackingConfidence:0.5});
+  arHands.onResults(arResults);
+
+  arCamEl.dataset.arrun='1';
+  (async function arLoop(){
+    if(!arCamEl.dataset.arrun) return;
+    if(arHands) await arHands.send({image:arCamEl}).catch(()=>{});
+    requestAnimationFrame(arLoop);
+  })();
+}
+
+function stopAR() {
+  if(arStream){arStream.getTracks().forEach(t=>t.stop());arStream=null;}
+  if(arHands){try{arHands.close();}catch(e){}arHands=null;}
+  delete arCamEl.dataset.arrun;
+  arCamEl.style.display='none'; arCamEl.srcObject=null;
+  arOvEl.style.display='none';
+  if(arOvCtx){arOvCtx.clearRect(0,0,W,H);arOvCtx=null;}
+  document.body.classList.remove('ar-mode');
+  tabAREl.classList.remove('active');
+  tabMap.classList.add('active');
+  arMode=false; arGrab=null; arWristPrev=null; arPinchWas=false;
+  setTab('map');
+}
+
+tabAREl.addEventListener('click', ()=>{
+  if(arMode) stopAR();
+  else startAR().catch(err=>{ console.error(err); stopAR(); });
+});
 </script>
 </body>
 </html>
