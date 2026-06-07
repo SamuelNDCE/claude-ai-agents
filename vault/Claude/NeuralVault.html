@@ -728,17 +728,6 @@ function draw(now){
     ctx.beginPath();ctx.arc(n.sx,n.sy,r,0,7);
     ctx.globalAlpha=dim?0.5:1; ctx.fillStyle=dim?'#171c28':T.color; ctx.fill(); ctx.globalAlpha=1;
     ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,'+(dim?0.05:0.3)+')'; ctx.stroke(); }
-  // labels — always present but subtle; focus + neighbours brighten, far ones fade
-  ctx.textAlign='center';ctx.textBaseline='top';ctx.lineWidth=3;
-  for(const n of order){
-    if(n.sx<-80||n.sx>W+80||n.sy<-30||n.sy>H+20) continue;   // perf: cull off-screen labels
-    const isF=n===foc, near=foc&&focSet&&focSet.has(n.id), match=sActive&&searchSet.has(n.id);
-    const depth=Math.min(1,n.persp), r=Math.max(1.6,n.r*nodeSize*n.ss);
-    let alpha = (sActive&&!match) ? 0.05 : (isF?1 : (near||match)?0.92 : 0.4*depth);
-    if(alpha<0.1) continue;
-    ctx.font=(isF?'600 12.5px':'500 10px')+' Inter,system-ui,sans-serif';
-    ctx.strokeStyle='rgba(5,7,12,'+(0.5*alpha+0.18)+')'; ctx.strokeText(n.label,n.sx,n.sy+r+4);
-    ctx.fillStyle='rgba('+(isF?'255,255,255':'212,222,236')+','+alpha+')'; ctx.fillText(n.label,n.sx,n.sy+r+4); }
 
   if(physicsSleeping && !autoOrbit) setTimeout(()=>requestAnimationFrame(draw),16);
   else requestAnimationFrame(draw);
