@@ -194,22 +194,15 @@
   .task-meta{font-size:10px;color:#2e3a4a;flex:none}
   #tasksEmpty{color:#3a4659;font-size:13px;text-align:center;padding-top:60px}
 
-  /* ── tags overlay ── */
-  #tagsView{position:fixed;inset:0;z-index:7;background:var(--bg);display:none;
-    flex-direction:column;align-items:center;overflow-y:auto}
-  #tagsView.on{display:flex}
-  #tagsHeader{width:760px;max-width:90vw;padding:110px 0 0;display:flex;
-    align-items:baseline;justify-content:space-between}
-  #tagsHeader h2{margin:0;font-size:13px;font-weight:600;letter-spacing:.14em;
-    text-transform:uppercase;color:#fff}
-  #tagsMeta{font-size:10.5px;color:var(--muted);letter-spacing:.06em}
-  #tagsCloud{width:760px;max-width:90vw;display:flex;flex-wrap:wrap;gap:9px;
-    margin-top:22px;padding-bottom:60px}
-  .tc{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);
-    color:#cdd6e6;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;
-    font-family:inherit;transition:background .15s,color .15s,border-color .15s}
-  .tc:hover{background:rgba(70,177,255,.16);color:#c8e8ff;border-color:rgba(70,177,255,.35)}
-  .tc .cnt{color:var(--muted);font-size:10px;margin-left:5px}
+  /* ── AR camera mode ── */
+  #arCamera{display:none;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+  #arOverlay{display:none;position:fixed;inset:0;z-index:20;pointer-events:none}
+  body.ar-mode{background:transparent}
+  body.ar-mode #head{background:rgba(6,8,13,.55);backdrop-filter:blur(8px)}
+  #arHint{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:21;
+    font-size:11px;color:rgba(255,255,255,.65);background:rgba(6,8,13,.6);backdrop-filter:blur(8px);
+    padding:5px 16px;border-radius:20px;pointer-events:none;white-space:nowrap;display:none;letter-spacing:.05em}
+  body.ar-mode #arHint{display:block}
 
   /* search */
   #searchWrap{position:fixed;z-index:8;top:18px;left:50%;transform:translateX(-50%);width:320px;max-width:46vw}
@@ -230,15 +223,17 @@
 </style>
 </head>
 <body>
+<video id="arCamera" playsinline autoplay muted></video>
+<canvas id="arOverlay"></canvas>
 <canvas id="stage"></canvas>
+<div id="arHint">✋ open palm: pan · 🤌 pinch: grab node</div>
 
 <div class="panel" id="head">
   <h1><span class="dot"></span> NeuralVault <span style="font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--muted);vertical-align:middle">NV · v0.8.2</span></h1>
   <div id="tabBar">
     <button id="tabMap" class="active">🧠 Map</button>
     <button id="tabTasks">✓ Tasks</button>
-    <button id="tab3d">📷 3D</button>
-    <button id="tabTags">🏷 Tags</button>
+    <button id="tabAR">📷 AR</button>
   </div>
   <p id="headDesc">A living neural map of the vault. Each <b>neuron</b> is a note; each <b>synapse</b> is a wikilink. Thoughts fire across the network in real time, and the strongest paths learn.</p>
   <div id="liveBadge" style="margin-top:9px;font-size:11px;letter-spacing:.06em;color:var(--muted)">○ static snapshot</div>
@@ -271,13 +266,6 @@
   <div id="tasksList"></div>
 </div>
 
-<div id="tagsView">
-  <div id="tagsHeader">
-    <h2>🏷 Tags</h2>
-    <span id="tagsMeta"></span>
-  </div>
-  <div id="tagsCloud"></div>
-</div>
 
 <div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div></div>
 
@@ -700,7 +688,8 @@ function draw(now){
 
   // ---- everything drawn in screen space (the 3D is projected per-point) ----
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle=bgGrad;ctx.fillRect(0,0,W,H);
+  if(arMode){ctx.fillStyle='rgba(5,7,12,0.12)';ctx.fillRect(0,0,W,H);}
+  else{ctx.fillStyle=bgGrad;ctx.fillRect(0,0,W,H);}
 
   const foc = hover || selected, focSet = foc?adj[foc.id]:null;
   const sActive = !!searchSet;
@@ -846,11 +835,8 @@ addEventListener('beforeunload', saveState);
 
 /* ── Tabs ── */
 const tasksView = document.getElementById('tasksView');
-const tagsView  = document.getElementById('tagsView');
 const tabMap    = document.getElementById('tabMap');
 const tabTasks  = document.getElementById('tabTasks');
-const tab3dEl   = document.getElementById('tab3d');
-const tabTagsEl = document.getElementById('tabTags');
 const taskInput = document.getElementById('taskInput');
 const tasksList = document.getElementById('tasksList');
 const taskCount = document.getElementById('taskCount');
@@ -859,64 +845,22 @@ const headDesc  = document.getElementById('headDesc');
 function setTab(tab) {
   const onMap   = tab === 'map';
   const onTasks = tab === 'tasks';
-  const on3d    = tab === '3d';
-  const onTags  = tab === 'tags';
-  const showMapUI = onMap || on3d;
-
+  if (typeof arMode !== 'undefined' && arMode && tab !== 'ar') stopAR();
   tabMap.classList.toggle('active',   onMap);
   tabTasks.classList.toggle('active', onTasks);
-  tab3dEl.classList.toggle('active',  on3d);
-  tabTagsEl.classList.toggle('active',onTags);
-
   tasksView.classList.toggle('on', onTasks);
-  tagsView.classList.toggle('on',  onTags);
-
-  headDesc.style.display  = showMapUI ? '' : 'none';
-  liveBadge.style.display = showMapUI ? '' : 'none';
-  document.getElementById('stats').style.display      = showMapUI ? '' : 'none';
-  document.getElementById('searchWrap').style.display = showMapUI ? '' : 'none';
-  document.getElementById('legend').style.display     = showMapUI ? '' : 'none';
-  document.getElementById('hint').style.display       = showMapUI ? '' : 'none';
-
-  autoOrbit = on3d;
-
+  headDesc.style.display  = onMap ? '' : 'none';
+  liveBadge.style.display = onMap ? '' : 'none';
+  document.getElementById('stats').style.display      = onMap ? '' : 'none';
+  document.getElementById('searchWrap').style.display = onMap ? '' : 'none';
+  document.getElementById('legend').style.display     = onMap ? '' : 'none';
+  document.getElementById('hint').style.display       = onMap ? '' : 'none';
   if (onTasks) { loadTasks(); taskInput.focus(); }
-  if (onTags)  buildTagCloud();
 }
 
 tabMap.onclick   = () => setTab('map');
 tabTasks.onclick = () => setTab('tasks');
-tab3dEl.onclick  = () => setTab(autoOrbit ? 'map' : '3d');
-tabTagsEl.onclick= () => setTab('tags');
 
-/* ── Tag cloud ── */
-function buildTagCloud() {
-  const map = new Map();
-  NODES.forEach(n => {
-    (n.tags || []).forEach(raw => {
-      const t = (raw || '').toLowerCase().replace(/^#/, '').trim();
-      if (!t || t.length > 60) return;
-      const e = map.get(t) || { count: 0, ids: [] };
-      e.count++; e.ids.push(n.id); map.set(t, e);
-    });
-  });
-  const sorted = [...map.entries()].sort((a, b) => b[1].count - a[1].count);
-  document.getElementById('tagsMeta').textContent =
-    sorted.length + ' tags · ' + NODES.length + ' neurons';
-  const cloud = document.getElementById('tagsCloud');
-  cloud.innerHTML = sorted.map(([tag, { count, ids }]) =>
-    `<button class="tc" data-ids="${ids.join(',')}">#${tag}<span class="cnt">${count}</span></button>`
-  ).join('');
-  cloud.querySelectorAll('.tc').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const ids = new Set(btn.dataset.ids.split(','));
-      searchSet = ids;
-      setTab('map');
-      const matched = NODES.filter(n => ids.has(n.id));
-      if (matched.length) setTimeout(() => { projectAll(); fitNodes(matched); }, 60);
-    });
-  });
-}
 
 async function loadTasks() {
   try {
