@@ -1768,9 +1768,123 @@ def agent_session(a=None):
     return "session agent — updated by Claude Code activity"
 
 
+def agent_note_freshness(a=None):
+    """Scan concept/entity/lesson notes older than STALE_DAYS, find recent observations that
+    mention them, call LLM to generate an updated note body, and save it back to the vault."""
+    STALE_DAYS    = 7
+    TARGET_TYPES  = {"concept", "entity", "lesson", "pattern", "org", "system", "person"}
+    SKIP_PREFIXES = ("wiki/agent-", "wiki/agents/", "wiki/codegraph/")
+    today         = time.time()
+    today_str     = time.strftime("%Y-%m-%d")
+
+    # ── 1. Collect stale candidates from the in-memory index ──────────
+    stale = []
+    with INDEX_LOCK:
+        snapshot = list(NOTE_INDEX.items())
+    for nid, entry in snapshot:
+        if entry.get("type") not in TARGET_TYPES:
+            continue
+        if any(nid.startswith(p) for p in SKIP_PREFIXES):
+            continue
+        age_days = (today - entry.get("mtime", 0)) / 86400
+        if age_days > STALE_DAYS:
+            stale.append((age_days, nid, entry))
+
+    stale.sort(reverse=True)  # oldest first
+    candidates = stale[:12]   # process up to 12 per run
+
+    model    = (a.get("model") if a else None) or "ollama:qwen3.5:9b"
+    max_tok  = int((a.get("max_tokens") if a else None) or 1600)
+    key      = (a.get("api_key") if a else None) or None
+
+    updated_count = 0
+    skipped_count = 0
+    report_lines  = []
+
+    for age_days, nid, entry in candidates:
+        title = entry.get("title") or nid.split("/")[-1]
+
+        # ── 2. Find recent observations (< 14 days) that mention this note ──
+        hits = api_search(title)[:6]
+        recent_parts = []
+        for h in hits:
+            if h["id"] == nid:
+                continue
+            with INDEX_LOCK:
+                h_entry = NOTE_INDEX.get(h["id"])
+            if h_entry and (today - h_entry.get("mtime", 0)) / 86400 < 14:
+                excerpt = h_entry.get("content", "")[:700].strip()
+                recent_parts.append(f"### {h['title']}\n{excerpt}")
+
+        if not recent_parts:
+            skipped_count += 1
+            report_lines.append(f"- {title} ({age_days:.0f}d) — no recent context, skipped")
+            continue
+
+        # ── 3. Read the current note from disk ────────────────────────
+        full_path = os.path.join(BASE, nid + ".md")
+        if not os.path.exists(full_path):
+            report_lines.append(f"- {title} — file missing on disk, skipped")
+            continue
+        try:
+            old_text = open(full_path, encoding="utf-8", errors="ignore").read()
+        except Exception:
+            report_lines.append(f"- {title} — read error, skipped")
+            continue
+
+        current_body = entry.get("content", old_text)[:2000]
+        recent_ctx   = "\n\n".join(recent_parts[:3])
+
+        # ── 4. LLM call ───────────────────────────────────────────────
+        system = ("You are a vault maintenance agent. Your task is to update a knowledge note "
+                  "using newer observations. Return ONLY the updated Markdown body — no frontmatter. "
+                  "Keep the existing structure. If information is contradicted, use ~~strikethrough~~. "
+                  "Add a small '## Updated " + today_str + "' section at the bottom listing what changed.")
+        user   = (f"EXISTING NOTE ({age_days:.0f} days old):\n{current_body}\n\n"
+                  f"RECENT OBSERVATIONS:\n{recent_ctx}\n\n"
+                  "Produce the updated note body. Be concise — preserve what is still accurate.")
+
+        updated_body = _llm_call(model, system, user, max_tok, key_override=key)
+        if not updated_body or len(updated_body) < 80:
+            report_lines.append(f"- {title} — LLM returned too-short response, skipped")
+            continue
+
+        # ── 5. Re-write the file with updated frontmatter + body ──────
+        fm_match = FM_RE.match(old_text)
+        if fm_match:
+            fm = fm_match.group(1)
+            fm = re.sub(r"^updated\s*:.*$", f"updated: {today_str}", fm, flags=re.MULTILINE)
+            if not re.search(r"^updated\s*:", fm, re.MULTILINE):
+                fm += f"\nupdated: {today_str}"
+            new_text = f"---\n{fm}\n---\n\n{updated_body}\n"
+        else:
+            new_text = updated_body + "\n"
+
+        safe_path = _safe_under(full_path)
+        if not safe_path:
+            report_lines.append(f"- {title} — path outside vault, skipped")
+            continue
+        try:
+            with WRITE_LOCK:
+                open(safe_path, "w", encoding="utf-8").write(new_text)
+            _index_note(safe_path)
+            _cache_invalidate()
+            updated_count += 1
+            report_lines.append(f"- {title} ({age_days:.0f}d) — updated")
+        except Exception as exc:
+            report_lines.append(f"- {title} — write failed: {exc}")
+
+    summary = (f"Scanned {len(stale)} stale notes · candidates {len(candidates)} "
+               f"· updated {updated_count} · skipped {skipped_count}")
+    report_body = f"# Note Freshness Report — {today_str}\n\n{summary}\n\n" + "\n".join(report_lines)
+    _write_report("wiki/agents/freshness-report.md", "Note Freshness Report", report_body)
+    return summary
+
+
 BEHAVIORS = {"stats": agent_stats, "curator": agent_curator, "linter": agent_linter,
              "linker": agent_linker, "cleanup": agent_cleanup, "llm": agent_llm,
-             "vault-keeper": agent_vault_keeper, "session": agent_session}
+             "vault-keeper": agent_vault_keeper, "session": agent_session,
+             "note-freshness": agent_note_freshness}
 
 
 def _deposit_agent_log(a, result, command=None):
