@@ -1221,6 +1221,10 @@ def save_agents(a):
 
 
 AGENTS = load_agents()
+# Migration: note-freshness is now a vault-keeper subtask — remove the standalone agent
+if any(a.get("id") == "note-freshness-8012" for a in AGENTS):
+    AGENTS[:] = [a for a in AGENTS if a.get("id") != "note-freshness-8012"]
+    save_agents(AGENTS)
 
 
 def _write_report(relpath, title, body):
