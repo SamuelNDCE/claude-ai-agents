@@ -1322,6 +1322,77 @@ def anthropic_call(system, user, model="claude-opus-4-8", max_tokens=2000, key_o
     return "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text").strip()
 
 
+def anthropic_call_multi(system, messages, model="claude-sonnet-4-6", max_tokens=4000, key_override=None):
+    """Multi-turn Anthropic call. messages = [{role: "user"/"assistant", content: "..."}]"""
+    import urllib.request, urllib.error
+    key = key_override or ANTHROPIC_KEY
+    if not key:
+        raise RuntimeError("no ANTHROPIC_API_KEY (add it to .env or the provider settings)")
+    model = MODEL_ALIASES.get(model, model)
+    body = json.dumps({
+        "model": model, "max_tokens": max_tokens,
+        "system": system,
+        "messages": messages,
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages", data=body, method="POST",
+        headers={"x-api-key": key, "anthropic-version": "2023-06-01",
+                 "content-type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            data = json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode("utf-8", "replace")[:400]
+        raise RuntimeError("API %s: %s" % (e.code, detail))
+    return "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text").strip()
+
+
+def openai_compat_call_multi(system, messages, model, max_tokens, base_url, key):
+    """Multi-turn OpenAI-compatible call."""
+    import urllib.request, urllib.error
+    if not key:
+        raise RuntimeError("no API key for this provider")
+    url = base_url.rstrip("/") + "/v1/chat/completions"
+    full_msgs = [{"role": "system", "content": system}] + messages
+    body = json.dumps({"model": model, "max_tokens": max_tokens, "messages": full_msgs}).encode("utf-8")
+    req = urllib.request.Request(url, data=body, method="POST",
+          headers={"Authorization": "Bearer " + key, "content-type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            data = json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        raise RuntimeError("API %s: %s" % (e.code, e.read().decode("utf-8", "replace")[:300]))
+    return ((data.get("choices") or [{}])[0].get("message", {}).get("content") or "").strip()
+
+
+def call_provider_multi(model_str, system, messages, max_tokens=4000, key_override=None):
+    """Route multi-turn conversation to the correct provider."""
+    if model_str and ":" in model_str:
+        pid, model = model_str.split(":", 1)
+    else:
+        pid, model = "anthropic", (model_str or "claude-sonnet-4-6")
+    prov  = _find_provider(pid)
+    key   = key_override or (prov.get("key") if prov else "") or ANTHROPIC_KEY
+    ptype = (prov.get("type") if prov else "anthropic")
+    url   = (prov.get("url") if prov else "") or ""
+    if ptype == "anthropic":
+        return anthropic_call_multi(system, messages, model=model, max_tokens=max_tokens, key_override=key or None)
+    if ptype == "ollama":
+        import urllib.request
+        base = (url or "http://localhost:11434").rstrip("/")
+        all_msgs = [{"role": "system", "content": system}] + messages
+        body = json.dumps({"model": model or OLLAMA_DEFAULT_MOD, "stream": False,
+                           "messages": all_msgs, "options": {"num_predict": max_tokens}}).encode("utf-8")
+        req = urllib.request.Request(base + "/api/chat", data=body, method="POST",
+                                     headers={"content-type": "application/json"})
+        with urllib.request.urlopen(req, timeout=180) as r:
+            data = json.loads(r.read())
+        return ((data.get("message") or {}).get("content") or "").strip()
+    if ptype in ("openai", "groq", "together", "openai-compatible"):
+        return openai_compat_call_multi(system, messages, model, max_tokens, url or "https://api.openai.com", key)
+    raise RuntimeError("Unknown provider type '%s' for provider '%s'" % (ptype, pid))
+
+
 def api_ollama_status():
     """Quick reachability check — returns {ok, url, status} without touching do_GET's urllib scope."""
     import urllib.request as _ureq
@@ -2188,6 +2259,42 @@ class Handler(BaseHTTPRequestHandler):
             if path == "/api/agents/delete":
                 before = len(AGENTS); AGENTS[:] = [x for x in AGENTS if x.get("id") != aid]; save_agents(AGENTS)
                 self._json(200, {"ok": len(AGENTS) < before}); return
+            if path == "/api/chat-direct":           # multi-turn chat endpoint
+                try:
+                    p = json.loads(body)
+                except Exception:
+                    self._json(400, {"error": "invalid json"}); return
+                messages   = p.get("messages") or []
+                model_str  = p.get("model") or "anthropic:claude-sonnet-4-6"
+                max_tok    = int(p.get("max_tokens") or 4000)
+                sys_prompt = (p.get("system") or "").strip()
+                use_vault  = p.get("vault_context", True)
+                if use_vault and messages:
+                    last_user = next((m["content"] for m in reversed(messages) if m.get("role") == "user"), "")
+                    if last_user:
+                        hits = api_search(last_user[:150])[:3]
+                        if hits:
+                            parts = []
+                            for h in hits:
+                                with INDEX_LOCK:
+                                    entry = NOTE_INDEX.get(h["id"])
+                                if entry and entry.get("content"):
+                                    parts.append("### %s\n%s" % (h["title"], entry["content"][:800].strip()))
+                                else:
+                                    parts.append("- %s: %s" % (h["title"], h.get("snippet","")[:200]))
+                            vault_block = "\n\n".join(parts)
+                            base_sys = sys_prompt or ("You are Claude, Samuel's AI assistant inside NeuralVault "
+                                "(his personal knowledge graph). Be concise and helpful. "
+                                "Use [[wikilinks]] when referencing existing vault notes.")
+                            sys_prompt = base_sys + "\n\n## Vault context (nearest notes):\n" + vault_block
+                if not sys_prompt:
+                    sys_prompt = ("You are Claude, Samuel's AI assistant inside NeuralVault. "
+                                  "Be concise and helpful.")
+                try:
+                    reply = call_provider_multi(model_str, sys_prompt, messages, max_tok)
+                    self._json(200, {"reply": reply, "model": model_str}); return
+                except Exception as e:
+                    self._json(500, {"error": str(e)}); return
             if path == "/api/agents/command":      # one-off instruction dispatched to agent(s)
                 try:
                     p = json.loads(body)
