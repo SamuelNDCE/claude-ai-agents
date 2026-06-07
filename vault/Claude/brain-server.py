@@ -1089,6 +1089,14 @@ FOLDER_BY_TYPE = {
     "lesson": "wiki/lessons", "pattern": "wiki/patterns", "task": "wiki/tasks",
     "concept": "wiki/concepts", "entity": "wiki/entities", "source": "wiki/sources",
     "question": "wiki/questions",
+    # structural / hub types
+    "meta": "wiki/meta", "moc": "wiki/meta",
+    # entity subtypes — all land in entities
+    "person": "wiki/entities", "org": "wiki/entities", "system": "wiki/entities",
+    # higher-order notes
+    "synthesis": "wiki/synthesis", "catalog": "wiki/catalog",
+    # inbox alias
+    "inbox": "wiki/agent-inbox",
 }
 
 
