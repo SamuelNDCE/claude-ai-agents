@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NeuralVault — live neural map</title>
+<link rel="prefetch" href="/manage">
+<script type="speculationrules">{"prerender":[{"source":"list","urls":["/manage"]}]}</script>
+<style>
+  :root{
+    --bg:#06080d;
+    --ink:#e8eef7;
+    --muted:#7d8aa0;
+    --entity:#ff9e3d;
+    --concept:#46b1ff;
+    --source:#56d364;
+    --hub:#b98cff;
+    --person:#ffd23d;
+    --ext:#5b6678;
+  }
+  *{box-sizing:border-box}
+  @keyframes nvFadeIn{from{opacity:0}to{opacity:1}}
+  html{background:#06080d}  /* dark window bg before body renders — no white flash */
+  html,body{margin:0;height:100%;color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+  body{background:var(--bg);animation:nvFadeIn .3s ease both}
+  /* canvas fades in after one physics tick so nodes aren't all at center on first frame */
+  #stage{animation:nvFadeIn .25s .08s ease both}
+  #stage{position:fixed;inset:0;display:block;cursor:grab}
+  #stage:active{cursor:grabbing}
+
+  .panel{position:fixed;z-index:5;pointer-events:none}
+  /* top nav — the shared site header */
+  #topnav{position:fixed;top:0;left:0;right:0;height:54px;z-index:30;display:flex;align-items:center;
+    justify-content:space-between;padding:0 22px;background:rgba(6,8,13,.8);
+    border-bottom:1px solid rgba(255,255,255,.08);backdrop-filter:blur(12px)}
+  #topnav .brand-cluster{display:flex;align-items:center;gap:14px}
+  #topnav .brand{display:flex;align-items:center;gap:9px;font-weight:650;font-size:14.5px;color:#fff}
+  #topnav .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--source);
+    box-shadow:0 0 10px var(--source),0 0 22px var(--source);animation:beat 1.6s ease-in-out infinite}
+  @keyframes beat{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+  #topnav .links{display:flex;gap:4px;align-items:center}
+  /* Ollama status pill */
+  .ollama-status{display:flex;align-items:center;gap:6px;font-size:12px;
+    color:var(--muted);padding:3px 10px 3px 8px;border-radius:999px;
+    border:1px solid transparent;opacity:0;
+    transition:opacity .45s ease,color .3s ease,border-color .3s ease,background .3s ease;
+    white-space:nowrap;text-decoration:none}
+  .ollama-status .os-dot{width:7px;height:7px;border-radius:50%;flex:none;
+    transition:background .3s ease,box-shadow .3s ease}
+  .ollama-status.online{opacity:1;color:rgba(86,211,100,.9);
+    border-color:rgba(86,211,100,.18);background:rgba(86,211,100,.06)}
+  .ollama-status.online .os-dot{background:#56d364;box-shadow:0 0 6px rgba(86,211,100,.8)}
+  .ollama-status.offline{opacity:1;color:rgba(255,82,128,.8);
+    border-color:rgba(255,82,128,.18);background:rgba(255,82,128,.06)}
+  .ollama-status.offline .os-dot{background:#ff5280;box-shadow:none}
+  #topnav .links a{font-size:13px;color:var(--muted);padding:7px 13px;border-radius:8px;text-decoration:none;transition:.15s}
+  #topnav .links a:hover{color:#fff;background:rgba(255,255,255,.06)}
+  #topnav .links a.active{color:#fff;background:rgba(255,255,255,.09)}
+  /* tagline + live badge (under nav) */
+  #head{top:64px;left:24px;right:auto;padding:0;max-width:54ch}
+  #head p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* live stats */
+  #stats{top:66px;right:26px;display:flex;gap:26px;text-align:right}
+  #stats .stat .n{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;
+    color:#fff;line-height:1;letter-spacing:-.02em}
+  #stats .stat .l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+
+  /* legend */
+  #legend{bottom:20px;left:26px;display:flex;flex-direction:column;gap:9px;
+    font-size:12px;color:var(--muted)}
+  #legend .row{display:flex;align-items:center;gap:9px}
+  #legend .swatch{width:11px;height:11px;border-radius:50%}
+  #hint{bottom:20px;right:26px;font-size:11.5px;color:var(--muted);text-align:right;line-height:1.6}
+  #hint b{color:#aeb9cc;font-weight:600}
+
+  /* tooltip */
+  #tip{position:fixed;z-index:10;pointer-events:none;opacity:0;transform:translateY(6px);
+    transition:opacity .14s ease,transform .14s ease;max-width:300px;
+    background:rgba(13,17,26,.94);border:1px solid rgba(255,255,255,.09);
+    border-radius:12px;padding:12px 14px;backdrop-filter:blur(8px);
+    box-shadow:0 18px 50px rgba(0,0,0,.6)}
+  #tip.on{opacity:1;transform:translateY(0)}
+  #tip .t{font-size:13.5px;font-weight:650;color:#fff;display:flex;align-items:center;gap:8px}
+  #tip .tag{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border-radius:999px;
+    color:#06080d;font-weight:700}
+  #tip .s{font-size:12px;color:#aab4c6;margin-top:7px;line-height:1.5}
+  @media (prefers-reduced-motion:reduce){#head h1 .dot{animation:none}}
+
+  /* right pop-out control panel */
+  #panel{position:fixed;z-index:8;top:54px;right:0;height:calc(100vh - 54px);width:272px;box-sizing:border-box;
+    background:rgba(9,13,21,.97);border-left:1px solid rgba(255,255,255,.09);
+    transform:translateX(100%);transition:transform .15s ease;
+    padding:24px 20px 28px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;
+    box-shadow:-20px 0 50px rgba(0,0,0,.45)}
+  #panel.open{transform:none}
+  #panelToggle{position:fixed;z-index:9;top:50%;right:0;transform:translateY(-50%);
+    background:rgba(11,15,23,.92);border:1px solid rgba(255,255,255,.1);border-right:0;
+    border-radius:11px 0 0 11px;color:#cdd6e6;cursor:pointer;padding:16px 9px;font-size:11px;
+    writing-mode:vertical-rl;letter-spacing:.16em;text-transform:uppercase;transition:transform .15s ease}
+  #panelToggle.open{transform:translateY(-50%) translateX(-272px)}
+  #panelToggle:hover{background:rgba(255,255,255,.13)}
+  #panel h3{margin:0;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff}
+  #panel h4{margin:6px 0 -4px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#7f8aa0;
+    border-top:1px solid rgba(255,255,255,.07);padding-top:13px}
+  #panel .row{display:flex;flex-direction:column;gap:7px}
+  #panel .row .top{display:flex;justify-content:space-between;align-items:baseline}
+  #panel .lbl{font-size:10.5px;letter-spacing:.06em;color:#aeb8ca}
+  #panel .val{font-size:10.5px;color:#7f8aa0;font-variant-numeric:tabular-nums}
+  #panel input[type=range]{width:100%;accent-color:var(--concept)}
+  #panel .seg{display:flex;border:1px solid rgba(255,255,255,.1);border-radius:8px;overflow:hidden}
+  #panel .seg button{flex:1;border:0;background:rgba(255,255,255,.05);color:#cdd6e6;height:28px;font-size:11px;cursor:pointer}
+  #panel .seg button.on{background:var(--concept);color:#06080d;font-weight:650}
+  #panel .btnrow{display:flex;gap:8px}
+  #panel .btnrow button{flex:1;background:rgba(255,255,255,.06);color:#cdd6e6;border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;height:30px;font-size:15px;cursor:pointer}
+  #panel .btnrow button:hover{background:rgba(255,255,255,.14)}
+  #panel .tog{display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+    font-size:11.5px;color:#cdd6e6}
+  #panel .tog .sw{width:34px;height:19px;border-radius:99px;background:rgba(255,255,255,.14);position:relative;transition:.18s}
+  #panel .tog .sw::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#cdd6e6;transition:.18s}
+  #panel .tog.on .sw{background:var(--source)}
+  #panel .tog.on .sw::after{left:17px;background:#06080d}
+
+  /* ── Controls panel additions ─────────────────────────── */
+  .btn-row{display:flex;gap:6px;margin-top:5px}
+  .btn-row button{flex:1;padding:6px 0;font-size:11px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.10);border-radius:5px;color:var(--ink);
+    cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+  .btn-row button:hover{background:rgba(255,255,255,.12)}
+  .btn-row button.active{background:rgba(70,177,255,.15);border-color:rgba(70,177,255,.30);color:#46b1ff}
+  .vb-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 28px;margin-top:5px}
+  .vb-item{font-size:11px;display:flex;justify-content:space-between;padding:1px 0}
+  .vb-item .lbl{color:var(--muted)}
+  .vb-item .cnt{color:var(--ink)}
+  .obs-ta{width:100%;box-sizing:border-box;background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.10);border-radius:5px;color:var(--ink);
+    font-size:11px;padding:6px 8px;resize:vertical;min-height:52px;
+    margin-top:5px;font-family:inherit}
+  .obs-ta::placeholder{color:var(--muted)}
+  .obs-ta:focus{outline:none;border-color:rgba(70,177,255,.30)}
+  .obs-btn{width:100%;margin-top:5px;padding:6px 0;font-size:11px;
+    background:rgba(70,177,255,.10);border:1px solid rgba(70,177,255,.22);
+    border-radius:5px;color:#46b1ff;cursor:pointer;transition:background .15s}
+  .obs-btn:hover{background:rgba(70,177,255,.20)}
+  .obs-btn:disabled{opacity:.45;cursor:default}
+  .agent-pulse{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4;
+    word-break:break-word;min-height:16px}
+  .agent-pulse .ap-name{color:var(--concept)}
+  .manage-lnk{display:block;font-size:11px;color:var(--muted);text-decoration:none;
+    margin-top:4px;text-align:right;opacity:.7}
+  .manage-lnk:hover{opacity:1;color:var(--ink)}
+
+  /* click-to-read detail panel */
+  #detail{position:fixed;z-index:9;top:80px;right:22px;width:300px;
+    max-height:calc(100vh - 110px);overflow-y:auto;
+    background:rgba(13,17,26,.96);border:1px solid rgba(255,255,255,.1);border-radius:14px;
+    padding:16px 16px 17px;backdrop-filter:blur(10px);box-shadow:0 22px 60px rgba(0,0,0,.6);
+    opacity:0;transform:translateY(-6px);pointer-events:none;transition:.16s ease;
+    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
+  #detail.on{opacity:1;transform:none;pointer-events:auto}
+  #detail .chip-more{color:#b39dff;border-color:rgba(179,157,255,.3);font-size:10.5px}
+  #detail .x{position:absolute;top:11px;right:13px;color:var(--muted);cursor:pointer;font-size:17px;line-height:1}
+  #detail .x:hover{color:#fff}
+  #detail .dt{font-size:16px;font-weight:680;color:#fff;display:flex;align-items:center;gap:9px;margin:0 18px 9px 0}
+  #detail .tag{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border-radius:999px;color:#06080d;font-weight:700}
+  #detail .ds{font-size:12.5px;color:#aeb8ca;line-height:1.55}
+  #detail .nb{margin-top:14px}
+  #detail .nb .h{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  #detail .chip{display:inline-block;font-size:11px;color:#cdd6e6;background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.08);border-radius:7px;padding:3px 8px;margin:0 5px 5px 0;cursor:pointer}
+  #detail .chip:hover{background:rgba(255,255,255,.15);color:#fff}
+  #detail .open{display:block;text-align:center;margin-top:14px;background:var(--concept);color:#06080d;
+    font-weight:650;font-size:12px;padding:8px 12px;border-radius:9px;text-decoration:none;cursor:pointer}
+  #detail .open:hover{filter:brightness(1.08)}
+
+  /* ───────── impeccable polish ───────── */
+  @keyframes nv-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  #head{animation:nv-in .5s cubic-bezier(.2,.8,.2,1) both}
+  #stats{animation:nv-in .5s cubic-bezier(.2,.8,.2,1) both .05s}
+  #legend,#hint{animation:nv-in .6s cubic-bezier(.2,.8,.2,1) both .12s}
+
+  /* sharper numeric hierarchy in the top-right readout */
+  #stats{gap:30px}
+  #stats .stat .n{letter-spacing:-.03em;font-feature-settings:"tnum" 1;transition:color .3s}
+  #stats .stat .l{opacity:.82}
+  #head p{color:#8b97ad;max-width:52ch}
+
+  /* refined range sliders (custom thumb + glow) */
+  #panel input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:99px;
+    background:rgba(255,255,255,.13);outline:none}
+  #panel input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+    background:#eaf1fb;border:0;cursor:pointer;box-shadow:0 0 0 4px rgba(70,177,255,.16);
+    transition:box-shadow .15s,transform .1s}
+  #panel input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.14);box-shadow:0 0 0 6px rgba(70,177,255,.28)}
+  #panel input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#eaf1fb;border:0;cursor:pointer}
+
+  /* crisper interaction + accessible focus */
+  #panel .btnrow button,#panel .seg button{transition:background .15s,color .15s,transform .08s}
+  #panel .btnrow button:active{transform:translateY(1px)}
+  #panelToggle{transition:transform .15s ease,background .15s}
+  :focus-visible{outline:2px solid var(--concept);outline-offset:2px}
+
+  /* panel rhythm */
+  #panel{gap:15px}
+  #panel h4{margin-top:14px}
+
+  @media (prefers-reduced-motion:reduce){#head,#stats,#legend,#hint{animation:none}}
+
+  /* search */
+  #searchWrap{position:fixed;z-index:31;top:10px;left:50%;transform:translateX(-50%);width:300px;max-width:38vw}
+  #search{width:100%;box-sizing:border-box;background:rgba(13,17,26,.9);border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;color:var(--ink);font-size:13px;padding:9px 13px;outline:none;backdrop-filter:blur(8px);
+    transition:border-color .15s,box-shadow .15s}
+  #search::placeholder{color:#6b7689}
+  #search:focus{border-color:rgba(70,177,255,.55);box-shadow:0 0 0 3px rgba(70,177,255,.14)}
+  #searchCount{font-size:10.5px;color:var(--muted);margin-top:5px;text-align:center;height:13px}
+  #searchResults{margin-top:4px;background:rgba(13,17,26,.96);border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;overflow:hidden;backdrop-filter:blur(8px);display:none}
+  #searchResults.on{display:block}
+  #searchResults .r{padding:8px 12px;font-size:12.5px;color:#cdd6e6;cursor:pointer;display:flex;
+    justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.05)}
+  #searchResults .r:last-child{border-bottom:0}
+  #searchResults .r:hover{background:rgba(255,255,255,.08);color:#fff}
+  #searchResults .r .ty{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#7f8aa0;flex:none}
+
+  /* refresh button */
+  #refreshBtn{position:fixed;z-index:8;bottom:52px;right:22px;width:40px;height:40px;border-radius:50%;
+    background:rgba(13,17,26,.9);border:1px solid rgba(255,255,255,.12);color:#cdd6e6;font-size:18px;
+    cursor:pointer;backdrop-filter:blur(8px);transition:background .15s}
+  #refreshBtn:hover{background:rgba(255,255,255,.14);color:#fff}
+  #refreshBtn.spin{animation:spin360 .5s ease}
+  @keyframes spin360{to{transform:rotate(360deg)}}
+
+  /* editor (slice 2) */
+  #detail .edit{display:block;width:100%;box-sizing:border-box;margin-top:12px;height:240px;resize:vertical;
+    background:rgba(5,7,12,.7);border:1px solid rgba(255,255,255,.12);border-radius:9px;color:#dfe7f2;
+    font:12px/1.5 ui-monospace,"Cascadia Code",Consolas,monospace;padding:10px;outline:none;display:none}
+  #detail .edit.on{display:block}
+  #detail .editrow{display:none;gap:8px;margin-top:9px}
+  #detail .editrow.on{display:flex}
+  #detail .editrow button{flex:1;height:30px;border-radius:8px;border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.06);color:#cdd6e6;font-size:12px;cursor:pointer}
+  #detail .editrow button.save{background:var(--source);color:#06080d;font-weight:650;border:0}
+  #detail .editrow button:hover{filter:brightness(1.1)}
+  /* loading screen */
+  #loadScreen{position:fixed;inset:0;z-index:999;background:#06080d;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;transition:opacity .5s ease;pointer-events:all}
+  #loadScreen svg{animation:ls-spin 14s linear infinite;margin-bottom:22px;filter:drop-shadow(0 0 18px #7b6fff66)}
+  @keyframes ls-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .ls-title{font:750 18px/1 'Inter',system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;
+    color:#e2e4f0;margin-bottom:7px}
+  .ls-sub{font:400 11px/1 'Inter',system-ui,sans-serif;letter-spacing:.12em;color:#505878}
+  #lsBtn{margin-top:20px;padding:9px 32px;font:600 11px/1 'Inter',system-ui,sans-serif;
+    letter-spacing:.14em;text-transform:uppercase;border-radius:8px;
+    border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
+    color:rgba(255,255,255,.2);cursor:default;transition:all .35s ease;pointer-events:none}
+  #lsBtn.live{background:rgba(70,177,255,.18);border-color:rgba(70,177,255,.38);
+    color:#46b1ff;cursor:pointer;pointer-events:all}
+  #lsBtn.offline{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);
+    color:rgba(255,255,255,.55);cursor:pointer;pointer-events:all}
+  #lsBtn.live:hover{background:rgba(70,177,255,.30)}
+  #lsBtn.offline:hover{background:rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+<div id="loadScreen"><svg viewBox="-65 -65 130 130" width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+  <defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8b7fff" stop-opacity="0.38"/><stop offset="32%" stop-color="#4fb3ff" stop-opacity="0.14"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
+  <circle cx="0" cy="0" r="44" fill="url(#cg)"/>
+  <g stroke="rgba(90,150,240,0.17)" stroke-width="0.65" fill="none">
+    <line x1="-22" y1="-48" x2="5" y2="-52"/><line x1="5" y1="-52" x2="20" y2="-48"/><line x1="20" y1="-48" x2="36" y2="-38"/>
+    <line x1="36" y1="-38" x2="48" y2="-28"/><line x1="48" y1="-28" x2="51" y2="5"/><line x1="51" y1="5" x2="55" y2="-10"/>
+    <line x1="51" y1="5" x2="40" y2="34"/><line x1="40" y1="34" x2="22" y2="42"/><line x1="22" y1="42" x2="8" y2="53"/>
+    <line x1="8" y1="53" x2="-30" y2="44"/><line x1="-30" y1="44" x2="-38" y2="34"/><line x1="-38" y1="34" x2="-51" y2="14"/>
+    <line x1="-51" y1="14" x2="-55" y2="-6"/><line x1="-55" y1="-6" x2="-44" y2="-30"/><line x1="-44" y1="-30" x2="-34" y2="-22"/>
+    <line x1="-34" y1="-22" x2="-22" y2="-48"/><line x1="5" y1="-52" x2="36" y2="-38"/><line x1="20" y1="-48" x2="5" y2="-52"/>
+    <line x1="-30" y1="44" x2="-51" y2="14"/><line x1="-55" y1="-6" x2="-44" y2="-30"/><line x1="55" y1="-10" x2="51" y2="5"/>
+    <line x1="48" y1="-28" x2="36" y2="-38"/><line x1="22" y1="42" x2="-30" y2="44"/>
+    <line x1="-22" y1="-48" x2="-18" y2="-30"/><line x1="5" y1="-52" x2="-3" y2="-40"/><line x1="20" y1="-48" x2="15" y2="-28"/>
+    <line x1="36" y1="-38" x2="30" y2="-16"/><line x1="48" y1="-28" x2="35" y2="20"/><line x1="51" y1="5" x2="28" y2="18"/>
+    <line x1="40" y1="34" x2="0" y2="30"/><line x1="22" y1="42" x2="14" y2="30"/><line x1="8" y1="53" x2="14" y2="30"/>
+    <line x1="-30" y1="44" x2="-10" y2="31"/><line x1="-38" y1="34" x2="-10" y2="31"/><line x1="-51" y1="14" x2="-26" y2="20"/>
+    <line x1="-55" y1="-6" x2="-28" y2="-4"/><line x1="-44" y1="-30" x2="-18" y2="-30"/><line x1="-34" y1="-22" x2="-18" y2="-30"/>
+    <line x1="-3" y1="-40" x2="-18" y2="-30"/><line x1="-18" y1="-30" x2="-28" y2="-4"/><line x1="-28" y1="-4" x2="-26" y2="20"/>
+    <line x1="-26" y1="20" x2="-10" y2="31"/><line x1="-10" y1="31" x2="0" y2="30"/><line x1="0" y1="30" x2="14" y2="30"/>
+    <line x1="14" y1="30" x2="28" y2="18"/><line x1="28" y1="18" x2="35" y2="20"/><line x1="35" y1="20" x2="30" y2="-16"/>
+    <line x1="30" y1="-16" x2="15" y2="-28"/><line x1="15" y1="-28" x2="-3" y2="-40"/><line x1="15" y1="-28" x2="-18" y2="-30"/>
+    <line x1="30" y1="-16" x2="-3" y2="-40"/><line x1="-26" y1="20" x2="0" y2="30"/><line x1="-10" y1="31" x2="14" y2="30"/>
+    <line x1="-28" y1="-4" x2="-18" y2="-30"/><line x1="-34" y1="-22" x2="-8" y2="-5"/>
+    <line x1="-3" y1="-40" x2="0" y2="-18"/><line x1="-18" y1="-30" x2="-5" y2="-22"/><line x1="-28" y1="-4" x2="-22" y2="8"/>
+    <line x1="-26" y1="20" x2="-15" y2="10"/><line x1="0" y1="30" x2="5" y2="14"/><line x1="14" y1="30" x2="5" y2="14"/>
+    <line x1="28" y1="18" x2="20" y2="6"/><line x1="35" y1="20" x2="20" y2="6"/><line x1="30" y1="-16" x2="16" y2="-8"/>
+    <line x1="15" y1="-28" x2="8" y2="-20"/><line x1="-18" y1="-30" x2="0" y2="-18"/>
+    <line x1="-28" y1="-4" x2="-8" y2="-5"/><line x1="-3" y1="-40" x2="-8" y2="-5"/><line x1="15" y1="-28" x2="-8" y2="-5"/>
+    <line x1="28" y1="18" x2="5" y2="14"/><line x1="-10" y1="31" x2="5" y2="14"/><line x1="-26" y1="20" x2="-8" y2="-5"/>
+    <line x1="0" y1="-18" x2="-5" y2="-22"/><line x1="0" y1="-18" x2="8" y2="-20"/><line x1="0" y1="-18" x2="16" y2="-8"/>
+    <line x1="-5" y1="-22" x2="-8" y2="-5"/><line x1="-5" y1="-22" x2="8" y2="-20"/><line x1="8" y1="-20" x2="16" y2="-8"/>
+    <line x1="16" y1="-8" x2="-8" y2="-5"/><line x1="16" y1="-8" x2="20" y2="6"/><line x1="20" y1="6" x2="5" y2="14"/>
+    <line x1="-22" y1="8" x2="-15" y2="10"/><line x1="-22" y1="8" x2="-8" y2="-5"/><line x1="-15" y1="10" x2="-8" y2="-5"/>
+    <line x1="-15" y1="10" x2="5" y2="14"/><line x1="8" y1="-20" x2="-8" y2="-5"/>
+    <line x1="-5" y1="-22" x2="-3" y2="-40"/><line x1="20" y1="6" x2="16" y2="-8"/>
+    <line x1="-22" y1="8" x2="-26" y2="20"/><line x1="20" y1="6" x2="28" y2="18"/>
+    <line x1="-8" y1="-5" x2="5" y2="14"/><line x1="5" y1="14" x2="16" y2="-8"/><line x1="-8" y1="-5" x2="-5" y2="-22"/>
+    <line x1="-22" y1="-48" x2="-3" y2="-40"/><line x1="20" y1="-48" x2="-3" y2="-40"/><line x1="48" y1="-28" x2="30" y2="-16"/>
+    <line x1="55" y1="-10" x2="35" y2="20"/><line x1="22" y1="42" x2="0" y2="30"/><line x1="-38" y1="34" x2="-26" y2="20"/>
+    <line x1="-51" y1="14" x2="-28" y2="-4"/><line x1="-44" y1="-30" x2="-3" y2="-40"/><line x1="-34" y1="-22" x2="-28" y2="-4"/>
+    <line x1="-44" y1="-30" x2="-28" y2="-4"/><line x1="20" y1="6" x2="14" y2="30"/><line x1="-10" y1="31" x2="-15" y2="10"/>
+    <line x1="28" y1="18" x2="16" y2="-8"/><line x1="15" y1="-28" x2="16" y2="-8"/><line x1="0" y1="30" x2="20" y2="6"/>
+    <line x1="-3" y1="-40" x2="-5" y2="-22"/><line x1="35" y1="20" x2="16" y2="-8"/><line x1="-28" y1="-4" x2="-5" y2="-22"/>
+    <line x1="8" y1="53" x2="0" y2="30"/><line x1="0" y1="-18" x2="20" y2="6"/><line x1="0" y1="-18" x2="-8" y2="-5"/>
+    <line x1="-55" y1="-6" x2="-51" y2="14"/><line x1="40" y1="34" x2="14" y2="30"/><line x1="-30" y1="44" x2="0" y2="30"/>
+    <line x1="36" y1="-38" x2="-3" y2="-40"/><line x1="-26" y1="20" x2="-28" y2="-4"/>
+  </g>
+  <g fill="#8ab4ff">
+    <circle cx="-4" cy="2" r="1.8" opacity="0.55"/><circle cx="5" cy="-3" r="1.6" opacity="0.5"/>
+    <circle cx="0" cy="7" r="1.5" opacity="0.45"/><circle cx="-6" cy="-4" r="1.8" opacity="0.5"/>
+    <circle cx="4" cy="6" r="1.5" opacity="0.45"/><circle cx="3" cy="-8" r="1.6" opacity="0.5"/>
+    <circle cx="-3" cy="8" r="1.5" opacity="0.4"/><circle cx="8" cy="1" r="1.7" opacity="0.5"/>
+    <circle cx="-8" cy="2" r="1.5" opacity="0.45"/><circle cx="2" cy="-10" r="1.5" opacity="0.4"/>
+    <circle cx="-10" cy="3" r="1.4" opacity="0.4"/><circle cx="10" cy="-2" r="1.5" opacity="0.45"/>
+    <circle cx="1" cy="11" r="1.4" opacity="0.38"/><circle cx="-2" cy="-11" r="1.5" opacity="0.4"/>
+    <circle cx="6" cy="-14" r="1.4" opacity="0.38"/><circle cx="-14" cy="5" r="1.4" opacity="0.36"/>
+  </g>
+  <circle cx="-22" cy="-48" r="2" fill="#56d364" opacity="0.78"/><circle cx="5" cy="-52" r="2.5" fill="#56d364" opacity="0.82"/>
+  <circle cx="20" cy="-48" r="2" fill="#46b1ff" opacity="0.78"/><circle cx="36" cy="-38" r="2.5" fill="#56d364" opacity="0.82"/>
+  <circle cx="48" cy="-28" r="2.5" fill="#46b1ff" opacity="0.82"/><circle cx="51" cy="5" r="2.5" fill="#46b1ff" opacity="0.82"/>
+  <circle cx="55" cy="-10" r="2" fill="#56d364" opacity="0.72"/><circle cx="40" cy="34" r="2.5" fill="#56d364" opacity="0.8"/>
+  <circle cx="22" cy="42" r="2" fill="#46b1ff" opacity="0.78"/><circle cx="8" cy="53" r="2" fill="#56d364" opacity="0.78"/>
+  <circle cx="-30" cy="44" r="2" fill="#56d364" opacity="0.78"/><circle cx="-38" cy="34" r="2.5" fill="#56d364" opacity="0.8"/>
+  <circle cx="-51" cy="14" r="2.5" fill="#ff9e3d" opacity="0.82"/><circle cx="-55" cy="-6" r="2" fill="#56d364" opacity="0.72"/>
+  <circle cx="-44" cy="-30" r="2.5" fill="#56d364" opacity="0.8"/><circle cx="-34" cy="-22" r="3" fill="#56d364" opacity="0.83"/>
+  <circle cx="-3" cy="-40" r="3" fill="#56d364" opacity="0.82"/><circle cx="-18" cy="-30" r="3.5" fill="#56d364" opacity="0.83"/>
+  <circle cx="-28" cy="-4" r="4" fill="#56d364" opacity="0.85"/><circle cx="-26" cy="20" r="4" fill="#46b1ff" opacity="0.85"/>
+  <circle cx="-10" cy="31" r="4" fill="#56d364" opacity="0.84"/><circle cx="0" cy="30" r="4" fill="#ff9e3d" opacity="0.85"/>
+  <circle cx="14" cy="30" r="4" fill="#ff9e3d" opacity="0.84"/><circle cx="28" cy="18" r="4" fill="#46b1ff" opacity="0.85"/>
+  <circle cx="35" cy="20" r="3.5" fill="#46b1ff" opacity="0.83"/><circle cx="30" cy="-16" r="4" fill="#56d364" opacity="0.85"/>
+  <circle cx="15" cy="-28" r="3.5" fill="#56d364" opacity="0.83"/>
+  <circle cx="0" cy="-18" r="4.5" fill="#56d364" opacity="0.86"/><circle cx="20" cy="6" r="4.5" fill="#56d364" opacity="0.86"/>
+  <circle cx="-5" cy="-22" r="4.5" fill="#46b1ff" opacity="0.86"/><circle cx="8" cy="-20" r="4" fill="#56d364" opacity="0.84"/>
+  <circle cx="16" cy="-8" r="4.5" fill="#46b1ff" opacity="0.86"/><circle cx="-22" cy="8" r="4" fill="#46b1ff" opacity="0.85"/>
+  <circle cx="-15" cy="10" r="4.5" fill="#ff9e3d" opacity="0.86"/>
+  <circle cx="-8" cy="-5" r="7.5" fill="#b98cff" opacity="0.92"/><circle cx="5" cy="14" r="6" fill="#b98cff" opacity="0.88"/>
+</svg><div class="ls-title">NeuralVault</div><div class="ls-sub" id="lsSub">Connecting…</div></div>
+<canvas id="stage"></canvas>
+<!-- agents iframe — hidden, loaded lazily on first hover, shown instantly on click -->
+<iframe id="agentsFrame" style="display:none;position:fixed;inset:0;border:0;width:100%;height:100%;z-index:100;background:#06080d"></iframe>
+
+<div id="topnav">
+  <div class="brand-cluster">
+    <a class="brand" href="/"><span class="dot"></span> NeuralVault</a>
+    <span class="ollama-status" id="ollamaStatus" title="Ollama local LLM">
+      <span class="os-dot"></span><span class="os-label">Ollama</span>
+    </span>
+  </div>
+  <div class="links">
+    <a href="/" class="active">Map</a>
+    <a href="/manage">Agents</a>
+    <a href="https://github.com/SamuelNDCE/NeuralVault" target="_blank">GitHub ↗</a>
+  </div>
+</div>
+
+<div class="panel" id="head">
+  <p>A living neural map of the vault — neurons are notes, synapses are wikilinks.</p>
+  <div id="liveBadge" style="margin-top:8px;font-size:11px;letter-spacing:.06em;color:var(--muted)">○ static snapshot</div>
+</div>
+
+<div class="panel" id="stats">
+  <div class="stat"><div class="n" id="sNeurons">0</div><div class="l">Neurons</div></div>
+  <div class="stat"><div class="n" id="sSynapses">0</div><div class="l">Synapses</div></div>
+  <div class="stat"><div class="n" id="sFirings">0</div><div class="l">Fires/s</div></div>
+</div>
+
+<div id="searchWrap">
+  <input id="search" type="text" placeholder="🔍  Search neurons…" autocomplete="off" spellcheck="false" />
+  <div id="searchCount"></div>
+  <div id="searchResults"></div>
+</div>
+
+<div class="panel" id="legend"></div>
+<div class="panel" id="hint"><b>Click</b> a neuron to read / open · <b>Hover</b> to peek · <b>Drag</b> a neuron to pull · <b>Drag canvas</b> to orbit · <b>Shift-drag</b> to pan · <b>Scroll</b> to zoom · <b>Double-click</b> to fit</div>
+<button id="refreshBtn" title="Refresh from vault (re-sync + re-fit)">↻</button>
+
+<div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div></div>
+
+<div id="detail">
+  <span class="x" id="detailX">×</span>
+  <div class="dt"><span class="tag"></span><span class="dttl"></span></div>
+  <div class="ds"></div>
+  <div class="nb"><div class="h">Connected neurons</div><div class="chips"></div></div>
+  <a class="open" id="detailOpen">Open in Obsidian ↗</a>
+  <button class="open" id="detailEdit" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#cdd6e6;margin-top:8px">✎ Edit note</button>
+  <textarea class="edit" id="detailEditor" spellcheck="false" placeholder="note markdown…"></textarea>
+  <div class="editrow" id="detailEditRow">
+    <button id="detailSave" class="save">Save</button>
+    <button id="detailCancel">Cancel</button>
+  </div>
+</div>
+
+<button id="panelToggle">Controls</button>
+<div id="panel">
+  <h3>🧠 NeuralVault</h3>
+
+  <h4>View</h4>
+  <div class="btn-row">
+    <button id="fitBtn" title="Zoom to fit all neurons">Fit view</button>
+    <button id="lblBtn" title="Toggle node labels">Labels</button>
+  </div>
+
+  <h4>Learning</h4>
+  <div class="tog on" id="learnTog"><span>STDP learning</span><span class="sw"></span></div>
+  <div class="row"><div class="top"><span class="lbl">Activity</span><span class="val" id="actV">0 fires/s</span></div></div>
+  <div class="row"><div class="top"><span class="lbl">Memory</span><span class="val" id="memV">—</span></div></div>
+
+  <h4>Vault</h4>
+  <div class="vb-grid" id="vbGrid">
+    <div class="vb-item"><span class="lbl">concept</span><span class="cnt" id="vbConcept">—</span></div>
+    <div class="vb-item"><span class="lbl">source</span><span class="cnt" id="vbSource">—</span></div>
+    <div class="vb-item"><span class="lbl">lesson</span><span class="cnt" id="vbLesson">—</span></div>
+    <div class="vb-item"><span class="lbl">entity</span><span class="cnt" id="vbEntity">—</span></div>
+    <div class="vb-item"><span class="lbl">hub</span><span class="cnt" id="vbHub">—</span></div>
+    <div class="vb-item"><span class="lbl">person</span><span class="cnt" id="vbPerson">—</span></div>
+  </div>
+
+  <h4>Observe</h4>
+  <textarea class="obs-ta" id="obsText" rows="3" placeholder="Add a thought to the vault…"></textarea>
+  <button class="obs-btn" id="obsBtn">Save to vault</button>
+
+  <h4>Storage</h4>
+  <div class="row"><div class="top"><span class="lbl">Brain size</span><span class="val" id="stoTotal">—</span></div></div>
+  <div class="row"><div class="top"><span class="lbl">Memory</span><span class="val" id="stoMem">—</span></div></div>
+  <div class="row"><div class="top"><span class="lbl">Notes / engine</span><span class="val" id="stoBreak">—</span></div></div>
+
+  <h4>Agents</h4>
+  <div class="agent-pulse" id="agentPulse">—</div>
+  <a class="manage-lnk" href="/manage">→ Agents page</a>
+</div>
+
+<script>
+/* ---------- The brain: extracted from the real wiki (Claude/wiki) ---------- */
+const TYPES = {
+  hub:    {color:'#b98cff', label:'Hub / index'},
+  person: {color:'#ffd23d', label:'Person'},
+  org:    {color:'#ff5d8f', label:'Org / business'},
+  system: {color:'#2dd4bf', label:'System / infra'},
+  entity: {color:'#ff9e3d', label:'Entity (tool / catalog)'},
+  concept:{color:'#46b1ff', label:'Concept (mental model)'},
+  source: {color:'#56d364', label:'Source (session / doc)'},
+  ext:    {color:'#6f8bb6', label:'External note'},
+  section:{color:'#a0a0c8', label:'Section (sub-neuron)'},
+};
+function blendHex(c1,c2,t){
+  const r1=parseInt(c1.slice(1,3),16),g1=parseInt(c1.slice(3,5),16),b1=parseInt(c1.slice(5,7),16);
+  const r2=parseInt(c2.slice(1,3),16),g2=parseInt(c2.slice(3,5),16),b2=parseInt(c2.slice(5,7),16);
+  return '#'+[r1+(r2-r1)*t,g1+(g2-g1)*t,b1+(b2-b1)*t].map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');
+}
+
+const EMB_NODES = [
+  {id:'home',  t:'hub',     label:'Claude Home',         s:'The MOC hub of the second brain — every branch links from here.'},
+  {id:'index', t:'hub',     label:'Wiki Index',          s:'Master catalog. Read order: hot → index → a page.'},
+  {id:'hot',   t:'hub',     label:'Hot Cache',           s:'~500-word snapshot of current state, read first each session.'},
+  {id:'samuel',t:'person',  label:'Samuel',              s:'GitHub SamuelNDCE · Windows 11 / PowerShell · TS-JS lean · builds AI agents · into side hustles & content.'},
+  {id:'plugins',t:'entity', label:'Plugins',             s:'14 Claude Code plugins (user scope): superpowers, impeccable, claude-obsidian, frontend-design, ai-engineering…'},
+  {id:'skills', t:'entity', label:'Skills',              s:'Every skill grouped by domain: prompt-eng, second-brain, dev-workflow, frontend/design, docs.'},
+  {id:'mcp',    t:'entity', label:'MCP Servers',         s:'12 servers: account connectors (Opera GX, Gmail, Calendar, Drive, vidIQ, Spotify, Canva, Slack) + plugin + CLI.'},
+  {id:'clis',   t:'entity', label:'CLIs',                s:'npm + Scoop tools: claude-code, gh, vercel, supabase, playwright, opera-browser-cli.'},
+  {id:'tok',    t:'concept',label:'Token Optimization',  s:'Cost is driven by baseline context per turn — prune unused connectors, disable idle plugins, measure.'},
+  {id:'pvc',    t:'concept',label:'Plugins vs Connectors',s:'Two runtimes that DON\'T share context: the claude CLI vs this Cowork chat.'},
+  {id:'mcpc',   t:'concept',label:'What is MCP',         s:'Model Context Protocol — how the agent gains tools: account connectors, plugin-provided, CLI-added.'},
+  {id:'wiki',   t:'concept',label:'LLM Wiki Pattern',    s:'Karpathy\'s compounding knowledge base of small cross-linked notes — re-read a lean index, don\'t re-derive.'},
+  {id:'src',    t:'source', label:'Environment Setup',   s:'2026-06-05 — the session that built the toolchain, plugins, connectors and this wiki.'},
+  {id:'cust',   t:'ext',    label:'How to win customers',s:'Existing note in "Side hustle and money" — Samuel\'s acquisition / retention thinking.'},
+  {id:'perp',   t:'org',    label:'PerpetualTechnologies',s:'Samuel\'s business on Odoo (perpetualtechnologies.odoo.com) — a design target.'},
+  {id:'lab',    t:'system', label:'Homelab',             s:'Self-hosted infra on 192.168.55.74: TrueNAS + Crafty + Minecraft. Could host self-hosted AI.'},
+  {id:'proj',   t:'entity', label:'Projects',            s:'Active work: agent.ts, browser-agent.ts, NumberGuessingGame.py, this neural map, the Perpetual site.'},
+  {id:'kgv',    t:'concept',label:'Knowledge-graph Viz', s:'Render the brain as firing neurons. 4 pillars: fire, remember, find patterns, watch screen. This map is pillar #1.'},
+  {id:'ccs',    t:'concept',label:'Content-creation Stack',s:'vidIQ + Canva connectors signal Samuel is (becoming) a creator — content as a funnel.'},
+  {id:'src2',   t:'source', label:'Brain Enrichment',    s:'2026-06-05 — built this neural map and learned Samuel\'s wider world (business, homelab, creator).'},
+];
+
+const EMB_EDGES = [
+  ['index','samuel'],['index','plugins'],['index','skills'],['index','mcp'],['index','clis'],
+  ['index','tok'],['index','pvc'],['index','mcpc'],['index','wiki'],['index','src'],['index','hot'],
+  ['hot','samuel'],['hot','plugins'],['hot','skills'],['hot','mcp'],['hot','clis'],['hot','tok'],['hot','pvc'],['hot','cust'],
+  ['home','samuel'],['home','plugins'],['home','clis'],['home','mcp'],['home','tok'],
+  ['samuel','plugins'],['samuel','skills'],['samuel','clis'],['samuel','cust'],['samuel','home'],
+  ['plugins','skills'],['plugins','mcp'],['plugins','tok'],['plugins','wiki'],['plugins','clis'],
+  ['skills','mcp'],['skills','tok'],['skills','wiki'],
+  ['mcp','mcpc'],['mcp','clis'],
+  ['clis','plugins'],
+  ['tok','pvc'],['tok','mcp'],['tok','src'],
+  ['pvc','mcpc'],['pvc','mcp'],
+  ['mcpc','tok'],
+  ['wiki','index'],['wiki','src'],['wiki','kgv'],
+  ['src','plugins'],['src','clis'],['src','mcp'],['src','pvc'],['src','tok'],['src','mcpc'],['src','samuel'],
+  // enrichment session
+  ['perp','samuel'],['perp','lab'],['perp','proj'],['perp','cust'],['perp','ccs'],['perp','plugins'],
+  ['lab','samuel'],['lab','clis'],['lab','mcp'],['lab','proj'],
+  ['proj','samuel'],['proj','skills'],['proj','kgv'],['proj','home'],
+  ['kgv','samuel'],['kgv','skills'],['kgv','mcp'],
+  ['ccs','mcp'],['ccs','samuel'],['ccs','kgv'],
+  ['src2','index'],['src2','hot'],['src2','src'],['src2','samuel'],['src2','perp'],
+  ['src2','lab'],['src2','proj'],['src2','kgv'],['src2','ccs'],['src2','home'],
+];
+
+/* ---------- setup ---------- */
+const cv = document.getElementById('stage'), ctx = cv.getContext('2d');
+let W,H,DPR; const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+  cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);}
+addEventListener('resize',resize);resize();
+
+// live, rebuildable graph state — positions persist across refreshes
+let NODES=[], byId={}, adj={}, edges=[];
+function setGraph(rawNodes, rawEdges){
+  const prev={}; NODES.forEach(n=>prev[n.id]=n);
+  const next = rawNodes.map(rn=>{ const p=prev[rn.id]; const n=Object.assign({},rn);
+    if(p){
+      n.x=p.x;n.y=p.y;n.z=p.z||0;n.vx=p.vx;n.vy=p.vy;n.vz=p.vz||0;n.glow=p.glow;n.dust=p.dust;
+      // Snap to ring if far off (handles stale layout from old code)
+      if(n.t!=='section'){
+        const ox=n.x-W/2,oy=n.y-H/2,oz=n.z||0;
+        const dist=Math.hypot(ox,oy,oz)||1;
+        if(dist<10){ const a1=Math.random()*6.283,a2=Math.acos(2*Math.random()-1),r=200;
+          n.x=W/2+r*Math.sin(a2)*Math.cos(a1);n.y=H/2+r*Math.sin(a2)*Math.sin(a1);n.z=r*Math.cos(a2); } }
+    }
+    else{ const a1=Math.random()*6.283, a2=Math.acos(2*Math.random()-1);
+      const base=rn.t==='hub'?80:rn.t==='section'?220:300;
+      const rad=base+(Math.random()-0.5)*180;
+      n.x=W/2+rad*Math.sin(a2)*Math.cos(a1); n.y=H/2+rad*Math.sin(a2)*Math.sin(a1); n.z=rad*Math.cos(a2);
+      n.vx=0;n.vy=0;n.vz=0;n.glow=0.7; }
+    if(!n._rjitter) n._rjitter=(Math.random()-0.5)*340;
+    return n; });
+  const idset=new Set(next.map(n=>n.id));
+  byId={}; next.forEach(n=>byId[n.id]=n);
+  // section nodes: color blends 65% toward parent type, sections stay visually smaller
+  next.forEach(n=>{
+    if(n.t==='section'){
+      const par=byId[n.parent||''];
+      const pc=(par&&TYPES[par.t])?TYPES[par.t].color:TYPES.section.color;
+      n._color=blendHex(pc,TYPES.section.color,0.35);
+    } else { n._color=(TYPES[n.t]||TYPES.ext).color; }
+  });
+  adj={};  next.forEach(n=>adj[n.id]=new Set());
+  const seen=new Set(); edges=[];
+  (rawEdges||[]).forEach(e=>{const a=e[0]??e.a, b=e[1]??e.b;
+    if(!idset.has(a)||!idset.has(b)||a===b) return;
+    const k=a<b?a+'|'+b:b+'|'+a; if(seen.has(k)) return; seen.add(k);
+    adj[a].add(b);adj[b].add(a);edges.push({a,b});});
+  // radius = importance: mostly how much DATA the note holds, plus a little connectivity
+  next.forEach(n=>{n.deg=adj[n.id].size;
+    n.r = Math.min(n.t==='section'?9:26, 4 + Math.sqrt(n.size||0)/6 + Math.sqrt(n.deg)*0.9); }); // size-primary: content chars drive radius, connectivity is secondary
+  const _prevLen=NODES.length; NODES=next; drag=null; _physSleep=false; _sleepTicks=0;
+  const _delta=Math.abs(NODES.length-_prevLen); _wantSettle=Math.max(_wantSettle,_delta>20?180:_delta>3?60:20);
+  if(typeof buildSubstrate==='function') buildSubstrate();
+  document.getElementById('sNeurons').textContent=NODES.length;
+  document.getElementById('sSynapses').textContent=edges.length;
+  if(typeof updateVaultBreakdown==='function') updateVaultBreakdown();
+}
+
+// legend
+document.getElementById('legend').innerHTML = Object.values(TYPES).map(t=>
+  `<div class="row"><span class="swatch" style="background:${t.color};box-shadow:0 0 8px ${t.color}"></span>${t.label}</div>`).join('');
+
+/* ---------- 3D force layout ---------- */
+// Concentric orbit rings per type — keeps types separated and spread across the whole sphere
+function physics(){
+  const n=NODES.length; if(!n) return;
+  const springK=0.0001+linkStrength*0.006;
+  const CUT2=700*700;
+  for(let i=0;i<n;i++){ const a=NODES[i];
+    for(let j=i+1;j<n;j++){ const b=NODES[j];
+      const dx=a.x-b.x, dy=a.y-b.y, dz=(a.z||0)-(b.z||0);
+      const d2=dx*dx+dy*dy+dz*dz||1;
+      if(d2>CUT2) continue;
+      const d=Math.sqrt(d2);
+      const w=(a.t==='section'?0.25:1)*(b.t==='section'?0.25:1);
+      const f=Math.min(52000/d2,36)*w, ux=dx/d, uy=dy/d, uz=dz/d;
+      a.vx+=ux*f; a.vy+=uy*f; a.vz+=uz*f; b.vx-=ux*f; b.vy-=uy*f; b.vz-=uz*f; }}
+  edges.forEach(e=>{ const a=byId[e.a],b=byId[e.b]; if(!a||!b) return;
+    const dx=b.x-a.x, dy=b.y-a.y, dz=(b.z||0)-(a.z||0);
+    const d=Math.sqrt(dx*dx+dy*dy+dz*dz)||1;
+    const tgt=(a.t==='section'||b.t==='section')?80:200;
+    const f=(d-tgt)*springK, ux=dx/d, uy=dy/d, uz=dz/d;
+    a.vx+=ux*f; a.vy+=uy*f; a.vz+=uz*f; b.vx-=ux*f; b.vy-=uy*f; b.vz-=uz*f; });
+  // parent-child pull: section neurons orbit close to their parent neuron
+  NODES.forEach(nd=>{
+    if(nd.t!=='section'||!nd.parent) return;
+    const par=byId[nd.parent]; if(!par) return;
+    const dx=par.x-nd.x, dy=par.y-nd.y, dz=(par.z||0)-(nd.z||0);
+    const d=Math.sqrt(dx*dx+dy*dy+dz*dz)||1;
+    const f=(d-70)*0.003, ux=dx/d,uy=dy/d,uz=dz/d;
+    nd.vx+=ux*f; nd.vy+=uy*f; nd.vz+=uz*f;
+    par.vx-=ux*f*0.15; par.vy-=uy*f*0.15; par.vz-=uz*f*0.15;
+  });
+  NODES.forEach(nd=>{ if(nd===drag) return;
+    // shell force — attract each node toward its target radius (hollow sphere, even distribution)
+    const ox=nd.x-W/2, oy=nd.y-H/2, oz=nd.z||0;
+    const r=Math.hypot(ox,oy,oz)||1;
+    // size-stratified: large nodes → center, small nodes → outer, sections → outermost
+    const tgt=nd.t==='hub'?65:nd.t==='section'?295:Math.max(25,280-(nd.r||5)*11);
+    const sf=(r-tgt)*0.00080;
+    nd.vx-=(ox/r)*sf; nd.vy-=(oy/r)*sf; nd.vz-=(oz/r)*sf;
+    // soft center-keep to prevent the whole orb drifting off screen
+    nd.vx-=(nd.x-W/2)*0.00008; nd.vy-=(nd.y-H/2)*0.00008; nd.vz-=(nd.z||0)*0.00008;
+    nd.vx+=(Math.random()-0.5)*0.12; nd.vy+=(Math.random()-0.5)*0.12; nd.vz+=(Math.random()-0.5)*0.12;
+    nd.vx*=0.87; nd.vy*=0.87; nd.vz*=0.87; nd.x+=nd.vx; nd.y+=nd.vy; nd.z=(nd.z||0)+nd.vz;
+    const oxb=nd.x-W/2, oyb=nd.y-H/2, dd=Math.hypot(oxb,oyb,nd.z), R=Math.min(W,H)*0.85;
+    if(dd>R){ const k=R/dd; nd.x=W/2+oxb*k; nd.y=H/2+oyb*k; nd.z*=k; nd.vx*=0.3;nd.vy*=0.3;nd.vz*=0.3; } });
+}
+
+/* ---------- 3D projection + orbit ---------- */
+let rotY=0, TILT=0.42; const FOC=2800;
+let nodeSize=1, showLabels=false;
+let _crY=1,_srY=0,_cT=Math.cos(0.42),_sT=Math.sin(0.42);
+function refreshTrig(){ _crY=Math.cos(rotY);_srY=Math.sin(rotY);_cT=Math.cos(TILT);_sT=Math.sin(TILT); }
+function project(wx,wy,wz){
+  const x=wx-W/2, y=wy-H/2, z=wz||0;
+  const rx=x*_crY-z*_srY, rz=x*_srY+z*_crY;
+  const ry=y*_cT-rz*_sT, rz2=y*_sT+rz*_cT;
+  const persp=FOC/(FOC+rz2);
+  return {wpx:rx*persp, wpy:ry*persp, d:rz2, persp}; }
+function projectNode(n){ const p=project(n.x,n.y,n.z||0);
+  n._wpx=p.wpx; n._wpy=p.wpy; n.sd=p.d; n.persp=p.persp;
+  n.sx=W/2+p.wpx*cam.s+cam.x; n.sy=H/2+p.wpy*cam.s+cam.y; n.ss=p.persp*cam.s; }
+function projectAll(){ refreshTrig(); NODES.forEach(projectNode); }
+
+/* ---------- functional substrate: a spiking micro-neuron net with STDP ----------
+   Real notes are "macro" neurons. Around each we grow many micro-neurons wired into a
+   sparse net. They fire (spikes travel along synapses) and LEARN: a synapse strengthens
+   when its source fired just before its target (spike-timing-dependent plasticity), and
+   weakens otherwise. The learned weights on the REAL graph are persisted to the server
+   (brain-state.json) — the substrate is the visible "thinking", the saved weights are the
+   memory a local LLM could one day read.                                                */
+let SUB=[], subByParent={}, subDensity=1400, learning=true;
+const subPulses=[];
+let fireCount=0, fireWin=0, fireRate=0;
+const STDP_WIN=1100, A_PLUS=0.28, A_MINUS=0.02, THRESH=1.0;   // faster, wider-window learning
+function buildSubstrate(){
+  SUB=[]; subByParent={};
+  if(!NODES.length) return;
+  const total=Math.min(subDensity,6000), per=Math.max(0,Math.floor(total/NODES.length));
+  NODES.forEach(n=>{ const col=n._color||(TYPES[n.t]||TYPES.ext).color, cnt=per+Math.min(n.deg||0,6)*2;
+    for(let i=0;i<cnt;i++){ const a1=Math.random()*6.283,a2=Math.acos(2*Math.random()-1),
+        rr=(n.r*2.4+18)*Math.pow(Math.random(),0.55);
+      SUB.push({pid:n.id, ox:rr*Math.sin(a2)*Math.cos(a1), oy:rr*Math.sin(a2)*Math.sin(a1),
+        oz:rr*Math.cos(a2), col, act:0, last:-1e9, glow:0, vis:false, nb:[]}); } });
+  SUB.forEach((s,idx)=>{ (subByParent[s.pid]=subByParent[s.pid]||[]).push(idx); });
+  const K=5;
+  SUB.forEach((s,idx)=>{ const sib=subByParent[s.pid];
+    for(let k=0;k<K && sib.length>1;k++){ const j=sib[(Math.random()*sib.length)|0];
+      if(j!==idx) s.nb.push({i:j,w:0.3+Math.random()*0.4}); }
+    const nbr=[...(adj[s.pid]||[])];
+    if(nbr.length){ const pool=subByParent[nbr[(Math.random()*nbr.length)|0]];
+      if(pool&&pool.length) s.nb.push({i:pool[(Math.random()*pool.length)|0], w:0.2+Math.random()*0.3}); } });
+  const dv=document.getElementById('densV'); if(dv) dv.textContent=SUB.length.toLocaleString();
+}
+// substrate = visual texture only. NO fake firing — it just softly glows where REAL neurons fire.
+function fireSub(idx){ const s=SUB[idx]; if(s) s.glow=1; }
+function igniteRegion(pid){ const pool=subByParent[pid]; if(!pool) return;
+  for(let k=0;k<Math.min(7,pool.length);k++) fireSub(pool[(Math.random()*pool.length)|0]); }
+function subStep(){ for(const s of SUB) s.glow*=0.9; }   // decay glow only — no synthetic spikes
+
+/* ---------- firing (live, cascading, self-strengthening) ---------- */
+const pulses=[]; let firings=0; const strengths={};   // synapse usage — persists across refreshes
+const ekey=(a,b)=> a<b ? a+'|'+b : b+'|'+a;
+const NORM_TARGET=600;
+// gentle global normalization: only when the peak drifts past target, softly rescale ALL weights
+// toward it — keeps numbers bounded while preserving relative learning (learns fast, never runs away)
+function normalizeStrengths(){ let mx=0; for(const k in strengths){const v=strengths[k]; if(v>mx)mx=v;}
+  if(mx>NORM_TARGET){ const f=NORM_TARGET/mx; for(const k in strengths) strengths[k]*=f; } }
+function fire(fromId, gen){
+  const from = fromId || NODES[(Math.random()*NODES.length)|0].id;
+  if(!adj[from]) return;
+  const ns=[...adj[from]]; if(!ns.length) return;
+  // bias toward already-strong pathways so well-used routes light up more (Hebbian-ish)
+  let to=ns[(Math.random()*ns.length)|0];
+  if(Math.random()<0.62){ let best=to,bw=-1; ns.forEach(t=>{const w=strengths[ekey(from,t)]||0; if(w>bw){bw=w;best=t;}}); to=best; }
+  pulses.push({a:from,b:to,p:0,sp:0.045+Math.random()*0.04, gen:gen||0});
+}
+// Activity-driven fire rate — polls /api/activity every 2s and scales perSec
+// Idle (0 calls/10s) → 10/s | Light → 30/s | Active → 70/s | Busy → 125/s | Burst → 150/s
+let _actPerSec = 10;   // start at idle rate; climbs once activity is polled
+let _actTarget  = 10;  // target we're smoothly lerping toward
+(function pollActivity(){
+  fetch('/api/activity').then(r=>r.json()).then(d=>{
+    const c = (d.calls_10s || 0);
+    // smooth log-curve: idle=10, scales ×2.5 from original — cap 150
+    const t = Math.min(150, 10 + 190 * (1 - Math.exp(-c / 9)));
+    _actTarget = t;
+  }).catch(()=>{}).finally(()=>{ setTimeout(pollActivity, 2000); });
+})();
+let acc=0;
+function maybeFire(dt){
+  if(!liveOn) return;               // offline / static snapshot → frozen, no synapses firing
+  // Smoothly ease current rate toward target (10% per frame, feels organic)
+  _actPerSec += (_actTarget - _actPerSec) * 0.10;
+  acc+=dt;
+  const interval = 1000 / _actPerSec;
+  while(acc>interval){acc-=interval; fire(hover?hover.id:null,0);
+    if(searchSet && searchSet.size){          // search matches actively pulse-fire
+      const ids=[...searchSet], id=ids[(Math.random()*ids.length)|0];
+      if(byId[id]){ fire(id,0); igniteRegion(id); } } } }
+
+/* ---------- camera + interaction (pan / zoom / rotate / fit) ---------- */
+let mx=-1,my=-1,hover=null,drag=null,selected=null;
+let cam={x:0,y:0,s:1}, panning=false, orbiting=false;
+let down=false,downX=0,downY=0,downNode=null,moved=false;
+let VAULT='', linkMode='usage', linkInt=1, linkStrength=0.02, searchSet=null;
+const tip=document.getElementById('tip');
+function fitView(){ if(!NODES.length) return; projectAll();
+  let a=1e9,b=1e9,c=-1e9,d=-1e9;
+  NODES.forEach(n=>{a=Math.min(a,n._wpx);b=Math.min(b,n._wpy);c=Math.max(c,n._wpx);d=Math.max(d,n._wpy);});
+  const gw=(c-a)||1, gh=(d-b)||1, pad=170;
+  cam.s=Math.max(0.4,Math.min(1.7, Math.min((W-pad)/gw,(H-pad*1.5)/gh)));
+  cam.x=-((a+c)/2)*cam.s; cam.y=-((b+d)/2)*cam.s;
+}
+cv.addEventListener('mousemove',e=>{const nx=e.clientX,ny=e.clientY;
+  if(down && (Math.abs(nx-downX)>4||Math.abs(ny-downY)>4)) moved=true;
+  if(drag){
+    const persp=drag.persp||1, rz2=drag.sd;
+    const rx=((nx-W/2-cam.x)/cam.s)/persp, ry=((ny-H/2-cam.y)/cam.s)/persp;
+    const y=ry*_cT+rz2*_sT, rz=-ry*_sT+rz2*_cT;
+    const x=rx*_crY+rz*_srY, z=-rx*_srY+rz*_crY;
+    drag.x=x+W/2; drag.y=y+H/2; drag.z=z; drag.vx=0;drag.vy=0;drag.vz=0; }
+  else if(orbiting){ rotY+=(nx-mx)*0.006; TILT=Math.max(-1.45,Math.min(1.45,TILT+(ny-my)*0.006)); }
+  else if(panning){ cam.x+=nx-mx; cam.y+=ny-my; }
+  mx=nx;my=ny;});
+cv.addEventListener('mousedown',e=>{ down=true; moved=false; downX=e.clientX; downY=e.clientY;
+  _physSleep=false; _sleepTicks=0;
+  downNode=hover;
+  if(hover){drag=hover;}
+  else if(e.shiftKey){panning=true; cv.style.cursor='grabbing';}
+  else{orbiting=true; cv.style.cursor='grabbing';} });
+addEventListener('mouseup',()=>{
+  if(down && !moved && downNode){ openDetail(downNode); }
+  down=false; drag=null; panning=false; orbiting=false; cv.style.cursor='grab';});
+cv.addEventListener('mouseleave',()=>{mx=my=-1; panning=false; down=false;});
+cv.addEventListener('dblclick',()=>fitView());
+cv.addEventListener('wheel',e=>{e.preventDefault();
+  const f=Math.exp(-e.deltaY*0.0014), ns=Math.max(0.35,Math.min(3.6,cam.s*f));
+  cam.x=(e.clientX-W/2)-((e.clientX-W/2)-cam.x)*(ns/cam.s);
+  cam.y=(e.clientY-H/2)-((e.clientY-H/2)-cam.y)*(ns/cam.s); cam.s=ns;},{passive:false});
+function pickHover(){ if(mx<0||panning){hover=null;tip.classList.remove('on');return;}
+  let best=null,bd=1e9;
+  NODES.forEach(n=>{const dd=Math.hypot(n.sx-mx,n.sy-my), hitR=n.r*n.ss+12;
+    if(dd<hitR&&dd<bd){bd=dd;best=n;}});
+  hover=best;
+  if(hover){ const T=TYPES[hover.t];
+    tip.querySelector('.tag').textContent=hover.t;
+    tip.querySelector('.tag').style.background=T.color;
+    tip.querySelector('.ttl').textContent=hover.label;
+    tip.querySelector('.s').textContent=hover.s;
+    let x=mx+16,y=my+16; if(x>W-320)x=mx-316; if(y>H-130)y=my-120;
+    tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('on');
+  } else tip.classList.remove('on');
+}
+
+/* ---------- detail panel (click to read / open) ---------- */
+const detail=document.getElementById('detail');
+function openDetail(n){ selected=n; const T=TYPES[n.t];
+  detail.querySelector('.tag').textContent=n.t;
+  detail.querySelector('.tag').style.background=T.color;
+  detail.querySelector('.dttl').textContent=n.label;
+  detail.querySelector('.ds').textContent=n.s||'';
+  const chips=detail.querySelector('.chips'); chips.innerHTML='';
+  const nb=[...(adj[n.id]||[])].map(id=>byId[id]).filter(Boolean)
+            .sort((a,b)=>b.deg-a.deg);
+  const SHOW_N=6;
+  nb.forEach((m,i)=>{
+    const c=document.createElement('span'); c.className='chip';
+    c.textContent=m.label; c.onclick=()=>openDetail(m);
+    if(i>=SHOW_N) c.style.display='none';
+    chips.appendChild(c);
+  });
+  if(nb.length>SHOW_N){
+    const tog=document.createElement('span'); tog.className='chip chip-more';
+    tog.textContent=`▸ ${nb.length-SHOW_N} more`;
+    let expanded=false;
+    tog.onclick=()=>{
+      expanded=!expanded;
+      chips.querySelectorAll('.chip:not(.chip-more)').forEach((c,i)=>{
+        if(i>=SHOW_N) c.style.display=expanded?'inline-block':'none';
+      });
+      tog.textContent=expanded?'▴ show less':`▸ ${nb.length-SHOW_N} more`;
+    };
+    chips.appendChild(tog);
+  }
+  detail.querySelector('.nb').style.display = nb.length?'block':'none';
+  const open=document.getElementById('detailOpen');
+  if(n.file && VAULT){ open.style.display='block';
+    const f=n.file.replace(/\.md$/,'');
+    open.onclick=()=>{ location.href='obsidian://open?vault='+encodeURIComponent(VAULT)+'&file='+encodeURIComponent(f); };
+  } else { open.style.display='none'; }
+  hideEditor();
+  const eb=document.getElementById('detailEdit'); if(eb) eb.style.display = n.file ? 'block' : 'none';  // only real notes are editable
+  detail.classList.add('on');
+}
+function closeDetail(){ selected=null; detail.classList.remove('on'); hideEditor(); }
+document.getElementById('detailX').onclick=closeDetail;
+addEventListener('keydown',e=>{ if(e.key==='Escape') closeDetail(); });
+
+/* ---------- Slice 2: inline note editor ---------- */
+const edBox=document.getElementById('detailEditor'), edRow=document.getElementById('detailEditRow'),
+      edBtn=document.getElementById('detailEdit'), edSave=document.getElementById('detailSave'),
+      edCancel=document.getElementById('detailCancel');
+function hideEditor(){ edBox.classList.remove('on'); edRow.classList.remove('on'); if(edBtn) edBtn.style.display='block'; }
+edBtn.onclick=async()=>{ if(!selected) return;
+  edBtn.textContent='loading…';
+  try{ const r=await fetch('api/note?id='+encodeURIComponent(selected.id),{cache:'no-store'});
+    const j=await r.json(); edBox.value=(j&&j.content)||''; }catch(e){ edBox.value=''; }
+  edBtn.textContent='✎ Edit note'; edBtn.style.display='none';
+  edBox.classList.add('on'); edRow.classList.add('on'); edBox.focus(); };
+edCancel.onclick=hideEditor;
+edSave.onclick=async()=>{ if(!selected) return; edSave.textContent='saving…';
+  try{ const r=await fetch('api/save',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({id:selected.id, content:edBox.value})});
+    const j=await r.json();
+    edSave.textContent = (j&&j.ok)?'saved ✓':'failed';
+    if(j&&j.ok){ lastSig=''; pullLive(); }   // re-sync graph (size/links may have changed)
+  }catch(e){ edSave.textContent='failed'; }
+  setTimeout(()=>{ edSave.textContent='Save'; hideEditor(); }, 800); };
+
+/* ---------- refresh button ---------- */
+const refreshBtn=document.getElementById('refreshBtn');
+if(refreshBtn) refreshBtn.onclick=async()=>{ refreshBtn.classList.add('spin');
+  lastSig=''; try{ await pullLive(); await loadState(); }catch(e){} fitView();
+  setTimeout(()=>refreshBtn.classList.remove('spin'),500); };
+
+/* ---------- View buttons ---------- */
+const fitBtn=document.getElementById('fitBtn');
+const lblBtn=document.getElementById('lblBtn');
+if(fitBtn) fitBtn.onclick=()=>fitView();
+if(lblBtn) lblBtn.onclick=()=>{ showLabels=!showLabels; lblBtn.classList.toggle('active',showLabels); };
+
+/* ---------- Vault breakdown (live from NODES) ---------- */
+function updateVaultBreakdown(){
+  const c={};
+  for(const n of NODES){ const t=n.t||'other'; c[t]=(c[t]||0)+1; }
+  const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=c[key]||0; };
+  set('vbConcept','concept'); set('vbSource','source');
+  set('vbLesson','lesson');   set('vbEntity','entity');
+  set('vbHub','hub');         set('vbPerson','person');
+}
+
+/* ---------- Quick observe ---------- */
+const obsText=document.getElementById('obsText');
+const obsBtn=document.getElementById('obsBtn');
+if(obsBtn&&obsText) obsBtn.onclick=async()=>{
+  const txt=obsText.value.trim(); if(!txt) return;
+  obsBtn.textContent='saving…'; obsBtn.disabled=true;
+  try{
+    const r=await fetch('api/observe',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({content:txt})});
+    const j=await r.json().catch(()=>null);
+    if(j&&j.ok){ obsText.value=''; obsBtn.textContent='✓ saved'; }
+    else obsBtn.textContent='✗ failed';
+  }catch(e){ obsBtn.textContent='✗ failed'; }
+  finally{ obsBtn.disabled=false; setTimeout(()=>{ obsBtn.textContent='Save to vault'; },1800); }
+};
+
+/* ---------- Agent pulse ---------- */
+(function pollAgentPulse(){
+  const el=document.getElementById('agentPulse'); if(!el) return;
+  fetch('api/agents').then(r=>r.json()).then(j=>{
+    const active=(j.agents||[]).filter(a=>a.last_result&&a.last_run)
+                               .sort((a,b)=>b.last_run-a.last_run);
+    if(active.length){
+      const a=active[0];
+      const snip=(a.last_result||'').replace(/\n/g,' ').slice(0,80);
+      el.innerHTML=`<span class="ap-name">${a.name}</span>: ${snip}…`;
+    }
+  }).catch(()=>{}).finally(()=>{ setTimeout(pollAgentPulse,30000); });
+})();
+
+/* ---------- controls: zoom (scroll/drag only) + locked synapse/appearance values ---------- */
+function zoomBy(f){ const ns=Math.max(0.35,Math.min(3.6,cam.s*f));
+  cam.x*=ns/cam.s; cam.y*=ns/cam.s; cam.s=ns; }
+// Restore saved link values from localStorage — no UI to change them, just honour existing prefs
+(function(){
+  const savedInt=localStorage.getItem('nv_linkInt');
+  const savedStr=localStorage.getItem('nv_linkStr');
+  if(savedInt!==null) linkInt=savedInt/100;
+  if(savedStr!==null) linkStrength=savedStr/100;
+})();
+// pop-out panel show/hide
+const panel=document.getElementById('panel'), pTog=document.getElementById('panelToggle');
+pTog.onclick=()=>{ const open=panel.classList.toggle('open'); pTog.classList.toggle('open',open);
+  pTog.textContent=open?'Hide ✕':'Controls'; };
+// toggles
+const learnTog=document.getElementById('learnTog');
+learnTog.onclick=()=>{ learning=!learning; learnTog.classList.toggle('on',learning); };
+
+// ---- search: highlight matching neurons, dim the rest ----
+const searchEl=document.getElementById('search'),
+      srEl=document.getElementById('searchResults'), scEl=document.getElementById('searchCount');
+function focusNode(n){ projectAll(); cam.s=Math.max(cam.s,1.15); cam.x=-n._wpx*cam.s; cam.y=-n._wpy*cam.s; }
+function fitNodes(arr){ if(!arr.length) return; projectAll();
+  let a=1e9,b=1e9,c=-1e9,d=-1e9; arr.forEach(n=>{a=Math.min(a,n._wpx);b=Math.min(b,n._wpy);c=Math.max(c,n._wpx);d=Math.max(d,n._wpy);});
+  const gw=(c-a)||1,gh=(d-b)||1,pad=240; cam.s=Math.max(0.5,Math.min(2.4,Math.min((W-pad)/gw,(H-pad)/gh)));
+  cam.x=-((a+c)/2)*cam.s; cam.y=-((b+d)/2)*cam.s; }
+function runSearch(){ const q=searchEl.value.trim().toLowerCase();
+  if(!q){ searchSet=null; srEl.classList.remove('on'); srEl.innerHTML=''; scEl.textContent=''; return; }
+  const hits=NODES.filter(n=>(n.label||'').toLowerCase().includes(q)||(n.s||'').toLowerCase().includes(q));
+  searchSet=new Set(hits.map(n=>n.id));
+  scEl.textContent=hits.length?(hits.length+' match'+(hits.length===1?'':'es')):'no matches';
+  srEl.innerHTML=''; hits.slice(0,8).forEach(n=>{ const d=document.createElement('div'); d.className='r';
+    d.innerHTML='<span>'+n.label.replace(/</g,'&lt;')+'</span><span class="ty">'+n.t+'</span>';
+    d.onclick=()=>{ focusNode(n); openDetail(n); }; srEl.appendChild(d); });
+  srEl.classList.toggle('on', hits.length>0); }
+searchEl.addEventListener('input', runSearch);
+searchEl.addEventListener('keydown', e=>{
+  if(e.key==='Enter'){ const h=NODES.filter(n=>searchSet&&searchSet.has(n.id)); fitNodes(h); if(h.length===1) openDetail(h[0]); }
+  if(e.key==='Escape'){ searchEl.value=''; runSearch(); searchEl.blur(); } });
+// how strong a given edge should look, per the chosen mode (0..1)
+const LOGCAP=Math.log1p(600);   // matches the normalization target → distinctions span the bounded range
+function edgeStrength(e,a,b){
+  let base;
+  if(linkMode==='flat')   base=0.5;
+  else if(linkMode==='degree') base=Math.min(Math.min(a.deg,b.deg)/8,1);
+  else base=Math.min(Math.log1p(strengths[ekey(e.a,e.b)]||0)/LOGCAP,1);   // usage, log-scaled
+  return Math.max(0,Math.min(base*linkInt,1));
+}
+
+/* ---------- render ---------- */
+let last=performance.now();
+let _physSleep=false, _sleepTicks=0, _wantSettle=0;
+const SLEEP_THRESH=1.2, SLEEP_FRAMES=90;
+function draw(now){
+  const dt=Math.min(now-last,50);last=now;
+  if(_wantSettle>0){ const steps=Math.min(_wantSettle,2); for(let s=0;s<steps;s++) physics(); _wantSettle-=steps; _sleepTicks=0; }
+  if(!_physSleep){
+    physics();
+    let ke=0; for(const n of NODES) ke+=Math.hypot(n.vx,n.vy,n.vz);
+    if(ke<SLEEP_THRESH){ if(++_sleepTicks>SLEEP_FRAMES) _physSleep=true; }
+    else _sleepTicks=0;
+  } else if(++_sleepTicks>300){ _physSleep=false; _sleepTicks=0; } // 5s heartbeat
+  maybeFire(dt);
+  projectAll(); subStep(); pickHover();
+  fireWin+=dt; if(fireWin>=1000){ fireRate = fireRate*0.6 + fireCount*0.4; normalizeStrengths();   // smoothed rate + gentle renorm
+    const a=document.getElementById('actV'); if(a) a.textContent=fireCount.toLocaleString()+' fires/s';
+    const sf=document.getElementById('sFirings'); if(sf) sf.textContent=Math.round(fireRate).toLocaleString();
+    fireCount=0; fireWin=0; }
+
+  // ---- everything drawn in screen space (the 3D is projected per-point) ----
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createRadialGradient(W/2,H*0.5,30,W/2,H*0.5,Math.max(W,H)*0.75);
+  g.addColorStop(0,'rgba(26,34,60,0.42)');g.addColorStop(1,'rgba(5,7,12,0)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+  const foc = hover || selected, focSet = foc?adj[foc.id]:null;
+  const sActive = !!searchSet;
+  const order = NODES.slice().sort((a,b)=>b.sd-a.sd);   // depth sort: far → near
+
+  ctx.globalCompositeOperation='lighter';                // additive → glowing bloom
+
+  // synapses (subtle; thicken + brighten with use)
+  edges.forEach(e=>{const a=byId[e.a],b=byId[e.b]; if(!a||!b) return;
+    const lit = foc && (e.a===foc.id||e.b===foc.id), str=edgeStrength(e,a,b);
+    ctx.beginPath();ctx.moveTo(a.sx,a.sy);ctx.lineTo(b.sx,b.sy);
+    if(lit){ ctx.strokeStyle='rgba(150,195,255,0.5)'; ctx.lineWidth=1.5+str*2.2; }
+    else if(e.learned){ // STDP-grown synapse — warm amber to distinguish from structural edges
+      ctx.strokeStyle='rgba(220,'+(130+str*80|0)+',50,'+(0.15+str*0.38).toFixed(3)+')';
+      ctx.lineWidth=0.5+str*3.0; }
+    else { // faint baseline lifted a bit more so weak synapses read clearly; strong ones unchanged
+      ctx.strokeStyle='rgba('+((108+str*92)|0)+','+((140+str*78)|0)+','+((198+str*42)|0)+','+(0.12+str*0.28).toFixed(3)+')';
+      ctx.lineWidth=0.6+str*str*4.2; }   // quadratic → strong paths still stand out
+    ctx.stroke();});
+
+  // functional substrate: micro-neurons firing + learning (STDP) — inlined hot loop, no allocs
+  const W2=W*0.5, H2=H*0.5, camS=cam.s, camX=cam.x, camY=cam.y;
+  let lastCol='';
+  for(const s of SUB){ const par=byId[s.pid]; if(!par){s.vis=false;continue;}
+    const p=project(par.x+s.ox, par.y+s.oy, (par.z||0)+s.oz);
+    const sx=W2+p.wpx*camS+camX, sy=H2+p.wpy*camS+camY, persp=p.persp;
+    s.sx=sx; s.sy=sy; s.vis=true;
+    if(sx<-16||sx>W+16||sy<-16||sy>H+16) continue;
+    const dim=(foc&&par!==foc&&!(focSet&&focSet.has(par.id)))||(sActive&&!searchSet.has(par.id));
+    ctx.globalAlpha=Math.min(1,(0.32+s.glow*0.68))*(dim?0.16:1)*Math.min(1,persp);
+    if(s.col!==lastCol){ ctx.fillStyle=s.col; lastCol=s.col; }
+    const rr=Math.max(0.8,(1.1+s.glow*2.0)*nodeSize*persp*camS);
+    ctx.beginPath();ctx.arc(sx,sy,rr,0,7);ctx.fill(); }
+  ctx.globalAlpha=1;
+
+  // node halos (glow) — skip gradient for dim+inactive nodes to save GPU
+  for(const n of order){ const col=n._color||(TYPES[n.t]||TYPES.ext).color; n.glow*=0.93;
+    if(sActive&&searchSet.has(n.id)) n.glow=Math.max(n.glow, 0.55+0.45*Math.sin(now*0.007));
+    const dim=(foc&&n!==foc&&!(focSet&&focSet.has(n.id)))||(sActive&&!searchSet.has(n.id));
+    if(dim && n.glow<0.08 && n!==hover) continue;  // skip invisible halos
+    const r=Math.max(1.5,(n.r*nodeSize*(1+n.glow*0.6))*n.ss), glowR=Math.max(r+1, r+6+n.glow*20+(n===foc?16:0));
+    const rg=ctx.createRadialGradient(n.sx,n.sy,r*0.2,n.sx,n.sy,glowR);
+    rg.addColorStop(0,col+(dim?'22':'aa')); rg.addColorStop(1,col+'00');
+    ctx.beginPath();ctx.arc(n.sx,n.sy,glowR,0,7);ctx.fillStyle=rg;ctx.fill(); }
+
+  // pulses (firing) — bright additive heads racing along synapses + cascades + strengthening
+  for(let i=pulses.length-1;i>=0;i--){const pu=pulses[i];
+    const a=byId[pu.a],b=byId[pu.b];
+    if(!a||!b){ pulses.splice(i,1); continue; }
+    pu.p+=pu.sp;
+    if(pu.p>=1){ firings++; fireCount++;
+      const k=ekey(pu.a,pu.b), dtp=now-(a.last||-1e9), cur=strengths[k]||0;
+      if(learning){ const inc=(dtp>=0&&dtp<STDP_WIN) ? (2 + cur*0.2) : 0.4;   // compounding growth (fast); global norm keeps it bounded
+        strengths[k]=cur+inc;
+        // grow a new learned synapse when co-firing crosses threshold
+        if(strengths[k]>=6 && !adj[pu.a].has(pu.b)){
+          adj[pu.a].add(pu.b); adj[pu.b].add(pu.a);
+          edges.push({a:pu.a,b:pu.b,learned:true});
+          const el=document.getElementById('sSynapses'); if(el) el.textContent=edges.length; } }
+      else strengths[k]=cur+1;
+      b.last=now; igniteRegion(b.id);                            // a real thought lights its region
+      if(pu.gen<3 && Math.random()<0.55) fire(pu.b, pu.gen+1);   // cascade onward
+      pulses.splice(i,1); continue; }
+    const x=a.sx+(b.sx-a.sx)*pu.p, y=a.sy+(b.sy-a.sy)*pu.p, col=a._color||(TYPES[a.t]||TYPES.ext).color;
+    const tp=Math.max(0,pu.p-0.12), tx=a.sx+(b.sx-a.sx)*tp, ty=a.sy+(b.sy-a.sy)*tp;
+    const lg=ctx.createLinearGradient(tx,ty,x,y);
+    lg.addColorStop(0,'rgba(255,255,255,0)');lg.addColorStop(1,col);
+    ctx.strokeStyle=lg;ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();
+    ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,3.0,0,7);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y,1.4,0,7);ctx.fill();}
+
+  // ---- solid layer: neuron cores + labels ----
+  ctx.globalCompositeOperation='source-over';
+  for(const n of order){ const col=n._color||(TYPES[n.t]||TYPES.ext).color;
+    const dim=(foc&&n!==foc&&!(focSet&&focSet.has(n.id)))||(sActive&&!searchSet.has(n.id));
+    const r=Math.max(1.6,(n.r*nodeSize*(1+n.glow*0.5))*n.ss);
+    ctx.beginPath();ctx.arc(n.sx,n.sy,r,0,7);
+    ctx.globalAlpha=dim?0.5:1; ctx.fillStyle=dim?'#171c28':col; ctx.fill(); ctx.globalAlpha=1;
+    ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,'+(dim?0.05:0.3)+')'; ctx.stroke(); }
+  // labels — always present but subtle; focus + neighbours brighten, far ones fade
+  ctx.textAlign='center';ctx.textBaseline='top';
+  for(const n of order){
+    if(n.sx<-80||n.sx>W+80||n.sy<-30||n.sy>H+20) continue;   // perf: cull off-screen labels
+    const isF=n===foc, near=foc&&focSet&&focSet.has(n.id), match=sActive&&searchSet.has(n.id);
+    if(!showLabels && !isF && !near && !match) continue;   // labels toggle: keep only focus/hover/search
+    const depth=Math.min(1,n.persp), r=Math.max(1.6,n.r*nodeSize*n.ss);
+    let alpha = (sActive&&!match) ? 0.05 : (isF?1 : (near||match)?0.92 : 0.4*depth);
+    if(alpha<0.1) continue;
+    ctx.font=(isF?'600 12.5px':'500 10px')+' Inter,system-ui,sans-serif';
+    ctx.lineWidth=3; ctx.strokeStyle='rgba(5,7,12,'+(0.5*alpha+0.18)+')'; ctx.strokeText(n.label,n.sx,n.sy+r+4);
+    ctx.fillStyle='rgba('+(isF?'255,255,255':'212,222,236')+','+alpha+')'; ctx.fillText(n.label,n.sx,n.sy+r+4); }
+
+  _rafId = requestAnimationFrame(draw);
+}
+// start from the baked-in snapshot (works even when opened as a plain file)
+setGraph(EMB_NODES, EMB_EDGES);
+for(let k=0;k<8;k++) fire();
+let _rafId = requestAnimationFrame(draw);
+window.addEventListener('pagehide', () => cancelAnimationFrame(_rafId));
+
+// SPA nav — agents view loads in an iframe, no page navigation needed
+(function(){
+  const frame = document.getElementById('agentsFrame');
+  const agentsLink = document.querySelector('#topnav a[href="/manage"]');
+  let loaded = false;
+
+  function preload(){ if(!loaded){ frame.src='/manage'; loaded=true; } }
+  function showAgents(){
+    preload();
+    cancelAnimationFrame(_rafId);
+    frame.style.display='block';
+    frame.style.opacity='0';
+    frame.style.transition='opacity .22s ease';
+    requestAnimationFrame(()=>{ frame.style.opacity='1'; });
+  }
+  function showMap(){
+    frame.style.transition='opacity .18s ease';
+    frame.style.opacity='0';
+    frame.addEventListener('transitionend',()=>{ frame.style.display='none'; },{ once:true });
+    _rafId=requestAnimationFrame(draw);
+  }
+
+  // start loading iframe on hover so it's ready when clicked
+  agentsLink.addEventListener('mouseover', preload);
+  agentsLink.addEventListener('click', e=>{ e.preventDefault(); showAgents(); });
+
+  // manage.html posts 'showMap' when user clicks Map link inside the iframe
+  window.addEventListener('message', e=>{ if(e.data==='showMap') showMap(); });
+})();
+
+// LIVE MODE: when served by brain-server.py, pull the real vault graph and keep syncing
+const badge=document.getElementById('liveBadge');
+function markLive(on){ if(!badge) return;
+  badge.textContent = on ? '● live · auto-syncing your vault every 4s' : '○ static snapshot (run brain-server.py for live mode)';
+  badge.style.color = on ? 'var(--source)' : 'var(--muted)'; }
+let liveOn=false;
+// learned-weight memory: persists STDP weights on the real graph across sessions.
+// brain-state.json + the notes = the artifact a local LLM could later read.
+function fmtB(b){ if(b<1024) return b+' B'; if(b<1048576) return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(2)+' MB'; }
+async function loadState(){ try{ const r=await fetch('state',{cache:'no-store'}); if(!r.ok) return;
+  const j=await r.json(); if(j&&j.weights) for(const k in j.weights) strengths[k]=Math.max(strengths[k]||0,j.weights[k]);
+  const m=document.getElementById('memV'); if(m) m.textContent=Object.keys(strengths).length+' weights'; }catch(e){} }
+async function saveState(){ try{ const r=await fetch('state',{method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({weights:strengths})}); const j=await r.json().catch(()=>null);
+  const m=document.getElementById('memV');
+  if(m) m.textContent = (j&&j.bytes!=null) ? (j.weights+' weights · '+fmtB(j.bytes)) : (Object.keys(strengths).length+' weights · saved');
+  pollStorage(); }catch(e){} }
+async function pollStorage(){ try{ const r=await fetch('storage',{cache:'no-store'}); if(!r.ok) return; const s=await r.json();
+  const t=document.getElementById('stoTotal'); if(t) t.textContent=fmtB(s.total_bytes);
+  const m=document.getElementById('stoMem'); if(m) m.textContent=fmtB(s.state_gz_bytes)+' · '+s.weights_stored+' wts (uncompressed)';
+  const b=document.getElementById('stoBreak'); const c=s.categories||{};
+  if(b) b.textContent=(c.notes?c.notes.files:0)+' notes · '+fmtB((c.notes?c.notes.bytes:0)+(c.engine?c.engine.bytes:0)); }catch(e){} }
+let lastSig='';
+async function pullLive(){
+  try{
+    const _ctrl=new AbortController(); const _tid=setTimeout(()=>_ctrl.abort(),8000);
+    const r=await fetch('graph.json',{cache:'no-store',signal:_ctrl.signal}); clearTimeout(_tid);
+    if(!r.ok) throw 0;
+    const j=await r.json();
+    if(!(j && j.nodes && j.nodes.length)) return;
+    VAULT=j.vault||VAULT;
+    let ssum=0; for(const n of j.nodes) ssum+=(n.size||0);
+    const sig=j.nodes.length+'|'+j.edges.length+'|'+ssum;   // cheap change-detector
+    const first=!liveOn;
+    if(first || sig!==lastSig){ lastSig=sig;
+      if(first){ liveOn=true; markLive(true); loadState(); }
+      setTimeout(()=>setGraph(j.nodes, j.edges), 0); }
+  }catch(e){ if(!liveOn) markLive(false); }
+}
+pullLive().finally(()=>{
+  setInterval(pullLive, 10000);
+  const sub=document.getElementById('lsSub');
+  if(sub) sub.textContent=liveOn?'live neural map ready':'server offline — using embedded snapshot';
+  const enter=()=>{
+    const ls=document.getElementById('loadScreen'); if(!ls) return;
+    if(_wantSettle>0){ requestAnimationFrame(enter); return; }
+    fitView(); ls.style.opacity='0'; setTimeout(()=>ls.remove(),520);
+  };
+  requestAnimationFrame(enter);
+});
+setInterval(()=>{ if(liveOn) saveState(); }, 30000);           // keep learning, persistently
+pollStorage(); setInterval(pollStorage, 15000);               // storage indicator
+addEventListener('beforeunload', saveState);
+// Ollama reachability indicator
+(function checkOllama(){
+  const el=document.getElementById('ollamaStatus');
+  if(!el) return;
+  fetch('/api/ollama-status').then(r=>r.json()).then(d=>{
+    el.className='ollama-status '+(d.ok?'online':'offline');
+    el.title=d.ok?'Ollama online ('+d.url+')':'Ollama offline — '+d.url;
+    el.querySelector('.os-label').textContent=d.ok?'Ollama':'Ollama ↓';
+  }).catch(()=>{
+    el.className='ollama-status offline';
+    el.querySelector('.os-label').textContent='Ollama ↓';
+  }).finally(()=>{ setTimeout(checkOllama,15000); });
+})();
+</script>
+</body>
+</html>
