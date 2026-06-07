@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skills/karpathy-guidelines/SKILL.md",
       "computedHash": "0ec1641120accbb458780e0bd19a50a4182f2b97863e90851b91307f29802c9f"
+    },
+    "qmd": {
+      "source": "tobi/qmd",
+      "sourceType": "github",
+      "skillPath": "skills/qmd/SKILL.md",
+      "computedHash": "638f4cfa265f3f6d14a49ecfe9407acc7da23a5e60b9c861362557fb4217e437"
     }
   }
 }
