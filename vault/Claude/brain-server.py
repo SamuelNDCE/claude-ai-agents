@@ -1748,19 +1748,37 @@ def agent_cleanup(a=None):
 
 
 def agent_vault_keeper(a=None):
-    """Runs all five vault maintenance tasks in one pass: stats, curation, linting, linking, cleanup."""
+    """Runs vault maintenance sub-tasks on their individual schedules.
+    Each task has its own interval stored in a['tasks'][key]['interval'].
+    Only runs a task if enough time has elapsed since its last_run."""
+    _VK_SUBTASKS = [
+        ("stats",        agent_stats,        300),
+        ("curator",      agent_curator,      3600),
+        ("linter",       agent_linter,       3600),
+        ("linker",       agent_linker,       1800),
+        ("cleanup",      agent_cleanup,      7200),
+        ("note-updater", agent_note_updater, 86400),
+    ]
+    now = time.time()
+    tasks_cfg = (a or {}).get("tasks") or {}
     results = []
-    try: results.append(agent_stats(a))
-    except Exception as e: results.append(f"stats error: {e}")
-    try: results.append(agent_curator(a))
-    except Exception as e: results.append(f"curator error: {e}")
-    try: results.append(agent_linter(a))
-    except Exception as e: results.append(f"linter error: {e}")
-    try: results.append(agent_linker(a))
-    except Exception as e: results.append(f"linker error: {e}")
-    try: results.append(agent_cleanup(a))
-    except Exception as e: results.append(f"cleanup error: {e}")
-    return " · ".join(results)
+    for key, fn, default_iv in _VK_SUBTASKS:
+        cfg = tasks_cfg.get(key) or {}
+        interval = int(cfg.get("interval") or default_iv)
+        last_run = float(cfg.get("last_run") or 0)
+        if now - last_run >= interval:
+            try:
+                res = fn(a)
+                results.append(res)
+            except Exception as e:
+                results.append(f"{key} error: {e}")
+            if a is not None:
+                if not isinstance(a.get("tasks"), dict):
+                    a["tasks"] = {}
+                a["tasks"].setdefault(key, {})
+                a["tasks"][key]["last_run"] = now
+                a["tasks"][key]["interval"] = interval
+    return (" · ".join(results)) if results else "all tasks up to date"
 
 
 def agent_session(a=None):
@@ -1768,7 +1786,7 @@ def agent_session(a=None):
     return "session agent — updated by Claude Code activity"
 
 
-def agent_note_freshness(a=None):
+def agent_note_updater(a=None):
     """Scan concept/entity/lesson notes older than STALE_DAYS, find recent observations that
     mention them, call LLM to generate an updated note body, and save it back to the vault."""
     STALE_DAYS    = 7
@@ -1884,7 +1902,7 @@ def agent_note_freshness(a=None):
 BEHAVIORS = {"stats": agent_stats, "curator": agent_curator, "linter": agent_linter,
              "linker": agent_linker, "cleanup": agent_cleanup, "llm": agent_llm,
              "vault-keeper": agent_vault_keeper, "session": agent_session,
-             "note-freshness": agent_note_freshness}
+             "note-updater": agent_note_updater}
 
 
 def _deposit_agent_log(a, result, command=None):
