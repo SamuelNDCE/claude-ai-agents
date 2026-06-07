@@ -1,7 +1,7 @@
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **Claude** (208 symbols, 211 relationships, 0 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **claude-ai-agents** (395 symbols, 431 relationships, 3 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
 
@@ -24,10 +24,10 @@ This project is indexed by GitNexus as **Claude** (208 symbols, 211 relationship
 
 | Resource | Use for |
 |----------|---------|
-| `gitnexus://repo/Claude/context` | Codebase overview, check index freshness |
-| `gitnexus://repo/Claude/clusters` | All functional areas |
-| `gitnexus://repo/Claude/processes` | All execution flows |
-| `gitnexus://repo/Claude/process/{name}` | Step-by-step execution trace |
+| `gitnexus://repo/claude-ai-agents/context` | Codebase overview, check index freshness |
+| `gitnexus://repo/claude-ai-agents/clusters` | All functional areas |
+| `gitnexus://repo/claude-ai-agents/processes` | All execution flows |
+| `gitnexus://repo/claude-ai-agents/process/{name}` | Step-by-step execution trace |
 
 ## CLI
 
