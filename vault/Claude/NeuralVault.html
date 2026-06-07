@@ -247,7 +247,7 @@
     align-items:center;gap:5px;pointer-events:auto}
   #gestureWidget .gw-wrap{position:relative;width:160px;height:120px;border-radius:10px;overflow:hidden;
     border:1px solid rgba(255,255,255,.14)}
-  #gestureVideo{width:160px;height:120px;object-fit:cover;display:block;background:#000}
+  #gestureVideo{width:160px;height:120px;object-fit:cover;display:block;background:#000;transform:scaleX(-1)}
   #gestureSkel{position:absolute;top:0;left:0;width:160px;height:120px;pointer-events:none}
   #gestureCloseBtn{position:absolute;top:4px;right:6px;background:transparent;border:0;
     color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;line-height:1;z-index:1}
@@ -381,8 +381,15 @@
 <canvas id="stage"></canvas>
 <!-- agents iframe — hidden, loaded lazily on first hover, shown instantly on click -->
 <iframe id="agentsFrame" style="display:none;position:fixed;inset:0;border:0;width:100%;height:100%;z-index:100;background:#06080d"></iframe>
-<!-- tags overlay -->
-<div id="tagsOverlay"></div>
+<!-- gesture camera widget -->
+<div id="gestureWidget">
+  <div class="gw-wrap">
+    <video id="gestureVideo" playsinline autoplay muted></video>
+    <canvas id="gestureSkel" width="160" height="120"></canvas>
+    <button id="gestureCloseBtn">×</button>
+  </div>
+  <div id="gestureLbl">show hand</div>
+</div>
 
 <div id="topnav">
   <div class="brand-cluster">
@@ -395,7 +402,7 @@
     <a href="/" class="active" id="navMap">Map</a>
     <a href="/manage">Agents</a>
     <a href="#" id="nav3d">3D</a>
-    <a href="#" id="navTags">Tags</a>
+    <a href="#" id="navGestures">✋ Gestures</a>
     <a href="https://github.com/SamuelNDCE/NeuralVault" target="_blank">GitHub ↗</a>
   </div>
 </div>
@@ -418,7 +425,7 @@
 </div>
 
 <div class="panel" id="legend"></div>
-<div class="panel" id="hint"><b>Click</b> a neuron to read / open · <b>Hover</b> to peek · <b>Drag</b> a neuron to pull · <b>Drag canvas</b> to orbit · <b>Shift-drag</b> to pan · <b>Scroll</b> to zoom · <b>Double-click</b> to fit</div>
+<div class="panel" id="hint"><b>Click</b> a neuron to read / open · <b>Hover</b> to peek · <b>Drag</b> to orbit · <b>Shift-drag</b> to pan · <b>Scroll</b> to zoom · <b>Double-click</b> to fit · <b>✋ Gestures</b>: 🖐 zoom in · ✊ zoom out · ☝ orbit · ✌ fit · 🤌 select</div>
 <button id="refreshBtn" title="Refresh from vault (re-sync + re-fit)">↻</button>
 
 <div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div><div class="rels"></div></div>
@@ -1188,68 +1195,166 @@ nav3dEl.addEventListener('click', e => {
   navMapEl.classList.toggle('active', !autoOrbit);
 });
 
-// ---- Tags overlay ----
-let tagsOpen = false;
-const navTagsEl = document.getElementById('navTags');
-const tagsOv = document.getElementById('tagsOverlay');
-
-function buildTagCloud(){
-  const map = new Map();
-  NODES.forEach(n => {
-    (n.tags || []).forEach(raw => {
-      const t = (raw||'').toLowerCase().replace(/^#/,'').trim();
-      if(!t || t.length > 60) return;
-      const e = map.get(t) || {count:0, ids:[]};
-      e.count++; e.ids.push(n.id); map.set(t, e);
-    });
-  });
-  return [...map.entries()].sort((a,b) => b[1].count - a[1].count);
-}
-
-function showTags(){
-  const tags = buildTagCloud();
-  tagsOv.innerHTML =
-    '<button class="to-close" id="tagsClose">×</button>'
-    + '<div class="to-inner"><h2>Tags <span>'+tags.length+' tags · '+NODES.length+' neurons</span></h2>'
-    + '<div class="to-cloud">'
-    + tags.map(([tag,{count,ids}]) =>
-        '<button class="tc" data-ids="'+ids.join(',')+'">'+
-        '#'+tag+'<span class="cnt">'+count+'</span></button>'
-      ).join('')
-    + '</div></div>';
-  tagsOv.querySelectorAll('.tc').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const ids = new Set(btn.dataset.ids.split(','));
-      searchSet = ids;
-      hideTags();
-      const matched = NODES.filter(n => ids.has(n.id));
-      if(matched.length) setTimeout(()=>{ projectAll(); fitNodes(matched); }, 60);
-    });
-  });
-  document.getElementById('tagsClose').addEventListener('click', hideTags);
-  tagsOv.style.display = 'block';
-  tagsOpen = true;
-  navTagsEl.classList.add('active');
-  navMapEl.classList.remove('active');
-}
-
-function hideTags(){
-  tagsOv.style.display = 'none';
-  tagsOpen = false;
-  navTagsEl.classList.remove('active');
-  if(!autoOrbit) navMapEl.classList.add('active');
-}
-
-navTagsEl.addEventListener('click', e => {
-  e.preventDefault();
-  tagsOpen ? hideTags() : showTags();
-});
-
-// Map link: close any inline overlay (don't navigate if something is open)
+// Map link: reset 3D orbit when active
 navMapEl.addEventListener('click', e => {
-  if(tagsOpen){ e.preventDefault(); hideTags(); }
   if(autoOrbit){ autoOrbit=false; nav3dEl.classList.remove('active'); navMapEl.classList.add('active'); }
 });
+
+// ---- Gesture / Camera Mode ----
+let gestureMode = false;
+let gestureStream = null;
+let handsInstance = null;
+let gestureActionTick = 0;
+let lastHandX = null;
+let handVelX = 0;
+
+const navGestureEl  = document.getElementById('navGestures');
+const gwEl          = document.getElementById('gestureWidget');
+const gvEl          = document.getElementById('gestureVideo');
+const gsEl          = document.getElementById('gestureSkel');
+const glEl          = document.getElementById('gestureLbl');
+const gcBtn         = document.getElementById('gestureCloseBtn');
+
+const HAND_CONN = [
+  [0,1],[1,2],[2,3],[3,4],
+  [0,5],[5,6],[6,7],[7,8],
+  [5,9],[9,10],[10,11],[11,12],
+  [9,13],[13,14],[14,15],[15,16],
+  [13,17],[17,18],[18,19],[19,20],
+  [0,17]
+];
+
+function isFingerUp(lm, tip, pip) { return lm[tip].y < lm[pip].y; }
+
+function detectGesture(lm) {
+  if (!lm || lm.length < 21) return 'none';
+  const idx  = isFingerUp(lm, 8,  6);
+  const mid  = isFingerUp(lm, 12, 10);
+  const ring = isFingerUp(lm, 16, 14);
+  const pnk  = isFingerUp(lm, 20, 18);
+  const cnt  = [idx, mid, ring, pnk].filter(Boolean).length;
+  const pinchDist = Math.hypot(lm[4].x - lm[8].x, lm[4].y - lm[8].y);
+  if (pinchDist < 0.08 && !mid)              return 'pinch';
+  if (cnt >= 4)                              return 'open';
+  if (cnt === 0)                             return 'fist';
+  if (idx && !mid && !ring && !pnk)         return 'point';
+  if (idx && mid && !ring && !pnk)          return 'peace';
+  return 'none';
+}
+
+async function startGestures() {
+  gwEl.style.display = 'flex';
+  glEl.textContent = 'loading camera…';
+  navGestureEl.classList.add('active');
+  navMapEl.classList.remove('active');
+
+  if (!window.Hands) {
+    glEl.textContent = 'loading AI…';
+    await new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js';
+      s.crossOrigin = 'anonymous';
+      s.onload = res;
+      s.onerror = () => rej(new Error('MediaPipe CDN unavailable — check internet connection'));
+      document.head.appendChild(s);
+    });
+  }
+
+  try {
+    gestureStream = await navigator.mediaDevices.getUserMedia({
+      video: { width: 320, height: 240, facingMode: 'user' }
+    });
+  } catch(e) {
+    glEl.textContent = '⚠ camera denied';
+    stopGestures(); return;
+  }
+  gvEl.srcObject = gestureStream;
+  await new Promise(res => { gvEl.onloadedmetadata = () => res(); });
+  gvEl.play();
+
+  handsInstance = new Hands({
+    locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`
+  });
+  handsInstance.setOptions({
+    maxNumHands: 1, modelComplexity: 0,
+    minDetectionConfidence: 0.65, minTrackingConfidence: 0.5
+  });
+
+  const gsCtx = gsEl.getContext('2d');
+  let prevGesture = 'none', stableFrames = 0;
+
+  handsInstance.onResults(results => {
+    gsCtx.clearRect(0, 0, 160, 120);
+    if (!results.multiHandLandmarks || !results.multiHandLandmarks.length) {
+      glEl.textContent = '✋ show hand';
+      lastHandX = null; prevGesture = 'none'; stableFrames = 0; return;
+    }
+    const lm = results.multiHandLandmarks[0];
+
+    // skeleton — mirror X so it matches the mirrored video
+    gsCtx.strokeStyle = 'rgba(70,177,255,.75)';
+    gsCtx.lineWidth = 1.5;
+    HAND_CONN.forEach(([a,b]) => {
+      gsCtx.beginPath();
+      gsCtx.moveTo((1-lm[a].x)*160, lm[a].y*120);
+      gsCtx.lineTo((1-lm[b].x)*160, lm[b].y*120);
+      gsCtx.stroke();
+    });
+    lm.forEach(p => {
+      gsCtx.fillStyle = '#46b1ff';
+      gsCtx.beginPath();
+      gsCtx.arc((1-p.x)*160, p.y*120, 2.5, 0, Math.PI*2);
+      gsCtx.fill();
+    });
+
+    const g = detectGesture(lm);
+    if (g === prevGesture) stableFrames++; else { prevGesture = g; stableFrames = 0; }
+
+    const hx = lm[0].x;
+    handVelX = lastHandX !== null ? hx - lastHandX : 0;
+    lastHandX = hx;
+
+    const LABELS = { open:'🖐 zoom in', fist:'✊ zoom out', pinch:'🤌 select', point:'☝ orbit', peace:'✌ fit view', none:'…' };
+    glEl.textContent = stableFrames > 2 ? (LABELS[g] || g) : '…';
+
+    if (stableFrames < 3) return;
+
+    gestureActionTick++;
+    if (gestureActionTick % 3 !== 0) return;   // throttle: act every 3 detected frames
+
+    if      (g === 'open')  { zoomBy(1.018); _physSleep=false; }
+    else if (g === 'fist')  { zoomBy(0.982); _physSleep=false; }
+    else if (g === 'pinch') { if (gestureActionTick % 18 === 0) { if (hover) openDetail(hover); else fitView(); } }
+    else if (g === 'peace') { if (gestureActionTick % 24 === 0) fitView(); }
+    else if (g === 'point') { rotY += (lm[8].x - 0.5) * 0.025; refreshTrig(); }
+    else if (g === 'none' && Math.abs(handVelX) > 0.015) { rotY -= handVelX * 0.4; refreshTrig(); }
+  });
+
+  glEl.textContent = '✋ show hand';
+  gvEl.dataset.grun = '1';
+  (async function sendFrame() {
+    if (!gvEl.dataset.grun) return;
+    if (handsInstance) await handsInstance.send({ image: gvEl }).catch(() => {});
+    requestAnimationFrame(sendFrame);
+  })();
+}
+
+function stopGestures() {
+  if (gestureStream) { gestureStream.getTracks().forEach(t => t.stop()); gestureStream = null; }
+  if (handsInstance) { try { handsInstance.close(); } catch(e){} handsInstance = null; }
+  delete gvEl.dataset.grun;
+  gwEl.style.display = 'none';
+  navGestureEl.classList.remove('active');
+  navMapEl.classList.add('active');
+  gestureMode = false;
+}
+
+navGestureEl.addEventListener('click', e => {
+  e.preventDefault();
+  if (gestureMode) stopGestures();
+  else { gestureMode = true; startGestures().catch(err => { glEl.textContent = '⚠ ' + err.message; stopGestures(); }); }
+});
+gcBtn.addEventListener('click', stopGestures);
 
 // LIVE MODE: when served by brain-server.py, pull the real vault graph and keep syncing
 const badge=document.getElementById('liveBadge');
