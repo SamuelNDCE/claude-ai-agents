@@ -806,6 +806,10 @@ def api_search(q):
         snip = (entry["content"][max(0, idx-30):idx+70].replace("\n", " ").strip()
                 if idx >= 0 else entry["content"][:100].replace("\n", " ").strip())
 
+        # Section sub-neurons are useful but should rank below their parent note
+        if entry.get("type") == "section":
+            score = max(1, score - 2)
+
         item = {
             "id": nid, "title": entry["title"],
             "type": entry["type"], "snippet": snip, "score": score,
@@ -1176,7 +1180,7 @@ def api_ask(q):
                     break
     if not hits:
         return {"question": q, "answer": "Nothing in the vault matches that yet.", "sources": []}
-    hits.sort(key=lambda h: (q.lower() in (h["title"] or "").lower(), h["size"]), reverse=True)
+    hits.sort(key=lambda h: (q.lower() in (h["title"] or "").lower(), h.get("tokens_est", h.get("size", 0))), reverse=True)
     top = hits[:3]
     note = api_get_note(top[0]["id"])
     body = note["content"] if note else ""
