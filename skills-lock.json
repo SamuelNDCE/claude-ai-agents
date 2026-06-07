@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "karpathy-guidelines": {
+      "source": "multica-ai/andrej-karpathy-skills",
+      "sourceType": "github",
+      "skillPath": "skills/karpathy-guidelines/SKILL.md",
+      "computedHash": "0ec1641120accbb458780e0bd19a50a4182f2b97863e90851b91307f29802c9f"
+    },
+    "para-second-brain": {
+      "source": "robdefeo/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/para-second-brain/SKILL.md",
+      "computedHash": "24d7f06c4117fc2f6ce0ec1196be180a1ae3739ac8b162ccc7ff5b5a8ca8e773"
+    },
+    "qmd": {
+      "source": "tobi/qmd",
+      "sourceType": "github",
+      "skillPath": "skills/qmd/SKILL.md",
+      "computedHash": "638f4cfa265f3f6d14a49ecfe9407acc7da23a5e60b9c861362557fb4217e437"
+    }
+  }
+}
