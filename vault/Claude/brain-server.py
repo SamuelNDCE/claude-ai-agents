@@ -2205,7 +2205,7 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(400, {"error": "invalid json"}); return
             existing = find(p.get("id", ""))
             EDITABLE = ("name","role","type","interval","enabled","goal","model",
-                        "system_prompt","context_query","max_tokens","api_key","web_search")
+                        "system_prompt","context_query","max_tokens","api_key","web_search","tasks")
             if existing:
                 existing.update({k: p[k] for k in EDITABLE if k in p})
             else:
