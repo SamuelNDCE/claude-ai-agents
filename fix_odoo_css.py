@@ -13,8 +13,8 @@ import sys
 
 URL      = "https://perpetualtechnologies.odoo.com"
 DB       = "perpetualtechnologies"
-USERNAME = "YOUR_EMAIL_HERE"    # <-- fill in your Odoo admin email
-PASSWORD = "YOUR_PASSWORD_HERE" # <-- fill in your Odoo admin password
+USERNAME = "Samuelndce@gmail.com"    # <-- fill in your Odoo admin email
+PASSWORD = "Pass98!Chatgpt" # <-- fill in your Odoo admin password
 
 # The CSS that should be in the head, not on the page body
 THE_CSS = """\
