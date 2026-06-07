@@ -390,7 +390,9 @@ function physics(){
   NODES.forEach(nd=>{ if(nd===drag) return;
     nd.vx+=(W/2-nd.x)*0.0006; nd.vy+=(H/2-nd.y)*0.0006; nd.vz+=(0-nd.z)*0.0006;  // pull toward centre
     nd.vx+=(Math.random()-0.5)*0.1; nd.vy+=(Math.random()-0.5)*0.1; nd.vz+=(Math.random()-0.5)*0.1;
-    nd.vx*=0.9; nd.vy*=0.9; nd.vz*=0.9; nd.x+=nd.vx; nd.y+=nd.vy; nd.z+=nd.vz; });
+    nd.vx*=0.9; nd.vy*=0.9; nd.vz*=0.9;
+    const mv=8; nd.vx=Math.max(-mv,Math.min(mv,nd.vx)); nd.vy=Math.max(-mv,Math.min(mv,nd.vy)); nd.vz=Math.max(-mv,Math.min(mv,nd.vz));
+    nd.x+=nd.vx; nd.y+=nd.vy; nd.z+=nd.vz; });
   let ke=0; NODES.forEach(nd=>{ ke+=nd.vx*nd.vx+nd.vy*nd.vy; });
   physicsKE=physicsKE*0.93+ke*0.07;
   physicsSleeping = physicsKE < 0.012*Math.max(2,NODES.length) && !drag;
@@ -500,7 +502,7 @@ function fitView(){ if(!NODES.length) return; projectAll();
   let a=1e9,b=1e9,c=-1e9,d=-1e9;
   NODES.forEach(n=>{a=Math.min(a,n._wpx);b=Math.min(b,n._wpy);c=Math.max(c,n._wpx);d=Math.max(d,n._wpy);});
   const gw=(c-a)||1, gh=(d-b)||1, pad=170;
-  cam.s=Math.max(0.4,Math.min(1.7, Math.min((W-pad)/gw,(H-pad*1.5)/gh)));
+  cam.s=Math.max(0.05,Math.min(1.7, Math.min((W-pad)/gw,(H-pad*1.5)/gh)));
   cam.x=-((a+c)/2)*cam.s; cam.y=-((b+d)/2)*cam.s; viewDirty=true;
 }
 cv.addEventListener('mousemove',e=>{const nx=e.clientX,ny=e.clientY;
@@ -785,7 +787,8 @@ async function pullLive(){
       if(first){ liveOn=true; markLive(true);
         const initSteps=Math.max(30,Math.min(120,Math.round(1920/Math.max(NODES.length,16))));
         for(let k=0;k<initSteps;k++) physics();
-        fitView(); loadState(); } }
+        fitView(); loadState();
+        setTimeout(()=>{ if(!moved){ fitView(); viewDirty=true; } }, 1500); } }
   }catch(e){ if(!liveOn) markLive(false); }
 }
 pullLive().finally(()=> setInterval(pullLive, 4000));
