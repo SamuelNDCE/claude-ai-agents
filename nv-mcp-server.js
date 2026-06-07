@@ -6,12 +6,19 @@ const { nvGet, nvPost } = require("./nv-client.js");
 const TOOLS = [
   {
     name: "nv_observe",
-    description: "Save a quick observation or memory to NeuralVault. Lands in wiki/agent-inbox/. Use whenever Claude learns something worth persisting.",
+    description: "Save a quick fact, decision, or memory to NeuralVault. Routes to the correct folder based on type: observation→agent-inbox, lesson→wiki/lessons, concept→wiki/concepts, pattern→wiki/patterns, source→wiki/sources, meta→wiki/meta, synthesis→wiki/synthesis. Default type is 'observation'.",
     inputSchema: {
       type: "object",
       properties: {
         title: { type: "string", description: "Short title for the note" },
-        content: { type: "string", description: "The observation or memory content (markdown)" },
+        content: { type: "string", description: "The note content (markdown)" },
+        type: {
+          type: "string",
+          description: "Note type controls which folder it lands in. Options: observation (default, agent-inbox), lesson (wiki/lessons), concept (wiki/concepts), pattern (wiki/patterns), source (wiki/sources), meta (wiki/meta), synthesis (wiki/synthesis), entity (wiki/entities), question (wiki/questions)",
+          default: "observation",
+        },
+        status: { type: "string", description: "Maturity: seed (default), ripe, or evergreen", default: "seed" },
+        links: { type: "array", items: { type: "string" }, description: "Note titles to wikilink in Related section" },
       },
       required: ["title", "content"],
     },
@@ -53,7 +60,7 @@ const TOOLS = [
         content: { type: "string", description: "Note body (markdown)" },
         type: {
           type: "string",
-          description: "Note type — one of: observation, lesson, pattern, task, concept, entity, source, question",
+          description: "Note type — one of: observation, lesson, pattern, task, concept, entity, source, question, meta, moc, synthesis, catalog, person, org, system",
           default: "note",
         },
         tags: {
@@ -70,7 +77,12 @@ const TOOLS = [
 
 async function callTool(name, args) {
   if (name === "nv_observe") {
-    const r = await nvPost("/api/observe", { title: args.title, content: args.content });
+    const r = await nvPost("/api/observe", {
+      title: args.title, content: args.content,
+      type: args.type || "observation",
+      status: args.status || "seed",
+      links: args.links || [],
+    });
     return text(JSON.stringify(r));
   }
   if (name === "nv_search") {
