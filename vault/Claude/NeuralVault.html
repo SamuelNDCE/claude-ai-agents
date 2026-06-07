@@ -833,10 +833,27 @@ function openDetail(n){ selected=n; const T=TYPES[n.t];
     row.onclick=()=>openDetail(par); dRels.appendChild(row); }}
   const dChildren=NODES.filter(c=>c.t==='section'&&c.parent===n.id);
   if(dChildren.length){
-    const row=document.createElement('div'); row.className='detail-rel chl';
-    const names=dChildren.slice(0,6).map(c=>c.label).join(', ')+(dChildren.length>6?' + '+(dChildren.length-6)+' more':'');
-    row.innerHTML=`<span class="ri">↓</span> sub-neurons: <b>${names}</b>`;
-    dRels.appendChild(row); }
+    const CHILD_SHOW=5;
+    dChildren.forEach((ch,i)=>{
+      const row=document.createElement('div'); row.className='detail-rel chl';
+      row.innerHTML=`<span class="ri">↓</span> <b>${ch.label}</b>`;
+      row.onclick=()=>openDetail(ch);
+      if(i>=CHILD_SHOW) row.style.display='none';
+      dRels.appendChild(row);
+    });
+    if(dChildren.length>CHILD_SHOW){
+      const tog=document.createElement('div'); tog.className='detail-rel';
+      tog.style.cssText='font-size:11px;opacity:.6;padding-left:14px;color:#3dca6e';
+      tog.textContent=`▸ ${dChildren.length-CHILD_SHOW} more`;
+      let ex=false;
+      tog.onclick=()=>{
+        ex=!ex;
+        dRels.querySelectorAll('.detail-rel.chl').forEach((r,i)=>{ if(i>=CHILD_SHOW) r.style.display=ex?'flex':'none'; });
+        tog.textContent=ex?'▴ show less':`▸ ${dChildren.length-CHILD_SHOW} more`;
+      };
+      dRels.appendChild(tog);
+    }
+  }
   const open=document.getElementById('detailOpen');
   if(n.file && VAULT){ open.style.display='block';
     const f=n.file.replace(/\.md$/,'');
