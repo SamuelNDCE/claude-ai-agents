@@ -281,6 +281,7 @@ const TYPES = {
   concept:{color:'#46b1ff', label:'Concept (mental model)'},
   source: {color:'#56d364', label:'Source (session / doc)'},
   ext:    {color:'#6f8bb6', label:'External note'},
+  default:{color:'#7d8aa0', label:'Unknown'},
 };
 
 const EMB_NODES = [
@@ -428,7 +429,7 @@ function buildSubstrate(){
   SUB=[]; subByParent={};
   if(!NODES.length) return;
   const total=Math.min(subDensity,6000), per=Math.max(0,Math.floor(total/NODES.length));
-  NODES.forEach(n=>{ const col=TYPES[n.t].color, cnt=per+(n.deg||0)*2;
+  NODES.forEach(n=>{ const col=(TYPES[n.t]||TYPES.default).color, cnt=per+(n.deg||0)*2;
     for(let i=0;i<cnt;i++){ const a1=Math.random()*6.283,a2=Math.acos(2*Math.random()-1),
         rr=(n.r*2.4+24)*Math.pow(Math.random(),0.55);
       SUB.push({pid:n.id, ox:rr*Math.sin(a2)*Math.cos(a1), oy:rr*Math.sin(a2)*Math.sin(a1),
@@ -548,7 +549,7 @@ function pickHover(){ if(mx===prevMx2&&my===prevMy2&&!panning) return; prevMx2=m
 
 /* ---------- detail panel (click to read / open) ---------- */
 const detail=document.getElementById('detail');
-function openDetail(n){ selected=n; const T=TYPES[n.t];
+function openDetail(n){ selected=n; const T=TYPES[n.t]||TYPES.default;
   detail.querySelector('.tag').textContent=n.t;
   detail.querySelector('.tag').style.background=T.color;
   detail.querySelector('.dttl').textContent=n.label;
@@ -689,7 +690,7 @@ function draw(now){
     ctx.fillStyle=pu.col; ctx.beginPath();ctx.arc(x,y,Math.max(0.6,1.5*nodeSize),0,7);ctx.fill(); }
 
   // node halos (glow) — offscreen canvas cache avoids createRadialGradient every frame
-  for(const n of order){ const T=TYPES[n.t]; n.glow*=0.93;
+  for(const n of order){ const T=TYPES[n.t]||TYPES.default; n.glow*=0.93;
     if(sActive&&searchSet.has(n.id)) n.glow=Math.max(n.glow, 0.55+0.45*Math.sin(now*0.007));  // matches pulse
     const dim=(foc&&n!==foc&&!(focSet&&focSet.has(n.id)))||(sActive&&!searchSet.has(n.id));
     const r=Math.max(1.5,(n.r*nodeSize*(1+n.glow*0.6))*n.ss);
@@ -719,7 +720,7 @@ function draw(now){
 
   // ---- solid layer: neuron cores + labels ----
   ctx.globalCompositeOperation='source-over';
-  for(const n of order){ const T=TYPES[n.t];
+  for(const n of order){ const T=TYPES[n.t]||TYPES.default;
     const dim=(foc&&n!==foc&&!(focSet&&focSet.has(n.id)))||(sActive&&!searchSet.has(n.id));
     const r=Math.max(1.6,(n.r*nodeSize*(1+n.glow*0.5))*n.ss);
     ctx.beginPath();ctx.arc(n.sx,n.sy,r,0,7);
@@ -781,7 +782,10 @@ async function pullLive(){
     const sig=j.nodes.length+'|'+j.edges.length+'|'+ssum;   // cheap change-detector
     const first=!liveOn;
     if(first || sig!==lastSig){ lastSig=sig; setGraph(j.nodes, j.edges);   // only rebuild on real change
-      if(first){ liveOn=true; markLive(true); for(let k=0;k<120;k++) physics(); fitView(); loadState(); } }
+      if(first){ liveOn=true; markLive(true);
+        const initSteps=Math.max(30,Math.min(120,Math.round(1920/Math.max(NODES.length,16))));
+        for(let k=0;k<initSteps;k++) physics();
+        fitView(); loadState(); } }
   }catch(e){ if(!liveOn) markLive(false); }
 }
 pullLive().finally(()=> setInterval(pullLive, 4000));
