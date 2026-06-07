@@ -156,44 +156,6 @@
   #tabBar button.active{background:rgba(70,177,255,.12);border-color:rgba(70,177,255,.38);color:#c8e8ff}
   #tabBar button:hover:not(.active){background:rgba(255,255,255,.09);color:#cdd6e6}
 
-  /* ── tasks overlay ── */
-  #tasksView{position:fixed;inset:0;z-index:7;background:var(--bg);display:none;
-    flex-direction:column;align-items:center}
-  #tasksView.on{display:flex}
-  #tasksHeader{width:560px;max-width:90vw;padding:110px 0 0;display:flex;
-    align-items:baseline;justify-content:space-between}
-  #tasksHeader h2{margin:0;font-size:13px;font-weight:600;letter-spacing:.14em;
-    text-transform:uppercase;color:#fff}
-  #taskCount{font-size:10.5px;color:var(--muted);letter-spacing:.06em}
-  #tasksAddRow{width:560px;max-width:90vw;display:flex;gap:8px;margin-top:14px}
-  #tasksAddRow input{flex:1;background:rgba(13,17,26,.9);border:1px solid rgba(255,255,255,.12);
-    border-radius:10px;color:var(--ink);font-size:13px;padding:9px 14px;outline:none;
-    font-family:inherit;backdrop-filter:blur(8px);transition:border-color .15s,box-shadow .15s}
-  #tasksAddRow input:focus{border-color:rgba(70,177,255,.55);box-shadow:0 0 0 3px rgba(70,177,255,.14)}
-  #tasksAddRow input::placeholder{color:#4b5a6b}
-  #tasksAddRow button{background:rgba(70,177,255,.14);border:1px solid rgba(70,177,255,.32);
-    color:#c8e8ff;border-radius:10px;padding:9px 16px;font-size:12px;cursor:pointer;
-    font-family:inherit;white-space:nowrap;transition:background .15s,transform .08s;letter-spacing:.04em}
-  #tasksAddRow button:hover{background:rgba(70,177,255,.26)}
-  #tasksAddRow button:active{transform:translateY(1px)}
-  #tasksList{width:560px;max-width:90vw;flex:1;overflow-y:auto;margin-top:18px;
-    padding-bottom:60px}
-  #tasksList::-webkit-scrollbar{width:4px}
-  #tasksList::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px}
-  .task-item{display:flex;align-items:center;gap:12px;padding:10px 14px;
-    border-bottom:1px solid rgba(255,255,255,.045);border-radius:10px;
-    transition:background .12s;cursor:default}
-  .task-item:hover{background:rgba(255,255,255,.035)}
-  .task-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);
-    flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
-    font-size:10px;color:transparent;transition:background .15s,border-color .15s}
-  .task-chk:hover{border-color:var(--concept)}
-  .task-item.done .task-chk{background:var(--source);border-color:var(--source);color:#06080d}
-  .task-ttl{flex:1;font-size:13px;color:#cdd6e6;line-height:1.4;word-break:break-word}
-  .task-item.done .task-ttl{text-decoration:line-through;color:#3a4659}
-  .task-meta{font-size:10px;color:#2e3a4a;flex:none}
-  #tasksEmpty{color:#3a4659;font-size:13px;text-align:center;padding-top:60px}
-
   /* ── agents iframe ── */
   #agentsFrame{display:none;position:fixed;inset:0;border:0;width:100%;height:100%;z-index:7;background:var(--bg)}
   #agentsFrame.on{display:block}
@@ -237,7 +199,6 @@
   <h1><span class="dot"></span> NeuralVault <span style="font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--muted);vertical-align:middle">NV · v0.8.2</span></h1>
   <div id="tabBar">
     <button id="tabMap" class="active">🧠 Map</button>
-    <button id="tabTasks">✓ Tasks</button>
     <button id="tabAgents">🤖 Agents</button>
     <button id="tabAR">📷 AR</button>
   </div>
@@ -260,17 +221,6 @@
 <div class="panel" id="legend"></div>
 <div class="panel" id="hint"><b>Click</b> a neuron to read / open · <b>Hover</b> to peek · <b>Drag</b> a neuron to pull · <b>Drag canvas</b> to orbit · <b>Shift-drag</b> to pan · <b>Scroll</b> to zoom · <b>Double-click</b> to fit</div>
 
-<div id="tasksView">
-  <div id="tasksHeader">
-    <h2>✓ Tasks</h2>
-    <span id="taskCount"></span>
-  </div>
-  <div id="tasksAddRow">
-    <input id="taskInput" type="text" placeholder="Add a task…" autocomplete="off" spellcheck="false" />
-    <button id="taskAddBtn">+ Add</button>
-  </div>
-  <div id="tasksList"></div>
-</div>
 
 
 <div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div></div>
@@ -840,14 +790,9 @@ pollStorage(); setInterval(pollStorage, 15000);               // storage indicat
 addEventListener('beforeunload', saveState);
 
 /* ── Tabs ── */
-const tasksView   = document.getElementById('tasksView');
 const agentsFrame = document.getElementById('agentsFrame');
 const tabMap      = document.getElementById('tabMap');
-const tabTasks    = document.getElementById('tabTasks');
 const tabAgentsEl = document.getElementById('tabAgents');
-const taskInput   = document.getElementById('taskInput');
-const tasksList   = document.getElementById('tasksList');
-const taskCount   = document.getElementById('taskCount');
 const headDesc    = document.getElementById('headDesc');
 let agentsLoaded  = false;
 
