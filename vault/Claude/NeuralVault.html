@@ -200,7 +200,7 @@
   <div id="tabBar">
     <button id="tabMap" class="active">🧠 Map</button>
     <button id="tabAgents">🤖 Agents</button>
-    <button id="tabAR">📷 AR</button>
+    <button id="tabAR" style="display:none">📷 AR</button>
   </div>
   <p id="headDesc">A living neural map of the vault. Each <b>neuron</b> is a note; each <b>synapse</b> is a wikilink. Thoughts fire across the network in real time, and the strongest paths learn.</p>
   <div id="liveBadge" style="margin-top:9px;font-size:11px;letter-spacing:.06em;color:var(--muted)">○ static snapshot</div>
@@ -344,10 +344,6 @@ addEventListener('resize',resize);resize();
 // live, rebuildable graph state — positions persist across refreshes
 let NODES=[], byId={}, adj={}, edges=[];
 function setGraph(rawNodes, rawEdges){
-  // Strip section sub-neurons — they're heading fragments, not real notes
-  rawNodes = rawNodes.filter(n => n.t !== 'section');
-  const sids = new Set(rawNodes.map(n => n.id));
-  rawEdges = rawEdges.filter(e => { const a=e[0]??e.a, b=e[1]??e.b; return sids.has(a)&&sids.has(b); });
   const prev={}; NODES.forEach(n=>prev[n.id]=n);
   const next = rawNodes.map(rn=>{ const p=prev[rn.id]; const n=Object.assign({},rn);
     if(p){n.x=p.x;n.y=p.y;n.z=p.z||0;n.vx=p.vx;n.vy=p.vy;n.vz=p.vz||0;n.glow=p.glow;n.dust=p.dust;}
