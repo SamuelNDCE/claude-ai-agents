@@ -5,6 +5,11 @@
       "command": "node",
       "args": ["C:\\Users\\Futur\\Documents\\AiWorkspace\\Claude\\codegraph-nv-bridge.js"]
     },
+    "nv-web": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\Users\\Futur\\Documents\\AiWorkspace\\Claude\\nv-web-mcp.js"]
+    },
     "claude-flow": {
       "command": "cmd",
       "args": [
