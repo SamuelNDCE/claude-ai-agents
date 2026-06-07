@@ -86,6 +86,12 @@
   #tip .tag{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border-radius:999px;
     color:#06080d;font-weight:700}
   #tip .s{font-size:12px;color:#aab4c6;margin-top:7px;line-height:1.5}
+  #tip .rels{margin-top:8px;display:flex;flex-direction:column;gap:4px;border-top:1px solid rgba(255,255,255,.07);padding-top:7px}
+  #tip .rels:empty{display:none}
+  #tip .rel{font-size:11px;display:flex;align-items:baseline;gap:5px;line-height:1.4}
+  #tip .rel .ri{font-size:10px;opacity:.7;flex:none}
+  #tip .rel.par{color:#f09b2a}
+  #tip .rel.chl{color:#3dca6e}
   @media (prefers-reduced-motion:reduce){#head h1 .dot{animation:none}}
 
   /* right pop-out control panel */
@@ -399,7 +405,7 @@
 <div class="panel" id="hint"><b>Click</b> a neuron to read / open · <b>Hover</b> to peek · <b>Drag</b> a neuron to pull · <b>Drag canvas</b> to orbit · <b>Shift-drag</b> to pan · <b>Scroll</b> to zoom · <b>Double-click</b> to fit</div>
 <button id="refreshBtn" title="Refresh from vault (re-sync + re-fit)">↻</button>
 
-<div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div></div>
+<div id="tip"><div class="t"><span class="tag"></span><span class="ttl"></span></div><div class="s"></div><div class="rels"></div></div>
 
 <div id="detail">
   <span class="x" id="detailX">×</span>
@@ -770,7 +776,19 @@ function pickHover(){ if(mx<0||panning){hover=null;tip.classList.remove('on');re
     tip.querySelector('.tag').style.background=T.color;
     tip.querySelector('.ttl').textContent=hover.label;
     tip.querySelector('.s').textContent=hover.s;
-    let x=mx+16,y=my+16; if(x>W-320)x=mx-316; if(y>H-130)y=my-120;
+    // Parent / sub-neuron relationships
+    const relsDiv=tip.querySelector('.rels'); relsDiv.innerHTML='';
+    if(hover.parent){ const par=byId[hover.parent]; if(par){
+      const row=document.createElement('div'); row.className='rel par';
+      row.innerHTML=`<span class="ri">↑</span> parent: <b>${par.label}</b>`;
+      relsDiv.appendChild(row); }}
+    const children=NODES.filter(n=>n.t==='section'&&n.parent===hover.id);
+    if(children.length){
+      const row=document.createElement('div'); row.className='rel chl';
+      const names=children.slice(0,5).map(c=>c.label).join(', ')+(children.length>5?' + '+(children.length-5)+' more':'');
+      row.innerHTML=`<span class="ri">↓</span> sub-neurons: <b>${names}</b>`;
+      relsDiv.appendChild(row); }
+    let x=mx+16,y=my+16; if(x>W-320)x=mx-316; if(y>H-150)y=my-140;
     tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('on');
   } else tip.classList.remove('on');
 }
@@ -969,6 +987,12 @@ function draw(now){
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
 
   const foc = hover || selected, focSet = foc?adj[foc.id]:null;
+  // Parent / child ring sets for hover highlight
+  let _hoverPar=null, _hoverChildren=new Set();
+  if(hover){
+    if(hover.parent) _hoverPar=byId[hover.parent];
+    NODES.forEach(n=>{ if(n.t==='section'&&n.parent===hover.id) _hoverChildren.add(n.id); });
+  }
   const sActive = !!searchSet;
   const order = NODES.slice().sort((a,b)=>b.sd-a.sd);   // depth sort: far → near
 
@@ -1045,7 +1069,14 @@ function draw(now){
     const r=Math.max(1.6,(n.r*nodeSize*(1+n.glow*0.5))*n.ss);
     ctx.beginPath();ctx.arc(n.sx,n.sy,r,0,7);
     ctx.globalAlpha=dim?0.5:1; ctx.fillStyle=dim?'#171c28':col; ctx.fill(); ctx.globalAlpha=1;
-    ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,'+(dim?0.05:0.3)+')'; ctx.stroke(); }
+    ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,'+(dim?0.05:0.3)+')'; ctx.stroke();
+    // Parent ring (amber) / sub-neuron ring (green) on hover
+    if(_hoverPar&&n===_hoverPar){
+      ctx.beginPath();ctx.arc(n.sx,n.sy,r+5,0,7);
+      ctx.strokeStyle='rgba(240,155,42,0.85)';ctx.lineWidth=2;ctx.stroke(); }
+    else if(_hoverChildren.has(n.id)){
+      ctx.beginPath();ctx.arc(n.sx,n.sy,r+5,0,7);
+      ctx.strokeStyle='rgba(61,202,110,0.85)';ctx.lineWidth=2;ctx.stroke(); } }
   // labels — always present but subtle; focus + neighbours brighten, far ones fade
   ctx.textAlign='center';ctx.textBaseline='top';
   for(const n of order){
