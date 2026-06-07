@@ -172,6 +172,12 @@
   #detail .dt{font-size:16px;font-weight:680;color:#fff;display:flex;align-items:center;gap:9px;margin:0 18px 9px 0}
   #detail .tag{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border-radius:999px;color:#06080d;font-weight:700}
   #detail .ds{font-size:12.5px;color:#aeb8ca;line-height:1.55}
+  #detail .detail-rels{margin-top:10px;display:flex;flex-direction:column;gap:5px;border-top:1px solid rgba(255,255,255,.07);padding-top:9px}
+  #detail .detail-rels:empty{display:none}
+  #detail .detail-rel{font-size:12px;display:flex;align-items:baseline;gap:6px;line-height:1.4;cursor:pointer}
+  #detail .detail-rel .ri{font-size:10px;opacity:.65;flex:none}
+  #detail .detail-rel.par{color:#f09b2a} #detail .detail-rel.par:hover{color:#ffb84d}
+  #detail .detail-rel.chl{color:#3dca6e} #detail .detail-rel.chl:hover{color:#5de08a}
   #detail .nb{margin-top:14px}
   #detail .nb .h{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
   #detail .chip{display:inline-block;font-size:11px;color:#cdd6e6;background:rgba(255,255,255,.06);
@@ -353,6 +359,7 @@
   <span class="x" id="detailX">×</span>
   <div class="dt"><span class="tag"></span><span class="dttl"></span></div>
   <div class="ds"></div>
+  <div class="detail-rels"></div>
   <div class="nb"><div class="h">Connected neurons</div><div class="chips"></div></div>
   <a class="open" id="detailOpen">Open in Obsidian ↗</a>
   <button class="open" id="detailEdit" style="background:transparent;border:1px solid rgba(255,255,255,.14);color:#cdd6e6;margin-top:8px">✎ Edit note</button>
@@ -766,6 +773,18 @@ function openDetail(n){ selected=n; const T=TYPES[n.t];
     chips.appendChild(tog);
   }
   detail.querySelector('.nb').style.display = nb.length?'block':'none';
+  // Parent / sub-neuron relationships
+  const dRels=detail.querySelector('.detail-rels'); dRels.innerHTML='';
+  if(n.parent){ const par=byId[n.parent]; if(par){
+    const row=document.createElement('div'); row.className='detail-rel par';
+    row.innerHTML=`<span class="ri">↑</span> parent: <b>${par.label}</b>`;
+    row.onclick=()=>openDetail(par); dRels.appendChild(row); }}
+  const dChildren=NODES.filter(c=>c.t==='section'&&c.parent===n.id);
+  if(dChildren.length){
+    const row=document.createElement('div'); row.className='detail-rel chl';
+    const names=dChildren.slice(0,6).map(c=>c.label).join(', ')+(dChildren.length>6?' + '+(dChildren.length-6)+' more':'');
+    row.innerHTML=`<span class="ri">↓</span> sub-neurons: <b>${names}</b>`;
+    dRels.appendChild(row); }
   const open=document.getElementById('detailOpen');
   if(n.file && VAULT){ open.style.display='block';
     const f=n.file.replace(/\.md$/,'');
@@ -944,7 +963,9 @@ function draw(now){
   edges.forEach(e=>{const a=byId[e.a],b=byId[e.b]; if(!a||!b) return;
     const lit = foc && (e.a===foc.id||e.b===foc.id), str=edgeStrength(e,a,b);
     ctx.beginPath();ctx.moveTo(a.sx,a.sy);ctx.lineTo(b.sx,b.sy);
-    if(lit){ ctx.strokeStyle='rgba(150,195,255,0.5)'; ctx.lineWidth=1.5+str*2.2; }
+    if(lit){
+      const isChild=hover&&((a.t==='section'&&a.parent===hover.id)||(b.t==='section'&&b.parent===hover.id));
+      ctx.strokeStyle=isChild?'rgba(61,202,110,0.65)':'rgba(150,195,255,0.5)'; ctx.lineWidth=1.5+str*2.2; }
     else if(e.learned){ // STDP-grown synapse — warm amber to distinguish from structural edges
       ctx.strokeStyle='rgba(220,'+(130+str*80|0)+',50,'+(0.15+str*0.38).toFixed(3)+')';
       ctx.lineWidth=0.5+str*3.0; }
