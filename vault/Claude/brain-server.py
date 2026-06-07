@@ -806,6 +806,10 @@ def api_search(q):
         snip = (entry["content"][max(0, idx-30):idx+70].replace("\n", " ").strip()
                 if idx >= 0 else entry["content"][:100].replace("\n", " ").strip())
 
+        # Section sub-neurons are useful but should rank below their parent note
+        if entry.get("type") == "section":
+            score = max(1, score - 2)
+
         item = {
             "id": nid, "title": entry["title"],
             "type": entry["type"], "snippet": snip, "score": score,
@@ -880,7 +884,7 @@ def api_context():
     cached = _cache_get("ctx")
     if cached is not None:
         return cached
-    # Recent notes from agent-inbox, sorted newest first
+    # Recent notes from agent-inbox, sorted newest first (observations = ephemeral context)
     inbox_dir = os.path.join(BASE, "wiki/agent-inbox")
     recent = []
     if os.path.isdir(inbox_dir):
@@ -899,12 +903,16 @@ def api_context():
             except Exception:
                 pass
 
-    # Hub / concept notes — most content-dense (highest word count)
+    # Hub / concept notes — blend recency with size so newly promoted notes surface
+    now_ts = time.time()
     with INDEX_LOCK:
-        hubs = sorted(
-            [e for e in NOTE_INDEX.values()
-             if e.get("type") in ("moc", "concept", "hub", "pattern", "lesson")],
-            key=lambda e: -e["size"])[:5]
+        hub_pool = [e for e in NOTE_INDEX.values()
+                    if e.get("type") in ("moc", "concept", "hub", "pattern", "lesson", "synthesis", "meta")
+                    and "#" not in e.get("id", "")]
+    for h in hub_pool:
+        age_days = (now_ts - (h.get("mtime") or 0)) / 86400
+        h["_score"] = h["size"] + max(0, (7 - age_days) * 200)   # recency bonus decays over 7 days
+    hubs = sorted(hub_pool, key=lambda e: -e["_score"])[:5]
     key_concepts = [{"title": h["title"], "type": h["type"],
                      "excerpt": h["content"][:150].replace("\n", " ").strip()}
                     for h in hubs]
@@ -922,11 +930,11 @@ def api_context():
             if e.get("type") != "section"
         )
 
-    # Top-5 most recently modified notes anywhere in the vault (excluding sections)
+    # Top-5 most recently modified notes anywhere in the vault (excluding sections + observations)
     with INDEX_LOCK:
-        all_notes = [(e["id"], e.get("mtime", 0), e.get("title", ""))
+        all_notes = [(e["id"], e.get("mtime", 0), e.get("title", ""), e.get("type", ""), e.get("content", ""))
                      for e in NOTE_INDEX.values()
-                     if "#" not in e["id"]]  # exclude section sub-neurons
+                     if "#" not in e["id"] and e.get("type") != "observation"]  # skip ephemeral observations
     recent_activity = sorted(all_notes, key=lambda x: -x[1])[:3]
 
     # Plain-text format: ~50% fewer tokens than JSON for same information
@@ -946,12 +954,13 @@ def api_context():
             lines.append(f"  {r['title'][:55]} ({r.get('age','?')}): {s}")
         lines.append("")
 
-    # 3 most recently modified notes (vault-wide, any type)
+    # 3 most recently modified notes (vault-wide, non-observation)
     if recent_activity:
         lines.append("RECENT ACTIVITY:")
-        for nid, mtime, title in recent_activity:
+        for nid, mtime, title, ntype, content in recent_activity:
             ts = time.strftime("%Y-%m-%d %H:%M", time.localtime(mtime)) if mtime else "?"
-            lines.append(f"  {title[:55]} ({ts})")
+            snip = content[:80].replace("\n", " ").strip()
+            lines.append(f"  [{ntype}] {title[:45]} ({ts}): {snip}")
         lines.append("")
 
     if key_concepts:
@@ -1089,6 +1098,14 @@ FOLDER_BY_TYPE = {
     "lesson": "wiki/lessons", "pattern": "wiki/patterns", "task": "wiki/tasks",
     "concept": "wiki/concepts", "entity": "wiki/entities", "source": "wiki/sources",
     "question": "wiki/questions",
+    # structural / hub types
+    "meta": "wiki/meta", "moc": "wiki/meta",
+    # entity subtypes — all land in entities
+    "person": "wiki/entities", "org": "wiki/entities", "system": "wiki/entities",
+    # higher-order notes
+    "synthesis": "wiki/synthesis", "catalog": "wiki/catalog",
+    # inbox alias
+    "inbox": "wiki/agent-inbox",
 }
 
 
@@ -1116,7 +1133,8 @@ def api_create_note(payload):
         today = time.strftime("%Y-%m-%d")
         links = payload.get("links") or []
         rel = "\n\nRelated: " + " · ".join(f"[[{l}]]" for l in links) if links else ""
-        fm = (f"---\ntitle: {title or fname}\ntype: {ntype}\nstatus: seed\n"
+        note_status = payload.get("status") or "seed"
+        fm = (f"---\ntitle: {title or fname}\ntype: {ntype}\nstatus: {note_status}\n"
               f"source: agent-api\ncreated: {today}\nupdated: {today}\n"
               f"tags: [{', '.join(tags)}]\n---\n\n")
         with open(full, "w", encoding="utf-8") as f:
@@ -1162,7 +1180,7 @@ def api_ask(q):
                     break
     if not hits:
         return {"question": q, "answer": "Nothing in the vault matches that yet.", "sources": []}
-    hits.sort(key=lambda h: (q.lower() in (h["title"] or "").lower(), h["size"]), reverse=True)
+    hits.sort(key=lambda h: (q.lower() in (h["title"] or "").lower(), h.get("tokens_est", h.get("size", 0))), reverse=True)
     top = hits[:3]
     note = api_get_note(top[0]["id"])
     body = note["content"] if note else ""
@@ -2082,11 +2100,16 @@ class Handler(BaseHTTPRequestHandler):
                 payload = json.loads(body)
             except Exception:
                 self._json(400, {"error": "invalid json"}); return
-            if path == "/api/observe":             # quick episodic capture → agent-inbox
-                payload = {"title": payload.get("title") or ("observation " + time.strftime("%Y-%m-%d %H:%M")),
+            if path == "/api/observe":             # quick episodic capture — routes by type
+                _obs_type = payload.get("type") or "observation"
+                _obs_folder = payload.get("folder") or FOLDER_BY_TYPE.get(_obs_type, "wiki/agent-inbox")
+                _obs_tags = payload.get("tags") or ["wiki/agent", _obs_type]
+                payload = {"title": payload.get("title") or (_obs_type + " " + time.strftime("%Y-%m-%d %H:%M")),
                            "content": payload.get("content") or payload.get("text") or "",
-                           "type": "observation", "folder": "wiki/agent-inbox",
-                           "tags": ["wiki/agent", "observation"]}
+                           "type": _obs_type, "folder": _obs_folder,
+                           "tags": _obs_tags,
+                           "status": payload.get("status") or "seed",
+                           "links": payload.get("links") or []}
             res = api_create_note(payload)
             if path == "/api/observe":   # stamp Claude session agent so it shows live in the canvas
                 _snip = (payload.get("content") or "")[:120].replace("\n", " ").strip()
