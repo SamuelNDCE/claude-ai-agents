@@ -1,0 +1,207 @@
+<h2>Agent Manager Tab</h2>
+<p class="subtitle">The center area gains tabs — Map and Agents (admin only). The Agents tab has a live activity visualization showing agents working in real time.</p>
+
+<div class="mockup">
+  <div class="mockup-header">NeuralVault — Agent Manager (admin view)</div>
+  <div class="mockup-body" style="padding:0">
+    <div style="background:#0d1117;border-radius:0 0 6px 6px;font-family:monospace;font-size:11px;color:#8b949e;display:flex;flex-direction:column;height:460px">
+
+      <!-- Top nav bar -->
+      <div style="background:#161b22;padding:6px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #30363d;flex-shrink:0">
+        <span style="color:#58a6ff;font-weight:bold;font-size:13px">NV</span>
+        <span style="color:#c9d1d9;font-size:11px">Company Vault</span>
+        <div style="flex:1;background:#0d1117;border-radius:12px;padding:3px 10px;color:#8b949e;font-size:10px;max-width:200px;margin:0 auto">⌕  Search everything...</div>
+        <span style="color:#ffa657;font-size:9px;background:#ffa65722;border-radius:10px;padding:2px 7px">admin</span>
+        <span style="color:#8b949e;font-size:10px">Samuel</span>
+        <span style="width:22px;height:22px;background:#a37aff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:9px">S</span>
+      </div>
+
+      <!-- CENTER TABS (only visible in center pane) -->
+      <div style="display:flex;flex:1;overflow:hidden">
+
+        <!-- LEFT SIDEBAR (same as before) -->
+        <div style="width:140px;background:#161b22;border-right:1px solid #30363d;display:flex;flex-direction:column;padding:10px;gap:4px;flex-shrink:0">
+          <div style="font-size:9px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Company Vault</div>
+          <div style="color:#56d364;font-size:10px;padding:3px 5px;border-radius:3px">📁 financials</div>
+          <div style="color:#79c0ff;font-size:10px;padding:3px 5px">📁 issues</div>
+          <div style="color:#ffa657;font-size:10px;padding:3px 5px">📁 complaints</div>
+          <div style="color:#d2a8ff;font-size:10px;padding:3px 5px">📁 decisions</div>
+          <div style="color:#8b949e;font-size:10px;padding:3px 5px">📁 knowledge</div>
+          <div style="margin-top:8px;border-top:1px solid #30363d;padding-top:8px">
+            <div style="font-size:9px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">My Vault</div>
+            <div style="font-size:10px;color:#8b949e;padding:3px 5px">📁 work/</div>
+          </div>
+          <div style="margin-top:auto;border-top:1px solid #30363d;padding-top:8px">
+            <div style="font-size:9px;color:#56d364">● File Keeper: active</div>
+            <div style="font-size:9px;color:#58a6ff;margin-top:2px">● AI Manager: running</div>
+            <div style="font-size:9px;color:#a37aff;margin-top:2px">● 3 custom agents</div>
+          </div>
+        </div>
+
+        <!-- CENTER — TABBED -->
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+
+          <!-- Tab bar -->
+          <div style="background:#161b22;border-bottom:1px solid #30363d;display:flex;gap:0;flex-shrink:0">
+            <div style="padding:7px 16px;font-size:10px;color:#8b949e;cursor:pointer;border-bottom:2px solid transparent">🗺 Map</div>
+            <div style="padding:7px 16px;font-size:10px;color:#58a6ff;cursor:pointer;border-bottom:2px solid #58a6ff;background:#0d1117">🤖 Agents</div>
+          </div>
+
+          <!-- AGENTS TAB CONTENT -->
+          <div style="flex:1;display:flex;overflow:hidden">
+
+            <!-- Agent list (left of center) -->
+            <div style="width:160px;border-right:1px solid #30363d;display:flex;flex-direction:column;padding:8px;gap:5px;flex-shrink:0;overflow-y:auto">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+                <span style="font-size:9px;color:#8b949e;text-transform:uppercase;letter-spacing:1px">Agents</span>
+                <span style="background:#1f6feb;border-radius:3px;padding:1px 6px;font-size:8px;color:white;cursor:pointer">+ New</span>
+              </div>
+
+              <!-- File Keeper -->
+              <div style="background:#161b22;border:1px solid #56d36444;border-radius:4px;padding:6px;cursor:pointer">
+                <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+                  <span style="width:7px;height:7px;background:#56d364;border-radius:50%;animation:pulse 1s infinite"></span>
+                  <span style="color:#c9d1d9;font-size:10px;font-weight:bold">File Keeper</span>
+                </div>
+                <div style="font-size:8px;color:#8b949e">Vault health · always on</div>
+                <div style="font-size:8px;color:#56d364;margin-top:2px">Currently: scanning decisions/</div>
+              </div>
+
+              <!-- AI Manager -->
+              <div style="background:#161b22;border:1px solid #58a6ff44;border-radius:4px;padding:6px;cursor:pointer">
+                <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+                  <span style="width:7px;height:7px;background:#58a6ff;border-radius:50%"></span>
+                  <span style="color:#c9d1d9;font-size:10px;font-weight:bold">AI Manager</span>
+                </div>
+                <div style="font-size:8px;color:#8b949e">Agent supervisor · always on</div>
+                <div style="font-size:8px;color:#58a6ff;margin-top:2px">Watching 3 agents</div>
+              </div>
+
+              <!-- Custom agents -->
+              <div style="font-size:9px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-top:4px;margin-bottom:2px">Custom</div>
+
+              <div style="background:#0d1117;border:1px solid #30363d;border-radius:4px;padding:6px;cursor:pointer;border-left:2px solid #a37aff">
+                <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+                  <span style="width:7px;height:7px;background:#a37aff;border-radius:50%"></span>
+                  <span style="color:#c9d1d9;font-size:10px">Daily Digest</span>
+                </div>
+                <div style="font-size:8px;color:#8b949e">Runs: daily 8am</div>
+              </div>
+
+              <div style="background:#0d1117;border:1px solid #30363d;border-radius:4px;padding:6px;cursor:pointer;border-left:2px solid #ffa657">
+                <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+                  <span style="width:7px;height:7px;background:#ffa657;border-radius:50%"></span>
+                  <span style="color:#c9d1d9;font-size:10px">CRM Sync</span>
+                </div>
+                <div style="font-size:8px;color:#8b949e">Runs: on webhook</div>
+              </div>
+
+              <div style="background:#0d1117;border:1px solid #30363d;border-radius:4px;padding:6px;cursor:pointer;border-left:2px solid #f8514922;opacity:0.6">
+                <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+                  <span style="width:7px;height:7px;background:#f85149;border-radius:50%"></span>
+                  <span style="color:#8b949e;font-size:10px">Report Builder</span>
+                </div>
+                <div style="font-size:8px;color:#f85149">Paused by AI Manager</div>
+              </div>
+            </div>
+
+            <!-- Agent activity visualization (center of center) -->
+            <div style="flex:1;background:#0a0d12;position:relative;overflow:hidden">
+              <div style="position:absolute;top:6px;left:8px;font-size:8px;color:#8b949e">Live agent activity</div>
+
+              <!-- Vault area nodes (same map structure, dimmer) -->
+              <div style="position:absolute;top:42%;left:44%;transform:translate(-50%,-50%);width:55px;height:55px;background:#2ea04315;border:1px solid #56d36444;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#56d36488;text-align:center">financials</div>
+              <div style="position:absolute;top:22%;left:28%;width:38px;height:38px;background:#388bfd15;border:1px solid #388bfd44;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#79c0ff88">issues</div>
+              <div style="position:absolute;top:65%;left:25%;width:35px;height:35px;background:#ffa65715;border:1px solid #ffa65744;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#ffa65788">complaints</div>
+              <div style="position:absolute;top:20%;left:64%;width:42px;height:42px;background:#a37aff15;border:1px solid #a37aff44;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#d2a8ff88;text-align:center">decisions<br><span style="font-size:7px;color:#56d364">← scanning</span></div>
+              <div style="position:absolute;top:65%;left:63%;width:32px;height:32px;background:#8b949e15;border:1px solid #8b949e33;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8b949e55">knowledge</div>
+
+              <!-- Connection lines -->
+              <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none">
+                <line x1="44%" y1="42%" x2="28%" y2="22%" stroke="#ffffff08" stroke-width="1"/>
+                <line x1="44%" y1="42%" x2="25%" y2="65%" stroke="#ffffff08" stroke-width="1"/>
+                <line x1="44%" y1="42%" x2="64%" y2="20%" stroke="#ffffff08" stroke-width="1"/>
+                <line x1="44%" y1="42%" x2="63%" y2="65%" stroke="#ffffff08" stroke-width="1"/>
+                <!-- File Keeper trail (green, going to decisions) -->
+                <line x1="44%" y1="42%" x2="64%" y2="20%" stroke="#56d36466" stroke-width="2" stroke-dasharray="3,3"/>
+              </svg>
+
+              <!-- FILE KEEPER agent dot (animated, near decisions) -->
+              <div style="position:absolute;top:30%;left:57%;width:14px;height:14px;background:#56d364;border-radius:50%;border:2px solid #56d364aa;box-shadow:0 0 8px #56d36488;display:flex;align-items:center;justify-content:center;font-size:7px;color:#0d1117;font-weight:bold" title="File Keeper">FK</div>
+
+              <!-- AI MANAGER dot (near center, watching) -->
+              <div style="position:absolute;top:50%;left:48%;width:14px;height:14px;background:#58a6ff;border-radius:50%;border:2px solid #58a6ffaa;box-shadow:0 0 8px #58a6ff88;display:flex;align-items:center;justify-content:center;font-size:7px;color:#0d1117;font-weight:bold" title="AI Manager">AM</div>
+
+              <!-- DAILY DIGEST dot (idle, near knowledge) -->
+              <div style="position:absolute;top:58%;left:66%;width:11px;height:11px;background:#a37aff88;border-radius:50%;border:1px solid #a37aff;display:flex;align-items:center;justify-content:center;font-size:7px;color:white" title="Daily Digest">D</div>
+
+              <!-- Agent activity log at bottom -->
+              <div style="position:absolute;bottom:0;left:0;right:0;background:#161b22cc;border-top:1px solid #30363d;padding:5px 8px;font-size:8px;color:#8b949e">
+                <span style="color:#56d364">File Keeper:</span> Fixed 2 dead links in decisions/ · <span style="color:#58a6ff">AI Manager:</span> Daily Digest idle · <span style="color:#ffa657">CRM Sync:</span> Last run 4m ago
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL — agent config when agent selected -->
+        <div style="width:180px;background:#161b22;border-left:1px solid #30363d;display:flex;flex-direction:column;flex-shrink:0">
+          <div style="padding:8px 10px;border-bottom:1px solid #30363d;font-size:10px;color:#c9d1d9">
+            File Keeper — Config
+          </div>
+          <div style="flex:1;padding:8px;display:flex;flex-direction:column;gap:6px;overflow-y:auto">
+            <div>
+              <div style="font-size:8px;color:#8b949e;margin-bottom:2px">TRIGGER</div>
+              <div style="background:#0d1117;border-radius:3px;padding:4px 6px;font-size:9px;color:#c9d1d9">Always on</div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#8b949e;margin-bottom:2px">ALLOWED FOLDERS</div>
+              <div style="background:#0d1117;border-radius:3px;padding:4px 6px;font-size:9px;color:#56d364">All folders</div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#8b949e;margin-bottom:2px">TOOLS</div>
+              <div style="font-size:8px;color:#c9d1d9">✓ read notes</div>
+              <div style="font-size:8px;color:#c9d1d9">✓ edit frontmatter</div>
+              <div style="font-size:8px;color:#c9d1d9">✓ fix dead links</div>
+              <div style="font-size:8px;color:#c9d1d9">✓ suggest merges</div>
+              <div style="font-size:8px;color:#444">✗ delete notes</div>
+              <div style="font-size:8px;color:#444">✗ external API</div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#8b949e;margin-bottom:2px">TOKEN BUDGET / RUN</div>
+              <div style="background:#0d1117;border-radius:3px;padding:4px 6px;font-size:9px;color:#c9d1d9">Unlimited (system)</div>
+            </div>
+            <div>
+              <div style="font-size:8px;color:#8b949e;margin-bottom:2px">INSTRUCTIONS</div>
+              <div style="background:#0d1117;border-radius:3px;padding:4px 6px;font-size:8px;color:#c9d1d9;line-height:1.4">Maintain vault health. Fix broken links, clean frontmatter, suggest note promotions to shared folders.</div>
+            </div>
+          </div>
+          <div style="padding:6px;border-top:1px solid #30363d;display:flex;gap:4px">
+            <div style="flex:1;background:#21262d;border:1px solid #30363d;border-radius:3px;padding:4px;font-size:8px;color:#8b949e;text-align:center;cursor:pointer">Edit</div>
+            <div style="flex:1;background:#f8514922;border:1px solid #f8514944;border-radius:3px;padding:4px;font-size:8px;color:#f85149;text-align:center;cursor:pointer">Pause</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px">The <strong>Agents tab</strong> shows a live map of agents moving through the vault (colored dots with trails), an agent list with status, and the selected agent's full config on the right. Does this match what you had in mind?</p>
+
+<div class="options">
+  <div class="option" data-choice="yes" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Yes, that's it</h3>
+      <p>Move on to the next UX question.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="adjust" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Adjust something</h3>
+      <p>I want to change part of this.</p>
+    </div>
+  </div>
+</div>
