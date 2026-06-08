@@ -19,11 +19,13 @@ Core principles:
 
 **Approach A — Tauri app + Rust server.** A Tauri desktop shell with a Rust backend process that owns indexing, search, and orchestration. The frontend is a thin client over the Rust server's local API.
 
+**Rendering is Rust + GPU.** The neural map's force simulation and rendering run in Rust on the GPU via `wgpu` (WebGPU), drawing to a surface in the Tauri window. The HTML/CSS webview is used only for UI chrome (panels, search box, stats, chat) overlaid on the GPU surface. The heavy per-frame work (physics, node/edge draw) never touches JavaScript. This is what makes the <10ms-at-1M ambition reachable on the visual side.
+
 Five sub-projects, in dependency order:
 
 1. **Core data + vault layer** — vault discovery, `.nv/` sidecar, frontmatter, templates.
 2. **Search** — LanceDB hybrid index, embeddings, RRF ranking.
-3. **Neural map** — clustering, graph rendering, interaction.
+3. **Neural map** — Rust + wgpu GPU rendering, cluster/LOD optimization, interaction.
 4. **NV chat + agents** — persistent memory, briefings, Vault Keeper / Analyzer / custom agents.
 5. **Sync / collab / licensing / website** — CRDT sync, roles, integrations, licensing, marketing site.
 
@@ -46,7 +48,8 @@ Each sub-project builds on the ones before it. Later sub-projects defer their op
 
 ## 5. Neural Map
 
-- **Cluster-first.** The map opens on clusters/communities rather than dumping every node, so large vaults stay legible.
+- **Rendered in Rust on the GPU (wgpu).** Force simulation and drawing run in Rust against a `wgpu` surface, not in JS canvas. Positions never round-trip through JavaScript per frame.
+- **Cluster-first + LOD is the scaling strategy.** The map opens on community clusters rather than every node — this is both for legibility AND as the core rendering optimization. At full-vault scale only a few hundred cluster nodes are drawn; individual nodes materialize via level-of-detail as the user zooms into or clicks a cluster. This keeps the per-frame draw count bounded regardless of vault size (target: smooth at 1M+ notes).
 - **Click / right-click behavior.** Click focuses/expands a node or cluster; right-click opens a context menu of actions on that node.
 - **Map highlighting on answers.** When chat or an agent answers, the nodes that sourced the answer light up on the map, tying generation back to the vault.
 

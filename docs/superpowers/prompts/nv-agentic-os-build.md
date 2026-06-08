@@ -34,7 +34,18 @@ DESIGN DIRECTION (FRONTEND)
   heartbeat dot, glassy floating panels.
 - Improve on it: cleaner type + spacing rhythm, tighter cohesive control
   panel, smoother motion, stronger visual hierarchy, less clutter.
-- Vanilla JS / HTML / CSS only on the frontend. No frameworks, no npm UI libs.
+
+RENDERING ARCHITECTURE (important — not a JS canvas):
+- The neural map's force simulation AND rendering run in RUST on the GPU via
+  `wgpu` (WebGPU), drawing to a surface in the Tauri window. Per-frame physics
+  and node/edge drawing never touch JavaScript.
+- The HTML/CSS webview is UI CHROME ONLY — panels, search box, stats bar,
+  detail panel, chat — overlaid on the GPU surface. Vanilla HTML/CSS + minimal
+  JS for chrome and for calling Rust commands (Tauri invoke). No UI frameworks.
+- Scaling strategy is CLUSTER-FIRST + LOD: draw community clusters as single
+  nodes by default (a few hundred draws even at 1M notes); materialize
+  individual nodes via level-of-detail as the user zooms into / clicks a
+  cluster. Keep the per-frame draw count bounded regardless of vault size.
   Node colors: entity #ff9e3d  concept #46b1ff  source #56d364
                hub #b98cff  person #ffd23d  default #7d8aa0
 
@@ -65,8 +76,9 @@ REMOVE OLD CODE — AGGRESSIVELY BUT SAFELY
 - Delete every old frontend file in src/ except assets/.
   (kill if present: neuralvault.html, nv-renderer.js, physics-worker.js,
    nv-quadtree.js, main.js, stale styles.)
-- Do NOT carry over old physics-worker.js or quadtree code — write a fresh,
-  simple inline force simulation (~50–80 lines).
+- Do NOT carry over old physics-worker.js or nv-quadtree.js — the old JS
+  canvas/quadtree approach is replaced entirely by the Rust + wgpu renderer
+  with cluster/LOD. Write the new force sim and renderer in Rust.
 - Strip dead HTML elements, unused CSS, unused JS the new design doesn't need.
 - Before deleting a file, confirm nothing in lib.rs or tauri.conf.json
   references it. The Tauri build must still find its entry point.
@@ -81,7 +93,8 @@ done-condition passes. Within a sub-project, fan out parallel agents.
                                     default templates. (Foundation.)
   SP2  Search                    — LanceDB hybrid index, nomic-embed via Ollama,
                                     RRF ranking, first-run indexing UX.
-  SP3  Neural map + frontend     — the rewritten UI: cluster-first map,
+  SP3  Neural map + frontend     — Rust + wgpu GPU renderer with cluster/LOD
+                                    force sim; HTML/CSS chrome overlay:
                                     click/right-click, pan/zoom, detail panel,
                                     live search, stats. (The visible app.)
   SP4  NV chat + agents          — persistent memory, login briefings,
@@ -111,21 +124,27 @@ what's broken. Spec only — no code.
 One agent per independent task, run concurrently. Dependent tasks run after
 their dependency completes. Each coder:
   - implements exactly one task, writes the file, returns a 3-bullet summary
-  - app.js section headers, in order:
-      // ── CONFIG ──  // ── STATE ──  // ── FETCH ──  // ── FORCE SIM ──
-      // ── RENDER ──  // ── INPUT ──  // ── INIT ──
+  - RENDERER work (the map) is RUST + wgpu: force sim, cluster/LOD, GPU draw,
+    input handling, exposed to the webview via Tauri commands/events. Organize
+    into clear Rust modules (e.g. render/, sim/, cluster/).
+  - CHROME work (app.js) is minimal vanilla JS: build the panels/search/stats,
+    call Rust via Tauri invoke, render results. No force sim or canvas draw here.
   - keeps spawn_server()/lifecycle intact in lib.rs
   - edits brain-server.py surgically (only the failing/needed route)
 
 ── PHASE 3: REVIEW (1 agent; fixes fan out) ────────
 Read the changed files. Verify wiring & correctness:
-  - index.html loads app.js as <script type="module">
-  - every getElementById maps to a real element; every styled selector exists
-  - fetch() calls wrapped in try/catch
-  - requestAnimationFrame loop recurses; node positions seeded before draw
-  - pan/zoom transform the canvas context, not node x/y data
-  - search filter survives empty input; no undefined-deref risks
-  - if lib.rs changed: cargo check compiles
+  - index.html loads chrome JS as <script type="module">; chrome selectors
+    map to real elements and styled selectors exist
+  - Rust renderer: cargo check compiles; the wgpu render loop runs each frame;
+    node positions seeded before the first draw; pan/zoom transform the
+    camera/view matrix, not the underlying node data
+  - cluster/LOD: default view draws clusters not all nodes; expanding a cluster
+    materializes its members; per-frame draw count stays bounded
+  - Tauri bridge: every JS invoke() targets a real #[tauri::command]; events
+    the chrome listens for are actually emitted
+  - chrome JS: fetch()/invoke() wrapped in try/catch; search survives empty
+    input; no undefined-deref risks
   - if brain-server.py changed: new route reachable
 Return PASS/FAIL per check + one-line fix per FAIL. Spawn fix agents (parallel)
 for FAILs before building.
@@ -155,13 +174,15 @@ DONE CONDITIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Per sub-project (derive specifics from its spec section). The VISIBLE app
 (SP3) must additionally pass — and you keep looping on it until ALL pass:
-  [ ] App builds and opens, no build errors
-  [ ] Old frontend gone; src/ is lean (no dead code)
-  [ ] Force-directed neural map draws — colored circles + edges, colors by type
-  [ ] Cluster-first view; pan (drag) + zoom (scroll) work
-  [ ] Click a node → detail panel with title + preview text
-  [ ] Live search filters the visible nodes
+  [ ] App builds and opens (cargo + tauri), no build errors
+  [ ] Old JS canvas/quadtree frontend gone; renderer is Rust + wgpu
+  [ ] Neural map renders on the GPU — colored cluster nodes + edges, colors by type
+  [ ] Cluster-first/LOD view; expanding a cluster reveals members
+  [ ] Pan (drag) + zoom (scroll) move the camera smoothly
+  [ ] Click a node → detail panel (HTML chrome) with title + preview text
+  [ ] Live search filters / highlights the map
   [ ] Stats bar shows node + link counts
+  [ ] Map stays smooth at large node counts (LOD keeps draw count bounded)
   [ ] Design looks modern/refined — recognizably NV but clearly better,
       not a copy (judged from the screenshot)
   [ ] No red console errors on startup
