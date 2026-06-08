@@ -94,6 +94,7 @@ NV agents can do effectively anything within the vault and its connected tools.
 
 - **Per-seat and per-company licensing.** Priced per seat within a company plan.
 - **Customer-hosted, NV-licensed server.** The customer hosts the sync/LLM server on their own infrastructure; NV provisions/sets it up and licenses the software running on it.
+- **NV-built servers (turnkey option).** In addition to customer self-hosting, NV also builds and supplies servers — a turnkey hardware/server offering for customers who want NV to provide the box, not just the license.
 - **Phone-home licensing — no emailed license key.** The app validates entitlement by phoning home; there is no license file and no key delivered by email. (Offline grace behavior to be defined in the licensing plan.)
 - **Free / trial tier.** A very limited free tier for individual (single-person) use.
 - **Dynamic pricing configurator** on the website.
