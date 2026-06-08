@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NeuralVault — Full UI</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #09090b; color: #e4e4e7; font-family: -apple-system, 'Inter', 'Segoe UI', sans-serif; font-size: 13px; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+/* NAV */
+.topnav { height: 44px; background: #111113; border-bottom: 1px solid #1f1f23; display: flex; align-items: center; padding: 0 16px; gap: 12px; flex-shrink: 0; }
+.logo { font-size: 15px; font-weight: 700; color: #60a5fa; letter-spacing: -0.5px; }
+.crumb { color: #71717a; font-size: 12px; }
+.crumb-sep { color: #3f3f46; margin: 0 3px; }
+.crumb-active { color: #e4e4e7; font-size: 12px; }
+.search-trigger { flex: 1; max-width: 260px; margin: 0 auto; background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 5px 12px; font-size: 11px; color: #52525b; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.search-trigger:hover { border-color: #3f3f46; }
+.admin-badge { background: #451a03; border: 1px solid #92400e; color: #fbbf24; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+.notif-btn { width: 28px; height: 28px; background: #18181b; border: 1px solid #27272a; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; position: relative; }
+.notif-dot { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; background: #60a5fa; border-radius: 50%; border: 1.5px solid #111113; }
+.avatar { width: 26px; height: 26px; background: #7c3aed; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; }
+
+/* LAYOUT */
+.layout { display: flex; flex: 1; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar { width: 180px; background: #111113; border-right: 1px solid #1f1f23; display: flex; flex-direction: column; padding: 10px 8px; gap: 1px; flex-shrink: 0; }
+.sb-section { font-size: 10px; color: #3f3f46; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 8px 4px; font-weight: 600; }
+.sb-item { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 5px; font-size: 12px; color: #71717a; cursor: pointer; }
+.sb-item:hover { background: #18181b; color: #e4e4e7; }
+.sb-item.active { background: #18181b; color: #e4e4e7; }
+.dot6 { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sb-status { margin-top: auto; border-top: 1px solid #1f1f23; padding-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.st-line { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #52525b; padding: 0 8px; }
+
+/* CENTER */
+.center { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+/* TABS */
+.tabs { height: 38px; background: #111113; border-bottom: 1px solid #1f1f23; display: flex; align-items: flex-end; padding: 0 16px; flex-shrink: 0; gap: 0; }
+.tab { padding: 0 14px; height: 38px; display: flex; align-items: center; gap: 5px; font-size: 12px; color: #52525b; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+.tab:hover { color: #a1a1aa; }
+.tab.active { color: #e4e4e7; border-bottom: 2px solid #60a5fa; }
+.tab-badge { background: #1e3a5f; color: #60a5fa; font-size: 9px; padding: 1px 5px; border-radius: 3px; }
+
+/* TAB CONTENT SWITCHER */
+.tab-content { display: none; flex: 1; overflow: hidden; }
+.tab-content.active { display: flex; }
+
+/* ============= AGENTS TAB ============= */
+.agents-body { flex: 1; display: flex; overflow: hidden; }
+
+.agent-list { width: 190px; border-right: 1px solid #1f1f23; display: flex; flex-direction: column; background: #0d0d0f; flex-shrink: 0; overflow-y: auto; }
+.al-header { padding: 10px 12px; border-bottom: 1px solid #1f1f23; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.al-header span { font-size: 11px; font-weight: 600; color: #71717a; text-transform: uppercase; letter-spacing: 0.5px; }
+.btn-new { background: #1e40af; border: 1px solid #1d4ed8; border-radius: 5px; padding: 3px 9px; font-size: 10px; color: #93c5fd; cursor: pointer; font-weight: 500; }
+.ag-section { padding: 10px 10px 4px; font-size: 10px; color: #3f3f46; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.ag-card { margin: 2px 6px; padding: 9px 10px; border-radius: 7px; border: 1px solid transparent; cursor: pointer; }
+.ag-card:hover, .ag-card.sel { background: #18181b; border-color: #27272a; }
+.ag-top { display: flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+.ag-icon { width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.ag-name { font-size: 12px; font-weight: 500; color: #e4e4e7; }
+.ag-desc { font-size: 10px; color: #52525b; padding-left: 29px; }
+.ag-row { display: flex; align-items: center; gap: 5px; padding-left: 29px; margin-top: 4px; }
+.badge { font-size: 9px; padding: 1px 6px; border-radius: 3px; font-weight: 500; }
+.b-run { background: #14532d; color: #4ade80; border: 1px solid #166534; }
+.b-act { background: #1e3a5f; color: #60a5fa; border: 1px solid #1e40af; }
+.b-idle { background: #1c1c1e; color: #71717a; border: 1px solid #27272a; }
+.b-pause { background: #3f1515; color: #f87171; border: 1px solid #7f1d1d; }
+.ag-act { font-size: 9px; color: #52525b; }
+
+/* Agent world (center of agents tab) */
+.agent-world { flex: 1; position: relative; overflow: hidden; background: radial-gradient(ellipse at 55% 40%, #0a1628 0%, #050810 55%, #020408 100%); }
+canvas#wc { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.node-wrap { position: absolute; transform: translate(-50%,-50%); display: flex; flex-direction: column; align-items: center; pointer-events: none; z-index: 5; }
+.node-orb { border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.node-txt { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+.node-sub { font-size: 8px; color: #52525b; margin-top: 1px; }
+.orbit { position: absolute; border-radius: 50%; border: 1px solid rgba(96,165,250,0.06); pointer-events: none; transform: translate(-50%,-50%); }
+.world-log { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(5,8,16,0.97) 0%, rgba(5,8,16,0.6) 100%); border-top: 1px solid #1f1f23; padding: 6px 12px; display: flex; gap: 18px; align-items: center; z-index: 20; font-size: 10px; }
+.log-e { display: flex; align-items: center; gap: 5px; }
+.world-legend { position: absolute; top: 10px; right: 10px; background: rgba(17,17,19,0.88); border: 1px solid #1f1f23; border-radius: 6px; padding: 7px 9px; display: flex; flex-direction: column; gap: 4px; z-index: 20; }
+.leg-row { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #71717a; }
+
+/* Agent right panel — tabs: Config | Chat */
+.ag-right { width: 240px; background: #0d0d0f; border-left: 1px solid #1f1f23; display: flex; flex-direction: column; flex-shrink: 0; }
+.ag-right-header { padding: 10px 12px 0; border-bottom: 1px solid #1f1f23; }
+.ag-right-title { font-size: 13px; font-weight: 600; color: #e4e4e7; }
+.ag-right-sub { font-size: 10px; color: #52525b; margin-top: 1px; margin-bottom: 8px; }
+.panel-tabs { display: flex; gap: 0; }
+.ptab { padding: 5px 12px; font-size: 11px; color: #52525b; cursor: pointer; border-bottom: 2px solid transparent; }
+.ptab:hover { color: #a1a1aa; }
+.ptab.active { color: #e4e4e7; border-bottom: 2px solid #60a5fa; }
+.panel-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+.panel-pane { display: none; flex: 1; overflow-y: auto; flex-direction: column; }
+.panel-pane.active { display: flex; }
+
+/* Config pane */
+.cfg-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 12px; }
+.cfg-row { display: flex; flex-direction: column; gap: 4px; }
+.cfg-lbl { font-size: 10px; color: #52525b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.cfg-val { background: #18181b; border: 1px solid #27272a; border-radius: 5px; padding: 5px 8px; font-size: 11px; color: #e4e4e7; }
+.cfg-txt { background: #18181b; border: 1px solid #27272a; border-radius: 5px; padding: 6px 8px; font-size: 11px; color: #a1a1aa; line-height: 1.5; min-height: 52px; }
+.tool-list { display: flex; flex-direction: column; gap: 3px; }
+.tool-row { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+.tchk { width: 14px; height: 14px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; }
+.t-on { background: #14532d; border: 1px solid #166534; color: #4ade80; }
+.t-off { background: #18181b; border: 1px solid #27272a; color: #3f3f46; }
+.cfg-footer { padding: 8px 10px; border-top: 1px solid #1f1f23; display: flex; gap: 6px; flex-shrink: 0; }
+.btn { border-radius: 5px; padding: 6px 10px; font-size: 11px; font-weight: 500; cursor: pointer; flex: 1; text-align: center; }
+.btn-p { background: #1e40af; border: 1px solid #1d4ed8; color: #93c5fd; }
+.btn-d { background: #1c0a0a; border: 1px solid #7f1d1d; color: #f87171; }
+
+/* Chat pane */
+.chat-pane { display: flex; flex-direction: column; flex: 1; }
+.chat-msgs { flex: 1; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+.msg { display: flex; flex-direction: column; gap: 2px; max-width: 90%; }
+.msg.nv { align-self: flex-start; }
+.msg.user { align-self: flex-end; }
+.msg-from { font-size: 9px; color: #52525b; margin-bottom: 1px; }
+.msg-from.nv-from { color: #4ade80; }
+.msg-bubble { padding: 6px 9px; border-radius: 7px; font-size: 11px; line-height: 1.5; }
+.msg.nv .msg-bubble { background: #18181b; border: 1px solid #27272a; color: #e4e4e7; border-radius: 3px 7px 7px 7px; }
+.msg.user .msg-bubble { background: #1e3a5f; border: 1px solid #1e40af; color: #bfdbfe; border-radius: 7px 3px 7px 7px; }
+.chat-input-row { padding: 8px 10px; border-top: 1px solid #1f1f23; display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.chat-input { flex: 1; background: #18181b; border: 1px solid #27272a; border-radius: 6px; padding: 6px 9px; font-size: 11px; color: #e4e4e7; outline: none; }
+.chat-input::placeholder { color: #3f3f46; }
+.chat-send { background: #1e40af; border: 1px solid #1d4ed8; border-radius: 5px; padding: 5px 9px; font-size: 11px; color: #93c5fd; cursor: pointer; }
+
+/* ============= ADMIN TAB ============= */
+.admin-body { flex: 1; display: flex; overflow: hidden; }
+.admin-nav { width: 160px; background: #0d0d0f; border-right: 1px solid #1f1f23; display: flex; flex-direction: column; padding: 10px 8px; gap: 2px; flex-shrink: 0; }
+.admin-nav-section { font-size: 10px; color: #3f3f46; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 8px 4px; font-weight: 600; }
+.admin-nav-item { padding: 6px 10px; border-radius: 5px; font-size: 12px; color: #71717a; cursor: pointer; display: flex; align-items: center; gap: 7px; }
+.admin-nav-item:hover { background: #18181b; color: #e4e4e7; }
+.admin-nav-item.active { background: #18181b; color: #e4e4e7; }
+.admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 0; }
+.admin-header { padding: 14px 18px 10px; border-bottom: 1px solid #1f1f23; flex-shrink: 0; }
+.admin-title { font-size: 15px; font-weight: 600; color: #e4e4e7; }
+.admin-sub { font-size: 11px; color: #52525b; margin-top: 2px; }
+.admin-content { flex: 1; padding: 14px 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+
+/* Users table */
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.section-title { font-size: 12px; font-weight: 600; color: #a1a1aa; }
+.btn-sm { background: #1e40af; border: 1px solid #1d4ed8; border-radius: 5px; padding: 4px 10px; font-size: 10px; color: #93c5fd; cursor: pointer; font-weight: 500; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { font-size: 10px; color: #52525b; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px; text-align: left; border-bottom: 1px solid #1f1f23; font-weight: 600; }
+.table td { padding: 8px 10px; font-size: 11px; color: #a1a1aa; border-bottom: 1px solid #18181b; }
+.table tr:hover td { background: #18181b; }
+.role-badge { font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 500; }
+.role-admin { background: #451a03; color: #fbbf24; border: 1px solid #92400e; }
+.role-editor { background: #1e3a5f; color: #60a5fa; border: 1px solid #1e40af; }
+.role-viewer { background: #1c1c1e; color: #71717a; border: 1px solid #27272a; }
+.status-on { color: #4ade80; font-size: 10px; }
+.status-inv { color: #fb923c; font-size: 10px; }
+
+/* Folder permissions grid */
+.perm-grid { border: 1px solid #1f1f23; border-radius: 7px; overflow: hidden; }
+.perm-grid-header { display: grid; grid-template-columns: 140px repeat(5, 1fr); background: #111113; border-bottom: 1px solid #1f1f23; }
+.perm-col-hd { padding: 7px 8px; font-size: 10px; color: #52525b; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; text-align: center; }
+.perm-col-hd:first-child { text-align: left; }
+.perm-row { display: grid; grid-template-columns: 140px repeat(5, 1fr); border-bottom: 1px solid #18181b; }
+.perm-row:last-child { border-bottom: none; }
+.perm-row:hover { background: #111113; }
+.perm-name { padding: 7px 10px; font-size: 11px; color: #a1a1aa; display: flex; align-items: center; gap: 6px; }
+.perm-cell { padding: 7px 8px; display: flex; align-items: center; justify-content: center; }
+.perm-select { background: #18181b; border: 1px solid #27272a; border-radius: 4px; padding: 2px 5px; font-size: 10px; color: #71717a; cursor: pointer; }
+.perm-none { font-size: 10px; color: #27272a; }
+
+/* Cost controls */
+.cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cost-card { background: #111113; border: 1px solid #1f1f23; border-radius: 7px; padding: 12px; }
+.cost-card-label { font-size: 10px; color: #52525b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px; }
+.cost-card-val { font-size: 18px; font-weight: 700; color: #e4e4e7; }
+.cost-card-sub { font-size: 10px; color: #52525b; margin-top: 2px; }
+.cost-bar { height: 4px; background: #27272a; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.cost-bar-fill { height: 100%; border-radius: 2px; }
+
+/* SSO card */
+.sso-card { background: #111113; border: 1px solid #1f1f23; border-radius: 7px; padding: 12px; display: flex; align-items: center; gap: 12px; }
+.sso-status { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px #4ade8088; flex-shrink: 0; }
+.sso-info { flex: 1; }
+.sso-name { font-size: 12px; font-weight: 500; color: #e4e4e7; }
+.sso-detail { font-size: 10px; color: #52525b; margin-top: 1px; }
+.btn-sm-ghost { background: transparent; border: 1px solid #27272a; border-radius: 5px; padding: 4px 10px; font-size: 10px; color: #71717a; cursor: pointer; }
+
+/* RIGHT CHAT PANEL */
+.chat-panel { width: 220px; background: #0d0d0f; border-left: 1px solid #1f1f23; display: flex; flex-direction: column; flex-shrink: 0; }
+.cp-header { padding: 10px 12px; border-bottom: 1px solid #1f1f23; display: flex; align-items: center; justify-content: space-between; }
+.cp-title { font-size: 12px; font-weight: 600; color: #e4e4e7; }
+.cp-badge { font-size: 9px; background: #1e3a5f; color: #60a5fa; border: 1px solid #1e40af; border-radius: 3px; padding: 1px 5px; }
+.cp-msgs { flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 7px; overflow-y: auto; }
+.cp-msg-nv { background: #18181b; border: 1px solid #27272a; border-radius: 3px 7px 7px 7px; padding: 7px 9px; font-size: 11px; color: #e4e4e7; line-height: 1.5; }
+.cp-msg-nv span.nv-name { font-size: 9px; color: #60a5fa; display: block; margin-bottom: 2px; }
+.cp-msg-user { background: #1e3a5f; border: 1px solid #1e40af; border-radius: 7px 3px 7px 7px; padding: 7px 9px; font-size: 11px; color: #bfdbfe; line-height: 1.5; align-self: flex-end; max-width: 90%; }
+.cp-note-created { background: #14532d22; border: 1px solid #166534; border-radius: 5px; padding: 6px 9px; font-size: 10px; color: #4ade80; }
+.cp-note-created span { display: block; font-size: 9px; color: #52525b; margin-top: 2px; }
+.cp-input-row { padding: 8px; border-top: 1px solid #1f1f23; display: flex; gap: 5px; flex-shrink: 0; }
+.cp-input { flex: 1; background: #18181b; border: 1px solid #27272a; border-radius: 6px; padding: 6px 8px; font-size: 11px; color: #e4e4e7; outline: none; }
+.cp-input::placeholder { color: #3f3f46; }
+.cp-send { background: #1e40af; border: 1px solid #1d4ed8; border-radius: 5px; padding: 5px 8px; font-size: 11px; color: #93c5fd; cursor: pointer; }
+
+@keyframes ring-out { 0% { opacity: 0.5; transform: translate(-50%,-50%) scale(0.9); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(2); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <span class="logo">NV</span>
+  <span class="crumb">Acme Corp</span><span class="crumb-sep">/</span><span class="crumb-active">Company Vault</span>
+  <div class="search-trigger" onclick="showSearch()">
+    <span>⌕</span><span>Search everything...</span>
+    <span style="margin-left:auto;font-size:9px;color:#3f3f46;background:#18181b;border:1px solid #27272a;border-radius:3px;padding:1px 5px">⌘K</span>
+  </div>
+  <span class="admin-badge">Admin</span>
+  <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+  <span style="font-size:12px;color:#52525b">Samuel</span>
+  <div class="avatar">S</div>
+</div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-section">Company</div>
+    <div class="sb-item"><div class="dot6" style="background:#4ade80"></div>financials</div>
+    <div class="sb-item"><div class="dot6" style="background:#60a5fa"></div>issues</div>
+    <div class="sb-item"><div class="dot6" style="background:#fb923c"></div>complaints</div>
+    <div class="sb-item active"><div class="dot6" style="background:#c084fc"></div>decisions</div>
+    <div class="sb-item"><div class="dot6" style="background:#52525b"></div>knowledge</div>
+    <div class="sb-section" style="margin-top:4px">My Vault</div>
+    <div class="sb-item"><div class="dot6" style="background:#52525b"></div>work/</div>
+    <div class="sb-item" style="opacity:0.35"><span style="font-size:11px">🔒</span>my-notes/</div>
+    <div class="sb-item" style="opacity:0.35"><span style="font-size:11px">🔒</span>my-tasks/</div>
+    <div class="sb-status">
+      <div class="st-line"><div class="dot6" style="background:#4ade80"></div>File Keeper active</div>
+      <div class="st-line"><div class="dot6" style="background:#60a5fa"></div>AI Manager on</div>
+      <div class="st-line"><div class="dot6" style="background:#c084fc"></div>3 custom agents</div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center">
+    <div class="tabs">
+      <div class="tab" onclick="switchTab('map')">🗺 Map</div>
+      <div class="tab active" onclick="switchTab('agents')" id="tab-agents">⬡ Agents</div>
+      <div class="tab" onclick="switchTab('admin')" id="tab-admin">⚙ Admin <span class="tab-badge">3</span></div>
+    </div>
+
+    <!-- MAP TAB (placeholder) -->
+    <div class="tab-content" id="content-map" style="align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 45%,#0a1628,#020408 70%)">
+      <div style="text-align:center;color:#3f3f46">
+        <div style="font-size:32px;margin-bottom:8px">🗺</div>
+        <div style="font-size:12px">Neural map view</div>
+      </div>
+    </div>
+
+    <!-- AGENTS TAB -->
+    <div class="tab-content active" id="content-agents">
+      <div class="agents-body">
+
+        <!-- Agent list -->
+        <div class="agent-list">
+          <div class="al-header"><span>Agents</span><div class="btn-new">＋ New</div></div>
+          <div class="ag-section">System</div>
+          <div class="ag-card sel" onclick="selectAgent('fk')">
+            <div class="ag-top"><div class="ag-icon" style="background:#14532d">🗂</div><span class="ag-name">File Keeper</span></div>
+            <div class="ag-desc">Vault health, links, org</div>
+            <div class="ag-row"><span class="badge b-run">Running</span><span class="ag-act">Scanning decisions/</span></div>
+          </div>
+          <div class="ag-card" onclick="selectAgent('am')">
+            <div class="ag-top"><div class="ag-icon" style="background:#1e3a5f">🛡</div><span class="ag-name">AI Manager</span></div>
+            <div class="ag-desc">Agent supervisor</div>
+            <div class="ag-row"><span class="badge b-act">Active</span><span class="ag-act">Watching 3 agents</span></div>
+          </div>
+          <div class="ag-section">Custom</div>
+          <div class="ag-card">
+            <div class="ag-top"><div class="ag-icon" style="background:#2e1065">📋</div><span class="ag-name">Daily Digest</span></div>
+            <div class="ag-desc">Morning briefings</div>
+            <div class="ag-row"><span class="badge b-idle">Idle</span><span class="ag-act">Next: 8:00 AM</span></div>
+          </div>
+          <div class="ag-card">
+            <div class="ag-top"><div class="ag-icon" style="background:#431407">🔗</div><span class="ag-name">CRM Sync</span></div>
+            <div class="ag-desc">Salesforce import</div>
+            <div class="ag-row"><span class="badge b-idle">Idle</span><span class="ag-act">Last: 4m ago</span></div>
+          </div>
+          <div class="ag-card">
+            <div class="ag-top"><div class="ag-icon" style="background:#1c0a0a;opacity:0.6">📊</div><span class="ag-name" style="color:#71717a">Report Builder</span></div>
+            <div class="ag-desc">Weekly reports</div>
+            <div class="ag-row"><span class="badge b-pause">Paused</span><span class="ag-act">By AI Manager</span></div>
+          </div>
+        </div>
+
+        <!-- Agent world -->
+        <div class="agent-world" id="aw">
+          <canvas id="wc"></canvas>
+          <div class="orbit" style="width:280px;height:280px;top:43%;left:50%"></div>
+          <div class="orbit" style="width:480px;height:480px;top:43%;left:50%"></div>
+
+          <!-- Nodes -->
+          <div class="node-wrap" style="top:43%;left:46%">
+            <div class="node-orb" style="width:58px;height:58px;background:rgba(74,222,128,0.07);border:1.5px solid rgba(74,222,128,0.35);box-shadow:0 0 28px rgba(74,222,128,0.13)">
+              <span class="node-txt" style="color:#4ade80">financials</span><span class="node-sub">47 notes</span>
+            </div>
+          </div>
+          <div class="node-wrap" style="top:23%;left:29%">
+            <div class="node-orb" style="width:46px;height:46px;background:rgba(96,165,250,0.07);border:1.5px solid rgba(96,165,250,0.3);border-radius:8px;box-shadow:0 0 18px rgba(96,165,250,0.1)">
+              <span class="node-txt" style="color:#60a5fa">issues</span><span class="node-sub">23</span>
+            </div>
+          </div>
+          <div class="node-wrap" style="top:66%;left:27%">
+            <div class="node-orb" style="width:44px;height:44px;background:rgba(251,146,60,0.07);border:1.5px solid rgba(251,146,60,0.35);box-shadow:0 0 18px rgba(251,146,60,0.12)">
+              <span class="node-txt" style="color:#fb923c">complaints</span><span class="node-sub">18</span>
+            </div>
+          </div>
+          <div class="node-wrap" style="top:22%;left:66%" id="dec-node">
+            <div class="node-orb" style="width:54px;height:54px;background:rgba(192,132,252,0.1);border:2px solid rgba(192,132,252,0.5);border-radius:10px;box-shadow:0 0 32px rgba(192,132,252,0.22)">
+              <span class="node-txt" style="color:#c084fc">decisions</span><span class="node-sub" style="color:#a78bfa">scanning</span>
+            </div>
+          </div>
+          <div class="node-wrap" style="top:68%;left:66%">
+            <div class="node-orb" style="width:40px;height:40px;background:rgba(82,82,91,0.05);border:1px solid rgba(82,82,91,0.25)">
+              <span class="node-txt" style="color:#52525b">knowledge</span><span class="node-sub">82</span>
+            </div>
+          </div>
+
+          <!-- Agent chars -->
+          <div id="fk-dot" style="position:absolute;top:33%;left:57%;transform:translate(-50%,-50%);z-index:10;display:flex;flex-direction:column;align-items:center;pointer-events:none">
+            <div style="position:absolute;top:50%;left:50%;width:32px;height:32px;border:1.5px solid #4ade80;border-radius:50%;animation:ring-out 2s ease-out infinite;transform:translate(-50%,-50%)"></div>
+            <div style="font-size:20px;animation:float 2.5s ease-in-out infinite;filter:drop-shadow(0 0 8px #4ade8088)">🤖</div>
+            <div style="font-size:9px;font-weight:600;color:#4ade80;background:rgba(0,0,0,0.7);border:1px solid #4ade8044;border-radius:3px;padding:1px 5px;margin-top:2px;white-space:nowrap">File Keeper</div>
+          </div>
+          <div style="position:absolute;top:51%;left:50%;transform:translate(-50%,-50%);z-index:10;display:flex;flex-direction:column;align-items:center;pointer-events:none">
+            <div style="position:absolute;top:50%;left:50%;width:26px;height:26px;border:1px solid #60a5fa55;border-radius:50%;animation:ring-out 3s ease-out infinite 1s;transform:translate(-50%,-50%)"></div>
+            <div style="font-size:17px;animation:float 3s ease-in-out infinite 0.5s;filter:drop-shadow(0 0 6px #60a5fa66)">🛡️</div>
+            <div style="font-size:9px;font-weight:600;color:#60a5fa;background:rgba(0,0,0,0.7);border:1px solid #60a5fa33;border-radius:3px;padding:1px 5px;margin-top:2px;white-space:nowrap">AI Manager</div>
+          </div>
+          <div style="position:absolute;top:61%;left:67%;transform:translate(-50%,-50%);z-index:10;display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:0.45">
+            <div style="font-size:15px">📋</div>
+            <div style="font-size:9px;color:#a78bfa88;background:rgba(0,0,0,0.6);border:1px solid #a78bfa22;border-radius:3px;padding:1px 5px;margin-top:2px">Daily Digest</div>
+          </div>
+
+          <!-- Legend -->
+          <div class="world-legend">
+            <div class="leg-row"><div style="width:9px;height:9px;background:rgba(74,222,128,0.15);border:1px solid #4ade8055;border-radius:50%"></div>File Keeper</div>
+            <div class="leg-row"><div style="width:9px;height:9px;background:rgba(96,165,250,0.15);border:1px solid #60a5fa55;border-radius:50%"></div>AI Manager</div>
+            <div class="leg-row"><div style="width:9px;height:9px;background:rgba(167,139,250,0.1);border:1px solid #a78bfa33;border-radius:50%"></div>Custom agent</div>
+          </div>
+
+          <!-- Log -->
+          <div class="world-log">
+            <div class="log-e"><div class="dot6" style="background:#4ade80"></div><span style="color:#4ade80">File Keeper</span><span style="color:#a1a1aa;margin-left:3px">Fixed 2 dead links in decisions/</span><span style="color:#3f3f46;font-size:9px;margin-left:5px">just now</span></div>
+            <div class="log-e"><div class="dot6" style="background:#60a5fa"></div><span style="color:#60a5fa">AI Manager</span><span style="color:#a1a1aa;margin-left:3px">Report Builder paused — budget exceeded</span><span style="color:#3f3f46;font-size:9px;margin-left:5px">3m</span></div>
+            <div class="log-e"><div class="dot6" style="background:#fb923c"></div><span style="color:#fb923c">CRM Sync</span><span style="color:#a1a1aa;margin-left:3px">4 notes added to complaints/</span><span style="color:#3f3f46;font-size:9px;margin-left:5px">4m</span></div>
+          </div>
+        </div>
+
+        <!-- Agent right panel: Config + Chat tabs -->
+        <div class="ag-right">
+          <div class="ag-right-header">
+            <div class="ag-right-title">File Keeper</div>
+            <div class="ag-right-sub">System agent · always on</div>
+            <div class="panel-tabs">
+              <div class="ptab active" onclick="switchPanel('cfg')">Config</div>
+              <div class="ptab" onclick="switchPanel('chat')">Chat</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <!-- Config pane -->
+            <div class="panel-pane active" id="pane-cfg">
+              <div class="cfg-body">
+                <div class="cfg-row"><div class="cfg-lbl">Trigger</div><div class="cfg-val">Always on — continuous</div></div>
+                <div class="cfg-row"><div class="cfg-lbl">Allowed Folders</div><div class="cfg-val" style="color:#4ade80">All folders</div></div>
+                <div class="cfg-row">
+                  <div class="cfg-lbl">Tools</div>
+                  <div class="tool-list">
+                    <div class="tool-row"><div class="tchk t-on">✓</div><span style="color:#e4e4e7">Read notes</span></div>
+                    <div class="tool-row"><div class="tchk t-on">✓</div><span style="color:#e4e4e7">Edit frontmatter</span></div>
+                    <div class="tool-row"><div class="tchk t-on">✓</div><span style="color:#e4e4e7">Repair dead links</span></div>
+                    <div class="tool-row"><div class="tchk t-on">✓</div><span style="color:#e4e4e7">Suggest merges</span></div>
+                    <div class="tool-row"><div class="tchk t-off">✗</div><span style="color:#3f3f46">Delete notes</span></div>
+                    <div class="tool-row"><div class="tchk t-off">✗</div><span style="color:#3f3f46">External API calls</span></div>
+                  </div>
+                </div>
+                <div class="cfg-row"><div class="cfg-lbl">Token Budget</div><div class="cfg-val">Unlimited (system)</div></div>
+                <div class="cfg-row"><div class="cfg-lbl">Instructions</div><div class="cfg-txt">Maintain vault health. Fix broken links, clean frontmatter, deduplicate, and suggest promotions to shared folders.</div></div>
+              </div>
+              <div class="cfg-footer">
+                <div class="btn btn-p">Edit config</div>
+                <div class="btn btn-d">Pause</div>
+              </div>
+            </div>
+            <!-- Chat pane -->
+            <div class="panel-pane" id="pane-chat">
+              <div class="chat-pane">
+                <div class="chat-msgs">
+                  <div class="msg nv">
+                    <div class="msg-from nv-from">File Keeper</div>
+                    <div class="msg-bubble">Currently scanning decisions/. Found 2 dead links, fixed both. 3 notes look like duplicates — want me to suggest merges?</div>
+                  </div>
+                  <div class="msg user">
+                    <div class="msg-bubble">Yes, show me the duplicates</div>
+                  </div>
+                  <div class="msg nv">
+                    <div class="msg-from nv-from">File Keeper</div>
+                    <div class="msg-bubble">Found: "Q2 Strategy" and "Q2 Plan" — 87% overlap. "Supplier Review" and "Vendor Notes" — 79% overlap. Merge suggestions pinned on the map.</div>
+                  </div>
+                  <div class="msg user">
+                    <div class="msg-bubble">Also focus on complaints/ next</div>
+                  </div>
+                  <div class="msg nv">
+                    <div class="msg-from nv-from">File Keeper</div>
+                    <div class="msg-bubble">Understood. Queuing complaints/ scan after decisions/ finishes.</div>
+                  </div>
+                </div>
+                <div class="chat-input-row">
+                  <input class="chat-input" placeholder="Talk to File Keeper...">
+                  <div class="chat-send">↑</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ADMIN TAB -->
+    <div class="tab-content" id="content-admin">
+      <div class="admin-body">
+
+        <!-- Admin sub-nav -->
+        <div class="admin-nav">
+          <div class="admin-nav-section">Workspace</div>
+          <div class="admin-nav-item active">👥 Users</div>
+          <div class="admin-nav-item">🔐 Permissions</div>
+          <div class="admin-nav-item">💳 Billing</div>
+          <div class="admin-nav-section">Security</div>
+          <div class="admin-nav-item">🔑 SSO</div>
+          <div class="admin-nav-item">📋 Audit Log</div>
+          <div class="admin-nav-section">Integrations</div>
+          <div class="admin-nav-item">🔗 Connections</div>
+          <div class="admin-nav-item">🔒 API Keys</div>
+        </div>
+
+        <!-- Main admin content -->
+        <div class="admin-main">
+          <div class="admin-header">
+            <div class="admin-title">Users & Roles</div>
+            <div class="admin-sub">14 seats used · 20 seat plan · <span style="color:#4ade80">6 remaining</span></div>
+          </div>
+          <div class="admin-content">
+
+            <!-- Cost cards -->
+            <div class="cost-grid">
+              <div class="cost-card">
+                <div class="cost-card-label">Cloud LLM spend (June)</div>
+                <div class="cost-card-val">$43.20</div>
+                <div class="cost-card-sub">Cap: $100 / month</div>
+                <div class="cost-bar"><div class="cost-bar-fill" style="width:43%;background:#4ade80"></div></div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-card-label">Vault size</div>
+                <div class="cost-card-val">2.4 GB</div>
+                <div class="cost-card-sub">1,247 notes · 3 vaults</div>
+                <div class="cost-bar"><div class="cost-bar-fill" style="width:24%;background:#60a5fa"></div></div>
+              </div>
+            </div>
+
+            <!-- SSO status -->
+            <div>
+              <div class="section-head"><div class="section-title">Single Sign-On</div><div class="btn-sm-ghost">Configure</div></div>
+              <div class="sso-card">
+                <div class="sso-status"></div>
+                <div class="sso-info">
+                  <div class="sso-name">Microsoft Azure AD</div>
+                  <div class="sso-detail">Connected · 14 users provisioned via directory</div>
+                </div>
+                <div class="btn-sm-ghost">Test</div>
+              </div>
+            </div>
+
+            <!-- Users table -->
+            <div>
+              <div class="section-head">
+                <div class="section-title">Members</div>
+                <div class="btn-sm">＋ Invite</div>
+              </div>
+              <table class="table">
+                <thead><tr>
+                  <th>Name</th><th>Vault access</th><th>Role</th><th>Status</th><th></th>
+                </tr></thead>
+                <tbody>
+                  <tr><td style="color:#e4e4e7;font-weight:500">Samuel (you)</td><td style="color:#52525b">All folders</td><td><span class="role-badge role-admin">admin</span></td><td><span class="status-on">● active</span></td><td><span style="color:#3f3f46;cursor:pointer">···</span></td></tr>
+                  <tr><td style="color:#e4e4e7">Alice Chen</td><td style="color:#71717a">financials, decisions</td><td><span class="role-badge role-editor">editor</span></td><td><span class="status-on">● active</span></td><td><span style="color:#3f3f46;cursor:pointer">···</span></td></tr>
+                  <tr><td style="color:#e4e4e7">Ben Torres</td><td style="color:#71717a">complaints, issues</td><td><span class="role-badge role-editor">editor</span></td><td><span class="status-on">● active</span></td><td><span style="color:#3f3f46;cursor:pointer">···</span></td></tr>
+                  <tr><td style="color:#e4e4e7">Carol Wu</td><td style="color:#71717a">knowledge, decisions</td><td><span class="role-badge role-viewer">viewer</span></td><td><span class="status-on">● active</span></td><td><span style="color:#3f3f46;cursor:pointer">···</span></td></tr>
+                  <tr><td style="color:#71717a">Dave Kim</td><td style="color:#52525b">—</td><td><span class="role-badge role-viewer">viewer</span></td><td><span class="status-inv">● invited</span></td><td><span style="color:#3f3f46;cursor:pointer">···</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Folder permissions matrix -->
+            <div>
+              <div class="section-head"><div class="section-title">Folder permissions</div></div>
+              <div class="perm-grid">
+                <div class="perm-grid-header">
+                  <div class="perm-col-hd">User</div>
+                  <div class="perm-col-hd">financials</div>
+                  <div class="perm-col-hd">issues</div>
+                  <div class="perm-col-hd">complaints</div>
+                  <div class="perm-col-hd">decisions</div>
+                  <div class="perm-col-hd">knowledge</div>
+                </div>
+                <div class="perm-row">
+                  <div class="perm-name"><div class="dot6" style="background:#4ade80"></div>Alice Chen</div>
+                  <div class="perm-cell"><select class="perm-select"><option>editor</option><option>viewer</option><option>none</option></select></div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                  <div class="perm-cell"><select class="perm-select"><option>editor</option><option>viewer</option><option>none</option></select></div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                </div>
+                <div class="perm-row">
+                  <div class="perm-name"><div class="dot6" style="background:#60a5fa"></div>Ben Torres</div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                  <div class="perm-cell"><select class="perm-select"><option>editor</option></select></div>
+                  <div class="perm-cell"><select class="perm-select"><option>editor</option></select></div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                </div>
+                <div class="perm-row">
+                  <div class="perm-name"><div class="dot6" style="background:#52525b"></div>Carol Wu</div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                  <div class="perm-cell"><span class="perm-none">—</span></div>
+                  <div class="perm-cell"><select class="perm-select"><option>viewer</option></select></div>
+                  <div class="perm-cell"><select class="perm-select"><option>viewer</option></select></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right NV chat panel -->
+        <div class="chat-panel">
+          <div class="cp-header">
+            <span class="cp-title">NV Chat</span>
+            <span class="cp-badge">briefing</span>
+          </div>
+          <div class="cp-msgs">
+            <div class="cp-msg-nv"><span class="nv-name">NV</span>Good morning. File Keeper fixed 2 dead links overnight. CRM Sync added 4 new complaint notes. Decisions/ grew by 3 notes.</div>
+            <div class="cp-msg-user">Summarise the new decisions</div>
+            <div class="cp-msg-nv"><span class="nv-name">NV</span>Three new decisions logged: supplier contract renewal (Alice), Q3 budget approval (Samuel), and hiring freeze extension (HR). All linked on the map.</div>
+            <div class="cp-note-created">📄 Summary note created<span>decisions/summary-2026-06-08.md</span></div>
+          </div>
+          <div class="cp-input-row">
+            <input class="cp-input" placeholder="Ask NV anything... @people @agents">
+            <div class="cp-send">↑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div id="search-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:flex-start;justify-content:center;padding-top:80px" onclick="hideSearch(event)">
+  <div style="background:#111113;border:1px solid #27272a;border-radius:10px;width:560px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.6)" onclick="event.stopPropagation()">
+    <div style="padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #1f1f23">
+      <span style="color:#52525b;font-size:14px">⌕</span>
+      <input id="search-input" style="flex:1;background:none;border:none;outline:none;font-size:14px;color:#e4e4e7" placeholder="Search everything... or type @people, @agents">
+      <span style="font-size:10px;color:#3f3f46;background:#18181b;border:1px solid #27272a;border-radius:3px;padding:2px 6px">ESC</span>
+    </div>
+    <div style="padding:6px 0">
+      <div style="padding:5px 14px 3px;font-size:10px;color:#3f3f46;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">Recent</div>
+      <div style="padding:8px 14px;display:flex;align-items:center;gap:10px;cursor:pointer" onmouseover="this.style.background='#18181b'" onmouseout="this.style.background=''">
+        <span style="font-size:11px">📄</span><span style="font-size:12px;color:#e4e4e7">Q2 Revenue Report</span><span style="font-size:10px;color:#52525b;margin-left:auto">financials/</span>
+      </div>
+      <div style="padding:8px 14px;display:flex;align-items:center;gap:10px;cursor:pointer" onmouseover="this.style.background='#18181b'" onmouseout="this.style.background=''">
+        <span style="font-size:11px">📄</span><span style="font-size:12px;color:#e4e4e7">Supplier Review 2026</span><span style="font-size:10px;color:#52525b;margin-left:auto">decisions/</span>
+      </div>
+      <div style="padding:5px 14px 3px;margin-top:4px;font-size:10px;color:#3f3f46;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">Try</div>
+      <div style="padding:6px 14px;display:flex;gap:6px">
+        <span style="background:#18181b;border:1px solid #27272a;border-radius:5px;padding:3px 9px;font-size:11px;color:#71717a;cursor:pointer">@people</span>
+        <span style="background:#18181b;border:1px solid #27272a;border-radius:5px;padding:3px 9px;font-size:11px;color:#71717a;cursor:pointer">@agents</span>
+        <span style="background:#18181b;border:1px solid #27272a;border-radius:5px;padding:3px 9px;font-size:11px;color:#71717a;cursor:pointer">@decisions</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tab switching
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['map','agents','admin'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('content-' + name).classList.add('active');
+}
+
+// Panel switching (Config / Chat)
+function switchPanel(name) {
+  document.querySelectorAll('.ptab').forEach((t,i) => {
+    t.classList.toggle('active', ['cfg','chat'][i] === name);
+  });
+  document.querySelectorAll('.panel-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-' + name).classList.add('active');
+}
+
+// Search overlay
+function showSearch() {
+  const o = document.getElementById('search-overlay');
+  o.style.display = 'flex';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+}
+function hideSearch(e) {
+  document.getElementById('search-overlay').style.display = 'none';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') hideSearch();
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); showSearch(); }
+});
+
+// Canvas particles
+const canvas = document.getElementById('wc');
+const container = document.getElementById('aw');
+function resizeC() { canvas.width = container.clientWidth; canvas.height = container.clientHeight; }
+resizeC(); window.addEventListener('resize', resizeC);
+const ctx = canvas.getContext('2d');
+const parts = [];
+const pathDefs = [
+  { x1:.57, y1:.33, x2:.66, y2:.22, col:'#4ade80', spd:.009 },
+  { x1:.57, y1:.33, x2:.46, y2:.43, col:'#4ade8077', spd:.006 },
+  { x1:.50, y1:.51, x2:.57, y2:.33, col:'#60a5fa44', spd:.005 },
+];
+pathDefs.forEach(p => { for(let i=0;i<10;i++) parts.push({p,t:Math.random(),spd:p.spd*(0.7+Math.random()*0.6),sz:1.5+Math.random()*2,a:0.4+Math.random()*0.5}); });
+setInterval(()=>{ const p=pathDefs[Math.floor(Math.random()*pathDefs.length)]; parts.push({p,t:0,spd:p.spd*(0.7+Math.random()*0.6),sz:1.5+Math.random()*2,a:0.5+Math.random()*0.4}); }, 150);
+
+function drawWorld() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const w=canvas.width,h=canvas.height;
+  pathDefs.forEach(p => {
+    ctx.beginPath(); ctx.moveTo(p.x1*w,p.y1*h); ctx.lineTo(p.x2*w,p.y2*h);
+    ctx.strokeStyle=p.col+'1a'; ctx.lineWidth=0.8; ctx.setLineDash([4,8]); ctx.stroke(); ctx.setLineDash([]);
+  });
+  for(let i=parts.length-1;i>=0;i--) {
+    const pt=parts[i]; pt.t+=pt.spd;
+    if(pt.t>=1){parts.splice(i,1);continue;}
+    const x=(pt.p.x1+(pt.p.x2-pt.p.x1)*pt.t)*w, y=(pt.p.y1+(pt.p.y2-pt.p.y1)*pt.t)*h;
+    const fade=Math.sin(pt.t*Math.PI);
+    ctx.beginPath(); ctx.arc(x,y,pt.sz,0,Math.PI*2);
+    ctx.globalAlpha=pt.a*fade; ctx.fillStyle=pt.p.col; ctx.fill(); ctx.globalAlpha=1;
+  }
+  // Glow halos
+  [{x:.46,y:.43,r:40,c:'#4ade80'},{x:.66,y:.22,r:34,c:'#c084fc'},{x:.29,y:.23,r:26,c:'#60a5fa'}].forEach(n=>{
+    const g=ctx.createRadialGradient(n.x*w,n.y*h,0,n.x*w,n.y*h,n.r);
+    g.addColorStop(0,n.c+'1a'); g.addColorStop(1,n.c+'00');
+    ctx.beginPath(); ctx.arc(n.x*w,n.y*h,n.r,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+  });
+  requestAnimationFrame(drawWorld);
+}
+drawWorld();
+
+// Animate FK
+const fkEl = document.getElementById('fk-dot');
+let ft=0;
+function animFK() {
+  ft+=0.004; const t=(Math.sin(ft)+1)/2;
+  fkEl.style.left=(52+t*11)+'%'; fkEl.style.top=(38-t*12)+'%';
+  requestAnimationFrame(animFK);
+}
+animFK();
+</script>
+</body>
+</html>
