@@ -210,6 +210,60 @@ Otherwise: increment round, return to Phase 1, carrying forward the screenshot
 description, console errors, and checklist status.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINAL HARDENING LOOP — runs AFTER all 5 sub-projects pass
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Do NOT stop when SP5's done-condition passes. The per-sub-project loops only
+catch what their checklists name. Now hunt for everything else. Loop this whole
+phase until the app survives THREE consecutive clean rounds with zero new bugs
+(loop-until-dry — a single clean round is not enough).
+
+Each hardening round:
+
+H1. BUILD CLEAN. Kill stray processes. `cargo test` (all crates) and
+    `cargo clippy` in src-tauri; `npx tauri dev`. A test failure, a clippy
+    warning, or a build warning is a bug — log it.
+
+H2. EXERCISE EVERY FEATURE end-to-end (real vault data). For each, screenshot
+    and watch the console + Rust logs:
+      - open a vault; first-run indexing completes
+      - map renders; clusters draw; expand a cluster; pan; zoom; resize the window
+      - click a node -> detail + open note; right-click -> "Ask NV about this"
+      - live search filters/highlights; empty query; query with no results
+      - chat: ask a question, get an answer (text / map highlight / summary note);
+        reopen app -> memory persisted
+      - agents: run Vault Keeper / Analyzer; create a custom agent
+      - sync: two clients edit live; a role with viewer perms cannot edit;
+        audit log records the change
+      - settings: add a cloud API key (stored encrypted); switch LLM routing
+      - import a small Slack/CSV sample
+      - close and relaunch the app cleanly (no orphaned processes, no data loss)
+
+H3. SPAWN PARALLEL BUG-HUNTER AGENTS, each on a different lens, concurrently:
+      - console/runtime errors and unhandled promise rejections
+      - Rust panics, unwrap()/expect() on fallible paths, error handling gaps
+      - memory/perf: leaks, unbounded growth, frame drops at scale, slow queries
+      - UI/UX: layout breaks on resize, dark-mode glitches, focus traps, jank
+      - data integrity: vault never corrupted, .nv/ rebuildable, edges correct
+      - security: keys never logged/plaintext, audit log can't be bypassed
+    Each returns a list of findings with file:line and a severity.
+
+H4. TRIAGE + DEDUPE all findings into one list. For each real bug, spawn a
+    fix agent (parallel where fixes touch different files). Apply fixes.
+
+H5. RE-VERIFY: re-run H1+H2 and confirm each fix; make sure no fix introduced a
+    regression. Count this round CLEAN only if H1 passes and H2 + H3 surface
+    ZERO new real bugs.
+
+H6. COMMIT each batch:
+      git -C "C:\Users\Futur\Documents\AiWorkspace\NeuralVault" add desktop/neuralvault/
+      git -C "C:\Users\Futur\Documents\AiWorkspace\NeuralVault" commit -m "fix(nv): hardening round <H> — <bugs fixed>"
+    If 3 consecutive rounds are clean: STOP. Print a final report — features
+    verified, bugs fixed, anything deferred. Otherwise: next hardening round.
+
+If a bug resists 3 fix attempts: stop and write it up (repro, what you tried,
+your best hypothesis) rather than thrashing.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 DESIGN DIRECTION (frontend chrome)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Inspired by the old NeuralVault, NOT a copy. Modern, refined, calm, intentional —
@@ -263,4 +317,5 @@ Read the spec. Read the repo state above. Continue SP1 on feat/nv-rebuild-sp1
 (finish graph.rs, sidecar.rs, commands.rs, lib.rs + tests, then cargo test).
 When SP1's done-condition passes, advance through SP2 -> SP5. Keep looping —
 build, test, screenshot, evaluate, iterate — until every done-condition passes
-and the page actually looks right.
+and the page actually looks right. THEN run the FINAL HARDENING LOOP and do not
+stop until the app survives three consecutive clean, bug-free rounds.
