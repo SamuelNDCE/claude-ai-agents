@@ -1,0 +1,128 @@
+<h2>Main Screen Layout</h2>
+<p class="subtitle">When an employee opens NeuralVault, which layout feels right?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#0d1117;border-radius:6px;padding:10px;font-family:monospace;font-size:11px;height:200px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box;color:#8b949e">
+        <!-- Option A: Map-first full screen -->
+        <div style="background:#161b22;border-radius:4px;padding:5px 10px;display:flex;align-items:center;gap:8px;color:#58a6ff;font-size:11px">
+          <span style="color:#58a6ff;font-weight:bold">NV</span>
+          <span style="flex:1;background:#0d1117;border-radius:3px;padding:3px 8px;color:#8b949e;font-size:10px">⌕  Search anything...</span>
+          <span style="color:#8b949e">chat</span>
+        </div>
+        <div style="flex:1;background:#0d1117;border-radius:4px;position:relative;overflow:hidden">
+          <!-- Map nodes -->
+          <div style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:#1f6feb33;border:2px solid #1f6feb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#58a6ff">financials</div>
+          <div style="position:absolute;top:25%;left:30%;width:40px;height:40px;background:#388bfd22;border:1px solid #388bfd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#79c0ff">issues</div>
+          <div style="position:absolute;top:60%;left:30%;width:35px;height:35px;background:#2ea04333;border:1px solid #2ea043;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#56d364">decisions</div>
+          <div style="position:absolute;top:20%;left:65%;width:45px;height:45px;background:#a37aff33;border:1px solid #a37aff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#d2a8ff">knowledge</div>
+          <div style="position:absolute;top:65%;left:65%;width:30px;height:30px;background:#f0883e33;border:1px solid #f0883e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#ffa657">notes</div>
+          <!-- Lines between nodes -->
+          <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none">
+            <line x1="50%" y1="40%" x2="30%" y2="25%" stroke="#1f6feb44" stroke-width="1"/>
+            <line x1="50%" y1="40%" x2="30%" y2="60%" stroke="#1f6feb44" stroke-width="1"/>
+            <line x1="50%" y1="40%" x2="65%" y2="20%" stroke="#1f6feb44" stroke-width="1"/>
+            <line x1="50%" y1="40%" x2="65%" y2="65%" stroke="#1f6feb44" stroke-width="1"/>
+          </svg>
+          <!-- Floating chat trigger -->
+          <div style="position:absolute;bottom:8px;right:8px;background:#1f6feb;border-radius:20px;padding:4px 10px;font-size:9px;color:white">Ask NV...</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Map First</h3>
+      <p>The neural map fills the entire screen. Search floats at top. Chat slides in as a panel when triggered. Everything is the map — panels overlay on top.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#0d1117;border-radius:6px;padding:10px;font-family:monospace;font-size:11px;height:200px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box;color:#8b949e">
+        <!-- Option B: Split layout -->
+        <div style="background:#161b22;border-radius:4px;padding:4px 10px;display:flex;align-items:center;gap:8px;color:#58a6ff;font-size:11px">
+          <span style="color:#58a6ff;font-weight:bold">NV</span>
+          <span style="color:#8b949e;font-size:10px">Company Vault</span>
+          <span style="margin-left:auto;color:#8b949e;font-size:10px">Alice ▾</span>
+        </div>
+        <div style="flex:1;display:flex;gap:6px">
+          <!-- Left sidebar -->
+          <div style="width:90px;background:#161b22;border-radius:4px;padding:6px;display:flex;flex-direction:column;gap:3px;font-size:9px">
+            <div style="color:#58a6ff;margin-bottom:3px;font-size:10px">⌕ Search</div>
+            <div style="color:#56d364">◆ financials</div>
+            <div style="color:#79c0ff">◆ issues</div>
+            <div style="color:#ffa657">◆ complaints</div>
+            <div style="color:#d2a8ff">◆ decisions</div>
+            <div style="color:#8b949e">◆ knowledge</div>
+            <div style="margin-top:4px;border-top:1px solid #30363d;padding-top:4px;color:#8b949e">My Vault</div>
+            <div style="color:#8b949e;padding-left:4px">work/</div>
+            <div style="color:#444;padding-left:4px">my-notes/</div>
+          </div>
+          <!-- Map center -->
+          <div style="flex:1;background:#0d1117;border-radius:4px;position:relative;overflow:hidden">
+            <div style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;background:#1f6feb33;border:2px solid #1f6feb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#58a6ff">financials</div>
+            <div style="position:absolute;top:25%;left:35%;width:35px;height:35px;background:#388bfd22;border:1px solid #388bfd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#79c0ff">issues</div>
+            <div style="position:absolute;top:60%;left:35%;width:30px;height:30px;background:#2ea04333;border:1px solid #2ea043;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#56d364">decisions</div>
+            <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none">
+              <line x1="50%" y1="40%" x2="35%" y2="25%" stroke="#1f6feb44" stroke-width="1"/>
+              <line x1="50%" y1="40%" x2="35%" y2="60%" stroke="#1f6feb44" stroke-width="1"/>
+            </svg>
+          </div>
+          <!-- Right chat panel -->
+          <div style="width:90px;background:#161b22;border-radius:4px;padding:6px;display:flex;flex-direction:column;gap:4px;font-size:9px">
+            <div style="color:#58a6ff;font-size:10px">NV Chat</div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <div style="background:#0d1117;border-radius:3px;padding:3px;color:#8b949e;font-size:8px">Good morning! 3 new notes in decisions/</div>
+              <div style="background:#1f6feb22;border-radius:3px;padding:3px;color:#79c0ff;font-size:8px;text-align:right">Show me</div>
+              <div style="background:#0d1117;border-radius:3px;padding:3px;color:#8b949e;font-size:8px">Here are the highlights...</div>
+            </div>
+            <input style="background:#0d1117;border:1px solid #30363d;border-radius:3px;padding:3px;color:#8b949e;font-size:8px;width:100%;box-sizing:border-box" placeholder="Ask NV..."/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Split Panel</h3>
+      <p>Left sidebar: vault folders + search. Center: neural map. Right: NV chat always visible. Three-column layout. Everything accessible at a glance.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#0d1117;border-radius:6px;padding:10px;font-family:monospace;font-size:11px;height:200px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box;color:#8b949e">
+        <!-- Option C: Map + bottom dock -->
+        <div style="background:#161b22;border-radius:4px;padding:4px 10px;display:flex;align-items:center;gap:10px;color:#8b949e;font-size:11px">
+          <span style="color:#58a6ff;font-weight:bold">NV</span>
+          <span style="color:#58a6ff;font-size:10px;border-bottom:1px solid #58a6ff">Map</span>
+          <span style="font-size:10px">Chat</span>
+          <span style="font-size:10px">Vault</span>
+          <span style="font-size:10px">Agents</span>
+          <span style="margin-left:auto;background:#0d1117;border-radius:10px;padding:2px 8px;font-size:9px">⌕ Search</span>
+        </div>
+        <div style="flex:1;background:#0d1117;border-radius:4px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:55px;height:55px;background:#1f6feb33;border:2px solid #1f6feb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#58a6ff;text-align:center">financials</div>
+          <div style="position:absolute;top:20%;left:28%;width:38px;height:38px;background:#388bfd22;border:1px solid #388bfd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#79c0ff">issues</div>
+          <div style="position:absolute;top:58%;left:28%;width:33px;height:33px;background:#2ea04333;border:1px solid #2ea043;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#56d364">decisions</div>
+          <div style="position:absolute;top:20%;left:65%;width:40px;height:40px;background:#a37aff33;border:1px solid #a37aff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#d2a8ff">knowledge</div>
+          <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none">
+            <line x1="50%" y1="38%" x2="28%" y2="20%" stroke="#1f6feb44" stroke-width="1"/>
+            <line x1="50%" y1="38%" x2="28%" y2="58%" stroke="#1f6feb44" stroke-width="1"/>
+            <line x1="50%" y1="38%" x2="65%" y2="20%" stroke="#1f6feb44" stroke-width="1"/>
+          </svg>
+        </div>
+        <!-- Bottom status bar -->
+        <div style="background:#161b22;border-radius:4px;padding:4px 10px;display:flex;gap:12px;font-size:9px;align-items:center">
+          <span style="color:#56d364">● File Keeper: healthy</span>
+          <span style="color:#58a6ff">● AI Manager: 2 agents running</span>
+          <span style="margin-left:auto;color:#8b949e">last sync: 2m ago</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Tabbed + Status Bar</h3>
+      <p>Top nav tabs switch between Map, Chat, Vault browser, and Agents. Map fills the view. Bottom bar shows Vault Keeper status, agent activity, and sync state.</p>
+    </div>
+  </div>
+
+</div>
