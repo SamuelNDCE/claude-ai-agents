@@ -1,0 +1,156 @@
+<h2>Layout B — Detailed View</h2>
+<p class="subtitle">The neural map is always in the center. What should happen when you click a node?</p>
+
+<div class="mockup">
+  <div class="mockup-header">NeuralVault — Company Vault (employee view)</div>
+  <div class="mockup-body" style="padding:0">
+    <div style="background:#0d1117;border-radius:0 0 6px 6px;font-family:monospace;font-size:11px;color:#8b949e;display:flex;flex-direction:column;height:420px">
+
+      <!-- Top nav bar -->
+      <div style="background:#161b22;padding:6px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #30363d;flex-shrink:0">
+        <span style="color:#58a6ff;font-weight:bold;font-size:13px">NV</span>
+        <span style="color:#c9d1d9;font-size:11px">Company Vault</span>
+        <div style="flex:1;background:#0d1117;border-radius:12px;padding:3px 10px;color:#8b949e;font-size:10px;max-width:220px;margin:0 auto">⌕  Search everything...</div>
+        <span style="color:#8b949e;font-size:10px">Alice Chen</span>
+        <span style="width:22px;height:22px;background:#1f6feb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:9px">AC</span>
+      </div>
+
+      <!-- Three-column body -->
+      <div style="flex:1;display:flex;gap:0;overflow:hidden">
+
+        <!-- LEFT SIDEBAR -->
+        <div style="width:160px;background:#161b22;border-right:1px solid #30363d;display:flex;flex-direction:column;padding:10px;gap:6px;flex-shrink:0">
+          <div style="font-size:9px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Company Vault</div>
+          <div style="display:flex;align-items:center;gap:5px;color:#56d364;font-size:10px;padding:3px 5px;background:#0d1117;border-radius:3px">
+            <span>📁</span><span>financials</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;color:#79c0ff;font-size:10px;padding:3px 5px;border-radius:3px">
+            <span>📁</span><span>issues</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;color:#ffa657;font-size:10px;padding:3px 5px;border-radius:3px">
+            <span>📁</span><span>complaints</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;color:#d2a8ff;font-size:10px;padding:3px 5px;border-radius:3px">
+            <span>📁</span><span>decisions</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;color:#8b949e;font-size:10px;padding:3px 5px;border-radius:3px">
+            <span>📁</span><span>knowledge</span>
+          </div>
+
+          <div style="margin-top:8px;border-top:1px solid #30363d;padding-top:8px">
+            <div style="font-size:9px;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">My Vault</div>
+            <div style="font-size:10px;color:#8b949e;padding:3px 5px">📁 work/</div>
+            <div style="font-size:10px;color:#444;padding:3px 5px">🔒 my-notes/</div>
+            <div style="font-size:10px;color:#444;padding:3px 5px">🔒 my-tasks/</div>
+          </div>
+
+          <div style="margin-top:auto;border-top:1px solid #30363d;padding-top:8px">
+            <div style="font-size:9px;color:#56d364">● File Keeper: healthy</div>
+            <div style="font-size:9px;color:#58a6ff;margin-top:2px">● AI Manager: active</div>
+          </div>
+        </div>
+
+        <!-- CENTER MAP -->
+        <div style="flex:1;background:#0d1117;position:relative;overflow:hidden">
+
+          <!-- Map legend -->
+          <div style="position:absolute;top:8px;left:8px;display:flex;gap:6px;z-index:10">
+            <span style="background:#161b22;border-radius:10px;padding:2px 7px;font-size:8px;color:#56d364">● financials</span>
+            <span style="background:#161b22;border-radius:10px;padding:2px 7px;font-size:8px;color:#79c0ff">● issues</span>
+            <span style="background:#161b22;border-radius:10px;padding:2px 7px;font-size:8px;color:#d2a8ff">● decisions</span>
+          </div>
+
+          <!-- Zoom controls -->
+          <div style="position:absolute;bottom:8px;left:8px;display:flex;flex-direction:column;gap:2px;z-index:10">
+            <div style="background:#161b22;border:1px solid #30363d;border-radius:3px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer">+</div>
+            <div style="background:#161b22;border:1px solid #30363d;border-radius:3px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer">−</div>
+          </div>
+
+          <!-- NEURAL MAP NODES -->
+          <!-- Cluster: financials (large, center) -->
+          <div style="position:absolute;top:42%;left:44%;transform:translate(-50%,-50%);width:70px;height:70px;background:#2ea04322;border:2px solid #56d364;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#56d364;text-align:center;cursor:pointer" title="financials cluster">financials<br><span style="font-size:7px;color:#8b949e">47 notes</span></div>
+
+          <!-- Smaller nodes around it -->
+          <div style="position:absolute;top:22%;left:28%;width:42px;height:42px;background:#388bfd1a;border:1px solid #388bfd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#79c0ff;text-align:center">issues<br><span style="font-size:7px">23</span></div>
+
+          <div style="position:absolute;top:65%;left:25%;width:38px;height:38px;background:#ffa6571a;border:1px solid #ffa657;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#ffa657;text-align:center">complaints<br><span style="font-size:7px">18</span></div>
+
+          <div style="position:absolute;top:20%;left:62%;width:48px;height:48px;background:#a37aff1a;border:1px solid #a37aff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#d2a8ff;text-align:center">decisions<br><span style="font-size:7px">31</span></div>
+
+          <div style="position:absolute;top:65%;left:64%;width:35px;height:35px;background:#8b949e1a;border:1px solid #8b949e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8b949e;text-align:center">knowledge<br><span style="font-size:7px">82</span></div>
+
+          <!-- Individual note nodes (small) -->
+          <div style="position:absolute;top:30%;left:38%;width:12px;height:12px;background:#56d36444;border:1px solid #56d364;border-radius:50%"></div>
+          <div style="position:absolute;top:34%;left:35%;width:10px;height:10px;background:#56d36433;border:1px solid #56d364;border-radius:50%"></div>
+          <div style="position:absolute;top:52%;left:37%;width:11px;height:11px;background:#56d36433;border:1px solid #56d364;border-radius:50%"></div>
+          <div style="position:absolute;top:28%;left:55%;width:10px;height:10px;background:#a37aff33;border:1px solid #a37aff;border-radius:50%"></div>
+          <div style="position:absolute;top:36%;left:60%;width:12px;height:12px;background:#a37aff44;border:1px solid #a37aff;border-radius:50%"></div>
+
+          <!-- Connection lines -->
+          <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none">
+            <line x1="44%" y1="42%" x2="28%" y2="22%" stroke="#388bfd33" stroke-width="1.5"/>
+            <line x1="44%" y1="42%" x2="25%" y2="65%" stroke="#ffa65733" stroke-width="1"/>
+            <line x1="44%" y1="42%" x2="62%" y2="20%" stroke="#a37aff33" stroke-width="1.5"/>
+            <line x1="44%" y1="42%" x2="64%" y2="65%" stroke="#8b949e22" stroke-width="1"/>
+            <line x1="62%" y1="20%" x2="28%" y2="22%" stroke="#ffffff11" stroke-width="1"/>
+          </svg>
+
+          <!-- SELECTED NODE DETAIL PANEL (floats over map) -->
+          <div style="position:absolute;top:8px;right:8px;width:130px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:8px;z-index:20">
+            <div style="font-size:9px;color:#8b949e;margin-bottom:4px">Selected node</div>
+            <div style="color:#56d364;font-size:10px;font-weight:bold;margin-bottom:3px">Q2 Revenue Report</div>
+            <div style="color:#8b949e;font-size:8px;margin-bottom:6px">financials/ · 2026-06-01</div>
+            <div style="color:#c9d1d9;font-size:8px;margin-bottom:6px">Quarterly revenue up 12%...</div>
+            <div style="display:flex;gap:4px">
+              <div style="background:#1f6feb;border-radius:3px;padding:2px 6px;font-size:8px;color:white;cursor:pointer">Open note</div>
+              <div style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:2px 6px;font-size:8px;color:#8b949e;cursor:pointer">Ask NV</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT CHAT PANEL -->
+        <div style="width:180px;background:#161b22;border-left:1px solid #30363d;display:flex;flex-direction:column;flex-shrink:0">
+          <div style="padding:8px 10px;border-bottom:1px solid #30363d;font-size:10px;color:#c9d1d9;display:flex;justify-content:space-between;align-items:center">
+            <span>NV Chat</span>
+            <span style="font-size:8px;color:#8b949e">💡 briefing ready</span>
+          </div>
+          <div style="flex:1;padding:8px;display:flex;flex-direction:column;gap:5px;overflow:hidden">
+            <div style="background:#0d1117;border-radius:4px;padding:5px;font-size:8px;color:#8b949e">
+              <span style="color:#58a6ff">NV:</span> Good morning. 3 new notes in decisions/ since yesterday. The Q2 report in financials/ is linked to 8 open issues.
+            </div>
+            <div style="background:#1f6feb1a;border-radius:4px;padding:5px;font-size:8px;color:#79c0ff;text-align:right">
+              Which issues are most critical?
+            </div>
+            <div style="background:#0d1117;border-radius:4px;padding:5px;font-size:8px;color:#8b949e">
+              <span style="color:#58a6ff">NV:</span> Issues #14 and #22 are flagged high priority and reference the same supplier...
+              <div style="margin-top:3px;color:#388bfd;font-size:7px">▶ 3 nodes highlighted on map</div>
+            </div>
+          </div>
+          <div style="padding:6px;border-top:1px solid #30363d">
+            <div style="background:#0d1117;border:1px solid #30363d;border-radius:12px;padding:5px 10px;font-size:9px;color:#8b949e">Ask NV anything...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px">The map is always visible in the center. Left panel: vault navigation. Right panel: NV chat with briefings. Does this feel right, or do you want to adjust anything?</p>
+
+<div class="options">
+  <div class="option" data-choice="looks-right" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Looks right</h3>
+      <p>This is the layout. Move on to the next UX question.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="adjust" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Adjust something</h3>
+      <p>I want to change a part of this layout.</p>
+    </div>
+  </div>
+</div>
