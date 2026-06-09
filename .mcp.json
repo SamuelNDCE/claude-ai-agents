@@ -1,14 +1,18 @@
 {
   "mcpServers": {
-"codegraph": {
+    "codegraph": {
       "type": "stdio",
       "command": "node",
-      "args": ["C:\\Users\\Futur\\Documents\\AiWorkspace\\Claude\\codegraph-nv-bridge.js"]
+      "args": [
+        "C:\\Users\\Futur\\Documents\\AiWorkspace\\Claude\\codegraph-nv-bridge.js"
+      ]
     },
     "nv-web": {
       "type": "stdio",
       "command": "node",
-      "args": ["C:\\Users\\Futur\\Documents\\AiWorkspace\\Claude\\nv-web-mcp.js"]
+      "args": [
+        "C:\\Users\\Futur\\Documents\\AiWorkspace\\Claude\\nv-web-mcp.js"
+      ]
     },
     "claude-flow": {
       "command": "cmd",
@@ -29,6 +33,22 @@
         "CLAUDE_FLOW_MEMORY_BACKEND": "hybrid"
       },
       "autoStart": false
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ]
+    },
+    "v0": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.v0.dev",
+        "--header",
+        "Authorization: Bearer ${V0_API_KEY}"
+      ]
     }
   }
 }
