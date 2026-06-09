@@ -2,8 +2,9 @@
 "use strict";
 /**
  * PostToolUse hook for mcp__claude-flow__memory_store.
- * Reads the hook payload from stdin, extracts key+value, POSTs to NeuralVault /api/observe.
- * Silent failure: if NV is offline, the hook exits 0 so Claude Code is not blocked.
+ * Reads the hook payload from stdin, extracts key+value, and writes a note to
+ * the NeuralVault vault filesystem (NeuralVault is a serverless Rust app now —
+ * there is no HTTP API). Silent failure: never throws, the hook always exits 0.
  *
  * Stdin shape (Claude Code PostToolUse):
  * {
@@ -13,34 +14,12 @@
  * }
  */
 
-const http = require("http");
+const { nvObserveFs } = require("../../nv-fs.js");
 
-const NV_HOST = process.env.NV_HOST || "localhost";
-const NV_PORT = parseInt(process.env.NV_PORT || "8900", 10);
-
-function nvObserve(title, content) {
-  return new Promise((resolve) => {
-    const body = JSON.stringify({ title, content, type: "observation", tags: ["ruflo-agent", "memory-store"] });
-
-    if (Buffer.byteLength(body) > 1_000_000) {
-      resolve({ ok: false });
-      return;
-    }
-
-    const req = http.request(
-      {
-        host: NV_HOST, port: NV_PORT, path: "/api/observe", method: "POST",
-        headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) },
-      },
-      (res) => {
-        res.resume();
-        resolve({ ok: res.statusCode === 200 });
-      }
-    );
-    req.on("error", () => resolve({ ok: false }));
-    req.write(body);
-    req.end();
-  });
+async function nvObserve(title, content) {
+  const body = JSON.stringify({ title, content });
+  if (Buffer.byteLength(body) > 1_000_000) return { ok: false };
+  return nvObserveFs({ title, content, type: "observation", tags: ["ruflo-agent", "memory-store"] });
 }
 
 async function main(inputJson) {
