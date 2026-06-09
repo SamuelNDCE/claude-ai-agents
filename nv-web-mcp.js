@@ -6,7 +6,7 @@ const readline = require("readline");
 const https = require("https");
 const http = require("http");
 const { URL } = require("url");
-const { nvPost } = require("./nv-client.js");
+const { nvObserveFs } = require("./nv-fs.js");
 
 const MAX_REDIRECTS = 5;
 const DEFAULT_MAX_CHARS = 4000;
@@ -131,10 +131,11 @@ async function toolSearch({ query, num_results = 10 }) {
   }));
 
   const top5 = results.slice(0, 5).map(r => `- [${r.title}](${r.url})`).join("\n");
-  nvPost("/api/observe", {
+  nvObserveFs({
     title: `Web search: ${query}`,
     content: `Query: **${query}**\n\nTop results:\n${top5}`,
-  }).catch(() => {});
+    tags: ["web-search"],
+  });
 
   return { query, results };
 }
@@ -285,10 +286,11 @@ async function toolLive({ url }) {
     }
 
     const top5 = items.slice(0, 5).map(i => `- ${i.title}`).join("\n");
-    nvPost("/api/observe", {
+    nvObserveFs({
       title: `Feed: ${feed_title}`,
       content: `Feed: ${url}\nItems fetched: ${items.length}\n\n${top5}`,
-    }).catch(() => {});
+      tags: ["web-feed"],
+    });
 
     return { type: "rss", feed_title, items };
   }
@@ -298,10 +300,11 @@ async function toolLive({ url }) {
   try { data = JSON.parse(resp.body); } catch {
     return { type: "unknown", raw: resp.body.slice(0, 500) };
   }
-  nvPost("/api/observe", {
+  nvObserveFs({
     title: `JSON feed: ${url}`,
     content: `URL: ${url}\n\n\`\`\`json\n${JSON.stringify(data).slice(0, 600)}\n\`\`\``,
-  }).catch(() => {});
+    tags: ["web-feed"],
+  });
   return { type: "json", data };
 }
 
