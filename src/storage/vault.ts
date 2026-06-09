@@ -17,9 +17,13 @@ export class VaultStorage {
     this.byTitle.clear();
     const files = findMarkdownFiles(this.root);
     for (const file of files) {
-      const note = parseNote(file, this.root);
-      this.notes.set(note.id, note);
-      this.byTitle.set(note.title.toLowerCase(), note.id);
+      try {
+        const note = parseNote(file, this.root);
+        this.notes.set(note.id, note);
+        this.byTitle.set(note.title.toLowerCase(), note.id);
+      } catch {
+        // Skip notes with malformed frontmatter (e.g. unquoted colons in YAML values)
+      }
     }
   }
 
