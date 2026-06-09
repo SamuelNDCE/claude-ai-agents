@@ -80,34 +80,18 @@ node codegraph-kg-snapshot.js [project-path]
 - Re-snapshot to NV: `node codegraph-kg-snapshot.js`
 - Bridge source: `codegraph-nv-bridge.js`
 
-# NeuralVault MCP Integration
+# NeuralVault — Rust desktop app (NO server, NO MCP tools)
 
-`nv-mcp-server.js` runs as a Claude MCP server named `neuralvault`. It exposes NeuralVault's REST API (localhost:8900) as 5 tools directly callable in Claude sessions.
+NeuralVault is a native Rust desktop app (`neuralvault-desktop.exe`, launched by `NeuralVault-Desktop.bat`). It reads and writes the vault files directly via internal Tauri IPC. There is **no HTTP API** and **no localhost:8900**.
 
-## NV Tools
+The old `neuralvault` MCP server and `nv-mcp-server.js` were **deleted** (2026-06-09) — they targeted the dead Python REST API on port 8900 and failed silently (fake `{results:[]}` on reads, `{ok:false}` on writes). The `nv_observe`/`nv_search`/`nv_ask`/`nv_note`/`nv_create_note` tools no longer exist.
 
-| Tool | When to use |
-|------|-------------|
-| `nv_observe(title, content)` | Quick save — a fact, decision, or lesson learned |
-| `nv_search(q)` | Find notes by keyword before deep work |
-| `nv_ask(q)` | Natural-language question against the vault |
-| `nv_note(id)` | Read full content of a specific note |
-| `nv_create_note(title, content, type, tags)` | Structured note with frontmatter |
+## How to read/write NeuralVault
 
-## Memory Bridge
+Work the vault filesystem directly at `C:\Users\Futur\Documents\AiWorkspace\NeuralVault\sample-vault\`:
 
-Any call to `mcp__claude-flow__memory_store` automatically triggers a `PostToolUse` hook that also writes the key/value to NV `/api/observe`. Ruflo agent memory and NeuralVault stay in sync without manual intervention.
+- **Read** a note → `Read`
+- **Search** → `Grep` (or the `qmd` skill for semantic search)
+- **Save / log** → `Write`/`Edit`. Append to `wiki/log.md` (newest at top) and the right topic folder.
 
-## Session Pattern
-
-```
-Session start:   curl -s http://localhost:8900/api/context  ← existing NV check
-Mid-session:     nv_search(topic)                           ← find existing knowledge
-Learning saved:  mcp__claude-flow__memory_store → auto-synced to NV
-Specific recall: nv_ask("what did we learn about X?")
-```
-
-## Failure Modes
-
-- NV offline: all nv_* tools return gracefully; the memory hook exits silently (no Claude Code error)
-- Ruflo MCP offline: nv_* tools still work independently from NeuralVault directly
+Note: `nv-client.js` is kept because the separate `nv-web` MCP server (`nv-web-mcp.js`) imports it.
