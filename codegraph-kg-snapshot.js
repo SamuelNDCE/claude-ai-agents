@@ -103,36 +103,15 @@ async function snapshot() {
   ].join("\n");
 
   const title = `codegraph-kg-${projectName.toLowerCase().replace(/[^a-z0-9]/g, "-")}`;
-  const noteId = `wiki/codegraph/${title}`;
-  const relPath = `${noteId}.md`;
-
-  // Build full frontmatter + content for the file
-  const today = new Date().toISOString().slice(0, 10);
-  const fileContent = [
-    "---",
-    `title: ${title}`,
-    "type: concept",
-    "status: seed",
-    `created: ${today}`,
-    `updated: ${today}`,
-    `tags: [codegraph-kg, architecture, ${projectName}]`,
-    "---",
-    "",
+  const saved = nvObserveFs({
+    title,
     content,
-  ].join("\n");
-
-  // Write directly to vault for true replacement (API POST appends)
-  const vaultPath = path.join(VAULT_ROOT, relPath);
-  try {
-    fs.mkdirSync(path.dirname(vaultPath), { recursive: true });
-    fs.writeFileSync(vaultPath, fileContent, "utf8");
-    console.log(`[kg-snapshot] Saved → ${relPath}`);
-  } catch (err) {
-    console.warn(`[kg-snapshot] Direct write failed (${err.message}), falling back to API`);
-    const result = await nvPost("/api/note", { id: noteId, title, content, type: "concept", folder: "wiki/codegraph", tags: ["codegraph-kg", "architecture", projectName] });
-    if (result.ok) console.log(`[kg-snapshot] Saved via API → ${result.file}`);
-    else console.error("[kg-snapshot] Failed to save to NeuralVault:", result);
-  }
+    type: "concept",
+    folder: "wiki/codegraph",
+    tags: ["codegraph-kg", "architecture", projectName],
+  });
+  if (saved.ok) console.log(`[kg-snapshot] Saved → ${saved.id}.md`);
+  else console.error("[kg-snapshot] Failed to save snapshot to the vault");
 }
 
 snapshot().catch(console.error);
