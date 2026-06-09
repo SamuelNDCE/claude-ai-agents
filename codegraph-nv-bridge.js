@@ -7,20 +7,17 @@
  * Architecture:
  *   Claude Code  →  bridge (this, stdio)  →  codegraph child (stdio)
  *                            ↓
- *                    NeuralVault :8900
+ *                    NeuralVault vault filesystem (via nv-fs.js)
  */
 
 "use strict";
 
 const { spawn } = require("child_process");
 const readline = require("readline");
-const http = require("http");
 const crypto = require("crypto");
+const { nvObserveFs, nvSearchFs } = require("./nv-fs.js");
 
 // ── Config ──────────────────────────────────────────────────────────────────
-const NV_HOST = "localhost";
-const NV_PORT = 8900;
-
 // Only save results from these tools (others are noisy or transient)
 const SAVE_TOOLS = new Set([
   "codegraph_explore",
@@ -31,42 +28,7 @@ const SAVE_TOOLS = new Set([
   "codegraph_node",
 ]);
 
-// ── NeuralVault helpers ──────────────────────────────────────────────────────
-function nvPost(path, body) {
-  return new Promise((resolve) => {
-    const data = JSON.stringify(body);
-    const req = http.request(
-      { host: NV_HOST, port: NV_PORT, path, method: "POST",
-        headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(data) } },
-      (res) => {
-        let buf = "";
-        res.on("data", (c) => (buf += c));
-        res.on("end", () => resolve(JSON.parse(buf || "{}")));
-      }
-    );
-    req.on("error", () => resolve({ ok: false }));
-    req.write(data);
-    req.end();
-  });
-}
-
-function nvGet(path) {
-  return new Promise((resolve) => {
-    const req = http.request(
-      { host: NV_HOST, port: NV_PORT, path, method: "GET" },
-      (res) => {
-        let buf = "";
-        res.on("data", (c) => (buf += c));
-        res.on("end", () => {
-          try { resolve(JSON.parse(buf)); } catch { resolve(null); }
-        });
-      }
-    );
-    req.on("error", () => resolve(null));
-    req.end();
-  });
-}
-
+// ── helpers ──────────────────────────────────────────────────────────────────
 function toolKey(toolName, args) {
   const sig = toolName + JSON.stringify(args || {});
   return crypto.createHash("sha1").update(sig).digest("hex").slice(0, 8);
@@ -94,7 +56,7 @@ async function saveToNV(toolName, args, result) {
   const title = `codegraph-${toolName.replace("codegraph_", "")}-${key}`;
 
   // Avoid re-saving identical queries
-  const existing = await nvGet(`/api/search?q=${encodeURIComponent(title)}`);
+  const existing = nvSearchFs(title);
   if (existing?.results?.some((r) => r.title === title)) return;
 
   const text = extractText(result);
@@ -112,7 +74,7 @@ async function saveToNV(toolName, args, result) {
     `*Cached by codegraph-nv-bridge · [[codegraph-knowledge-graph]]*`,
   ].join("\n");
 
-  await nvPost("/api/note", {
+  nvObserveFs({
     title,
     content,
     type: "pattern",
@@ -141,7 +103,7 @@ const EXTRA_TOOL = {
 
 async function handleExtraTool(args) {
   const q = args?.query || "";
-  const results = await nvGet(`/api/search?q=${encodeURIComponent("codegraph " + q)}`);
+  const results = nvSearchFs("codegraph " + q);
   if (!results?.results?.length) {
     return { content: [{ type: "text", text: "No cached findings for this query. Use codegraph_explore or codegraph_search." }] };
   }

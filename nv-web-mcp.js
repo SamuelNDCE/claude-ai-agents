@@ -150,12 +150,12 @@ async function toolRead({ url, max_chars = DEFAULT_MAX_CHARS }) {
   const { text: content, truncated } = truncate(raw, max_chars);
   const word_count = content.split(/\s+/).filter(Boolean).length;
 
-  const saved = await nvPost("/api/note", {
+  const saved = nvObserveFs({
     title: title || resp.finalUrl,
     content: `Source: ${resp.finalUrl}\n\n${content}`,
     type: "source",
     tags: ["web", "web-read"],
-  }).catch(() => null);
+  });
 
   return {
     title,
@@ -331,10 +331,11 @@ async function toolResearch({ query, max_pages = 3 }) {
     `- [${s.title}](${s.url})${s.nv_id ? ` → NV \`${s.nv_id}\`` : s.error ? ` (error: ${s.error})` : ""}`
   ).join("\n");
 
-  const saved = await nvPost("/api/observe", {
+  const saved = nvObserveFs({
     title: `Research: ${query}`,
     content: `Research query: **${query}**\nPages read: ${pages.length}\n\nSources:\n${sourceList}`,
-  }).catch(() => null);
+    tags: ["web-research"],
+  });
 
   return {
     query,

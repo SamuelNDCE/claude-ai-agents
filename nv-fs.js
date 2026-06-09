@@ -37,8 +37,25 @@ function today() {
 // id is the vault-relative path without the .md extension.
 function nvObserveFs({ title, content, type = "observation", tags = [], status = "seed", folder } = {}) {
   try {
-    const rel = folder || TYPE_FOLDER[type] || TYPE_FOLDER.observation;
-    const dir = path.join(VAULT, rel);
+    let rel = folder || TYPE_FOLDER[type] || TYPE_FOLDER.observation;
+    // Path-traversal guard: `folder` is caller-supplied, so a value like
+    // "../../x" or an absolute path would escape the vault. Only accept a
+    // simple relative sub-path (safe charset, no "..", not absolute) when a
+    // caller passes one; the TYPE_FOLDER fallbacks are already trusted.
+    if (folder) {
+      const f = String(folder).replace(/\\/g, "/");
+      const bad = path.isAbsolute(f) || /(^|\/)\.\.(\/|$)/.test(f) ||
+        !/^[A-Za-z0-9._/-]+$/.test(f);
+      if (bad) return { ok: false };
+      rel = f;
+    }
+    const dir = path.resolve(VAULT, rel);
+    // Belt-and-suspenders: confirm the resolved dir is inside the vault root
+    // (Windows path comparison is case-insensitive).
+    const root = path.resolve(VAULT);
+    const a = process.platform === "win32" ? dir.toLowerCase() : dir;
+    const b = process.platform === "win32" ? root.toLowerCase() : root;
+    if (a !== b && !a.startsWith(b + path.sep)) return { ok: false };
     fs.mkdirSync(dir, { recursive: true });
 
     const slug = slugify(title);
