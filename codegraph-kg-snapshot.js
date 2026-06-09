@@ -12,14 +12,8 @@
 "use strict";
 
 const { execSync } = require("child_process");
-const fs = require("fs");
-const http = require("http");
 const path = require("path");
-
-const VAULT_ROOT = "C:\\Users\\Futur\\Documents\\Obsidian Vault\\Claude";
-
-const NV_HOST = "localhost";
-const NV_PORT = 8900;
+const { nvObserveFs } = require("./nv-fs.js");
 
 const projectPath = process.argv[2] || process.cwd();
 const projectName = path.basename(projectPath);
@@ -30,26 +24,6 @@ function run(cmd, cwd) {
   } catch {
     return "";
   }
-}
-
-function nvPost(endpoint, body) {
-  return new Promise((resolve) => {
-    const data = JSON.stringify(body);
-    const req = http.request(
-      { host: NV_HOST, port: NV_PORT, path: endpoint, method: "POST",
-        headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(data) } },
-      (res) => {
-        let buf = "";
-        res.on("data", (c) => (buf += c));
-        res.on("end", () => {
-          try { resolve(JSON.parse(buf)); } catch { resolve({ ok: false }); }
-        });
-      }
-    );
-    req.on("error", () => resolve({ ok: false }));
-    req.write(data);
-    req.end();
-  });
 }
 
 async function snapshot() {

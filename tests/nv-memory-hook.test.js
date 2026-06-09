@@ -1,29 +1,9 @@
 // tests/nv-memory-hook.test.js
 "use strict";
 const assert = require("assert");
-const http = require("http");
-
-let server;
-let lastRequest = null;
-
-async function startMockServer(statusCode = 200) {
-  return new Promise((resolve) => {
-    server = http.createServer((req, res) => {
-      let body = "";
-      req.on("data", (c) => (body += c));
-      req.on("end", () => {
-        lastRequest = { method: req.method, url: req.url, body };
-        res.writeHead(statusCode, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ ok: statusCode === 200 }));
-      });
-    });
-    server.listen(0, () => resolve(server.address().port));
-  });
-}
-
-async function stopMockServer() {
-  return new Promise((resolve) => server.close(resolve));
-}
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
 
 async function run() {
   let passed = 0;
@@ -40,41 +20,35 @@ async function run() {
     }
   }
 
-  // Test 1: nvObserve POSTs correct body
-  {
-    const port = await startMockServer();
-    process.env.NV_HOST = "localhost";
-    process.env.NV_PORT = String(port);
-    delete require.cache[require.resolve("../.claude/helpers/nv-memory-hook.cjs")];
-    const { nvObserve } = require("../.claude/helpers/nv-memory-hook.cjs");
+  // Isolate writes to a throwaway vault so the real vault is untouched.
+  const tmpVault = fs.mkdtempSync(path.join(os.tmpdir(), "nvfs-test-"));
+  process.env.NV_VAULT = tmpVault;
+  delete require.cache[require.resolve("../nv-fs.js")];
+  delete require.cache[require.resolve("../.claude/helpers/nv-memory-hook.cjs")];
+  const { nvObserve } = require("../.claude/helpers/nv-memory-hook.cjs");
 
-    await test("nvObserve POSTs to /api/observe with title and content", async () => {
-      const result = await nvObserve("test-key", "test-value");
-      assert.strictEqual(lastRequest.method, "POST");
-      assert.strictEqual(lastRequest.url, "/api/observe");
-      const body = JSON.parse(lastRequest.body);
-      assert.strictEqual(body.title, "test-key");
-      assert.strictEqual(body.content, "test-value");
-      assert.strictEqual(body.type, "observation");
-      assert.deepStrictEqual(body.tags, ["ruflo-agent", "memory-store"]);
-      assert.strictEqual(result.ok, true);
-    });
+  // Test 1: nvObserve writes a note to the vault filesystem
+  await test("nvObserve writes a note file with title, content, type, and tags", async () => {
+    const result = await nvObserve("test-key", "test-value");
+    assert.strictEqual(result.ok, true);
+    assert.strictEqual(result.id, "wiki/agent-inbox/test-key");
 
-    await stopMockServer();
-  }
+    const file = path.join(tmpVault, "wiki", "agent-inbox", "test-key.md");
+    const text = fs.readFileSync(file, "utf8");
+    assert.ok(text.includes("title: test-key"), "title in frontmatter");
+    assert.ok(text.includes("type: observation"), "type observation");
+    assert.ok(text.includes("ruflo-agent, memory-store"), "tags present");
+    assert.ok(text.includes("test-value"), "content body");
+  });
 
-  // Test 2: nvObserve returns {ok:false} when NV unreachable
-  {
-    process.env.NV_PORT = "1";
-    delete require.cache[require.resolve("../.claude/helpers/nv-memory-hook.cjs")];
-    const { nvObserve: nvObs2 } = require("../.claude/helpers/nv-memory-hook.cjs");
+  // Test 2: nvObserve returns {ok:false} for oversized payloads
+  await test("nvObserve returns {ok:false} when content exceeds 1MB", async () => {
+    const huge = "x".repeat(1_000_001);
+    const result = await nvObserve("big", huge);
+    assert.strictEqual(result.ok, false);
+  });
 
-    await test("nvObserve returns {ok:false} when NV is unreachable", async () => {
-      const result = await nvObs2("key", "value");
-      assert.strictEqual(result.ok, false);
-    });
-  }
-
+  fs.rmSync(tmpVault, { recursive: true, force: true });
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed > 0 ? 1 : 0);
 }
