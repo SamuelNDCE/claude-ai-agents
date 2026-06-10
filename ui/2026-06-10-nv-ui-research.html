@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuralVault UI — Professional UX Research</title>
+<style>
+  :root{
+    --bg:#0a0d18; --surface:#111527; --surface2:#161b33; --border:#232a4a;
+    --teal:#22d3ee; --purple:#7c3aed; --purple-l:#a78bfa;
+    --text:#e2e8f0; --muted:#8b95b5; --good:#34d399; --warn:#fbbf24; --bad:#f87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;padding:40px 20px}
+  .wrap{max-width:1000px;margin:0 auto}
+  h1{font-size:1.9rem;background:linear-gradient(90deg,var(--teal),var(--purple-l));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+  .sub{color:var(--muted);margin-bottom:32px;font-size:.95rem}
+  h2{font-size:1.25rem;color:var(--teal);margin:36px 0 14px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+  h3{font-size:1.02rem;color:var(--purple-l);margin:18px 0 8px}
+  p{margin-bottom:10px;color:var(--text)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  ul{margin:6px 0 10px 20px}
+  li{margin-bottom:6px}
+  .tag{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 9px;border-radius:99px;margin-right:6px;vertical-align:middle}
+  .t-high{background:rgba(248,113,113,.15);color:var(--bad)}
+  .t-med{background:rgba(251,191,36,.15);color:var(--warn)}
+  .t-quick{background:rgba(52,211,153,.15);color:var(--good)}
+  .t-done{background:rgba(34,211,238,.12);color:var(--teal)}
+  table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:.92rem}
+  th{text-align:left;color:var(--teal);font-weight:600;padding:8px 10px;border-bottom:2px solid var(--border)}
+  td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+  td:first-child{white-space:nowrap;color:var(--purple-l);font-weight:600}
+  .src{font-size:.85rem;color:var(--muted)}
+  a{color:var(--teal);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--purple));color:#0a0d18;font-weight:700;font-size:.85rem;margin-right:10px}
+  .callout{border-left:3px solid var(--purple);background:var(--surface2);padding:12px 16px;border-radius:0 10px 10px 0;margin:12px 0;color:var(--muted)}
+  .callout b{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>NeuralVault UI — Professional UX Research</h1>
+  <div class="sub">Research synthesis · 2026-06-10 · Sources: Nielsen Norman Group, Apple HIG, Material Design, IxDF, agent-UX industry research, PKM tool analysis (Obsidian / Notion)</div>
+
+  <h2>1 · What the research says, mapped to NV</h2>
+
+  <div class="card">
+    <h3><span class="num">A</span>Recognition over recall (NN/g heuristic #6)</h3>
+    <p>People retrieve information far more easily when they can <b>recognize</b> it than when they must <b>recall</b> it. For a memory app this is the core principle: the UI's job is to put cues in front of Samuel so he never has to remember what's in the vault.</p>
+    <ul>
+      <li><b>Search should suggest before you type:</b> recent queries, recently touched notes, and "continue where you left off" in the search overlay.</li>
+      <li><b>Hover previews</b> on note links and search results (Obsidian's most-loved feature) — see content without committing to navigation.</li>
+      <li><b>Rich result snippets:</b> show the matched sentence with the hit highlighted, not just the note title. Title-only results force recall of what's inside.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">B</span>Visibility of system status (NN/g heuristic #1) — the #1 rule for agent apps</h3>
+    <p>2025–26 agent-UX research converges on five patterns every agent interface needs: <b>planning visibility, tool-use disclosure, memory surfacing, multi-step workflow tracking, and recovery routing</b>.</p>
+    <ul>
+      <li><span class="tag t-done">partly built</span>NV already has notification rows ("Cortex is working a task", indexing progress). Extend to a persistent, glanceable activity feed.</li>
+      <li><b>Show the plan, not just the spinner:</b> when Cortex delegates, render the step list with live check-offs. Users trust agents they can watch.</li>
+      <li><b>Memory surfacing:</b> when an agent answers using vault notes, show which notes it pulled (chips under the reply, clickable). This is transparency AND recognition in one.</li>
+      <li><b>Recovery routing:</b> every failed agent task needs a visible retry/redirect affordance, not silent failure.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">C</span>Trust through progressive delegation (NN/g State of UX 2026)</h3>
+    <p>Users burned by premature AI features resist new ones. The fix is <b>progressive delegation</b>: autonomy expands at the pace of the user's own approval history. Start with "Cortex proposes, you approve"; after a streak of accepted actions, offer to auto-approve that action type. The system earns permission through demonstrated reliability.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">D</span>PKM tool research (Obsidian vs Notion)</h3>
+    <p>The consensus from tool comparisons: local-first apps win on <b>minimalism, speed, and ownership</b> — the UI should get out of the way of the notes. Patterns that made Obsidian the designers' choice:</p>
+    <ul>
+      <li><b>Command palette (Ctrl+P / Ctrl+K)</b> as the universal entry point — every action reachable by keyboard, fuzzy-matched. The single highest-leverage feature for power users.</li>
+      <li><b>Quick capture:</b> a global hotkey to dump a thought into the inbox without leaving the current context. Friction at capture time is the #1 reason PKM systems die.</li>
+      <li><b>Backlinks panel:</b> "what links here" turns every note into a hub. Graph views demo well but research shows they're rarely used for actual navigation — keep the synapse map as ambient/overview, invest in backlinks + search for real retrieval.</li>
+      <li><b>Speed is a feature:</b> sub-100ms response to input is the Material responsiveness standard; perceived speed is why people describe Obsidian as "better" than feature-richer rivals.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">E</span>Complex-application heuristics (NN/g)</h3>
+    <ul>
+      <li><b>Progressive disclosure:</b> show core controls, tuck advanced ones behind "more". NV's settings redesign (all 8 providers visible, auto-save) already follows the right instinct — visible state, no Save button to forget.</li>
+      <li><b>User control & freedom:</b> undo for destructive/bulk actions ("Undo delete" toast) beats confirmation dialogs — confirmations get blindly clicked, undo actually saves data.</li>
+      <li><b>Flexibility & efficiency:</b> accelerators for experts (keyboard shortcuts on every list, j/k navigation) invisible to novices.</li>
+      <li><b>Aesthetic & minimalist:</b> every extra element on the dashboard competes with the signal. One primary action per screen (Apple HIG).</li>
+    </ul>
+  </div>
+
+  <h2>2 · Concrete recommendations, ranked</h2>
+  <table>
+    <tr><th>Rec</th><th>What</th><th>Why (research basis)</th></tr>
+    <tr><td><span class="tag t-high">HIGH</span>Command palette</td><td>Global Ctrl+K: fuzzy search across notes, actions, tabs, agents. One input, everything reachable.</td><td>Recognition over recall + expert accelerators; the defining pattern of modern knowledge tools (Obsidian, Notion, Linear, VS Code).</td></tr>
+    <tr><td><span class="tag t-high">HIGH</span>Search result quality</td><td>Highlighted snippets, hover preview, recent queries shown on open, helpful zero-result state ("no hits — try semantic search?").</td><td>Information scent: users decide where to click from cues in the result itself. Title-only lists have weak scent.</td></tr>
+    <tr><td><span class="tag t-high">HIGH</span>Agent transparency panel</td><td>Live plan view for Cortex tasks: steps, current tool, notes it read, retry on failure.</td><td>The five 2026 agent-UX patterns; trust is the adoption bottleneck for AI features.</td></tr>
+    <tr><td><span class="tag t-med">MED</span>Source chips on answers</td><td>Every Cortex reply lists the vault notes it used, clickable.</td><td>Memory surfacing + recognition; also catches hallucination instantly.</td></tr>
+    <tr><td><span class="tag t-med">MED</span>Quick capture hotkey</td><td>Global hotkey → tiny input → note lands in inbox. No app focus needed.</td><td>Capture friction kills PKM habits; every major tool (Obsidian, Bear, Reflect) ships this.</td></tr>
+    <tr><td><span class="tag t-med">MED</span>Backlinks / "related" panel</td><td>On every note view: what links here + semantically similar notes (the embeddings already exist).</td><td>Turns retrieval from search-only into browse-by-association; higher real usage than graph views.</td></tr>
+    <tr><td><span class="tag t-med">MED</span>Undo over confirm</td><td>Destructive actions execute immediately with a 5s "Undo" toast.</td><td>Apple HIG undo-support; confirmation dialogs suffer click-through blindness.</td></tr>
+    <tr><td><span class="tag t-quick">QUICK</span>Empty states</td><td>Every empty list/board gets one line of guidance + a primary action, never a blank pane.</td><td>Material empty-state guideline; blank panes read as broken.</td></tr>
+    <tr><td><span class="tag t-quick">QUICK</span>Keyboard nav everywhere</td><td>Arrow/j-k through lists, Enter to open, Esc to dismiss overlays consistently.</td><td>WCAG keyboard-nav + expert efficiency.</td></tr>
+    <tr><td><span class="tag t-quick">QUICK</span>Contrast audit</td><td>Check all 5 theme presets: body text ≥4.5:1, secondary ≥3:1, especially the dark surfaces.</td><td>WCAG AA; dark themes routinely fail on muted text.</td></tr>
+    <tr><td><span class="tag t-quick">QUICK</span>Motion discipline</td><td>Keep micro-interactions 150–300ms, exits ~65% of enter, stagger 30–50ms (the dashboard entrance already does this), respect reduced-motion.</td><td>Material motion + Apple HIG; >500ms animations read as lag.</td></tr>
+    <tr><td><span class="tag t-quick">QUICK</span>Tabular figures</td><td>Monospaced digits for stats, timers, counts on the dashboard.</td><td>Prevents layout shimmer as numbers tick.</td></tr>
+  </table>
+
+  <h2>3 · Anti-patterns to avoid</h2>
+  <div class="grid">
+    <div class="card"><h3>Graph view as primary nav</h3><p class="src">Demos beautifully, navigates poorly. Keep the synapse map as ambient overview; don't make it the retrieval path.</p></div>
+    <div class="card"><h3>Chat as the only door</h3><p class="src">Conversational UI is high-friction for repeat tasks. Direct manipulation (click the note, drag the card) must coexist with Cortex.</p></div>
+    <div class="card"><h3>Notification noise</h3><p class="src">Agent apps drown users in status. Batch low-priority events; interrupt only for decisions or failures.</p></div>
+    <div class="card"><h3>Feature sprawl on the dashboard</h3><p class="src">Notion's lesson in reverse: every widget added dilutes the ones that matter. Dashboard = status + resume-work, nothing else.</p></div>
+    <div class="card"><h3>Color-only meaning</h3><p class="src">Status dots (green = key set) need a second cue — icon, label, or tooltip — for accessibility.</p></div>
+    <div class="card"><h3>Silent agent failure</h3><p class="src">A task that dies without a visible error + retry destroys trust faster than any bug.</p></div>
+  </div>
+
+  <div class="callout"><b>The one-sentence summary:</b> NV wins by making the vault feel <b>visible</b> — surface what's in memory (recognition), surface what agents are doing (transparency), and make everything one keystroke away (command palette). Speed and minimalism are the brand; resist widgets.</div>
+
+  <h2>Sources</h2>
+  <ul class="src">
+    <li><a href="https://www.nngroup.com/articles/recognition-and-recall/">NN/g — Memory Recognition and Recall in User Interfaces</a></li>
+    <li><a href="https://www.nngroup.com/articles/ten-usability-heuristics/">NN/g — 10 Usability Heuristics for User Interface Design</a></li>
+    <li><a href="https://www.nngroup.com/articles/usability-heuristics-complex-applications/">NN/g — 10 Usability Heuristics Applied to Complex Applications</a></li>
+    <li><a href="https://ixdf.org/literature/topics/recognition-vs-recall">IxDF — Recognition vs Recall (2026)</a></li>
+    <li><a href="https://fuselabcreative.com/ui-design-for-ai-agents/">Fuselab — Agent UX: UI Design for AI Agents in 2026</a></li>
+    <li><a href="https://fuselabcreative.com/top-dashboard-design-trends-2025/">Fuselab — Dashboard Design Trends 2026</a></li>
+    <li><a href="https://www.hackdesign.org/toolkit/obsidian/">Hack Design — Obsidian: Local-First Knowledge Base for Design Research</a></li>
+    <li><a href="https://browser.horse/resources/notion-vs-obsidian">Horse Browser — Obsidian vs Notion 2025</a></li>
+    <li><a href="https://affine.pro/blog/obsidian-vs-notion-tips">AFFiNE — Obsidian vs Notion: Privacy or Collaboration</a></li>
+    <li>Apple Human Interface Guidelines · Material Design 3 (via ui-ux-pro-max design database: 99 UX guidelines)</li>
+  </ul>
+</div>
+</body>
+</html>
