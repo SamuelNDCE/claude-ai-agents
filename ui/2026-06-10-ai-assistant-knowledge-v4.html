@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant Knowledge v4 — Round 4 Installed (70 Notes)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0d18; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.55; padding: 40px 24px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.8rem; background: linear-gradient(90deg, #22d3ee, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 6px; }
+  .sub { color: #94a3b8; margin-bottom: 26px; font-size: .95rem; }
+  .stats { display: flex; gap: 14px; margin-bottom: 30px; flex-wrap: wrap; }
+  .stat { background: #11162a; border: 1px solid #1e2745; border-radius: 10px; padding: 12px 20px; }
+  .stat .n { font-size: 1.5rem; font-weight: 700; color: #22d3ee; }
+  .stat .l { font-size: .78rem; color: #94a3b8; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+  .card { background: #11162a; border: 1px solid #1e2745; border-radius: 12px; padding: 17px; }
+  .card:hover { border-color: #22d3ee55; }
+  .card h3 { font-size: .97rem; color: #f1f5f9; margin-bottom: 7px; }
+  .card p { font-size: .85rem; color: #94a3b8; }
+  .card .key { margin-top: 9px; font-size: .8rem; color: #22d3ee; border-top: 1px dashed #1e2745; padding-top: 7px; }
+  .num { font-size: .68rem; font-weight: 700; color: #7c3aed; letter-spacing: .08em; }
+  .actions { background: #11162a; border: 1px solid #7c3aed44; border-radius: 12px; padding: 20px 24px; margin-top: 30px; }
+  .actions h2 { font-size: 1rem; color: #a78bfa; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+  .actions li { margin: 7px 0 7px 18px; font-size: .9rem; color: #cbd5e1; }
+  .actions li::marker { color: #7c3aed; }
+  .path { font-family: Consolas, monospace; font-size: .8rem; color: #64748b; margin-top: 28px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Round 4 — All 10 Installed</h1>
+  <div class="sub">11 web searches · collection now at 70 notes · Cortex era begins · 2026-06-10</div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">70</div><div class="l">notes total</div></div>
+    <div class="stat"><div class="n">10</div><div class="l">gaps closed</div></div>
+    <div class="stat"><div class="n">61</div><div class="l">searches all rounds</div></div>
+    <div class="stat"><div class="n">1</div><div class="l">open thread closed</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="num">1 · SECURITY</div><h3>Prompt Injection Defense</h3><p>Indirect injection (instructions hidden in emails/web pages) is observed in the wild. No single fix exists — privilege separation is the structural answer.</p><div class="key">Rule for Cortex: agents that READ external content never share a context with agents that ACT.</div></div>
+    <div class="card"><div class="num">2 · COMPETITOR</div><h3>KYCO / Neurolinked Status</h3><p>Zero public web presence: no app store, no reviews, no Product Hunt. The "Obsidian killer" is TikTok demos + a link-in-bio community funnel.</p><div class="key">Low threat today. Their virality = proof-of-demand for NV. Monitor quarterly. Closes the 06-05 open thread.</div></div>
+    <div class="card"><div class="num">3 · COST</div><h3>24/7 Assistant Cost Engineering</h3><p>Model routing (40-70%), prompt caching (up to 90% on Claude), batch API (flat 50% for non-urgent jobs). Stacked: 70-85% savings.</p><div class="key">NV's stable hook-injected context is the perfect caching candidate.</div></div>
+    <div class="card"><div class="num">4 · VOICE</div><h3>Cortex Voice — TTS Pick</h3><p>Fish Audio S2 beat ElevenLabs V3 in blind tests 60-40, clones from 10s of audio, streams under 500ms, costs ~$15/M chars vs $60-120+.</p><div class="key">Pick: Fish Audio S2 — open weights mean it can later run on the home PC.</div></div>
+    <div class="card"><div class="num">5 · MEMORY</div><h3>Ambient Screen Memory</h3><p>Rewind is dead (Meta bought it Dec 2025). Screenpipe and Windrecorder are the open-source, local-first successors: 5-10fps capture, OCR, local vector DB.</p><div class="key">NV pattern: daily activity digest notes in the vault; raw frames stay in a retention-limited store.</div></div>
+    <div class="card"><div class="num">6 · GRAPH</div><h3>Knowledge Graph Auto-Construction</h3><p>GraphRAG pipeline: LLM entity extraction → entity resolution → Leiden community detection. Hybrid spaCy+LLM keeps it cheap.</p><div class="key">The upgrade path for NV's word-overlap linker: nightly batch extraction + embedding link suggestions.</div></div>
+    <div class="card"><div class="num">7 · INFRA</div><h3>Windows Automation Daemons</h3><p>Task Scheduler survives reboots and can wake the PC — if you enable wake timers in Power Options, check "wake to run," and use time-based triggers.</p><div class="key">Every Cortex job: idempotent, logs to a vault note, runs-after-missed enabled.</div></div>
+    <div class="card"><div class="num">8 · BUSINESS</div><h3>MSP Pricing Models</h3><p>Per-user is the 2026 default ($125-200/user/mo average), tiered packages dominate, 5+ seat minimums protect margins. Target 50-70% gross margin.</p><div class="key">Perpetual Technologies: tiered per-user with an AI-automation differentiator tier. UK rates still to verify.</div></div>
+    <div class="card"><div class="num">9 · BUSINESS</div><h3>Local SEO + Google Business Profile</h3><p>Primary category is the highest-impact field. Active profiles hit the local top-3 1.4x more than dormant ones. Consumers now expect 4.5+ stars.</p><div class="key">This is Perpetual Technologies' launch checklist — the 06-05 research showed the business still looks pre-launch.</div></div>
+    <div class="card"><div class="num">10 · FINANCE</div><h3>UK Accounting + Open Banking</h3><p>FreeAgent is free with a NatWest/Mettle account and was first to open banking feeds; Xero scales further. Feeds save 2-5 hrs/month.</p><div class="key">Pipeline: bank → FreeAgent → API pull → monthly snapshot note. Cortex sees finances, never touches them.</div></div>
+  </div>
+
+  <div class="actions">
+    <h2>Actionable Now</h2>
+    <ul>
+      <li><b>Injection rule</b> belongs in Cortex's architecture from day one — it's free to design in, expensive to retrofit.</li>
+      <li><b>GBP setup</b> is the cheapest GTM move for Perpetual Technologies: category, services, service area, first reviews.</li>
+      <li><b>FreeAgent</b>: if the business banks with NatWest/RBS/Mettle it's literally free — worth checking before paying for Xero.</li>
+      <li><b>Wake timers</b>: 10-minute Power Options check on the home PC unlocks every scheduled Cortex job.</li>
+    </ul>
+  </div>
+
+  <div class="path">wiki\concepts\ai-assistant-knowledge\ (62) + wiki\Tech\nv-*.md (7) + concepts\neuralvault\kyco… (1) = 70 · entry: _index.md</div>
+</div>
+</body>
+</html>
