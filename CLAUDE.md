@@ -80,7 +80,7 @@ node codegraph-kg-snapshot.js [project-path]
 - Re-snapshot to NV: `node codegraph-kg-snapshot.js`
 - Bridge source: `codegraph-nv-bridge.js`
 
-# NeuralVault — Rust desktop app (NO server, NO MCP tools)
+# NeuralVault — Rust desktop app (NO server, filesystem-backed MCP tools)
 
 NeuralVault is a native Rust desktop app (`neuralvault-desktop.exe`, launched by `NeuralVault-Desktop.bat`). It reads and writes the vault files directly via internal Tauri IPC. There is **no HTTP API** and **no localhost:8900**.
 
@@ -88,7 +88,12 @@ The old `neuralvault` MCP server and `nv-mcp-server.js` were **deleted** (2026-0
 
 ## How to read/write NeuralVault
 
-Work the vault filesystem directly at `C:\Users\Futur\Documents\AiWorkspace\NeuralVault\sample-vault\`:
+Primary access is two filesystem-backed stdio MCP servers registered in `.mcp.json` (added 2026-06-10, no HTTP involved):
+
+- **Search / read** → `qmd` MCP server (`qmd mcp`): `query` tool with lex (BM25) + vec (semantic vector) + hyde sub-queries over the `nv` collection; `get` / `multi_get` for retrieval. Warm process, fast. After heavy vault writing, refresh the index: `qmd update` then `qmd embed -c nv`.
+- **Save / log** → `nv` MCP server (`nv-mcp.js`, built on `nv-fs.js`): `nv_log` appends a session entry to `wiki/log.md` (newest at top) in one call; `nv_save` creates a note with frontmatter + type-based folder routing. Failures raise loud MCP errors, never fake success.
+
+Filesystem fallback (always works) at `C:\Users\Futur\Documents\AiWorkspace\NeuralVault\sample-vault\`:
 
 - **Read** a note → `Read`
 - **Search** → `Grep` (or the `qmd` skill for semantic search)
