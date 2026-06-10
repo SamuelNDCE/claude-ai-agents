@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant Knowledge v2 — 50 Notes + NV Mobile Plan</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0d18; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.55; padding: 40px 24px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; background: linear-gradient(90deg, #22d3ee, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 6px; }
+  .sub { color: #94a3b8; margin-bottom: 28px; font-size: .95rem; }
+  .stats { display: flex; gap: 14px; margin-bottom: 34px; flex-wrap: wrap; }
+  .stat { background: #11162a; border: 1px solid #1e2745; border-radius: 10px; padding: 14px 22px; }
+  .stat .n { font-size: 1.6rem; font-weight: 700; color: #22d3ee; }
+  .stat .l { font-size: .8rem; color: #94a3b8; }
+  h2 { font-size: 1.05rem; color: #22d3ee; margin: 32px 0 14px; text-transform: uppercase; letter-spacing: .08em; }
+  h2.purple { color: #a78bfa; } h2.amber { color: #fbbf24; } h2.red { color: #f87171; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { background: #11162a; border: 1px solid #1e2745; border-radius: 99px; padding: 7px 15px; font-size: .85rem; color: #cbd5e1; }
+  .pill b { color: #22d3ee; font-weight: 600; }
+  .pill.new { border-color: #7c3aed66; }
+  .pill.new::after { content: " NEW"; font-size: .62rem; color: #a78bfa; font-weight: 700; letter-spacing: .05em; }
+  .mobile { background: #11162a; border: 1px solid #22d3ee44; border-radius: 14px; padding: 24px; margin-top: 36px; }
+  .mobile h2 { margin-top: 0; }
+  .stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 14px; }
+  .stage { background: #0d1222; border: 1px solid #1e2745; border-radius: 10px; padding: 16px; }
+  .stage .num { font-size: .72rem; font-weight: 700; color: #7c3aed; letter-spacing: .08em; }
+  .stage h3 { font-size: .98rem; color: #f1f5f9; margin: 4px 0 8px; }
+  .stage p { font-size: .85rem; color: #94a3b8; }
+  .stage .eff { margin-top: 8px; font-size: .78rem; color: #22d3ee; }
+  .callout { margin-top: 16px; font-size: .88rem; color: #cbd5e1; background: #0d1222; border-left: 3px solid #fbbf24; padding: 10px 14px; border-radius: 0 8px 8px 0; }
+  .path { font-family: Consolas, monospace; font-size: .8rem; color: #64748b; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>AI Assistant Knowledge — Round 2</h1>
+  <div class="sub">50 vault notes total · 40 web searches across two rounds · plus the NV phone-JARVIS architecture · 2026-06-10</div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">50</div><div class="l">notes in vault</div></div>
+    <div class="stat"><div class="n">35</div><div class="l">new this round</div></div>
+    <div class="stat"><div class="n">28+4</div><div class="l">new searches</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">stage mobile plan</div></div>
+  </div>
+
+  <h2>Personal Assistant — 13 notes</h2>
+  <div class="pills">
+    <span class="pill"><b>User profile</b> schema</span>
+    <span class="pill"><b>EA "Bible"</b> anticipation</span>
+    <span class="pill"><b>Personal CRM</b> contacts</span>
+    <span class="pill"><b>Life admin</b> renewals</span>
+    <span class="pill new"><b>Household docs</b> + emergency card</span>
+    <span class="pill new"><b>Travel</b> profile + disruptions</span>
+    <span class="pill new"><b>Health/fitness</b> biometric layers</span>
+    <span class="pill new"><b>Finance</b> 50/30/20, net worth</span>
+    <span class="pill new"><b>Habits</b> stacking, if-then 2-3x</span>
+    <span class="pill new"><b>Learning</b> spaced repetition +200-300%</span>
+    <span class="pill new"><b>News digest</b> + serendipity</span>
+    <span class="pill new"><b>Family</b> meal→grocery links</span>
+    <span class="pill new"><b>Smart home</b> HA local voice</span>
+  </div>
+
+  <h2 class="purple">Business Assistant — 16 notes</h2>
+  <div class="pills">
+    <span class="pill"><b>Knowledge base</b> SOPs, brand voice</span>
+    <span class="pill"><b>Ops + compliance</b> calendar</span>
+    <span class="pill"><b>Support</b> escalation rules</span>
+    <span class="pill"><b>Meetings</b> Decision/Action/Deferred</span>
+    <span class="pill new"><b>Sales</b> BANT · MEDDIC · SPIN</span>
+    <span class="pill new"><b>Marketing</b> pillars + funnel</span>
+    <span class="pill new"><b>Social cadence</b> per platform</span>
+    <span class="pill new"><b>Hiring</b> scorecards 2x predictive</span>
+    <span class="pill new"><b>HR onboarding</b> 30/60/90</span>
+    <span class="pill new"><b>PM</b> Kanban for small teams</span>
+    <span class="pill new"><b>Founder finance</b> burn ≠ P&L</span>
+    <span class="pill new"><b>Legal docs</b> NDA/MSA/ToS</span>
+    <span class="pill new"><b>Competitive intel</b> weekly delta</span>
+    <span class="pill new"><b>Pricing</b> value-based default</span>
+    <span class="pill new"><b>Negotiation</b> BATNA/ZOPA</span>
+    <span class="pill new"><b>E-commerce</b> ops + returns</span>
+  </div>
+
+  <h2 class="amber">Mechanics — 11 notes</h2>
+  <div class="pills">
+    <span class="pill"><b>Memory</b> 4 types + decay</span>
+    <span class="pill"><b>Proactive</b> daily briefing</span>
+    <span class="pill"><b>Intake</b> onboarding questions</span>
+    <span class="pill"><b>Integrations</b> MCP landscape</span>
+    <span class="pill new"><b>Context engineering</b> window = RAM</span>
+    <span class="pill new"><b>RAG</b> chunking + hybrid + rerank</span>
+    <span class="pill new"><b>Voice UX</b> &lt;800ms, barge-in</span>
+    <span class="pill new"><b>Time blocking</b> energy matching</span>
+    <span class="pill new"><b>Notifications</b> 23-min refocus cost</span>
+    <span class="pill new"><b>File naming</b> conventions</span>
+    <span class="pill new"><b>Evals</b> trajectory scoring</span>
+  </div>
+
+  <h2 class="red">Guardrails — 3 notes &nbsp;·&nbsp; Synthesis — 2 notes</h2>
+  <div class="pills">
+    <span class="pill"><b>PII rules</b> what not to store</span>
+    <span class="pill"><b>Security</b> least privilege</span>
+    <span class="pill new"><b>Human-in-the-loop</b> permission ladder</span>
+    <span class="pill"><b>_index</b> map of content</span>
+    <span class="pill new"><b>Master checklist</b> full audit list</span>
+  </div>
+
+  <div class="mobile">
+    <h2>NV → Phone JARVIS — Staged Architecture</h2>
+    <div class="callout">The old plan targeted brain-server.py:8900, which no longer exists. NV is a Rust/Tauri desktop app with a plain-files vault, so mobile = sync the files + add a voice interface. Old todo marked superseded.</div>
+    <div class="stages">
+      <div class="stage">
+        <div class="num">STAGE 1 · DAYS</div>
+        <h3>Telegram via Hermes</h3>
+        <p>You already run the hermes Telegram bridge. Claude on the home PC with vault file access + hermes = phone assistant now: voice notes in, vault answers back, morning briefing pushed. Claude Code Channels supports Telegram natively too.</p>
+        <div class="eff">Effort: near-zero code</div>
+      </div>
+      <div class="stage">
+        <div class="num">STAGE 2 · HOURS</div>
+        <h3>Syncthing Vault Replica</h3>
+        <p>P2P sync of the vault to the phone, no cloud, free. Full offline reading and capture; writes flow back home. The standard Obsidian-community pattern. Tailscale (not Cloudflare) when live compute on the PC is needed.</p>
+        <div class="eff">Effort: install + pair devices</div>
+      </div>
+      <div class="stage">
+        <div class="num">STAGE 3 · WEEKS</div>
+        <h3>Tauri 2 Mobile NV App</h3>
+        <p>NV is already Tauri, and Tauri 2 compiles the same Rust core to Android/iOS. Production-viable now for NV's app shape. Add the realtime voice loop: streaming STT → Claude Haiku → streaming TTS at &lt;800ms. Start Android (iOS needs a Mac).</p>
+        <div class="eff">Effort: real project · the product path</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="path">Vault: wiki\concepts\ai-assistant-knowledge\ (45 notes) + wiki\Tech\nv-mobile-*.md (5 notes) · entry: _index.md · checklist: assistant-master-knowledge-checklist.md</div>
+</div>
+</body>
+</html>
