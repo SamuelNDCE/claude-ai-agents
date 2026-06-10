@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant Knowledge — Research Sweep 2026-06-10</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0d18; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.55; padding: 40px 24px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; background: linear-gradient(90deg, #22d3ee, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 6px; }
+  .sub { color: #94a3b8; margin-bottom: 28px; font-size: .95rem; }
+  .stats { display: flex; gap: 14px; margin-bottom: 34px; flex-wrap: wrap; }
+  .stat { background: #11162a; border: 1px solid #1e2745; border-radius: 10px; padding: 14px 22px; }
+  .stat .n { font-size: 1.6rem; font-weight: 700; color: #22d3ee; }
+  .stat .l { font-size: .8rem; color: #94a3b8; }
+  h2 { font-size: 1.05rem; color: #22d3ee; margin: 30px 0 14px; text-transform: uppercase; letter-spacing: .08em; }
+  h2.purple { color: #a78bfa; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+  .card { background: #11162a; border: 1px solid #1e2745; border-radius: 12px; padding: 18px; transition: border-color .15s; }
+  .card:hover { border-color: #22d3ee55; }
+  .card h3 { font-size: 1rem; color: #f1f5f9; margin-bottom: 8px; }
+  .card p { font-size: .87rem; color: #94a3b8; }
+  .card .nv { margin-top: 10px; font-size: .82rem; color: #22d3ee; border-top: 1px dashed #1e2745; padding-top: 8px; }
+  .card .nv b { color: #7c3aed; }
+  .tag { display: inline-block; font-size: .7rem; padding: 2px 9px; border-radius: 99px; margin-bottom: 9px; font-weight: 600; letter-spacing: .04em; }
+  .t-personal { background: #22d3ee1a; color: #22d3ee; }
+  .t-business { background: #7c3aed26; color: #a78bfa; }
+  .t-how { background: #f59e0b1f; color: #fbbf24; }
+  .t-guard { background: #ef44441f; color: #f87171; }
+  .takeaways { background: #11162a; border: 1px solid #7c3aed44; border-radius: 12px; padding: 20px 24px; margin-top: 34px; }
+  .takeaways h2 { margin-top: 0; }
+  .takeaways li { margin: 8px 0 8px 18px; font-size: .92rem; color: #cbd5e1; }
+  .takeaways li::marker { color: #7c3aed; }
+  .path { font-family: Consolas, monospace; font-size: .8rem; color: #64748b; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>AI Assistant Knowledge — Research Sweep</h1>
+  <div class="sub">Everything a personal or business AI assistant needs to know and store · 2026-06-10 · saved to NeuralVault</div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">12</div><div class="l">web searches</div></div>
+    <div class="stat"><div class="n">15</div><div class="l">vault notes created</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">domains covered</div></div>
+    <div class="stat"><div class="n">40+</div><div class="l">sources cited</div></div>
+  </div>
+
+  <h2>Personal Assistant Domains</h2>
+  <div class="grid">
+    <div class="card"><span class="tag t-personal">PERSONAL</span><h3>User Profile &amp; Preferences Schema</h3><p>7 categories: identity, preferences (tone/format), per-project living briefs, discrete facts, communication style model, technical decisions, agent state. Retrieved + injected at session start.</p><div class="nv"><b>NV:</b> hook already injects; gap is one maintained structured profile note.</div></div>
+    <div class="card"><span class="tag t-personal">PERSONAL</span><h3>The Executive Assistant "Bible"</h3><p>Travel dossier (seats, loyalty, dietary), meeting prefs (buffers, energy patterns), "personal anticipation" — record every observed preference immediately, act before asked.</p><div class="nv"><b>NV:</b> save-everything rule applied to a person; per-domain bible notes.</div></div>
+    <div class="card"><span class="tag t-personal">PERSONAL</span><h3>Personal CRM Contact Schema</h3><p>Per contact: basics, birthday, context tags, shared interests, family, gifts/debts, interaction log (last spoke, about what), follow-up + "haven't spoken in N months" reminders.</p><div class="nv"><b>NV:</b> entity-note template turns wiki/entities into a working CRM.</div></div>
+    <div class="card"><span class="tag t-personal">PERSONAL</span><h3>Life Admin Domains</h3><p>5 domains: finance (bills, taxes), home (maintenance, insurance), health (check-ups, prescriptions), subscriptions (auto-renewals), documents (ID expiry). All deadline + record work.</p><div class="nv"><b>NV:</b> one renewals-calendar note aggregating every expiry date.</div></div>
+  </div>
+
+  <h2 class="purple">Business Assistant Domains</h2>
+  <div class="grid">
+    <div class="card"><span class="tag t-business">BUSINESS</span><h3>Company Knowledge Base Contents</h3><p>SOPs (one doc = 80% of role expectations), brand voice guide in modular AI-retrievable sections (voice principles, banned vocab, annotated examples), org chart + escalation paths.</p><div class="nv"><b>NV:</b> Perpetual Technologies needs this set in Business-Adviser.</div></div>
+    <div class="card"><span class="tag t-business">BUSINESS</span><h3>Operations &amp; Compliance Data</h3><p>CRM pipeline, invoicing, KPIs via live connectors. Compliance calendar: regulatory, commercial (contract notice windows!), finance/vendor, operations. 60-120 day lead times.</p><div class="nv"><b>NV:</b> compliance-calendar note surfaced by hook as dates approach.</div></div>
+    <div class="card"><span class="tag t-business">BUSINESS</span><h3>Customer Support Knowledge</h3><p>FAQ + decision trees + policies in modular form. If/then escalation rules with full context transfer. Start at 20% volume; targets: 80% automation, 4.0+ CSAT, &lt;25% escalation.</p><div class="nv"><b>NV:</b> the checklist for anything customer-facing PT ships.</div></div>
+    <div class="card"><span class="tag t-business">BUSINESS</span><h3>Meeting Intelligence</h3><p>Capture 3 things: what was decided, what happens next, who owns it. Tag every point Decision / Action Required / Deferred. Searchable decision archive stops re-litigating.</p><div class="nv"><b>NV:</b> adopt outcome tags in session notes → queryable open actions.</div></div>
+  </div>
+
+  <h2>How the Assistant Should Work</h2>
+  <div class="grid">
+    <div class="card"><span class="tag t-how">MECHANICS</span><h3>Memory Architecture (4 types)</h3><p>Working (context), episodic (past sessions), semantic (facts/prefs), procedural (workflows). Vector for similarity, graph for relations, SQL for auditable facts. Forgetting is a feature.</p><div class="nv"><b>NV:</b> maps cleanly; missing piece is decay/importance scoring.</div></div>
+    <div class="card"><span class="tag t-how">MECHANICS</span><h3>Proactive Patterns</h3><p>Daily "Your Day Ahead" briefing (pending, slipped, deserves attention). Pattern model: "always wants X before product meetings." GTD daily mini-review + weekly review still apply.</p><div class="nv"><b>NV:</b> scheduled morning briefing from tasks + todo + renewals.</div></div>
+    <div class="card"><span class="tag t-how">MECHANICS</span><h3>Onboarding Intake Questions</h3><p>Collect once: business info, tool stack, support types, access, workflow cadence. Killer questions: urgent vs non-urgent channel, "what does success look like in 90 days?", KPIs.</p><div class="nv"><b>NV:</b> template for wiki/clients + seeds the user profile schema.</div></div>
+    <div class="card"><span class="tag t-how">MECHANICS</span><h3>Integration Landscape (MCP)</h3><p>Minimum dozen: email, calendar, tasks, docs, chat, CRM. Then files, video, accounting, payments. Zapier MCP = 9,000 apps; Composio = 20k tools. Native MCP from HubSpot, Zoho, monday.</p><div class="nv"><b>NV:</b> missing connector categories: accounting, CRM, file storage.</div></div>
+  </div>
+
+  <h2 style="color:#f87171">Guardrails</h2>
+  <div class="grid">
+    <div class="card"><span class="tag t-guard">PRIVACY</span><h3>PII Rules — What NOT to Store</h3><p>Data minimization (GDPR 5(1)(c)): masked tokens not card numbers, no PHI in logs, no raw PII to third-party APIs. Persistent memory silently becomes an unauthorized data store without retention policies.</p><div class="nv"><b>NV:</b> save-everything needs a counterweight for third-party personal data.</div></div>
+    <div class="card"><span class="tag t-guard">SECURITY</span><h3>Credentials &amp; Least Privilege</h3><p>No long-lived keys: short-lived scoped credentials, runtime injection so agents never hold secrets. Scope per tool/dataset/action. Step-up approval for high-risk actions. Instant revocation.</p><div class="nv"><b>NV:</b> audit .mcp.json servers for narrowest scopes.</div></div>
+  </div>
+
+  <div class="takeaways">
+    <h2 class="purple">Top Takeaways for NeuralVault</h2>
+    <ul>
+      <li><b>The EA "Bible" is the unifying pattern</b> — an assistant's edge is recorded observation + anticipation, which is exactly NV's save-everything rule pointed at a person instead of code.</li>
+      <li><b>Forgetting is the missing half of memory</b> — NV persists everything at equal weight; 2026 practice adds importance scoring and temporal decay.</li>
+      <li><b>Decision / Action / Deferred tags</b> in session notes would make the vault queryable for open commitments.</li>
+      <li><b>One renewals/compliance calendar note</b> (personal + business dates merged) is the highest-leverage new artifact — pure deadline work the hook can surface automatically.</li>
+      <li><b>Privacy counterweight needed</b>: third-party health/financial/identity details should be summarized or pseudonymized before saving, not stored raw.</li>
+    </ul>
+  </div>
+
+  <div class="path">Vault: NeuralVault\sample-vault\wiki\concepts\ai-assistant-knowledge\ · 15 notes · entry point: _index.md</div>
+</div>
+</body>
+</html>
