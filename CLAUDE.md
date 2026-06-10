@@ -93,6 +93,10 @@ Primary access is two filesystem-backed stdio MCP servers registered in `.mcp.js
 - **Search / read** → `qmd` MCP server (`qmd mcp`): `query` tool with lex (BM25) + vec (semantic vector) + hyde sub-queries over the `nv` collection; `get` / `multi_get` for retrieval. Warm process, fast. After heavy vault writing, refresh the index: `qmd update` then `qmd embed -c nv`.
 - **Save / log** → `nv` MCP server (`nv-mcp.js`, built on `nv-fs.js`): `nv_log` appends a session entry to `wiki/log.md` (newest at top) in one call; `nv_save` creates a note with frontmatter + type-based folder routing. Failures raise loud MCP errors, never fake success.
 
+**Always use BOTH lex + vec subqueries** when calling the `qmd` query tool. The vector index (nomic-embed-text, `.nv/vectors.json`, ~9.9 MB) is live and always produces better results than keyword search alone.
+
+**NeuralVault app hybrid search (in-app):** The desktop app (`app.rs`) uses `HybridIndex` (TF-IDF lexical + VectorIndex cosine, RRF k=60 fusion) for chat retrieval. When working on the app code, note that `vault_context_for` embeds queries via `LlmRouter::embed("nomic-embed-text")` with a 600 ms timeout before calling `query_hybrid`. The embedder runs in `scheduler_tick` step 0 (once per launch) — new notes added after launch are not re-embedded until next launch.
+
 Filesystem fallback (always works) at `C:\Users\Futur\Documents\AiWorkspace\NeuralVault\sample-vault\`:
 
 - **Read** a note → `Read`
