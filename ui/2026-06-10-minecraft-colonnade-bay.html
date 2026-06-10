@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Colonnade Bay Design — Block by Block</title>
+<style>
+  :root {
+    --bg: #0a0d18;
+    --teal: #22d3ee;
+    --purple: #7c3aed;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 32px 24px 64px;
+  }
+  h1 { font-size: 26px; margin-bottom: 6px; }
+  h1 span { color: var(--teal); }
+  .sub { color: var(--muted); margin-bottom: 32px; font-size: 14px; }
+  h2 { font-size: 18px; color: var(--teal); margin: 36px 0 14px; }
+  .panel {
+    background: #11162a;
+    border: 1px solid #1e2745;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    max-width: 980px;
+  }
+
+  /* block cell base */
+  .grid { display: grid; gap: 2px; width: max-content; margin: 0 auto; }
+  .cell { width: 44px; height: 44px; position: relative; border-radius: 2px; }
+  .half-top    { height: 22px; margin-bottom: 22px; }   /* slab on top half */
+  .half-bottom { height: 22px; margin-top: 22px; }      /* slab on bottom half */
+
+  /* textures */
+  .air { background: transparent; border: 1px dashed #232c4d; }
+  .sky { background: linear-gradient(180deg, #16203d, #121a33); border: 1px solid #1c2547; }
+
+  .pillar {
+    background:
+      repeating-linear-gradient(90deg, #cfd4d6 0 10px, #b8bec2 10px 12px, #dde2e4 12px 22px),
+      #c9ced1;
+    border: 1px solid #8e979c;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.25);
+  }
+  .stonebrick {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.12)),
+      repeating-linear-gradient(0deg, #9aa3a8 0 21px, #6f777c 21px 22px),
+      repeating-linear-gradient(90deg, #9aa3a8 0 21px, #6f777c 21px 22px),
+      #99a2a7;
+    border: 1px solid #5f676c;
+  }
+  .slab {
+    background: linear-gradient(180deg, #d7dcde, #b9bfc3);
+    border: 1px solid #868f94;
+  }
+  /* upside-down stair: full block with a notch cut from a bottom corner */
+  .stair-l, .stair-r {
+    background: linear-gradient(180deg, #dde2e4, #bfc5c9);
+    border: 1px solid #868f94;
+  }
+  .stair-l::after, .stair-r::after {
+    content: '';
+    position: absolute;
+    width: 22px; height: 22px;
+    bottom: -1px;
+    background: #121a33;
+    border-top: 1px solid #868f94;
+  }
+  .stair-l::after { left: -1px; border-right: 1px solid #868f94; }
+  .stair-r::after { right: -1px; border-left: 1px solid #868f94; }
+
+  /* wall block: narrow post */
+  .wall { background: transparent; border: 1px solid transparent; }
+  .wall::after {
+    content: '';
+    position: absolute;
+    left: 11px; right: 11px; top: 0; bottom: 0;
+    background:
+      repeating-linear-gradient(0deg, #9aa3a8 0 14px, #707880 14px 15px),
+      #99a2a7;
+    border: 1px solid #5f676c;
+    border-radius: 2px;
+  }
+
+  .label { text-align: center; color: var(--muted); font-size: 13px; margin-top: 14px; }
+
+  /* legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; justify-content: center; }
+  .legend div { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .swatch { width: 24px; height: 24px; border-radius: 2px; flex: none; }
+
+  .tip {
+    border-left: 3px solid var(--purple);
+    background: #151b33;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: var(--text);
+    max-width: 980px;
+    margin-top: 8px;
+  }
+  .tip b { color: var(--teal); }
+  code { background: #1a2240; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>Colonnade Bay — <span>Arch + Balustrade</span></h1>
+<div class="sub">Front view, one bay between two pillars. 5 blocks wide, 6 blocks tall opening.</div>
+
+<div class="panel">
+  <h2 style="margin-top:0">Single bay, block by block</h2>
+  <div class="grid" style="grid-template-columns: repeat(7, 44px);" id="bay"></div>
+  <div class="label">Pillars on the sides &middot; upside-down stairs form the arch &middot; wall + slab = balustrade</div>
+  <div class="legend">
+    <div><span class="swatch pillar"></span> Pillar (quartz / chiseled stone)</div>
+    <div><span class="swatch stair-l" style="position:relative;overflow:hidden"></span> Stone brick stair, upside-down</div>
+    <div><span class="swatch stonebrick"></span> Stone brick (arch keystone)</div>
+    <div><span class="swatch wall" style="position:relative"></span> Stone brick wall</div>
+    <div><span class="swatch slab" style="height:12px;margin-top:12px"></span> Smooth stone slab</div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2 style="margin-top:0">Full facade — outer bays framed, center bay open</h2>
+  <div class="grid" style="grid-template-columns: repeat(19, 44px);" id="facade"></div>
+  <div class="label">Left + right bays: arch and balustrade &middot; Center bay: arch only, floor open = grand entrance</div>
+</div>
+
+<div class="tip">
+  <b>Build order:</b> 1) Place the upside-down stairs against each pillar at ceiling height, facing inward. 2) Fill the single gap at the top center with a stone brick block (keystone). 3) Bottom row: stone brick <code>walls</code> across the bay, then <code>smooth stone slabs</code> on top of them. Done, 14 blocks per bay.
+</div>
+
+<script>
+// 0=sky 1=pillar 2=stairL 3=stairR 4=brick 5=wall 6=slab(on wall) 7=air-open
+function cell(t) {
+  const d = document.createElement('div');
+  d.className = 'cell ' + ({0:'sky',1:'pillar',2:'stair-l',3:'stair-r',4:'stonebrick',5:'wall',6:'slab half-top',7:'sky'}[t]);
+  return d;
+}
+// single bay: 7 cols (pillar + 5 + pillar), 6 rows
+// row0: ceiling line -> stairs+keystone
+const bay = [
+  [1,3,4,4,4,2,1],   // arch row: stair notch faces away from pillar
+  [1,0,0,0,0,0,1],
+  [1,0,0,0,0,0,1],
+  [1,0,0,0,0,0,1],
+  [1,6,6,6,6,6,1],   // slab on top of wall
+  [1,5,5,5,5,5,1],   // wall row
+];
+// fix: slab row should be slab sitting on walls -> use slab row then wall row
+const bayEl = document.getElementById('bay');
+bay.flat().forEach(t => bayEl.appendChild(cell(t)));
+
+// facade: 19 cols = P 5 P 5 P 5 P  -> pillars at 0,6,12,18
+const F = [];
+for (let r = 0; r < 6; r++) {
+  const row = [];
+  for (let c = 0; c < 19; c++) {
+    const isPillar = (c === 0 || c === 6 || c === 12 || c === 18);
+    if (isPillar) { row.push(1); continue; }
+    const bayStart = c < 6 ? 0 : c < 12 ? 6 : 12;
+    const pos = c - bayStart; // 1..5 inside bay
+    const isCenter = bayStart === 6;
+    if (r === 0) { row.push(pos === 1 ? 3 : pos === 5 ? 2 : 4); }       // arch on all bays
+    else if (r === 4 && !isCenter) { row.push(6); }                      // slab
+    else if (r === 5 && !isCenter) { row.push(5); }                      // wall
+    else row.push(isCenter && r >= 4 ? 7 : 0);
+  }
+  F.push(row);
+}
+const fEl = document.getElementById('facade');
+F.flat().forEach(t => fEl.appendChild(cell(t)));
+</script>
+
+</body>
+</html>
