@@ -16,3 +16,15 @@ session-report.json
 *.jpeg
 *.jpg
 *.png
+
+# Local databases / agent memory — never commit
+*.db
+*.db-shm
+*.db-wal
+.swarm/
+.codegraph/
+daemon.pid
+
+# Session exports / dev notes
+nv-dev-session-*.md
+SESSION-EXPORT.md
