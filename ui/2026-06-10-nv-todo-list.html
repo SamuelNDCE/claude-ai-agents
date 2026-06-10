@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NeuralVault — Everything To Do</title>
+<style>
+  :root { --bg:#0a0d18; --card:#11162a; --teal:#22d3ee; --purple:#7c3aed; --text:#dbe3f4; --soft:#8b96b3; --line:#1e2742; --amber:#fbbf24; --green:#34d399; --red:#f87171; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding:40px 24px; max-width:1000px; margin:0 auto; }
+  h1 { font-size:26px; margin-bottom:6px; }
+  h1 span { color:var(--teal); }
+  .sub { color:var(--soft); font-size:13px; margin-bottom:32px; }
+  h2 { font-size:15px; text-transform:uppercase; letter-spacing:1.5px; margin:34px 0 14px; color:var(--teal); }
+  h2.p { color:var(--purple); filter:brightness(1.6); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:10px; display:flex; gap:14px; align-items:flex-start; }
+  .num { font-size:13px; font-weight:700; color:var(--purple); filter:brightness(1.8); min-width:22px; padding-top:2px; }
+  .card b { font-size:14.5px; display:block; margin-bottom:4px; }
+  .card p { font-size:13px; color:var(--soft); line-height:1.55; }
+  .tag { display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.5px; padding:2px 8px; border-radius:20px; margin-left:8px; vertical-align:middle; }
+  .hi { background:rgba(248,113,113,.15); color:var(--red); }
+  .med { background:rgba(251,191,36,.15); color:var(--amber); }
+  .now { background:rgba(34,211,238,.15); color:var(--teal); }
+  .src { font-size:11px; color:#5a6480; margin-top:6px; }
+  code { background:#0d1222; border:1px solid var(--line); border-radius:4px; padding:1px 6px; font-size:12px; color:var(--teal); }
+</style>
+</head>
+<body>
+<h1>Neural<span>Vault</span> — everything left to do</h1>
+<div class="sub">Compiled 2026-06-10 from vault logs, the agent-harness vision note, and wiki/todo-list. Newest threads first.</div>
+
+<h2>Right now</h2>
+<div class="card"><div class="num">1</div><div><b>Start the NV desktop app <span class="tag now">OFFLINE</span></b><p>The session hook flagged the server offline. Run <code>NeuralVault-Desktop.bat</code> so the prompt hook can inject vault context again.</p></div></div>
+
+<h2>Open threads (started, not finished)</h2>
+<div class="card"><div class="num">2</div><div><b>Write the Cortex persona note <span class="tag hi">HIGH</span></b><p>Name is decided (Cortex). Persona note still missing: identity, voice rules, signature phrases, register table. Then use the name consistently in NV UI, agent configs, and the mobile/voice plans.</p><div class="src">logs/neuralvault-product.md, 2026-06-10</div></div></div>
+<div class="card"><div class="num">3</div><div><b>Wire vector search into the desktop app <span class="tag hi">HIGH</span></b><p>VectorIndex + HybridIndex are built and tested in <code>packages/search</code> but nothing calls them. Wire <code>query_semantic</code> / <code>query_hybrid</code> into the desktop Tauri command handlers, then add the background embedding pipeline (OllamaClient + nomic-embed-text).</p><div class="src">logs/neuralvault-app.md "Pending" block</div></div></div>
+<div class="card"><div class="num">4</div><div><b>Fix 2 stale lexical search tests</b><p>q3-report and login-bug tests hardcode note IDs for files deleted from the vault. Quick cleanup in <code>packages/search</code>.</p><div class="src">same entry as #3</div></div></div>
+
+<h2 class="p">Agent harness — the remaining gap</h2>
+<div class="card"><div class="num">5</div><div><b>Headless runner mode</b><p>Autonomous board runs still stream through Cortex's visible chat thread. Add a silent vault-only mode that logs to files without flooding the Agents tab.</p><div class="src">agent-harness-vision.md</div></div></div>
+<div class="card"><div class="num">6</div><div><b>Agent-to-agent execution</b><p>Cortex delegates via inbox notes and the board but cannot directly invoke another agent's LLM run. Everything routes through Cortex itself.</p><div class="src">agent-harness-vision.md</div></div></div>
+<div class="card"><div class="num">7</div><div><b>Self-rewrite review queue</b><p>Agents can rewrite their own instructions, but the diffs are not surfaced for approval. Build a review queue so every self-modification gets a visible diff + accept/reject.</p><div class="src">agent-harness-vision.md</div></div></div>
+<div class="card"><div class="num">8</div><div><b>User accounts / login</b><p>Settings already has the admin-gated group with a single <code>is_admin()</code> gate point, but no login exists. Needed before anyone else touches the app.</p><div class="src">agent-harness-vision.md</div></div></div>
+
+<h2>Project backlog (wiki/todo-list)</h2>
+<div class="card"><div class="num">9</div><div><b>NV Mobile App (PWA) — needs a RE-PLAN first <span class="tag hi">HIGH</span></b><p>The saved 8-task plan targets the deleted <code>brain-server.py:8900</code>, so it is superseded. Re-plan against the Rust desktop app (Tauri 2 mobile research from 06-10 is already in the vault) before building anything.</p><div class="src">todo-list/nv-mobile-app-plan.md + 06-10 research note</div></div></div>
+<div class="card"><div class="num">10</div><div><b>Phone JARVIS (voice + remote access) <span class="tag hi">HIGH</span></b><p>Same caveat as #9 — concept notes exist, fresh research done (voice pipelines, remote access/sync, Telegram channels), but the build path must use the new architecture.</p><div class="src">todo-list/nv-mobile-phone-ai.md</div></div></div>
+<div class="card"><div class="num">11</div><div><b>Company NAS Vault build <span class="tag med">MEDIUM</span></b><p>Planned, untouched.</p><div class="src">todo-list/company-nas-vault.md</div></div></div>
+
+<h2>Smaller / housekeeping</h2>
+<div class="card"><div class="num">12</div><div><b>Wire the other API providers into chat</b><p>The new multi-key API manager stores keys for all 8 providers, but only Ollama is actually used by chat today. Decide which cloud providers to wire in.</p><div class="src">logs/neuralvault-app.md, API keys entry</div></div></div>
+<div class="card"><div class="num">13</div><div><b>Refresh the qmd index</b><p>Heavy vault writing happened on 06-10 (≈20 log entries, new notes). Run <code>qmd update</code> then <code>qmd embed -c nv</code> so semantic search sees it all.</p><div class="src">CLAUDE.md maintenance rule</div></div></div>
+</body>
+</html>
