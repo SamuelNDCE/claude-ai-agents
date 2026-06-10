@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top-100 Knowledge Base</title>
+<style>
+  :root {
+    --bg: #0a0d18; --card: #111527; --card2: #161b33;
+    --teal: #22d3ee; --purple: #7c3aed;
+    --text: #e2e8f0; --muted: #94a3b8; --border: #1e2747;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.55; padding: 40px 20px; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2rem; background: linear-gradient(90deg, var(--teal), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+  .sub { color: var(--muted); margin-bottom: 24px; }
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 20px; }
+  .stat b { color: var(--teal); font-size: 1.4rem; display: block; }
+  .stat span { color: var(--muted); font-size: 0.82rem; }
+  #search { width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 1rem; margin-bottom: 26px; outline: none; }
+  #search:focus { border-color: var(--teal); }
+  h2 { color: var(--teal); font-size: 1.15rem; margin: 30px 0 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  h2 .range { color: var(--purple); font-weight: 600; margin-right: 10px; }
+  .file { color: var(--muted); font-size: 0.78rem; margin-bottom: 12px; }
+  .topic { display: flex; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 9px; padding: 10px 14px; margin-bottom: 7px; }
+  .topic:hover { border-color: var(--purple); }
+  .topic .n { color: var(--purple); font-weight: 700; min-width: 34px; }
+  .topic .t b { color: #fff; }
+  .topic .t { color: var(--muted); font-size: 0.92rem; }
+  .hidden { display: none; }
+  .foot { margin-top: 40px; color: var(--muted); font-size: 0.85rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Top-100 Knowledge Base</h1>
+  <p class="sub">100 topics · 10 domains · researched by 5 parallel agents · saved to NeuralVault at <code>wiki/concepts/top-100/</code> · 2026-06-10</p>
+  <div class="stats">
+    <div class="stat"><b>100</b><span>topics</span></div>
+    <div class="stat"><b>10</b><span>domain files</span></div>
+    <div class="stat"><b>5</b><span>parallel agents</span></div>
+    <div class="stat"><b>gov.uk · NCSC · MS · FTMO</b><span>key figures verified at primary sources</span></div>
+  </div>
+  <input id="search" type="text" placeholder="Filter topics... (e.g. backup, tax, RAG, pricing)">
+
+  <h2><span class="range">1-10</span>MSP Business</h2><div class="file">msp-business.md</div>
+  <div class="topic"><span class="n">1</span><span class="t"><b>MSP sales discovery</b> · Five-block question framework, close on a paid baseline audit, never quote in meeting one.</span></div>
+  <div class="topic"><span class="n">2</span><span class="t"><b>QBR structure</b> · 45-60 min scorecard + security posture + roadmap + budget; talk business not tickets, roadmap doubles as upsell pipeline.</span></div>
+  <div class="topic"><span class="n">3</span><span class="t"><b>MSA &amp; contracts (UK)</b> · MSA + SOWs, 12-month-fees liability cap, UCTA reasonableness, 30-90 day notice, GDPR Art. 28 clause.</span></div>
+  <div class="topic"><span class="n">4</span><span class="t"><b>RMM &amp; PSA stack</b> · NinjaOne + HaloPSA default UK stack; Atera for tiny shops, Syncro for solo; tooling at 5-10% of MRR.</span></div>
+  <div class="topic"><span class="n">5</span><span class="t"><b>Client onboarding</b> · 4-week project: credentials/docs, stack deploy, backup restore verify, quick wins + 30-day review.</span></div>
+  <div class="topic"><span class="n">6</span><span class="t"><b>SLA design</b> · P1-P4 tiers, commit to response times only, out-of-hours as paid add-on, capped service credits as sole remedy.</span></div>
+  <div class="topic"><span class="n">7</span><span class="t"><b>vCIO advisory</b> · Roadmap, budget, risk register at £400-1,500/mo or bundled in top tier; QBR is the delivery vehicle.</span></div>
+  <div class="topic"><span class="n">8</span><span class="t"><b>Co-managed IT</b> · 50-500 seat clients with internal IT; RACI matrix is the key artefact, sell to the IT manager as their win.</span></div>
+  <div class="topic"><span class="n">9</span><span class="t"><b>MSP marketing</b> · Referrals first, vertical niching, local SEO, founder-led LinkedIn, CE gap assessment as lead magnet.</span></div>
+  <div class="topic"><span class="n">10</span><span class="t"><b>Churn prevention</b> · Signals: QBR no-shows, silent accounts, new FD/IT hire, payment slips; owner calls every amber.</span></div>
+
+  <h2><span class="range">11-20</span>SMB Infrastructure</h2><div class="file">smb-infrastructure.md</div>
+  <div class="topic"><span class="n">11</span><span class="t"><b>Windows Server 2025</b> · Hotpatching, SMB over QUIC; core-based licensing, Standard $1,176 / Datacenter $6,771 MSRP + CALs (verified).</span></div>
+  <div class="topic"><span class="n">12</span><span class="t"><b>M365 plan selection</b> · Basic/Standard/Premium ~£4.90/£10.30/£18.10; Premium default for bundled Intune+Defender+Entra P1.</span></div>
+  <div class="topic"><span class="n">13</span><span class="t"><b>Entra vs AD vs hybrid</b> · Cloud-only is the target, hybrid is a transition with an end date; no new domain controllers.</span></div>
+  <div class="topic"><span class="n">14</span><span class="t"><b>Hypervisor post-Broadcom</b> · Hyper-V free with WS licence for Windows shops; Proxmox €120-1,100/socket/yr (verified); build a VMware exit runbook.</span></div>
+  <div class="topic"><span class="n">15</span><span class="t"><b>Backup architecture</b> · 3-2-1-1-0 with mandatory immutable copy, Veeam ~£40-50/workload/yr, separate M365 backup, logged restore tests.</span></div>
+  <div class="topic"><span class="n">16</span><span class="t"><b>Business WiFi design</b> · Capacity not coverage: 1 AP per 25-40 clients, SSID-per-VLAN, guest isolation, check PoE budget.</span></div>
+  <div class="topic"><span class="n">17</span><span class="t"><b>SMB firewall choice</b> · UniFi for cost-conscious stacks, FortiGate wherever insurance/compliance applies, OPNsense for edge cases.</span></div>
+  <div class="topic"><span class="n">18</span><span class="t"><b>Business phone</b> · Teams Phone + Operator Connect for M365 shops; 3CX flat-annual for call-heavy; PSTN switch-off = open opportunity.</span></div>
+  <div class="topic"><span class="n">19</span><span class="t"><b>NAS vs server</b> · Synology + Active Backup covers &lt;25 concurrent users; real server only for LOB apps, SQL, DC roles.</span></div>
+  <div class="topic"><span class="n">20</span><span class="t"><b>Endpoint lifecycle</b> · Autopilot zero-touch + Intune compliance gating, patch rings, 3-4yr refresh budgeted in roadmap.</span></div>
+
+  <h2><span class="range">21-30</span>SMB Cybersecurity</h2><div class="file">smb-cybersecurity.md</div>
+  <div class="topic"><span class="n">21</span><span class="t"><b>Ransomware defense stack</b> · Layered: immutable backup, EDR, patching, MFA, training; sell as a bundled security tier.</span></div>
+  <div class="topic"><span class="n">22</span><span class="t"><b>Cyber Essentials / Plus</b> · 5 NCSC controls via IASME, ~£320-600 basic, 12-month validity, includes £25k insurance; productise it.</span></div>
+  <div class="topic"><span class="n">23</span><span class="t"><b>EDR vs MDR vs XDR</b> · Agent vs 24/7 SOC vs cross-domain; Huntress + Defender for Business is the standard MSP pairing.</span></div>
+  <div class="topic"><span class="n">24</span><span class="t"><b>Phishing &amp; SAT</b> · KnowBe4/usecure/Hoxhunt; report rate beats click rate; easy £1-3/user/mo recurring revenue.</span></div>
+  <div class="topic"><span class="n">25</span><span class="t"><b>Password managers &amp; passkeys</b> · Bitwarden/1Password/Keeper MSP programmes; passkeys live on major SaaS, passwords linger in LOB apps.</span></div>
+  <div class="topic"><span class="n">26</span><span class="t"><b>MFA deployment</b> · Admins first, number matching on, FIDO2 for privileged accounts; watch push bombing and token theft.</span></div>
+  <div class="topic"><span class="n">27</span><span class="t"><b>Incident response plan</b> · One printed page, insurer hotline first, ICO 72-hour clock, annual tabletop exercise.</span></div>
+  <div class="topic"><span class="n">28</span><span class="t"><b>Cyber insurance</b> · Insurers mandate MFA, EDR, immutable backups, no EOL systems; offer questionnaire-readiness as a service.</span></div>
+  <div class="topic"><span class="n">29</span><span class="t"><b>Email authentication</b> · SPF/DKIM/DMARC; Google/Yahoo bulk sender rules; drive client domains to p=reject.</span></div>
+  <div class="topic"><span class="n">30</span><span class="t"><b>Zero trust, small networks</b> · Identity perimeter, kill standing admin, device compliance, VLANs, ZTNA over flat VPN.</span></div>
+
+  <h2><span class="range">31-40</span>UK Business Operations</h2><div class="file">uk-business-ops.md</div>
+  <div class="topic"><span class="n">31</span><span class="t"><b>Salary vs dividends</b> · Low salary + dividends; PA £12,570, dividend allowance £500 (gov.uk verified for 2026/27).</span></div>
+  <div class="topic"><span class="n">32</span><span class="t"><b>VAT &amp; MTD</b> · £90k threshold (verified); voluntary registration pays for B2B; flat rate rarely worth it for services.</span></div>
+  <div class="topic"><span class="n">33</span><span class="t"><b>IR35</b> · SDS from medium/large clients, PSC decides for small; substitution, control, mutuality; keep outcome-based multi-client work.</span></div>
+  <div class="topic"><span class="n">34</span><span class="t"><b>First employee</b> · PAYE + RTI, day-one auto-enrolment, £5m employers' liability, day-one written particulars.</span></div>
+  <div class="topic"><span class="n">35</span><span class="t"><b>UK GDPR for MSPs</b> · Processor role, Article 28 DPAs, sub-processor list, ICO fee, 72-hour breach duty.</span></div>
+  <div class="topic"><span class="n">36</span><span class="t"><b>Business insurance</b> · PI £1m+, PL, EL £5m mandatory, own cyber policy; match contract liability caps to PI limits.</span></div>
+  <div class="topic"><span class="n">37</span><span class="t"><b>Grants &amp; funding</b> · Innovate UK, merged R&amp;D relief ~20%, Start Up Loans, regional growth hubs.</span></div>
+  <div class="topic"><span class="n">38</span><span class="t"><b>Late payment law</b> · Statutory 8% + base, £40-100 fixed compensation, retention of title on hardware; direct debit prevents most of it.</span></div>
+  <div class="topic"><span class="n">39</span><span class="t"><b>Client contracts</b> · MSA + SOW, scope exclusions, liability cap, IP split, offboarding terms, DPA, non-solicitation.</span></div>
+  <div class="topic"><span class="n">40</span><span class="t"><b>Banking &amp; fintech</b> · Mettle + free FreeAgent is the value pick; Starling for full licence; ring-fenced tax account.</span></div>
+
+  <h2><span class="range">41-50</span>AI / LLM Engineering</h2><div class="file">ai-llm-engineering.md</div>
+  <div class="topic"><span class="n">41</span><span class="t"><b>Agent architectures</b> · Single agent + tools beats multi-agent until you need context isolation; multi-agent costs 4-15x tokens.</span></div>
+  <div class="topic"><span class="n">42</span><span class="t"><b>RAG best practices</b> · Heading-bounded chunks, BM25+vector fused with RRF, cross-encoder rerank; fails on aggregation and multi-hop.</span></div>
+  <div class="topic"><span class="n">43</span><span class="t"><b>Local LLM landscape</b> · Qwen3, Gemma 3, Llama 3.x, R1 distills; 27-32B is the genuinely-useful tier; Ollama sidecar for desktop.</span></div>
+  <div class="topic"><span class="n">44</span><span class="t"><b>MCP ecosystem</b> · Won the connector war; risks: tool poisoning, rug pulls, lethal trifecta; ship the vault as an MCP server.</span></div>
+  <div class="topic"><span class="n">45</span><span class="t"><b>Evals</b> · Golden set of 50-200 real queries, layered assertions + LLM-judge with bias checks; freeze a golden set before tuning.</span></div>
+  <div class="topic"><span class="n">46</span><span class="t"><b>Fine-tune vs RAG vs prompt</b> · Prompt for behavior, RAG for knowledge, fine-tune for form; QLoRA fits one 24GB GPU.</span></div>
+  <div class="topic"><span class="n">47</span><span class="t"><b>Vector databases</b> · pgvector/Qdrant for servers; sqlite-vec/LanceDB win for desktop; 50K vectors = single-digit ms brute force.</span></div>
+  <div class="topic"><span class="n">48</span><span class="t"><b>AI coding agents</b> · Claude Code, Cursor, Copilot, aider; the harness is the product, copy its context patterns into Cortex.</span></div>
+  <div class="topic"><span class="n">49</span><span class="t"><b>Structured outputs</b> · Constrained decoding &gt; tool APIs &gt; prompting; shallow schemas, retry cap 2-3, validate every agent write.</span></div>
+  <div class="topic"><span class="n">50</span><span class="t"><b>Guardrails</b> · Delimit untrusted content, scope capabilities, approval gates on writes/sends, sandboxed ingestion.</span></div>
+
+  <h2><span class="range">51-60</span>NeuralVault Product &amp; Tech</h2><div class="file">neuralvault-product-tech.md</div>
+  <div class="topic"><span class="n">51</span><span class="t"><b>PKM market positioning</b> · Obsidian free-core + paid services (Sync $4, verified); AI-native local-first is an open quadrant.</span></div>
+  <div class="topic"><span class="n">52</span><span class="t"><b>Tauri v2 patterns</b> · IPC channels + raw payloads; compute in Rust, stream f32 position buffers for the map, never JSON-per-tick.</span></div>
+  <div class="topic"><span class="n">53</span><span class="t"><b>Rust async desktop</b> · Actor pattern with mpsc commands, watch channels for UI state, spawn_blocking for CPU work, debounce to 30-60Hz.</span></div>
+  <div class="topic"><span class="n">54</span><span class="t"><b>Shippable embeddings</b> · nomic-embed-text (Apache-2.0) as default; EmbeddingGemma-300M best small quality but Gemma license.</span></div>
+  <div class="topic"><span class="n">55</span><span class="t"><b>Graph viz beyond force</b> · Leiden cluster layouts + edge bundling + level-of-detail (topic blobs at far zoom).</span></div>
+  <div class="topic"><span class="n">56</span><span class="t"><b>SQLite + vectors</b> · FTS5 + sqlite-vec + RRF in one transactional file; fine to ~100K-1M vectors with quantization.</span></div>
+  <div class="topic"><span class="n">57</span><span class="t"><b>Windows distribution</b> · Azure Trusted Signing ~$10/mo beats OV/EV certs; Tauri signed updater; build SmartScreen reputation now.</span></div>
+  <div class="topic"><span class="n">58</span><span class="t"><b>Memory competitors</b> · Letta, Mem0, Zep (temporal KG); vault-as-memory wins on transparency; steal Zep's temporal validity.</span></div>
+  <div class="topic"><span class="n">59</span><span class="t"><b>Dedup &amp; entity resolution</b> · Cosine &gt;0.95 auto-flag, 0.85-0.92 review band, canonical entities with aliases; never silent merge.</span></div>
+  <div class="topic"><span class="n">60</span><span class="t"><b>Pricing desktop AI</b> · Hybrid: free core + BYO-key forever + ~£8-12/mo managed tier + one-time supporter license.</span></div>
+
+  <h2><span class="range">61-70</span>Trading Knowledge</h2><div class="file">trading-knowledge.md</div>
+  <div class="topic"><span class="n">61</span><span class="t"><b>Prop firm landscape</b> · FTMO-model evaluations (10% target, 3% daily loss verified); challenge fees are the real revenue; ~90%+ fail.</span></div>
+  <div class="topic"><span class="n">62</span><span class="t"><b>Position sizing math</b> · Fixed fractional from the stop; Kelly as upper bound, fractional Kelly in practice; risk of ruin basics.</span></div>
+  <div class="topic"><span class="n">63</span><span class="t"><b>Backtesting pitfalls</b> · Overfitting, survivorship bias, look-ahead bias; walk-forward validation is the defence.</span></div>
+  <div class="topic"><span class="n">64</span><span class="t"><b>Journal metrics</b> · Expectancy, profit factor, R-multiples, rule adherence as a measured P&amp;L line.</span></div>
+  <div class="topic"><span class="n">65</span><span class="t"><b>ICT/SMC reality</b> · Order blocks, liquidity, FVGs: no peer-reviewed support, partial overlap with real microstructure effects.</span></div>
+  <div class="topic"><span class="n">66</span><span class="t"><b>Algo infrastructure</b> · Data feeds, broker APIs, paper trading limits; reliability beats speed at retail latency.</span></div>
+  <div class="topic"><span class="n">67</span><span class="t"><b>UK tax on trading</b> · CGT vs income buckets, spread betting tax-free as gambling, crypto pooling (gov.uk verified).</span></div>
+  <div class="topic"><span class="n">68</span><span class="t"><b>Market microstructure</b> · Order books, spread, slippage; turnover times cost kills thin edges.</span></div>
+  <div class="topic"><span class="n">69</span><span class="t"><b>Trading psychology</b> · Disposition effect (Odean), process goals, journaling evidence, loss limits as cognitive protection.</span></div>
+  <div class="topic"><span class="n">70</span><span class="t"><b>Crypto custody safety</b> · Exchange failure history Mt. Gox to FTX, cold storage hierarchy, FCA register caveats, no FSCS cover.</span></div>
+
+  <h2><span class="range">71-80</span>Web Design Business</h2><div class="file">web-design-business.md</div>
+  <div class="topic"><span class="n">71</span><span class="t"><b>CRO fundamentals</b> · Five-second clarity, one CTA, proof near the form, fewer fields; 2-5% SMB benchmarks.</span></div>
+  <div class="topic"><span class="n">72</span><span class="t"><b>Local site essentials</b> · Page-per-service architecture, NAP consistency, LocalBusiness schema, mobile speed.</span></div>
+  <div class="topic"><span class="n">73</span><span class="t"><b>Core Web Vitals</b> · LCP 2.5s / INP 200ms / CLS 0.1 at p75 field data (web.dev verified).</span></div>
+  <div class="topic"><span class="n">74</span><span class="t"><b>WCAG 2.2 checklist</b> · Equality Act exposure; high-impact fixes: contrast, labels, alt text, keyboard; avoid overlays.</span></div>
+  <div class="topic"><span class="n">75</span><span class="t"><b>Stack choice</b> · SSG vs WordPress vs Next.js vs builders, decided by who edits and what breaks; maintenance economics.</span></div>
+  <div class="topic"><span class="n">76</span><span class="t"><b>Hosting landscape</b> · Cloudflare Pages default, Vercel for Next.js, Netlify for forms; agency reselling pattern.</span></div>
+  <div class="topic"><span class="n">77</span><span class="t"><b>SEO under AI search</b> · Zero-click growth; thin TOFU content dies; local, entity SEO, original data, citability survive.</span></div>
+  <div class="topic"><span class="n">78</span><span class="t"><b>Email for SMB clients</b> · Welcome and review-request flows convert; SPF/DKIM/DMARC; PECR consent rules.</span></div>
+  <div class="topic"><span class="n">79</span><span class="t"><b>Analytics post-GA4</b> · Plausible/Fathom/Umami; cookieless means banner-free under PECR; agency self-host pattern.</span></div>
+  <div class="topic"><span class="n">80</span><span class="t"><b>Productized web services</b> · Fixed packages, three care-plan tiers with UK price ranges, WaaS model, MRR as the core metric.</span></div>
+
+  <h2><span class="range">81-90</span>Learning &amp; Productivity</h2><div class="file">learning-productivity.md</div>
+  <div class="topic"><span class="n">81</span><span class="t"><b>Spaced repetition</b> · FSRS cuts reviews 20-30% vs SM-2 at equal retention; decks fail from imported cards, not the algorithm.</span></div>
+  <div class="topic"><span class="n">82</span><span class="t"><b>Learning Mandarin</b> · FSI Category IV: 2,200 class hours / 3,000-4,000 total; comprehensible input + tones-first + Anki with audio + Pleco.</span></div>
+  <div class="topic"><span class="n">83</span><span class="t"><b>PARA maintenance</b> · 20-min weekly triage, monthly archive pass, quarterly sweep; organize at retrieval time, not capture time.</span></div>
+  <div class="topic"><span class="n">84</span><span class="t"><b>Deep work evidence</b> · Attention residue and phone-presence cost are solid; 4-hour laws, 52/17 ratios, binaural beats are not.</span></div>
+  <div class="topic"><span class="n">85</span><span class="t"><b>Sleep &amp; energy</b> · Regularity rivals duration; morning light + 1pm caffeine cutoff are the real levers.</span></div>
+  <div class="topic"><span class="n">86</span><span class="t"><b>Speed reading</b> · Debunked (Rayner 2016); RSVP and subvocalization suppression hurt comprehension; skimming strategy works instead.</span></div>
+  <div class="topic"><span class="n">87</span><span class="t"><b>Habit formation</b> · 66-day median (range 18-254), 21 days is a myth; implementation intentions d~0.65; one missed day doesn't derail.</span></div>
+  <div class="topic"><span class="n">88</span><span class="t"><b>Note-taking compared</b> · Semantic search does at retrieval what Zettelkasten links do at writing; PARA + logs + MOCs fits an AI vault.</span></div>
+  <div class="topic"><span class="n">89</span><span class="t"><b>AI-assisted learning</b> · Anchor to the testing effect; LLM as Socratic quizzer; edit generated flashcards; beware fluency illusion.</span></div>
+  <div class="topic"><span class="n">90</span><span class="t"><b>Weekly review &amp; blocking</b> · GTD clear/current/creative + rebuild-the-plan time blocking; sticks via fixed slot under 60 min.</span></div>
+
+  <h2><span class="range">91-100</span>Tech Radar</h2><div class="file">tech-radar.md</div>
+  <div class="topic"><span class="n">91</span><span class="t"><b>Humanoid robotics</b> · Figure, Optimus, Unitree (G1 ~$16k), Agility Digit most deployed; manipulation is the bottleneck.</span></div>
+  <div class="topic"><span class="n">92</span><span class="t"><b>Quantum timeline</b> · Willow proved below-threshold error correction; useful machines 2030s; only action now is crypto inventory.</span></div>
+  <div class="topic"><span class="n">93</span><span class="t"><b>AR/VR/spatial</b> · Vision Pro stalled, Quest owns consumer, Meta Ray-Ban is the real momentum; training and remote assist are the business value.</span></div>
+  <div class="topic"><span class="n">94</span><span class="t"><b>Edge AI &amp; NPUs</b> · 40+ TOPS Copilot+ floor but NPUs underused; RAM/VRAM matter more; W10 EOL drives the refresh sale.</span></div>
+  <div class="topic"><span class="n">95</span><span class="t"><b>Web3 reality check</b> · Stablecoins and tokenized treasuries survived; enterprise blockchain and NFTs died; MSP relevance near zero.</span></div>
+  <div class="topic"><span class="n">96</span><span class="t"><b>Starlink for business</b> · ~£75-380/mo, 100-250 Mbps at 20-40ms, CGNAT caveat; sell managed dual-WAN failover bundles.</span></div>
+  <div class="topic"><span class="n">97</span><span class="t"><b>Post-quantum crypto</b> · FIPS 203/204/205 final; NCSC timeline 2028/2031/2035 makes crypto inventory billable MSP work now.</span></div>
+  <div class="topic"><span class="n">98</span><span class="t"><b>AI regulation</b> · EU AI Act high-risk lands Aug 2026; UK stays principles-based so UK GDPR binds; NV needs a transparency statement.</span></div>
+  <div class="topic"><span class="n">99</span><span class="t"><b>Chip market</b> · NVIDIA ~80-90% share behind CUDA; memory squeeze (HBM crowding DRAM/NAND) = short quote validity, pre-buy RAM/SSD.</span></div>
+  <div class="topic"><span class="n">100</span><span class="t"><b>Battery &amp; storage</b> · LFP near $100/kWh; lithium UPS beats VRLA on TCO; UK SMB solar+storage pays back 5-8 years.</span></div>
+
+  <p class="foot">Full notes: <code>NeuralVault\sample-vault\wiki\concepts\top-100\</code> · every topic tagged web-verified or knowledge-compiled · volatile figures carry "verify current" flags</p>
+</div>
+<script>
+  const input = document.getElementById('search');
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase();
+    document.querySelectorAll('.topic').forEach(el => {
+      el.classList.toggle('hidden', q && !el.textContent.toLowerCase().includes(q));
+    });
+    document.querySelectorAll('h2').forEach(h => {
+      let el = h.nextElementSibling; let any = false;
+      while (el && !el.matches('h2')) { if (el.classList.contains('topic') && !el.classList.contains('hidden')) any = true; el = el.nextElementSibling; }
+      h.classList.toggle('hidden', !any);
+      if (h.nextElementSibling && h.nextElementSibling.classList.contains('file')) h.nextElementSibling.classList.toggle('hidden', !any);
+    });
+  });
+</script>
+</body>
+</html>
