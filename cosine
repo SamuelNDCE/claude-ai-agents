@@ -1,0 +1,7 @@
+      PID    PPID    PGID     WINPID   TTY         UID    STIME COMMAND
+      623     619     619      19588  ?         197609 15:11:18 /usr/bin/bash
+      624     623     619      40236  ?         197609 15:11:18 /usr/bin/bash
+      620       1     620      18428  ?         197609 15:11:18 /c/Users/Futur/AppData/Local/Microsoft/WindowsApps/python3
+      618       1     618      39332  ?         197609 15:11:18 /c/WINDOWS/system32/cmd
+      625       1     625      23808  ?         197609 15:11:18 /usr/bin/ps
+      619       1     619      38160  ?         197609 15:11:18 /usr/bin/bash
