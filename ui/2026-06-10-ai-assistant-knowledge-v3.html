@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant Knowledge v3 — Gap Topics Installed (60 Notes)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0d18; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.55; padding: 40px 24px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.8rem; background: linear-gradient(90deg, #22d3ee, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 6px; }
+  .sub { color: #94a3b8; margin-bottom: 26px; font-size: .95rem; }
+  .stats { display: flex; gap: 14px; margin-bottom: 30px; flex-wrap: wrap; }
+  .stat { background: #11162a; border: 1px solid #1e2745; border-radius: 10px; padding: 12px 20px; }
+  .stat .n { font-size: 1.5rem; font-weight: 700; color: #22d3ee; }
+  .stat .l { font-size: .78rem; color: #94a3b8; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+  .card { background: #11162a; border: 1px solid #1e2745; border-radius: 12px; padding: 17px; }
+  .card:hover { border-color: #22d3ee55; }
+  .card h3 { font-size: .97rem; color: #f1f5f9; margin-bottom: 7px; }
+  .card p { font-size: .85rem; color: #94a3b8; }
+  .card .key { margin-top: 9px; font-size: .8rem; color: #22d3ee; border-top: 1px dashed #1e2745; padding-top: 7px; }
+  .num { font-size: .68rem; font-weight: 700; color: #7c3aed; letter-spacing: .08em; }
+  .actions { background: #11162a; border: 1px solid #7c3aed44; border-radius: 12px; padding: 20px 24px; margin-top: 30px; }
+  .actions h2 { font-size: 1rem; color: #a78bfa; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+  .actions li { margin: 7px 0 7px 18px; font-size: .9rem; color: #cbd5e1; }
+  .actions li::marker { color: #7c3aed; }
+  .path { font-family: Consolas, monospace; font-size: .8rem; color: #64748b; margin-top: 28px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Gap Topics — All 10 Installed</h1>
+  <div class="sub">Round 3 · 10 web searches · vault collection now at 60 notes · 2026-06-10</div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">60</div><div class="l">notes total</div></div>
+    <div class="stat"><div class="n">10</div><div class="l">gaps closed</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">searches all rounds</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="num">1 · AGENTS</div><h3>Reliable Action Execution</h3><p>Structured outputs replace action tags. Per-tool contracts: scope, idempotency, rollback. Dry-run mode for risky actions, immutable audit log of every step.</p><div class="key">Validate inputs always — LLMs confidently call tools with wrong params.</div></div>
+    <div class="card"><div class="num">2 · TRADING</div><h3>Trading Assistant Knowledge</h3><p>Journal schema with emotions + rule-adherence flags. Canon: 1-2% per trade, 3% daily stop, cut size in drawdown, quarter-Kelly sizing.</p><div class="key">Rule Adherence Score weekly: followed-rules trades ≈ 2x win rate, 3x profit factor.</div></div>
+    <div class="card"><div class="num">3 · MOBILE</div><h3>On-Device LLMs Reality Check</h3><p>Gemma 3 / Phi-4 Mini / Qwen 2.5 run fine in bursts, but 3-4B models hit 70°C in 90s, throttle 35-50%, drain 18% battery/hour sustained.</p><div class="key">Verdict: hybrid — small local model for capture/offline, cloud Claude for reasoning.</div></div>
+    <div class="card"><div class="num">4 · AGENTS</div><h3>Multi-Agent Orchestration</h3><p>Supervisor pattern is the 2026 production default. Five shapes: supervisor, pipeline, fan-out, debate, swarm. #1 failure: infinite handoff loops.</p><div class="key">NV's edge: the vault as persistent, auditable shared memory between agents.</div></div>
+    <div class="card"><div class="num">5 · PERSONA</div><h3>Personality Design</h3><p>Persona = system prompt: identity, behavior constraints, signature phrases, register table. Consistency is the product; version it like code.</p><div class="key">Next step: pick the NV assistant name (20 candidates exist) and write its persona note.</div></div>
+    <div class="card"><div class="num">6 · MEMORY</div><h3>Decay &amp; Importance Scoring</h3><p>Composite score: recency (exponential decay) + frequency (access resets clock) + semantic relevance. Consolidation = summarize + dedupe.</p><div class="key">For NV: rank retrieval by score instead of deleting. Cheapest start: accessed counter in frontmatter.</div></div>
+    <div class="card"><div class="num">7 · UK BIZ</div><h3>UK Compliance Deadlines</h3><p>Confirmation statement (14 days after anniversary), CT payment 9mo+1day, VAT 1mo+7days quarterly via MTD, self assessment 31 Jan.</p><div class="key">MTD for Income Tax starts April 2026 at £50k — relevant immediately.</div></div>
+    <div class="card"><div class="num">8 · CLIENTS</div><h3>Agency Client Operations</h3><p>Retainer (efficiency profit, over-servicing risk) vs project (scoping profit, underpricing risk). Bulletproof SOW: exclusions + change-order examples.</p><div class="key">Track hours vs scope monthly — over-servicing shows in numbers before resentment.</div></div>
+    <div class="card"><div class="num">9 · HEALTH</div><h3>Health Data Plumbing</h3><p>Health Connect is the only Android path (Google Fit dies 2026). Withings shares to Health Connect/HealthKit, plus its own cloud API.</p><div class="key">NV pipeline: Withings API → home PC scheduled pull → daily health note in vault.</div></div>
+    <div class="card"><div class="num">10 · BACKUP</div><h3>Vault Backup Strategy</h3><p>3-2-1 rule (+1 immutable, 0 restore errors). Restic: encrypted, deduplicated, versioned snapshots. Quarterly restore tests or it's hope, not strategy.</p><div class="key">⚠️ Syncthing is availability, NOT backup — it syncs corruption too. Ties to TrueNAS H1 finding.</div></div>
+  </div>
+
+  <div class="actions">
+    <h2>Actionable Now</h2>
+    <ul>
+      <li><b>Vault backup</b> is the most urgent: restic → TrueNAS + off-site, nightly. The brain currently has zero off-box copies.</li>
+      <li><b>UK compliance note</b> needs Perpetual Technologies' incorporation date and year end to become a live calendar.</li>
+      <li><b>Memory scoring</b>: add an accessed counter to frontmatter, weight hook injections by it.</li>
+      <li><b>Persona</b>: name the NV assistant, write the persona note.</li>
+    </ul>
+  </div>
+
+  <div class="path">wiki\concepts\ai-assistant-knowledge\ (54) + wiki\Tech\nv-mobile-*.md (6) = 60 notes · entry: _index.md</div>
+</div>
+</body>
+</html>
