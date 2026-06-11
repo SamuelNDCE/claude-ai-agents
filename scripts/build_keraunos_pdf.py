@@ -194,8 +194,6 @@ def cover(c, doc):
     c.drawCentredString(W / 2, H - 6.0 * inch, "Maglev Space Launch System  ·  SELENE · BRONTE · ARES")
     c.setFont("Segoe", 10.5)
     c.setFillColor(HexColor("#7e8db0"))
-    c.drawCentredString(W / 2, H - 7.7 * inch,
-                        "KERAUNOS leaves the fuel on the ground.")
     c.setFillColor(white)
     c.setFont("Segoe-Semi", 13)
     c.drawCentredString(W / 2, 1.55 * inch, "Samuel Edwards")
@@ -424,7 +422,8 @@ E.append(KeepTogether([styled_table(
       "Triple-redundant cold-gas thrusters on the shell halves force separation"],
      ["Tube vacuum breach",
       "Incoming air hits the craft like a physical hammer",
-      "Automated blast shutters every 10 km isolate the breach"],
+      "Automated blast shutters every 1 km isolate the breach; air propagates at "
+      "~0.34 km/s, so a 1 km section caps the spoiled vacuum to hours of re-pumping"],
      ["Thermal runaway at exit (2,000&deg;C+ leading edge)",
       "Shell ablation, payload loss",
       "Transpiration cooling: the shell \"sweats\" liquid nitrogen through porous ceramics"],
