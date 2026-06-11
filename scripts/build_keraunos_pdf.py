@@ -829,10 +829,14 @@ E.append(styled_table(
         ["Superconducting maglev",
          "603 km/h crewed rail record (JR Central, 2015). Commercial maglev lines "
          "operating in China today."],
-        ["YBCO superconductors",
-         "Critical temperature 92K. Liquid nitrogen cools on Earth ($0.30/L vs $30/L "
-         "for helium). Lunar south pole ambient (~90K) cools passively. Commercial "
-         "tape suppliers exist: SuperPower Inc., American Superconductor."],
+        ["REBCO superconductors",
+         "Critical temperature 92K. World record all-REBCO DC magnet: <b>26.86 T</b> "
+         "(2024). Commonwealth Fusion Systems demonstrated a <b>20 T</b> REBCO magnet "
+         "for the SPARC fusion reactor in September 2021 - the same conductor type "
+         "KERAUNOS uses. Critical current density exceeds 1,000 A/mm² at 30 T. "
+         "Lunar south pole ambient (~90 K) cools passively; a small closed-cycle "
+         "cryo-cooler drops to 65-70 K for full margin. Commercial tape suppliers: "
+         "SuperPower Inc., American Superconductor, Fujikura, SuNAM."],
         ["MHD plasma window",
          "Invented by A. Hershcovitch at Brookhaven National Lab; patented 1995. Holds "
          "up to ~9 atm. In industrial use for non-vacuum e-beam welding today. "
@@ -937,6 +941,22 @@ E.append(b(
 E.append(b(
     "<b>The deterrence dividend.</b> A launcher placing 29,000 tonnes per year "
     "into orbit can replenish a damaged constellation in hours, not months."
+))
+E.append(Paragraph("Fusion economy", S["h2"]))
+E.append(b(
+    "<b>The He-3 supply chain.</b> Lunar regolith holds an estimated one million tonnes "
+    "of helium-3, implanted by solar wind over billions of years. "
+    "Deuterium-helium-3 fusion is aneutronic: it produces charged particles rather "
+    "than neutrons, which means less radiation damage to the reactor and direct "
+    "conversion of plasma energy to electricity. He-3 as a fusion fuel is estimated "
+    "at <b>$3-5 billion per tonne</b>. SELENE's launch cost is roughly $5/kg - "
+    "<b>$5,000 per tonne</b> from the lunar surface. No other delivery mechanism "
+    "makes the economics work. The National Ignition Facility achieved fusion "
+    "ignition in December 2022 (3.15 MJ out from 2.05 MJ in). Commonwealth Fusion "
+    "Systems is targeting a net-energy fusion device by 2025-2027 and a commercial "
+    "plant in the 2030s, using the same REBCO conductor technology as KERAUNOS. "
+    "SELENE is not just a launcher. It is the fuel supply chain for the energy "
+    "industry that comes next."
 ))
 E.append(Paragraph("The energy loop", S["h2"]))
 E.append(b(
