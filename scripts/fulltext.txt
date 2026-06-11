@@ -1,0 +1,516 @@
+===== PAGE 2 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+1
+0. Executive Summary
+KERAUNOS is ground infrastructure that replaces the first stage of every rocket, permanently. A 1,000 km
+superconducting maglev track inside a vacuum tube accelerates cargo pods to 8 km/s on grid electricity,
+fires them through a plasma window at a mountain-altitude exit, and lets a small onboard kick motor finish
+the job at apogee. The launcher never leaves the ground, never gets rebuilt, and earns money between
+launches as a grid-scale battery.
+KERAUNOS is the program. It deploys as three launchers, and it starts on the Moon, where the machine is at
+its simplest, then brings the lessons home.
+Launcher
+Body
+Phase
+Character
+SELENE
+Moon
+1: Proof of concept
+No atmosphere: no tube, no plasma window, no
+aero-shell. The starter track is single-digit km: at 100 g,
+~2.9 km throws dumb cargo clear off the Moon.
+BRONTE
+Earth
+2: The thunder
+A 10-20 km demonstrator first, then the full 1,000 km, 8
+km/s orbital injector. Thunder follows the lightning, and
+you need an atmosphere to hear it.
+ARES
+Mars
+3: The port
+0.6% atmosphere makes the tube featherweight. Turns
+Mars from a destination into a port.
+Specifications by launcher
+Each launcher gets its own table below so there is no ambiguity about which body a number belongs to.
+BRONTE (Earth) is the flagship and gets the deepest treatment, then SELENE (Moon), then ARES (Mars).
+
+===== PAGE 3 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+2
+BRONTE: Earth (flagship system)
+Parameter
+Value
+Notes
+Role
+Primary orbital injector
+"The thunder." The full-scale Earth machine and the
+program's revenue engine
+Track length
+1,000 km vacuum tube
+Tube length is the unlock: it buys the gentle g-load
+Exit velocity
+4-8 km/s
+Mach 12.7-25.3 at the 6 km exit, where the speed of
+sound is ~316 m/s
+Acceleration
+3.3 g constant (32 m/s2)
+a = v2/2L. Only 0.8 g if run to 4 km/s. StarTram needed
+30 g
+Time on track
+250 s (4 min 10 s)
+t = v/a at full 8 km/s
+Energy per kg
+8.9 kWh ($0.53 at $0.06/kWh)
+E = ½v2 = 32 MJ/kg. Everything above this is
+amortization
+Drive power (10 t
+pod)
+1.28 GW average, 2.56 GW
+peak
+320 GJ per launch over 250 s; peak P = m·a·v at the
+muzzle
+Onboard kick
+0.5-1 km/s at apogee
+20% propellant at Isp 350 s buys ~0.77 km/s: the claims
+are consistent
+Exit altitude
+~6,000 m mountain face
+Air density there is ~55% of sea level, cutting peak drag
+and heating nearly in half
+Cadence
+One 10 t pod every 3 hours
+80 t/day, ~29,000 t/year: a freight schedule, not a
+launch manifest
+Cost to LEO
+$20-250/kg, toward $5/kg
+vs Falcon 9 ~$2,720/kg customer price; skyhook phase
+pushes toward $5
+Demonstrator first
+10-20 km track
+Mach 2-3 at 3 g human-rated; 2.4-3.4 km/s (Mach 7-10)
+at 30 g cargo mode
+All derived values from a = v²/2L, t = v/a, E = ½v², P = m·a·v, with g = 9.81 m/s².
+
+===== PAGE 4 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+3
+SELENE: Moon (Phase 1 proof of concept)
+Parameter
+Value
+Notes
+Role
+Proof of concept + mass
+exporter
+Water ice, oxygen, shielding mass to cislunar buyers
+Atmosphere
+None
+No tube, no plasma window, no aero-shell, no blast
+shutters. The track is the launcher
+Starter track (PoC)
+1-3 km at 50-100 g, dumb
+cargo
+At 100 g: 1.5 km reaches orbit speed (1.7 km/s), ~2.9
+km clears escape (2.38 km/s) in a 2.4 s ride. Water,
+regolith, and metal don't mind the g
+Cargo track (growth)
+10-12 km at 30 g
+2.43-2.66 km/s for hardened payloads, escape with
+margin; 8 s ride
+Passenger track (later)
+~50 km at 3 g
+Low lunar orbit speed (~1.7 km/s) in a 58 s run; ~96
+km version reaches escape
+Energy per kg
+0.40 kWh (orbit), 0.79 kWh
+(escape)
+Roughly 1/20th of the Earth launch energy
+Throw to Earth orbit
+~2.4 km/s from the lunar
+surface
+vs 9.4+ km/s from Earth's surface: the Moon wins on
+every kg that can start there
+ARES: Mars (Phase 3 frontier port)
+Parameter
+Value
+Notes
+Role
+Export port for the Mars
+economy
+ISRU propellant, samples, manufactured goods
+Atmosphere
+~6 mbar (0.6% of Earth)
+Featherweight tube; the plasma window's job is 99.4%
+done by the planet
+Track (orbit)
+~180 km at 3.3 g
+Low Mars orbit speed (~3.4 km/s) in a 105 s run
+Track (escape)
+~390 km at 3.3 g
+Mars escape (~5.0 km/s) in a 155 s run
+Energy per kg
+1.6 kWh (orbit), 3.5 kWh
+(escape)
+Between Moon and Earth in scale, far easier than
+Earth in engineering
+Staging
+Phobos and Deimos
+Catch points and depots; SEP tugs handle the
+interplanetary cruise
+1. The Physics & Price: Breaking the Rocket Equation
+Reminder: We aren't "improving" rockets; we are removing the "Stage 0" fuel penalty. Efficiency comes from
+the ground infrastructure, not the craft.
+
+===== PAGE 5 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+4
+● The Mass Fraction Flip: a normal rocket is 90% fuel / 10% cargo. A KERAUNOS pod is 20% fuel (for the
+final kick only) / 80% cargo: 8x more payload per launched tonne.
+● The Kick Motor: even an 8 km/s ground launch is sub-orbital; without a circularization burn at apogee
+the pod hits the ocean. A small restartable motor supplies roughly 0.5-1 km/s of circularization and trim
+(a 20% propellant fraction at Isp 350 s buys ~0.77 km/s): the only propellant on board.
+● The Breakaway Aero-Shell: the pod rides inside a sacrificial hypersonic shroud shaped with NASA X-59
+pressure-distribution data. It eats the tube-to-air transition, then jettisons at 30-40 km, shedding dead
+thermal mass before the orbital burn.
+● The Mountain Muzzle (new): the tube exits at roughly 6,000 m altitude on a mountain face, where air
+density is ~55% of sea level, cutting peak drag and heating nearly in half during the worst milliseconds of
+the flight. Non-negotiable at Mach 12+, and it matches the StarTram reference design (exit at
+4,000-8,000 m).
+The arithmetic that carries the whole pitch
+E = ½v² = 32 MJ/kg
+8.9 kWh per kilogram at 8 km/s. At $0.06/kWh that is $0.53 of
+electricity per kg to orbital velocity. Everything above that price is
+hardware amortization, not physics.
+a = v² / 2L = 3.3 g
+A 1,000 km tube reaches 8 km/s at just 3.3 g (0.8 g at 4 km/s). The
+leading academic design, StarTram Gen-1, accepted a punishing 30 g
+cargo-only profile because its tube was ~130 km. Tube length is the
+unlock: it turns a cargo cannon into a universal launcher.
+Comparative launch costs (per kg to LEO)
+Launch system
+Cost per kg
+Economic bottleneck
+Space Shuttle
+$54,500
+Hand-built, massive refurbishment
+SpaceX Falcon 9
+~$2,720 price / ~$630 internal
+Fuel costs + expended hardware
+SpaceX Starship (projected)
+$100-$1,000
+Limit of chemical fuel energy density
+KERAUNOS
+$20-$250
+Electricity is ~$0.53/kg; price is amortization
+KERAUNOS + skyhook
+toward $5
+Kick-motor fuel drops toward zero
+Falcon 9 figures: customer price vs estimated internal cost. Starship range reflects near-term reuse assumptions.
+2. Prior Art & The Gap: Everyone Is Pointing at This, Nobody Is
+Building It
+Reminder: KERAUNOS is not science fiction without a pedigree, and it is not a "me too."
+
+===== PAGE 6 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+5
+● StarTram proved the physics on paper (2008-2010). James Powell, co-inventor of superconducting
+maglev, and George Maise projected $30-43/kg to orbit. But their Gen-1 was 30 g, cargo-only, from a
+~130 km tube: credible physics, brutal payload constraints.
+● China is proving the intent in hardware (target 2028). Galactic Energy, CASIC, and the Ziyang (Sichuan)
+government are building an electromagnetic launch verification platform that accelerates a conventional
+rocket to roughly Mach 1.6 before ignition. That is a faster runway, not an orbital injector: the rocket still
+carries the rocket equation on its back.
+● The gap KERAUNOS fills: full orbital velocity, gentle 3.3 g, launch every 3 hours. The full-length tube
+nobody has committed to is the entire difference between a demo and the Space Panama Canal. Because
+the major players are already hitting the efficiency wall of hybrid designs, they are primed to accept
+KERAUNOS as the logical final evolution of their own research.
+3. The Geopolitical Superpower Race
+Reminder: The nation that builds this first becomes the "Space Panama Canal," controlling the world's most
+valuable logistics route.
+● The Sovereign Monopoly: the host nation stops paying for space and starts charging the rest of the
+world. As space sovereignty becomes a global priority, every other country becomes a customer of the
+superior infrastructure.
+● Strategic Land Grab: secure the best orbital slots and lunar water-ice territories before anyone else can
+even clear the atmosphere. At 80 tonnes a day, occupation is a logistics fact, not a treaty argument.
+● The deterrence dividend: a launcher that can place 29,000 tonnes a year into orbit is also the ultimate
+space-resilience asset: constellation replenishment in hours, not months.
+4. Risk Assessment: The Fail-Safe Protocols
+Reminder: High speed in a tube is high stakes. We need a fail-safe for every millisecond.
+Failure
+Consequence
+Countermeasure
+Aero-shell fails to jettison at
+Mach 12+
+Dead mass prevents orbit
+Triple-redundant cold-gas thrusters on the shell
+halves force separation
+Tube vacuum breach
+Incoming air hits the craft
+like a physical hammer
+Automated blast shutters every 10 km isolate the
+breach
+Thermal runaway at exit
+(2,000°C+ leading edge)
+Shell ablation, payload loss
+Transpiration cooling: the shell "sweats" liquid
+nitrogen through porous ceramics
+Plasma window failure
+Atmospheric backflow into
+the tube
+Blast shutters close as the physical backup
+Launch abort
+Stranded kinetic energy,
+overspeed risk
+Regenerative magnetic braking pumps the
+energy back into the storage rings
+
+===== PAGE 7 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+6
+5. New Industries & Orbital Manufacturing
+Reminder: Focus on gravity-sensitive production. Gravity is the impurity we are deleting.
+● ZBLAN fiber (the demand is already proven): microgravity-drawn fluoride glass with up to 100x lower
+theoretical signal loss than silica. In Feb-Mar 2024, Flawless Photonics drew ~12 km of ZBLAN on the ISS,
+with repeatable 700 m runs and 1,141 m in a single day (the previous record was 25 m). The factory
+customers are queueing; they are waiting on freight prices.
+● Organ factories: 3D-printed hearts and lungs that collapse under their own weight in 1 g. KERAUNOS's
+cadence enables daily return pods: orbital bioprinting becomes a medical logistics business, not a stunt.
+● Debris salvage: thousands of tonnes of refined aerospace-grade alloys already orbit overhead as junk. At
+KERAUNOS freight prices, salvage tugs turn a profit, and the laser broom (Section 9) keeps the lane clean
+as a side effect.
+6. Deep Space Supply Lines (Moon & Mars)
+Reminder: KERAUNOS is the cargo train for the Solar System.
+● The Pellet System: fire 10-tonne pods of "dumb" cargo (water, food, shielding, propellant) every 3 hours:
+~80 tonnes/day, ~29,000 tonnes/year.
+● The SEP Tug: solar-electric tugs catch the pods in LEO and slow-drift them to the Moon or Mars.
+Chemical speed for people, electric efficiency for cargo.
+● Asteroid mining: with launch cost no longer the gate, near-Earth asteroid platinum-group recovery
+finally closes its business case.
+7. The Quesst Connection: Aero-Data Application
+Reminder: X-59 flew on Oct 28, 2025, and is flying supersonic shockwave-tailoring test points as of mid-2026.
+The aero-shell's blueprint is being written right now.
+● Data-driven design: the aero-shell isn't a plane; it's a high-hypersonic shield. X-59's pressure-distribution
+data ensures the Mach 12 exit doesn't shatter the tube's exit seal, or the local windows.
+● External Vision (XVS): because the shell is a solid thermal shield, the craft uses NASA's flight-proven XVS
+camera-to-monitor system instead of windows, which would melt at launch.
+8. The MHD "Invisible Door" (Vacuum Maintenance)
+Reminder: You can't have a physical door at the end of a Mach 12 tube; it would be obliterated. We need a
+seal made of energy.
+● The problem: keeping a 1,000 km vacuum tube sealed while a projectile exits at 4-8 km/s, without letting
+air rush back in.
+
+===== PAGE 8 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+7
+● The solution: an MHD plasma window: a magnetically confined plug of ionized gas that behaves like a
+solid wall to the outside atmosphere but is transparent to the projectile.
+● This is real, patented technology: invented by Ady Hershcovitch at Brookhaven National Laboratory
+(patented 1995) and demonstrated holding up to ~9 atmospheres; used today for non-vacuum
+electron-beam welding. The honest engineering frontier: it has been demonstrated at centimeter-scale
+apertures, and scaling to pod diameter is the program's flagship R&D work package.
+● Safety: if the window fails, the Section 4 blast shutters are the physical backup.
+9. The Superconducting "Power Tap"
+Reminder: You don't just need speed; you need to manage the massive energy return.
+● Regenerative braking: an aborted launch pumps the craft's kinetic energy back into the superconducting
+storage rings instead of into heat, like a Tesla the size of a province.
+● Quench protection: varistor networks prevent magnet quench, sustaining 100+ launch cycles per day
+without overheating the track.
+● The energy loop: the launcher doubles as a grid-scale battery, soaking surplus solar and wind by day and
+selling stability services between launch windows. The track earns money even when nothing is flying.
+10. Real-Time Orbital Debris "Sweeping"
+Reminder: High-frequency launch is only possible if the highway is clear.
+● The problem: launching every 3 hours raises the odds of meeting Kessler Syndrome debris.
+● The Laser Broom: the same power plant that feeds the track drives ground lasers that nudge small debris
+off the launch corridor minutes before exit.
+● Automated routing: AI-planned kick-motor burns keep pods out of orbits occupied by high-risk debris
+clusters.
+11. The "Space Elevator" Lite (Tether Points)
+Reminder: KERAUNOS isn't the end goal; it's the anchor for the next phase.
+● Orbital hooks: once the system is firing 80% cargo loads daily, a non-rotating skyhook catches pods at
+altitude and flings them moonward.
+● Efficiency: kick-motor fuel drops toward zero, and cost per kg falls from $20 toward $5.
+12. Post-Launch Aero-Shell Logistics
+Reminder: Don't waste the hardware that got you through the atmosphere.
+● The recovery corridor: breakaway shells fall on hyper-predictable paths computed from the X-59 dataset.
+
+===== PAGE 9 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+8
+● Circular economy: autonomous seafaring drones wait in the drop zone, catch the shells, re-coat the
+transpiration layer, and have them back in the tube within 48 hours. Nothing is thrown away: not the
+booster (there isn't one), not the shell, not even an aborted launch's kinetic energy.
+13. SELENE: The Lunar Launcher (Phase 1: The Proof of Concept)
+Reminder: The Moon is the easiest place in the solar system to build a KERAUNOS. No air means no tube.
+● Delete the hard parts: no atmosphere means no vacuum tube, no plasma window, no aero-shell, no blast
+shutters, no transpiration cooling. The track IS the launcher, laid directly on the regolith. Every hard
+engineering problem from the Earth machine simply does not exist on the Moon.
+Orbit: ~1.7 km/s → ~50 km of
+track
+At a gentle 3 g, low lunar orbit velocity needs roughly 50 km of track,
+5% of the Earth system. Lunar escape (2.38 km/s) needs ~96 km.
+Moon → Earth orbit: ~2.4 km/s
+Versus 9.4+ km/s from Earth's surface. Once SELENE exists, the Moon
+undercuts Earth for every kilogram that doesn't have to start on Earth:
+water, oxygen, shielding mass, structural metal.
+● Validated pedigree: Gerard O'Neill's lunar mass-driver studies (NASA Ames / Princeton, 1970s) worked
+this physics out fifty years ago. What was missing was a cheap way to ship the hardware. That is exactly
+what the Earth KERAUNOS provides.
+● The proof of concept pays for itself, and it is tiny: the starter track is 1-3 km, about the length of an
+airport runway. Dumb cargo (water, regolith, metal billets) doesn't mind high g, so at 50-100 g a ~1.5 km
+track reaches lunar orbit speed (1.7 km/s) and ~2.9 km clears escape velocity (2.38 km/s) in a 2.4-second
+ride. The very first SELENE segment is not a demo: it is a working exporter, throwing water ice and
+regolith to cislunar catch points from day one. Initial hardware arrives by heavy-lift rocket: the last
+rockets the program ever needs to buy.
+● Then growth by ladder: the starter track stretches to a 10-12 km, 30 g line for hardened payloads
+(2.43-2.66 km/s, escape with margin), and later to a ~50 km, 3 g human-rated track for passengers. Each
+step is built from SELENE's own export revenue and, later, BRONTE shipments, each 10-tonne pod
+carrying coil segments, radiators, and solar arrays.
+● Exports: Shackleton-region water ice as propellant, LOX cracked from regolith, and raw shielding mass
+for stations and ships. Power from solar arrays at the Peaks of Eternal Light or compact fission. SELENE
+turns the Moon from a destination into the quarry of cislunar space.
+14. ARES: The Mars Launcher
+Reminder: Mars' atmosphere is 0.6% of Earth's. The hard parts of the Earth machine become easy there.
+● A featherweight tube: ambient pressure on Mars is ~6 millibars: the tube only holds back 0.6% of the
+pressure the Earth tube fights, the plasma window's job is 99.4% done by the planet, and exit heating is a
+fraction of the Earth case. Dust storms are the main environmental design driver.
+
+===== PAGE 10 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+9
+Orbit: ~3.4 km/s → ~180 km of
+track
+At 3.3 g, low Mars orbit needs roughly 180 km of track; Mars escape
+(5.0 km/s) needs ~390 km. Between the Moon and Earth in scale, far
+easier than Earth in engineering.
+Phobos & Deimos: free staging
+depots
+ARES throws cargo to Phobos-orbit catch points, where SEP tugs and
+fuel depots handle the interplanetary cruise. Mars' moons are the
+warehouse district.
+● Why it matters: every Mars settlement plan dies on the cost of the return trip. ARES closes the loop: ISRU
+propellant (Sabatier methane, LOX), return samples, and eventually manufactured exports ride to orbit on
+electricity. ARES turns Mars from a destination into a port.
+● Sequencing: ARES is the final node. SELENE proves the machine in hard vacuum, BRONTE masters the
+atmosphere problem on Earth, and ARES inherits a mature hardware standard delivered by the pellet
+pipeline.
+15. The Build Order: Moon First
+Reminder: The lightning flashes before the thunder is heard. SELENE launches silently in vacuum before
+BRONTE shakes the air on Earth.
+Phas
+e
+System
+What gets built
+What it proves / earns
+1
+SELENE PoC (Moon)
+1-3 km surface track, 50-100 g
+dumb-cargo mode, no tube
+~2.9 km at 100 g clears lunar escape
+(2.38 km/s): exports water ice and
+regolith to cislunar buyers from day one.
+Lowest-risk version of the machine: the
+atmosphere problems don't exist.
+Stretches to 10-12 km (30 g cargo), then
+~50 km (3 g, passengers) later.
+2
+BRONTE demo (Earth)
+10-20 km track, vacuum tube,
+plasma window, mountain exit
+Mach 2-3 in 3 g human-rated mode;
+2.4-3.4 km/s (Mach 7-10) in 30 g cargo
+mode: a hypersonic testbed beyond
+anything flying, and well past China's
+Mach 1.6 target for 2028. Validates the
+tube, the window, and the shell in
+atmosphere.
+3
+BRONTE full (Earth)
+1,000 km tube, 8 km/s, 3.3 g
+$20-250/kg to LEO at one pod every 3
+hours. The Space Panama Canal opens.
+4
+ARES (Mars)
+~180 km track, featherweight
+tube
+Mars becomes a port; the freight triangle
+closes.
+Why Moon-first works: the proof of concept is 300x shorter than the full Earth machine, skips every atmosphere subsystem, and
+generates revenue immediately. SELENE de-risks the magnets and mass-catch logistics while BRONTE's demo de-risks the
+atmosphere tech in parallel.
+
+===== PAGE 11 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+10
+16. The Interplanetary Freight Triangle
+Reminder: Three launchers, one standard. The marginal cost of moving a kilogram anywhere becomes
+electricity.
+Node
+Role
+Throws
+BRONTE (Earth)
+The forge
+Industry: machines, electronics, precision goods, and eventually
+people, at 3.3 g
+SELENE (Moon)
+The quarry
+Mass: water, oxygen, shielding, structural metal at ~2.4 km/s to
+anywhere in cislunar space
+ARES (Mars)
+The frontier port
+Propellant, samples, and exports from ISRU: the return half of
+the settlement economy
+● SEP tugs ride the lanes between nodes. Chemical fuel is burned only for final kicks and landings;
+everything else is electromagnetic launch and electric cruise.
+● Each node builds the next. Rockets ship SELENE's first coils; SELENE's exports help build out BRONTE;
+BRONTE's pellet pipeline delivers ARES; every new node makes the next one cheaper. This is how
+railroads conquered continents, and it is how KERAUNOS conquers the solar system.
+ “Zeus didn't ship his thunderbolts on rockets.”
+17. The Evidence Ledger: Zero New Physics
+Reminder: Every subsystem has flown, fired, or been patented. The pieces exist. Nobody has assembled them.
+That is the entire opportunity.
+
+===== PAGE 12 =====
+KERAUNOS  ·  MAGLEV SPACE LAUNCH SYSTEM
+SAMUEL EDWARDS
+11
+Building block
+Status (verified June 2026)
+NASA X-59 shockwave tailoring
+First flight Oct 28, 2025 (67 min, Palmdale). Flying supersonic test points as of
+Apr-May 2026. XVS camera-vision system flight-proven.
+MHD plasma window
+Invented by A. Hershcovitch, Brookhaven National Lab; patented 1995. Holds
+up to ~9 atm. In industrial use for non-vacuum e-beam welding. Demonstrated
+at cm-scale apertures. Scaling is the R&D centerpiece.
+Superconducting maglev
+603 km/h crewed rail record (JR Central, 2015). Commercial maglev operating in
+China today.
+Electromagnetic launch assist
+Galactic Energy + CASIC + Ziyang government verification platform targeting
+2028 (~Mach 1.6 assist). The supply chain is being built, just for the wrong
+finish line.
+Full-scale maglev launch studies
+StarTram (Powell & Maise, IEEE 2008-2010): $30-43/kg projected at 30 g over
+~130 km, mountain exit at 4,000-8,000 m.
+Lunar mass driver
+G. O'Neill mass-driver studies, NASA Ames / Princeton, 1970s. Physics settled
+for half a century.
+Orbital manufacturing demand
+Flawless Photonics: ~12 km of ZBLAN fiber drawn on ISS, Feb-Mar 2024;
+repeatable 700 m runs; 1,141 m in one day vs prior 25 m record.
+Launch market baseline
+Falcon 9 ~$2,720/kg customer price (~$630/kg internal); Starship targeting
+<$100/kg, $250-600/kg realistic near-term.
+KERAUNOS requires zero new physics. It requires the decision to build the full-length track everyone else
+keeps approaching by halves, and the nation or company that makes that decision first owns the freight
+standard of the solar system: Earth, Moon, and Mars.
+

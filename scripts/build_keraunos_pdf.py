@@ -254,8 +254,8 @@ E.append(KeepTogether([styled_table(
       "A 10-20 km demonstrator first, then the full 1,000 km, 8 km/s orbital injector. "
       "Thunder follows the lightning, and you need an atmosphere to hear it."],
      ["<b>ARES</b>", "Mars", "3: The port",
-      "0.6% atmosphere makes the tube featherweight. Turns Mars from a destination "
-      "into a port."]],
+      "0.6% atmosphere makes the tube featherweight. ARES is the return half of the "
+      "settlement economy."]],
     [1.0 * inch, 0.7 * inch, 1.55 * inch, 3.35 * inch])]))
 E.append(Spacer(1, 6))
 E.append(Paragraph("Specifications by launcher", S["h2"]))
@@ -338,13 +338,13 @@ E += sect("1", "The Physics &amp; Price: Breaking the Rocket Equation")
 E.append(reminder("We aren't \"improving\" rockets; we are removing the \"Stage 0\" fuel "
                   "penalty. Efficiency comes from the ground infrastructure, not the craft."))
 E.append(b("<b>The Mass Fraction Flip:</b> a normal rocket is 90% fuel / 10% cargo. A "
-           "KERAUNOS pod is 20% fuel (for the final kick only) / <b>80% cargo</b>: 8x "
-           "more payload per launched tonne."))
+           "KERAUNOS pod is 20% fuel (for the final kick only) / <b>80% cargo</b>. That "
+           "is 8x more payload per launched tonne."))
 E.append(b("<b>The Kick Motor:</b> even an 8 km/s ground launch is sub-orbital; without a "
            "circularization burn at apogee the pod hits the ocean. A small restartable "
            "motor supplies roughly 0.5-1 km/s of circularization and trim (a 20% "
-           "propellant fraction at Isp 350 s buys ~0.77 km/s): the only propellant on "
-           "board."))
+           "propellant fraction at Isp 350 s buys ~0.77 km/s). It is the only propellant "
+           "on board."))
 E.append(b("<b>The Breakaway Aero-Shell:</b> the pod rides inside a sacrificial hypersonic "
            "shroud shaped with NASA X-59 pressure-distribution data. It eats the tube-to-air "
            "transition, then jettisons at 30-40 km, shedding dead thermal mass before the "
@@ -412,8 +412,8 @@ E.append(b("<b>Strategic Land Grab:</b> secure the best orbital slots and lunar 
            "territories before anyone else can even clear the atmosphere. At 80 tonnes a "
            "day, occupation is a logistics fact, not a treaty argument."))
 E.append(b("<b>The deterrence dividend:</b> a launcher that can place 29,000 tonnes a year "
-           "into orbit is also the ultimate space-resilience asset: constellation "
-           "replenishment in hours, not months."))
+           "into orbit is also the ultimate space-resilience asset, able to replenish a "
+           "constellation in hours instead of months."))
 
 # ---- 4. RISK ----
 E += sect("4", "Risk Assessment: The Fail-Safe Protocols")
@@ -437,6 +437,22 @@ E.append(KeepTogether([styled_table(
       "Stranded kinetic energy, overspeed risk",
       "Regenerative magnetic braking pumps the energy back into the storage rings"]],
     [1.85 * inch, 1.8 * inch, 2.95 * inch])]))
+E.append(Paragraph("The honest hard parts", S["h2"]))
+E.append(p("Fail-safes handle the failures we can name. These are the open problems that "
+           "decide whether KERAUNOS gets built at all, and pretending otherwise would be "
+           "salesmanship:"))
+E.append(b("<b>Plasma window scale-up.</b> Demonstrated at centimeters, needed at meters. "
+           "This is the program's single biggest physics-to-engineering jump, and it gets "
+           "the first R&amp;D dollar."))
+E.append(b("<b>The tube is the price tag.</b> Nobody has published a credible cost per "
+           "kilometer for 1,000 km of vacuum-rated superconducting track. The $20-250/kg "
+           "range lives or dies on that number, not on the physics."))
+E.append(b("<b>SELENE's first bill is a rocket bill.</b> The starter track's coils, power "
+           "plant, and radiators still ride to the Moon on somebody else's launcher at "
+           "today's prices. The proof of concept has to be light enough to afford."))
+E.append(b("<b>Catching is harder than throwing.</b> Cislunar catch points for high-g "
+           "pellets exist on paper only. Until a tug catches the first pod, the export "
+           "revenue is theoretical."))
 
 # ---- 5. INDUSTRIES ----
 E += sect("5", "New Industries &amp; Orbital Manufacturing")
@@ -459,7 +475,8 @@ E.append(b("<b>Debris salvage:</b> thousands of tonnes of refined aerospace-grad
 E += sect("6", "Deep Space Supply Lines (Moon &amp; Mars)")
 E.append(reminder("KERAUNOS is the cargo train for the Solar System."))
 E.append(b("<b>The Pellet System:</b> fire 10-tonne pods of \"dumb\" cargo (water, food, "
-           "shielding, propellant) every 3 hours: ~80 tonnes/day, ~29,000 tonnes/year."))
+           "shielding, propellant) every 3 hours, which adds up to ~80 tonnes a day and "
+           "~29,000 tonnes a year."))
 E.append(b("<b>The SEP Tug:</b> solar-electric tugs catch the pods in LEO and slow-drift "
            "them to the Moon or Mars. Chemical speed for people, electric efficiency for "
            "cargo."))
@@ -484,7 +501,7 @@ E.append(reminder("You can't have a physical door at the end of a Mach 12 tube; 
                   "obliterated. We need a seal made of energy."))
 E.append(b("<b>The problem:</b> keeping a 1,000 km vacuum tube sealed while a projectile "
            "exits at 4-8 km/s, without letting air rush back in."))
-E.append(b("<b>The solution:</b> an MHD plasma window: a magnetically confined plug of "
+E.append(b("<b>The solution:</b> an MHD plasma window, a magnetically confined plug of "
            "ionized gas that behaves like a solid wall to the outside atmosphere but is "
            "transparent to the projectile."))
 E.append(b("<b>This is real, patented technology:</b> invented by Ady Hershcovitch at "
@@ -556,8 +573,8 @@ E.append(b("<b>Validated pedigree:</b> Gerard O'Neill's lunar mass-driver studie
            "KERAUNOS provides."))
 E.append(b("<b>The proof of concept pays for itself, and it is tiny:</b> the starter "
            "track is 1-3 km, about the length of an airport runway. Dumb cargo (water, "
-           "regolith, metal billets) doesn't mind high g, so at 50-100 g a ~1.5 km track "
-           "reaches lunar orbit speed (1.7 km/s) and <b>~2.9 km clears escape velocity "
+           "regolith, metal billets) doesn't mind high g, so at 100 g a 1.5 km track "
+           "reaches lunar orbit speed (1.7 km/s) and <b>2.9 km clears escape velocity "
            "(2.38 km/s)</b> in a 2.4-second ride. The very first SELENE segment is not a "
            "demo: it is a working exporter, throwing water ice and regolith to cislunar "
            "catch points from day one. Initial hardware arrives by heavy-lift rocket: the "
@@ -565,8 +582,8 @@ E.append(b("<b>The proof of concept pays for itself, and it is tiny:</b> the sta
 E.append(b("<b>Then growth by ladder:</b> the starter track stretches to a 10-12 km, "
            "30 g line for hardened payloads (2.43-2.66 km/s, escape with margin), and "
            "later to a ~50 km, 3 g human-rated track for passengers. Each step is built "
-           "from SELENE's own export revenue and, later, BRONTE shipments, each 10-tonne "
-           "pod carrying coil segments, radiators, and solar arrays."))
+           "from SELENE's own export revenue and, later, BRONTE shipments whose 10-tonne "
+           "pods carry coil segments, radiators, and solar arrays."))
 E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX cracked from "
            "regolith, and raw shielding mass for stations and ships. Power from solar "
            "arrays at the Peaks of Eternal Light or compact fission. SELENE turns the Moon "
@@ -576,7 +593,7 @@ E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX crack
 E += sect("14", "ARES: The Mars Launcher")
 E.append(reminder("Mars' atmosphere is 0.6% of Earth's. The hard parts of the Earth machine "
                   "become easy there."))
-E.append(b("<b>A featherweight tube:</b> ambient pressure on Mars is ~6 millibars: the "
+E.append(b("<b>A featherweight tube:</b> ambient pressure on Mars is ~6 millibars, so the "
            "tube only holds back 0.6% of the pressure the Earth tube fights, the plasma "
            "window's job is 99.4% done by the planet, and exit heating is a fraction of "
            "the Earth case. Dust storms are the main environmental design driver."))
