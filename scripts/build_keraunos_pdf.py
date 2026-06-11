@@ -193,7 +193,7 @@ E.append(KeepTogether([styled_table(
          "A 10-20 km evacuated track exiting at <b>6,263 m on the equator</b>: "
          "Chimborazo, Ecuador. Proves the tube, plasma window, and aero-shell at 10% "
          "scale. DoD hypersonic test contracts pay for it."],
-        ["<b>ARES</b>",   "Mars",  "3: The port",
+        ["<b>ARES</b>",   "Mars",  "4: The port",
          "Mars atmosphere is 0.6% of Earth's. The tube is featherweight. ARES closes "
          "the return-trip problem every Mars settlement plan dies on."],
     ],
@@ -211,11 +211,12 @@ E.append(KeepTogether([Paragraph("SELENE: Moon (Phase 1)", S["h2"]),
         ["Track (passengers)", "~50 km, 3 g",
          "1.7 km/s to low lunar orbit in 58 s"],
         ["Energy per kg",      "0.40 kWh orbit / 0.79 kWh escape",
-         "Roughly 1/20th of Earth launch energy"],
+         "Orbit: ~1/20th of Earth's 8.9 kWh/kg to LEO; escape: ~1/11th"],
         ["Atmosphere",         "None",
          "No tube. No plasma window. No aero-shell. The track is the launcher."],
-        ["Cooling",            "Passive at south pole",
-         "Ambient ~90K is just below YBCO's 92K critical temperature: no active cryogenics"],
+        ["Cooling",            "20 K closed-loop cryoplant",
+         "South-pole ambient (~90K) does most of the work; a buried cryoplant holds "
+         "every coil at the single 20 K design point for the 20-30 T field class"],
     ],
     [1.45*inch, 1.95*inch, 3.2*inch])]))
 
