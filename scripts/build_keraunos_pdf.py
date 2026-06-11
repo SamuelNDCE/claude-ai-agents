@@ -171,7 +171,7 @@ def cover(c, doc):
     c.line(W / 2 - 1.6 * inch, H - 5.62 * inch, W / 2 + 1.6 * inch, H - 5.62 * inch)
     c.setFillColor(HexColor("#9fb0d0"))
     c.setFont("Segoe", 12.5)
-    c.drawCentredString(W / 2, H - 6.0 * inch, "Maglev Space Launch System  ·  SELENE — BRONTE — ARES")
+    c.drawCentredString(W / 2, H - 6.0 * inch, "Maglev Space Launch System  ·  SELENE · BRONTE · ARES")
     c.setFont("Segoe", 10.5)
     c.setFillColor(HexColor("#7e8db0"))
     c.drawCentredString(W / 2, H - 7.6 * inch,
@@ -183,7 +183,7 @@ def cover(c, doc):
     c.drawCentredString(W / 2, 1.55 * inch, "Samuel Edwards")
     c.setFillColor(HexColor("#7e8db0"))
     c.setFont("Segoe", 10)
-    c.drawCentredString(W / 2, 1.32 * inch, "June 2026  ·  Concept Whitepaper v2")
+    c.drawCentredString(W / 2, 1.32 * inch, "June 2026  ·  Concept Whitepaper")
     c.restoreState()
 
 
@@ -199,14 +199,14 @@ def later(c, doc):
     c.drawRightString(W - 0.85 * inch, H - 0.55 * inch, "SAMUEL EDWARDS")
     # footer
     c.setFont("Segoe", 8)
-    c.drawCentredString(W / 2, 0.5 * inch, f"— {doc.page - 1} —")
+    c.drawCentredString(W / 2, 0.5 * inch, f"{doc.page - 1}")
     c.restoreState()
 
 
 doc = SimpleDocTemplate(OUT, pagesize=letter,
                         leftMargin=0.85 * inch, rightMargin=0.85 * inch,
                         topMargin=0.95 * inch, bottomMargin=0.8 * inch,
-                        title="KERAUNOS — Maglev Space Launch System",
+                        title="KERAUNOS: Maglev Space Launch System",
                         author="Samuel Edwards")
 
 E = []  # story
@@ -223,17 +223,17 @@ E.append(p("KERAUNOS is ground infrastructure that replaces the first stage of e
            "a plasma window at a mountain-altitude exit, and lets a small onboard kick "
            "motor finish the job at apogee. The launcher never leaves the ground, never "
            "gets rebuilt, and earns money between launches as a grid-scale battery."))
-E.append(p("KERAUNOS is the program. It deploys as three launchers — and it starts on the "
+E.append(p("KERAUNOS is the program. It deploys as three launchers, and it starts on the "
            "Moon, where the machine is at its simplest, then brings the lessons home."))
 E.append(styled_table(
     ["Launcher", "Body", "Phase", "Character"],
-    [["<b>SELENE</b>", "Moon", "1 — Proof of concept",
+    [["<b>SELENE</b>", "Moon", "1: Proof of concept",
       "No atmosphere: no tube, no plasma window, no aero-shell. A ~10 km PoC track "
-      "already beats lunar escape velocity — the demo is a working exporter."],
-     ["<b>BRONTE</b>", "Earth", "2 — The thunder",
+      "already beats lunar escape velocity. The demo is a working exporter."],
+     ["<b>BRONTE</b>", "Earth", "2: The thunder",
       "A 10–20 km demonstrator first, then the full 1,000 km, 8 km/s orbital injector. "
-      "Thunder follows the lightning — and you need an atmosphere to hear it."],
-     ["<b>ARES</b>", "Mars", "3 — The port",
+      "Thunder follows the lightning, and you need an atmosphere to hear it."],
+     ["<b>ARES</b>", "Mars", "3: The port",
       "0.6% atmosphere makes the tube featherweight. Turns Mars from a destination "
       "into a port."]],
     [1.0 * inch, 0.7 * inch, 1.55 * inch, 3.35 * inch]))
@@ -242,10 +242,10 @@ stats = styled_table(
     ["Metric", "Value", "Why it matters"],
     [["Exit velocity", "4–8 km/s (Mach 12–25)", "Full orbital injection, not a runway assist"],
      ["Cargo mass fraction", "80% cargo / 20% fuel", "The inverse of a chemical rocket (10% / 90%)"],
-     ["Acceleration", "3.3 g over 1,000 km", "Gentle enough for precision payloads — eventually people"],
+     ["Acceleration", "3.3 g over 1,000 km", "Gentle enough for precision payloads, eventually people"],
      ["Energy cost", "~$0.53 of electricity per kg", "8.9 kWh/kg; everything above this is amortization"],
      ["Cost to LEO", "$20–250/kg, toward $5/kg", "vs Falcon 9 ~$2,720/kg customer price"],
-     ["Cadence", "One 10 t pod every 3 hours", "~29,000 tonnes/year — a freight schedule, not a manifest"]],
+     ["Cadence", "One 10 t pod every 3 hours", "~29,000 tonnes/year: a freight schedule, not a manifest"]],
     [1.45 * inch, 1.95 * inch, 3.2 * inch])
 E.append(stats)
 E.append(Spacer(1, 6))
@@ -255,11 +255,11 @@ E += sect("1", "The Physics &amp; Price: Breaking the Rocket Equation")
 E.append(reminder("We aren't \"improving\" rockets; we are removing the \"Stage 0\" fuel "
                   "penalty. Efficiency comes from the ground infrastructure, not the craft."))
 E.append(b("<b>The Mass Fraction Flip:</b> a normal rocket is 90% fuel / 10% cargo. A "
-           "KERAUNOS pod is 20% fuel (for the final kick only) / <b>80% cargo</b> — 8x "
+           "KERAUNOS pod is 20% fuel (for the final kick only) / <b>80% cargo</b>: 8x "
            "more payload per launched tonne."))
 E.append(b("<b>The Kick Motor:</b> even an 8 km/s ground launch is sub-orbital; without a "
            "circularization burn at apogee the pod hits the ocean. A small restartable "
-           "motor supplies the few hundred m/s of finesse — the only propellant on board."))
+           "motor supplies the few hundred m/s of finesse: the only propellant on board."))
 E.append(b("<b>The Breakaway Aero-Shell:</b> the pod rides inside a sacrificial hypersonic "
            "shroud shaped with NASA X-59 pressure-distribution data. It eats the tube-to-air "
            "transition, then jettisons at 30–40 km, shedding dead thermal mass before the "
@@ -278,7 +278,7 @@ E.append(mathbox([
     ("a = v² / 2L = 3.3 g",
      "A 1,000 km tube reaches 8 km/s at just <b>3.3 g</b> (0.8 g at 4 km/s). The leading "
      "academic design, StarTram Gen-1, accepted a punishing 30 g cargo-only profile "
-     "because its tube was ~130 km. <b>Tube length is the unlock</b> — it turns a cargo "
+     "because its tube was ~130 km. <b>Tube length is the unlock</b>: it turns a cargo "
      "cannon into a universal launcher."),
 ]))
 E.append(Spacer(1, 8))
@@ -296,16 +296,16 @@ E.append(Paragraph("Falcon 9 figures: customer price vs estimated internal cost.
 
 # ---- 2. PRIOR ART ----
 E += sect("2", "Prior Art &amp; The Gap: Everyone Is Pointing at This, Nobody Is Building It")
-E.append(reminder("KERAUNOS is not science fiction without a pedigree — and it is not a "
+E.append(reminder("KERAUNOS is not science fiction without a pedigree, and it is not a "
                   "\"me too.\""))
-E.append(b("<b>StarTram proved the physics on paper (2008–2010).</b> James Powell — "
-           "co-inventor of superconducting maglev — and George Maise projected $30–43/kg "
+E.append(b("<b>StarTram proved the physics on paper (2008–2010).</b> James Powell, "
+           "co-inventor of superconducting maglev, and George Maise projected $30–43/kg "
            "to orbit. But their Gen-1 was 30 g, cargo-only, from a ~130 km tube: credible "
            "physics, brutal payload constraints."))
 E.append(b("<b>China is proving the intent in hardware (target 2028).</b> Galactic Energy, "
            "CASIC, and the Ziyang (Sichuan) government are building an electromagnetic "
            "launch verification platform that accelerates a conventional rocket to roughly "
-           "Mach 1.6 before ignition. That is a faster runway, not an orbital injector — "
+           "Mach 1.6 before ignition. That is a faster runway, not an orbital injector: "
            "the rocket still carries the rocket equation on its back."))
 E.append(b("<b>The gap KERAUNOS fills:</b> full orbital velocity, gentle 3.3 g, launch "
            "every 3 hours. The full-length tube nobody has committed to is the entire "
@@ -321,10 +321,10 @@ E.append(b("<b>The Sovereign Monopoly:</b> the host nation stops paying for spac
            "starts charging the rest of the world. As space sovereignty becomes a global "
            "priority, every other country becomes a customer of the superior infrastructure."))
 E.append(b("<b>Strategic Land Grab:</b> secure the best orbital slots and lunar water-ice "
-           "territories before anyone else can even clear the atmosphere — at 80 tonnes a "
+           "territories before anyone else can even clear the atmosphere. At 80 tonnes a "
            "day, occupation is a logistics fact, not a treaty argument."))
 E.append(b("<b>The deterrence dividend:</b> a launcher that can place 29,000 tonnes a year "
-           "into orbit is also the ultimate space-resilience asset — constellation "
+           "into orbit is also the ultimate space-resilience asset: constellation "
            "replenishment in hours, not months."))
 
 # ---- 4. RISK ----
@@ -341,7 +341,7 @@ E.append(styled_table(
       "Automated blast shutters every 10 km isolate the breach"],
      ["Thermal runaway at exit (2,000&deg;C+ leading edge)",
       "Shell ablation, payload loss",
-      "Transpiration cooling — the shell \"sweats\" liquid nitrogen through porous ceramics"],
+      "Transpiration cooling: the shell \"sweats\" liquid nitrogen through porous ceramics"],
      ["Plasma window failure",
       "Atmospheric backflow into the tube",
       "Blast shutters close as the physical backup"],
@@ -354,24 +354,24 @@ E.append(styled_table(
 E += sect("5", "New Industries &amp; Orbital Manufacturing")
 E.append(reminder("Focus on gravity-sensitive production. Gravity is the impurity we are "
                   "deleting."))
-E.append(b("<b>ZBLAN fiber — the demand is already proven:</b> microgravity-drawn fluoride "
+E.append(b("<b>ZBLAN fiber (the demand is already proven):</b> microgravity-drawn fluoride "
            "glass with up to 100x lower theoretical signal loss than silica. In Feb–Mar "
            "2024, Flawless Photonics drew <b>~12 km of ZBLAN on the ISS</b>, with "
            "repeatable 700 m runs and 1,141 m in a single day (the previous record was "
            "25 m). The factory customers are queueing; they are waiting on freight prices."))
 E.append(b("<b>Organ factories:</b> 3D-printed hearts and lungs that collapse under their "
-           "own weight in 1 g. KERAUNOS's cadence enables daily return pods — orbital "
+           "own weight in 1 g. KERAUNOS's cadence enables daily return pods: orbital "
            "bioprinting becomes a medical logistics business, not a stunt."))
 E.append(b("<b>Debris salvage:</b> thousands of tonnes of refined aerospace-grade alloys "
            "already orbit overhead as junk. At KERAUNOS freight prices, salvage tugs turn "
-           "a profit — and the laser broom (Section 9) keeps the lane clean as a side "
+           "a profit, and the laser broom (Section 9) keeps the lane clean as a side "
            "effect."))
 
 # ---- 6. DEEP SPACE ----
 E += sect("6", "Deep Space Supply Lines (Moon &amp; Mars)")
 E.append(reminder("KERAUNOS is the cargo train for the Solar System."))
 E.append(b("<b>The Pellet System:</b> fire 10-tonne pods of \"dumb\" cargo (water, food, "
-           "shielding, propellant) every 3 hours — ~80 tonnes/day, ~29,000 tonnes/year."))
+           "shielding, propellant) every 3 hours: ~80 tonnes/day, ~29,000 tonnes/year."))
 E.append(b("<b>The SEP Tug:</b> solar-electric tugs catch the pods in LEO and slow-drift "
            "them to the Moon or Mars. Chemical speed for people, electric efficiency for "
            "cargo."))
@@ -380,12 +380,12 @@ E.append(b("<b>Asteroid mining:</b> with launch cost no longer the gate, near-Ea
 
 # ---- 7. QUESST ----
 E += sect("7", "The Quesst Connection: Aero-Data Application")
-E.append(reminder("X-59 flew on Oct 28, 2025 — and is flying supersonic shockwave-tailoring "
+E.append(reminder("X-59 flew on Oct 28, 2025, and is flying supersonic shockwave-tailoring "
                   "test points as of mid-2026. The aero-shell's blueprint is being written "
                   "right now."))
 E.append(b("<b>Data-driven design:</b> the aero-shell isn't a plane; it's a high-hypersonic "
            "shield. X-59's pressure-distribution data ensures the Mach 12 exit doesn't "
-           "shatter the tube's exit seal — or the local windows."))
+           "shatter the tube's exit seal, or the local windows."))
 E.append(b("<b>External Vision (XVS):</b> because the shell is a solid thermal shield, the "
            "craft uses NASA's flight-proven XVS camera-to-monitor system instead of "
            "windows, which would melt at launch."))
@@ -396,7 +396,7 @@ E.append(reminder("You can't have a physical door at the end of a Mach 12 tube; 
                   "obliterated. We need a seal made of energy."))
 E.append(b("<b>The problem:</b> keeping a 1,000 km vacuum tube sealed while a projectile "
            "exits at 4–8 km/s, without letting air rush back in."))
-E.append(b("<b>The solution:</b> an MHD plasma window — a magnetically confined plug of "
+E.append(b("<b>The solution:</b> an MHD plasma window: a magnetically confined plug of "
            "ionized gas that behaves like a solid wall to the outside atmosphere but is "
            "transparent to the projectile."))
 E.append(b("<b>This is real, patented technology:</b> invented by Ady Hershcovitch at "
@@ -411,7 +411,7 @@ E.append(b("<b>Safety:</b> if the window fails, the Section 4 blast shutters are
 E += sect("9", "The Superconducting \"Power Tap\"")
 E.append(reminder("You don't just need speed; you need to manage the massive energy return."))
 E.append(b("<b>Regenerative braking:</b> an aborted launch pumps the craft's kinetic energy "
-           "back into the superconducting storage rings instead of into heat — like a Tesla "
+           "back into the superconducting storage rings instead of into heat, like a Tesla "
            "the size of a province."))
 E.append(b("<b>Quench protection:</b> varistor networks prevent magnet quench, sustaining "
            "100+ launch cycles per day without overheating the track."))
@@ -442,11 +442,11 @@ E.append(b("<b>The recovery corridor:</b> breakaway shells fall on hyper-predict
            "computed from the X-59 dataset."))
 E.append(b("<b>Circular economy:</b> autonomous seafaring drones wait in the drop zone, "
            "catch the shells, re-coat the transpiration layer, and have them back in the "
-           "tube within 48 hours. Nothing is thrown away — not the booster (there isn't "
+           "tube within 48 hours. Nothing is thrown away: not the booster (there isn't "
            "one), not the shell, not even an aborted launch's kinetic energy."))
 
 # ---- 13. SELENE ----
-E += sect("13", "SELENE: The Lunar Launcher — Phase 1, The Proof of Concept")
+E += sect("13", "SELENE: The Lunar Launcher (Phase 1: The Proof of Concept)")
 E.append(reminder("The Moon is the easiest place in the solar system to build a KERAUNOS. "
                   "No air means no tube."))
 E.append(b("<b>Delete the hard parts:</b> no atmosphere means no vacuum tube, no plasma "
@@ -455,7 +455,7 @@ E.append(b("<b>Delete the hard parts:</b> no atmosphere means no vacuum tube, no
            "from the Earth machine simply does not exist on the Moon."))
 E.append(mathbox([
     ("Orbit: ~1.7 km/s &rarr; ~50 km of track",
-     "At a gentle 3 g, low lunar orbit velocity needs roughly <b>50 km of track</b> — 5% "
+     "At a gentle 3 g, low lunar orbit velocity needs roughly <b>50 km of track</b>, 5% "
      "of the Earth system. Lunar escape (2.38 km/s) needs ~96 km."),
     ("Moon &rarr; Earth orbit: ~2.4 km/s",
      "Versus 9.4+ km/s from Earth's surface. Once SELENE exists, <b>the Moon undercuts "
@@ -467,12 +467,12 @@ E.append(b("<b>Validated pedigree:</b> Gerard O'Neill's lunar mass-driver studie
            "missing was a cheap way to ship the hardware. That is exactly what the Earth "
            "KERAUNOS provides."))
 E.append(b("<b>The proof of concept pays for itself:</b> a ~10–12 km track at 30 g (cargo "
-           "mode) reaches ~2.45 km/s — <b>above lunar escape velocity (2.38 km/s)</b>. The "
+           "mode) reaches ~2.45 km/s, <b>above lunar escape velocity (2.38 km/s)</b>. The "
            "very first SELENE segment is not a demo: it is a working exporter, throwing "
            "water ice and regolith to cislunar catch points from day one. Initial hardware "
-           "arrives by heavy-lift rocket — the last rockets the program ever needs to buy."))
+           "arrives by heavy-lift rocket: the last rockets the program ever needs to buy."))
 E.append(b("<b>Then growth by pellet:</b> the full ~50 km, 3 g human-rated track is built "
-           "out from SELENE's own export revenue and, later, BRONTE shipments — each "
+           "out from SELENE's own export revenue and, later, BRONTE shipments, each "
            "10-tonne pod carrying coil segments, radiators, and solar arrays."))
 E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX cracked from "
            "regolith, and raw shielding mass for stations and ships. Power from solar "
@@ -483,7 +483,7 @@ E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX crack
 E += sect("14", "ARES: The Mars Launcher")
 E.append(reminder("Mars' atmosphere is 0.6% of Earth's. The hard parts of the Earth machine "
                   "become easy there."))
-E.append(b("<b>A featherweight tube:</b> ambient pressure on Mars is ~6 millibars — the "
+E.append(b("<b>A featherweight tube:</b> ambient pressure on Mars is ~6 millibars: the "
            "tube only holds back 0.6% of the pressure the Earth tube fights, the plasma "
            "window's job is 99.4% done by the planet, and exit heating is a fraction of "
            "the Earth case. Dust storms are the main environmental design driver."))
@@ -497,7 +497,7 @@ E.append(mathbox([
      "handle the interplanetary cruise. Mars' moons are the warehouse district."),
 ]))
 E.append(b("<b>Why it matters:</b> every Mars settlement plan dies on the cost of the "
-           "return trip. ARES closes the loop — ISRU propellant (Sabatier methane, LOX), "
+           "return trip. ARES closes the loop: ISRU propellant (Sabatier methane, LOX), "
            "return samples, and eventually manufactured exports ride to orbit on "
            "electricity. <b>ARES turns Mars from a destination into a port.</b>"))
 E.append(b("<b>Sequencing:</b> ARES is the final node. SELENE proves the machine in hard "
@@ -512,12 +512,12 @@ E.append(styled_table(
     ["Phase", "System", "What gets built", "What it proves / earns"],
     [["1", "<b>SELENE PoC</b> (Moon)",
       "~10–12 km surface track, 30 g cargo mode, no tube",
-      "Exceeds lunar escape velocity (2.45 vs 2.38 km/s) — exports water ice and "
+      "Exceeds lunar escape velocity (2.45 vs 2.38 km/s): exports water ice and "
       "regolith to cislunar buyers from day one. Lowest-risk version of the machine: "
       "the atmosphere problems don't exist."],
      ["2", "<b>BRONTE demo</b> (Earth)",
       "10–20 km track, vacuum tube, plasma window, mountain exit",
-      "Mach 2–3 in 3 g human-rated mode; 2.4–3.4 km/s (Mach 7–10) in 30 g cargo mode — "
+      "Mach 2–3 in 3 g human-rated mode; 2.4–3.4 km/s (Mach 7–10) in 30 g cargo mode: "
       "a hypersonic testbed beyond anything flying, and well past China's Mach 1.6 "
       "target for 2028. Validates the tube, the window, and the shell in atmosphere."],
      ["3", "<b>BRONTE full</b> (Earth)",
@@ -540,11 +540,11 @@ E.append(reminder("Three launchers, one standard. The marginal cost of moving a 
 E.append(styled_table(
     ["Node", "Role", "Throws"],
     [["<b>BRONTE</b> (Earth)", "The forge", "Industry: machines, electronics, precision "
-      "goods — and eventually people, at 3.3 g"],
+      "goods, and eventually people, at 3.3 g"],
      ["<b>SELENE</b> (Moon)", "The quarry", "Mass: water, oxygen, shielding, structural "
       "metal at ~2.4 km/s to anywhere in cislunar space"],
      ["<b>ARES</b> (Mars)", "The frontier port", "Propellant, samples, and exports from "
-      "ISRU — the return half of the settlement economy"]],
+      "ISRU: the return half of the settlement economy"]],
     [1.55 * inch, 1.3 * inch, 3.75 * inch]))
 E.append(Spacer(1, 6))
 E.append(b("<b>SEP tugs ride the lanes between nodes.</b> Chemical fuel is burned only for "
@@ -553,13 +553,13 @@ E.append(b("<b>SEP tugs ride the lanes between nodes.</b> Chemical fuel is burne
 E.append(b("<b>Each node builds the next.</b> Rockets ship SELENE's first coils; SELENE's "
            "exports help build out BRONTE; BRONTE's pellet pipeline delivers ARES; every "
            "new node makes the next one cheaper. This is how railroads conquered "
-           "continents — and it is how KERAUNOS conquers the solar system."))
+           "continents, and it is how KERAUNOS conquers the solar system."))
 E.append(Paragraph("“Zeus didn't ship his thunderbolts on rockets.”", S["quote"]))
 
 # ---- 17. EVIDENCE ----
 E += sect("17", "The Evidence Ledger: Zero New Physics")
-E.append(reminder("Every subsystem has flown, fired, or been patented. The pieces exist — "
-                  "nobody has assembled them. That is the entire opportunity."))
+E.append(reminder("Every subsystem has flown, fired, or been patented. The pieces exist. "
+                  "Nobody has assembled them. That is the entire opportunity."))
 E.append(styled_table(
     ["Building block", "Status (verified June 2026)"],
     [["NASA X-59 shockwave tailoring",
@@ -568,13 +568,13 @@ E.append(styled_table(
      ["MHD plasma window",
       "Invented by A. Hershcovitch, Brookhaven National Lab; patented 1995. Holds up to "
       "~9 atm. In industrial use for non-vacuum e-beam welding. Demonstrated at cm-scale "
-      "apertures — scaling is the R&amp;D centerpiece."],
+      "apertures. Scaling is the R&amp;D centerpiece."],
      ["Superconducting maglev",
       "603 km/h crewed rail record (JR Central, 2015). Commercial maglev operating in "
       "China today."],
      ["Electromagnetic launch assist",
       "Galactic Energy + CASIC + Ziyang government verification platform targeting 2028 "
-      "(~Mach 1.6 assist). The supply chain is being built — for the wrong finish line."],
+      "(~Mach 1.6 assist). The supply chain is being built, just for the wrong finish line."],
      ["Full-scale maglev launch studies",
       "StarTram (Powell &amp; Maise, IEEE 2008–2010): $30–43/kg projected at 30 g over "
       "~130 km, mountain exit at 4,000–8,000 m."],
@@ -590,7 +590,7 @@ E.append(styled_table(
     [2.0 * inch, 4.6 * inch]))
 E.append(Spacer(1, 10))
 E.append(p("<b>KERAUNOS requires zero new physics.</b> It requires the decision to build "
-           "the full-length track everyone else keeps approaching by halves — and the "
+           "the full-length track everyone else keeps approaching by halves, and the "
            "nation or company that makes that decision first owns the freight standard of "
            "the solar system: Earth, Moon, and Mars."))
 
