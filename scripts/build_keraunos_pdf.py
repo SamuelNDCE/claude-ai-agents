@@ -338,20 +338,24 @@ E.append(p(
 
 # ===== TRACK ARCHITECTURE DIAGRAM =====
 E.append(Spacer(1, 10))
-E.append(Paragraph("Track section architecture: SELENE Linear Synchronous Motor", S["h2"]))
+E.append(Paragraph("SELENE track section: concept illustration only", S["h2"]))
+E.append(reminder(
+    "VERY EARLY CONCEPT ILLUSTRATION - NOT A DESIGN DOCUMENT. "
+    "The sketch below is a rough first mock-up produced solely to give a visual sense "
+    "of how a SELENE track section might be organised. No dimensions, proportions, "
+    "component counts, or construction details shown here have been engineered or "
+    "validated. Everything will change significantly as real design work begins. "
+    "This image exists to make the SELENE concept easier to picture - nothing more."
+))
 E.append(p(
     "The SELENE track is fully open: no tube, no doors. The Moon's vacuum makes an "
-    "enclosure unnecessary. Each nominal 10 m section carries <b>25 REBCO coil rings at "
-    "0.4 m pitch</b>, each ring an independent sealed cryostat built the way SPARC-class "
-    "fusion magnets are built: vacuum vessel, thermal shield, 316LN coil case, and a "
-    "winding pack of REBCO double-pancakes. The three-phase winding follows the standard "
-    "A&nbsp;C'&nbsp;B&nbsp;A'&nbsp;C&nbsp;B' sequence with a 1.2 m pole pitch. Every coil "
-    "runs at a single design point of <b>20 K</b>, in the <b>20-30 T</b> field class, with "
-    "its own coolant branch and quench dump. A buried cryoplant uses the regolith's "
-    "constant ~250 K subsurface temperature as a thermal buffer through the 14-day lunar "
-    "day; a deployable sun shield and radiator panels reject heat to deep space. The pod "
-    "carries a kick stage for apogee circularization, a modular cargo bay on rails, and "
-    "a blunt dust fairing - no aerodynamics needed in vacuum."
+    "enclosure unnecessary. This concept sketch shows one notional 10 m section with "
+    "superconducting coil rings, a payload pod, thermal management, and support structure "
+    "to give a rough mental model of the system. The three-phase LSM winding, the sealed "
+    "cryostat construction modelled loosely on SPARC-class fusion magnets, and the buried "
+    "cryoplant concept are directions the design is exploring - none of this is sized, "
+    "costed, or validated. The pod sketch shows a kick stage for apogee circularization, "
+    "a modular cargo bay, and a blunt dust fairing."
 ))
 _SVG_TRACK = r"C:\Users\Futur\Documents\AiWorkspace\Claude\ui\selene-track-section.svg"
 if _SVGLIB and os.path.exists(_SVG_TRACK):
@@ -364,11 +368,11 @@ if _SVGLIB and os.path.exists(_SVG_TRACK):
         _drw.transform = (_scale, 0, 0, _scale, 0, 0)
         E.append(_drw)
         E.append(p(
-            "<i>Figure: SELENE-S open track section, drawing KER-SEL-TRK-001 Rev E. "
-            "Side elevation cut-away with coil ring face view, conductor detail, payload "
-            "configurations, and S/L variant table. Blue = Phase A, purple = Phase B, "
-            "violet = Phase C. Very early concept mock-up - not to scale; configuration "
-            "will change as the design matures.</i>"
+            "<i>CONCEPT ILLUSTRATION ONLY - KER-SEL-TRK-001 REV E. This is a very early "
+            "rough mock-up sketch produced to help visualise the SELENE mission concept. "
+            "Not to scale. Not a final design. Not an engineering drawing. Every dimension, "
+            "component, and arrangement shown is speculative and subject to complete change. "
+            "Do not treat this as a design reference of any kind.</i>"
         ))
 E.append(Spacer(1, 6))
 
