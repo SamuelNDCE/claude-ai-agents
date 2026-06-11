@@ -294,14 +294,17 @@ E.append(mathbox([
      "ice, oxygen, or structural metal that starts on the Moon instead of Earth is "
      "dramatically cheaper to ship anywhere in the inner solar system."),
     ("Ambient ~90K at south pole",
-     "YBCO superconductors go superconducting below <b>92K</b>. The lunar south pole "
-     "sits at <b>~90K</b>. The Moon refrigerates the coils for free. No liquid nitrogen "
-     "supply chain. No active cryogenic infrastructure. The environment does the work."),
+     "REBCO superconductors go superconducting below <b>92K</b>. The lunar south pole "
+     "sits at <b>~90K</b>: the environment does most of the cooling work before any "
+     "machine switches on. A closed-cycle cryoplant takes the coils the rest of the "
+     "way down to their <b>20 K</b> design point for high-field operation. No liquid "
+     "cryogen supply chain from Earth."),
 ]))
 E.append(p(
     "<b>The south pole is the right site.</b> Shackleton-rim ridgelines see sun "
     "80-90% of the time. Water ice sits in the permanently shadowed crater next door. "
-    "Power, propellant feedstock, and passive coil cooling are all at the same location."
+    "Power, propellant feedstock, and a ~90K head start on coil cooling are all at "
+    "the same location."
 ))
 E.append(p(
     "<b>The physics has been settled for fifty years.</b> Gerard O'Neill worked this "
@@ -753,7 +756,8 @@ E.append(p(
 E.append(p(
     "That shift is where <b>$5/kg</b> comes from. The launcher runs on the same "
     "grid electricity. The tether costs essentially nothing to operate. "
-    "Each pod delivers roughly 50% more useful mass per flight than the baseline."
+    "Each pod delivers roughly 20% more useful mass per flight than the baseline, "
+    "while spending 35% less energy to get there."
 ))
 E.append(Paragraph("Keeping the tether in orbit", S["h2"]))
 E.append(p(
@@ -880,10 +884,11 @@ E.append(styled_table(
          "(2024). Commonwealth Fusion Systems demonstrated a <b>20 T</b> REBCO magnet "
          "for the SPARC fusion reactor in September 2021 - the same conductor type "
          "KERAUNOS uses. Critical current density exceeds 1,000 A/mm² at 30 T. "
-         "Lunar south pole ambient (~90 K) is just below Tc — adequate for low-field "
-         "operation. Active closed-cycle pulse-tube refrigerators (PTR) drop to "
-         "<b>5–20 K</b>, unlocking <b>20–26 T</b> field strength and 4× higher force "
-         "density. SELENE target operating range: 5–20 K. Commercial tape suppliers: "
+         "Lunar south pole ambient (~90 K) is just below Tc and removes most of the "
+         "cooling burden before any machine runs. Active closed-cycle cryocoolers "
+         "hold every coil at the single <b>20 K</b> design point, unlocking the "
+         "<b>20–30 T</b> field class and 4× higher force density. "
+         "Commercial tape suppliers: "
          "SuperPower Inc., American Superconductor, Fujikura, SuNAM."],
         ["MHD plasma window",
          "Invented by A. Hershcovitch at Brookhaven National Lab; patented 1995. Holds "
@@ -1001,7 +1006,7 @@ E.append(b(
     "<b>$5,000 per tonne</b> from the lunar surface. No other delivery mechanism "
     "makes the economics work. The National Ignition Facility achieved fusion "
     "ignition in December 2022 (3.15 MJ out from 2.05 MJ in). Commonwealth Fusion "
-    "Systems is targeting a net-energy fusion device by 2025-2027 and a commercial "
+    "Systems is targeting a net-energy fusion device by 2027 and a commercial "
     "plant in the 2030s, using the same REBCO conductor technology as KERAUNOS. "
     "SELENE is not just a launcher. It is the fuel supply chain for the energy "
     "industry that comes next."
