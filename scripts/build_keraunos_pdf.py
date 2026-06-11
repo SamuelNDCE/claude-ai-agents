@@ -126,7 +126,7 @@ def draw_gates(c):
     # badge card: near-black, compact
     bx0, by0 = W / 2 - 2.25 * inch, H - 3.4 * inch
     bw, bh = 4.5 * inch, 2.05 * inch
-    c.setFillColor(HexColor("#0b0f1d"))
+    c.setFillColor(HexColor("#0d1322"))
     c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=0.3)
     c.setLineWidth(1)
     c.roundRect(bx0, by0, bw, bh, 14, stroke=1, fill=1)
@@ -166,7 +166,7 @@ def draw_gates(c):
 
 def cover(c, doc):
     c.saveState()
-    c.setFillColor(NAVY)
+    c.setFillColor(HexColor("#05070e"))
     c.rect(0, 0, W, H, stroke=0, fill=1)
     # subtle star field
     import random
