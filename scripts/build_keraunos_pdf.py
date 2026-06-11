@@ -168,8 +168,6 @@ def cover(c, doc):
     c.saveState()
     c.setFillColor(white)
     c.rect(0, 0, W, H, stroke=0, fill=1)
-    # accelerator gates
-    draw_gates(c)
     # title
     c.setFillColor(NAVY)
     c.setFont("Segoe-Bold", 56)
