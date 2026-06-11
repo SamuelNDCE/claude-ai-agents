@@ -127,7 +127,7 @@ def cover(c, doc):
     c.drawCentredString(W/2, H - 4.85*inch, "KERAUNOS")
     c.setFillColor(VIOLET)
     c.setFont("Segoe", 15)
-    c.drawCentredString(W/2, H - 5.35*inch, "The Thunderbolt of Zeus, Industrialized")
+    c.drawCentredString(W/2, H - 5.35*inch, "Electromagnetic Launch from the Moon, Mars, and Earth")
     c.setStrokeColor(PURPLE)
     c.setLineWidth(1.2)
     c.line(W/2 - 1.6*inch, H - 5.62*inch, W/2 + 1.6*inch, H - 5.62*inch)
@@ -556,18 +556,21 @@ E.append(p(
 ))
 E.append(p(
     "<b>The Moon as a deep-space launch platform.</b> SELENE does not only serve "
-    "the Moon. The delta-v from the lunar surface to a Mars transfer trajectory is "
-    "approximately <b>3.0 km/s</b> total: lunar escape at 2.38 km/s plus a modest "
-    "transfer burn. That is roughly one-quarter the equivalent from Earth, and "
-    "about one-sixteenth the energy cost. Any payload that can be manufactured or "
-    "assembled on the Moon, or shipped there from Earth via BRONTE, becomes a "
-    "candidate for lunar rather than Earth launch. Mars orbital relay satellites, "
-    "surface sensor networks, pre-positioned habitat supplies, scientific "
-    "instruments - anything that can be positioned ahead of a crewed mission "
-    "is a candidate. Starship carries the crew and the precision cargo that "
-    "must arrive fresh. SELENE handles everything that can get there first "
-    "and cheaply. The supply chain for a multi-mission Mars program runs through "
-    "the Moon as a staging point, not around it."
+    "the Moon. Reaching a Mars transfer trajectory from the lunar surface takes "
+    "roughly <b>3.0 km/s</b>: escape at 2.38 km/s plus a small transfer burn. "
+    "From Earth's surface the same trip takes over 11 km/s. In energy terms, "
+    "launching from the Moon costs about one-sixteenth as much."
+))
+E.append(p(
+    "That changes what ships from where. Anything Mars-bound that can be built "
+    "on the Moon, or delivered there cheaply by BRONTE, launches from the lunar "
+    "track instead: orbital relay satellites, surface sensor networks, "
+    "pre-positioned habitat supplies, scientific instruments."
+))
+E.append(p(
+    "Starship carries the crew and the cargo that must arrive fresh. SELENE sends "
+    "everything else ahead, early and cheap. The supply chain for a multi-mission "
+    "Mars program runs through the Moon as a staging point, not around it."
 ))
 E.append(p(
     "ARES is Phase 4. SELENE proves the vacuum-world kit in the hardest vacuum. "
