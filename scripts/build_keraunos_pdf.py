@@ -594,6 +594,10 @@ E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX crack
            "regolith, and raw shielding mass for stations and ships. Power from solar "
            "arrays at the Peaks of Eternal Light or compact fission. SELENE turns the Moon "
            "from a destination into <b>the quarry of cislunar space</b>."))
+E.append(b("<b>The kit, not the site:</b> SELENE's track-on-regolith design is the "
+           "reference kit for every airless body worth working: Phobos and Deimos, "
+           "Ceres, Mercury, the asteroid belt. Design once, stamp copies. The fleet of "
+           "these, not any single track, is the real bet."))
 
 # ---- 14. ARES ----
 E += sect("14", "ARES: The Mars Launcher")
@@ -637,12 +641,19 @@ E.append(KeepTogether([styled_table(
       "Mach 2-3 in 3 g human-rated mode; 2.4-3.4 km/s (Mach 7-10) in 30 g cargo mode: "
       "a hypersonic testbed beyond anything flying, and well past China's Mach 1.6 "
       "target for 2028. Validates the tube, the window, and the shell in atmosphere."],
-     ["3", "<b>BRONTE full</b> (Earth)",
-      "1,000 km tube, 8 km/s, 3.3 g",
-      "$20-250/kg to LEO at one pod every 3 hours. The Space Panama Canal opens."],
+     ["3", "<b>The fleet</b> (vacuum worlds)",
+      "SELENE-class kits stamped onto other airless bodies: Phobos, Deimos, Ceres, "
+      "the asteroid belt",
+      "The core bet pays out: a standardized launcher for worlds with no atmosphere, "
+      "each as easy as the Moon. Phobos and Deimos kits become Mars's freight "
+      "terminals before ARES exists."],
      ["4", "<b>ARES</b> (Mars)",
       "~180 km track, featherweight tube",
-      "Mars becomes a port; the freight triangle closes."]],
+      "Mars becomes a port; the freight triangle closes."],
+     ["5", "<b>BRONTE full</b> (Earth, if proven)",
+      "1,000 km tube, 8 km/s, 3.3 g",
+      "The optional endgame, built only when the demo economics and the plasma window "
+      "scaling have proven out. $20-250/kg to LEO; the Space Panama Canal opens."]],
     [0.55 * inch, 1.5 * inch, 2.05 * inch, 2.5 * inch])]))
 E.append(Paragraph("Why Moon-first works: the proof of concept is 300x shorter than the "
                    "full Earth machine, skips every atmosphere subsystem, and generates "
