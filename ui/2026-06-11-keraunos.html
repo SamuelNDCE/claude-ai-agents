@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KERAUNOS — Maglev Space Launch System</title>
+<style>
+  :root{
+    --bg:#0a0d18; --bg2:#0e1322; --card:#111729; --line:#1e2a45;
+    --teal:#22d3ee; --purple:#7c3aed; --violet:#a78bfa;
+    --text:#dbe4f5; --dim:#7e8db0; --gold:#fbbf24;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+  ::selection{background:var(--purple);color:#fff}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  /* HERO */
+  .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+    background:radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124,58,237,.28), transparent 60%),
+               radial-gradient(ellipse 50% 40% at 80% 100%, rgba(34,211,238,.10), transparent 60%), var(--bg);}
+  .hero::before{content:"";position:absolute;inset:0;
+    background-image:radial-gradient(1px 1px at 12% 22%,#fff8 0,transparent 2px),radial-gradient(1px 1px at 28% 64%,#fff5 0,transparent 2px),
+    radial-gradient(1.5px 1.5px at 47% 18%,#fff7 0,transparent 2px),radial-gradient(1px 1px at 63% 41%,#fff4 0,transparent 2px),
+    radial-gradient(1px 1px at 78% 12%,#fff8 0,transparent 2px),radial-gradient(1.5px 1.5px at 88% 56%,#fff6 0,transparent 2px),
+    radial-gradient(1px 1px at 36% 86%,#fff5 0,transparent 2px),radial-gradient(1px 1px at 70% 79%,#fff6 0,transparent 2px);pointer-events:none}
+  .bolt{width:74px;height:110px;margin-bottom:26px;filter:drop-shadow(0 0 18px rgba(34,211,238,.65)) drop-shadow(0 0 50px rgba(124,58,237,.5));animation:flicker 6s infinite}
+  @keyframes flicker{0%,93%,97%,100%{opacity:1}94%,96%{opacity:.55}}
+  .greek{font-size:15px;letter-spacing:14px;color:var(--teal);text-transform:uppercase;margin-bottom:10px;padding-left:14px}
+  h1.title{font-size:clamp(54px,9vw,104px);font-weight:800;letter-spacing:6px;
+    background:linear-gradient(95deg,#e9f6ff 15%,var(--teal) 45%,var(--violet) 75%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05}
+  .tagline{font-size:clamp(16px,2.4vw,22px);color:var(--dim);margin-top:18px;max-width:680px}
+  .tagline b{color:var(--text)}
+  .byline{margin-top:30px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--violet)}
+  .byline span{color:var(--dim)}
+  .scroll-hint{position:absolute;bottom:26px;color:var(--dim);font-size:12px;letter-spacing:3px;text-transform:uppercase;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+  /* STAT BAND */
+  .statband{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stat{background:var(--bg2);padding:34px 26px;text-align:center}
+  .stat .num{font-size:36px;font-weight:800;color:var(--teal)}
+  .stat .num em{font-style:normal;color:var(--violet)}
+  .stat .lbl{font-size:12.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);margin-top:6px}
+
+  /* SECTIONS */
+  section{padding:88px 0 30px}
+  .kicker{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+  h2{font-size:clamp(28px,4vw,40px);font-weight:750;letter-spacing:.5px;margin-bottom:14px}
+  h2 .alt{color:var(--violet)}
+  .lede{color:var(--dim);font-size:17px;max-width:760px;margin-bottom:42px}
+  .lede b{color:var(--text)}
+
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;position:relative;transition:transform .25s,border-color .25s}
+  .card:hover{transform:translateY(-3px);border-color:var(--purple)}
+  .card h3{font-size:17px;margin-bottom:9px;color:#fff}
+  .card p{font-size:14.5px;color:var(--dim)}
+  .card p b, .card p .hl{color:var(--teal);font-weight:600}
+  .card .tag{display:inline-block;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet);border:1px solid var(--purple);border-radius:99px;padding:3px 11px;margin-bottom:13px}
+
+  .formula{background:linear-gradient(120deg,rgba(34,211,238,.07),rgba(124,58,237,.09));border:1px solid var(--line);border-radius:14px;padding:22px 26px;font-family:Consolas,monospace;font-size:15px}
+  .formula .f{color:var(--teal);font-size:18px;display:block;margin-bottom:8px}
+  .formula .r{color:var(--gold);font-weight:700}
+
+  /* COST CHART */
+  .chart{margin-top:8px}
+  .crow{display:grid;grid-template-columns:190px 1fr 130px;align-items:center;gap:16px;margin-bottom:18px}
+  .crow .name{font-size:14px;color:var(--text);text-align:right}
+  .crow .name small{display:block;color:var(--dim);font-size:11.5px}
+  .bartrack{background:#0c1020;border:1px solid var(--line);border-radius:99px;height:26px;overflow:hidden}
+  .bar{height:100%;border-radius:99px;background:linear-gradient(90deg,#334155,#64748b)}
+  .bar.k{background:linear-gradient(90deg,var(--purple),var(--teal));box-shadow:0 0 16px rgba(34,211,238,.45)}
+  .crow .val{font-size:15px;font-weight:700;color:var(--dim)}
+  .crow .val.k{color:var(--teal)}
+  .chartnote{font-size:12px;color:var(--dim);margin-top:4px;font-style:italic}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14.5px}
+  th{background:#0c1226;color:var(--teal);text-transform:uppercase;font-size:11.5px;letter-spacing:1.6px;padding:14px 18px;text-align:left}
+  td{padding:14px 18px;border-top:1px solid var(--line);color:var(--dim);vertical-align:top}
+  td:first-child{color:var(--text);font-weight:600}
+  td .cm{color:var(--violet);font-weight:600}
+
+  /* EVIDENCE */
+  .ev{border-left:2px solid var(--purple);padding:4px 0 4px 28px;position:relative;margin-bottom:30px}
+  .ev::before{content:"";position:absolute;left:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+  .ev h3{font-size:16.5px;color:#fff}
+  .ev .date{font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--violet)}
+  .ev p{font-size:14.5px;color:var(--dim);margin-top:5px;max-width:720px}
+  .ev p b{color:var(--teal)}
+
+  .callout{background:linear-gradient(120deg,rgba(124,58,237,.16),rgba(34,211,238,.10));border:1px solid var(--purple);border-radius:16px;padding:34px;text-align:center;margin-top:48px}
+  .callout p{font-size:clamp(17px,2.4vw,21px);color:var(--text);max-width:740px;margin:0 auto}
+  .callout p b{color:var(--teal)}
+
+  /* ROADMAP */
+  .road{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;counter-reset:ph}
+  .phase{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;counter-increment:ph}
+  .phase::before{content:"0" counter(ph);font-size:13px;font-weight:800;color:var(--purple);letter-spacing:2px}
+  .phase h3{font-size:16px;margin:8px 0 6px;color:#fff}
+  .phase p{font-size:13.5px;color:var(--dim)}
+  .phase .cost{margin-top:12px;font-size:20px;font-weight:800;color:var(--teal)}
+
+  footer{margin-top:90px;border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--dim);font-size:13px}
+  footer .quote{font-size:17px;color:var(--violet);font-style:italic;margin-bottom:10px}
+  @media print{.hero{min-height:60vh}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="bolt" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient></defs>
+    <path d="M62 2 L18 84 L44 84 L34 148 L86 56 L56 56 Z" fill="url(#bg1)"/>
+  </svg>
+  <div class="greek">ΚΕΡΑΥΝΟΣ</div>
+  <h1 class="title">KERAUNOS</h1>
+  <p class="tagline">Rockets burn <b>90% of their mass</b> fighting gravity. KERAUNOS leaves the fuel on the ground: a 1,000&nbsp;km superconducting vacuum tube that throws cargo at the sky for <b>$0.53 of electricity per kilogram</b>.</p>
+  <div class="byline">A Maglev Space Launch System <span>· Samuel Edwards · 2026</span></div>
+  <div class="scroll-hint">▼ scroll</div>
+</div>
+
+<div class="statband">
+  <div class="stat"><div class="num">8 <em>km/s</em></div><div class="lbl">Exit velocity · Mach 25</div></div>
+  <div class="stat"><div class="num">80<em>%</em></div><div class="lbl">Cargo mass fraction</div></div>
+  <div class="stat"><div class="num">3.3<em>g</em></div><div class="lbl">Acceleration · humans survive it</div></div>
+  <div class="stat"><div class="num">$20<em>/kg</em></div><div class="lbl">To LEO · toward $5 with skyhook</div></div>
+  <div class="stat"><div class="num">3<em>hrs</em></div><div class="lbl">Launch cadence · 29,000 t/yr</div></div>
+</div>
+
+<div class="wrap">
+
+<section id="physics">
+  <div class="kicker">01 · The Physics</div>
+  <h2>Breaking the <span class="alt">rocket equation</span></h2>
+  <p class="lede">The rocket equation is brutal because propellant must lift itself. KERAUNOS deletes that term entirely: the accelerator never leaves the ground, so the pod is <b>80% cargo, 20% fuel</b> — the exact inverse of a chemical rocket.</p>
+  <div class="grid g3">
+    <div class="formula"><span class="f">E = ½v² = 32 MJ/kg</span>8.9 kWh per kilogram at 8 km/s.<br>At $0.06/kWh that is <span class="r">$0.53/kg</span> of energy to orbital velocity. Everything above that is amortization, not physics.</div>
+    <div class="formula"><span class="f">a = v² / 2L = 3.3g</span>A 1,000 km tube reaches 8 km/s at just <span class="r">3.3g</span> (0.8g at 4 km/s). StarTram's 130 km design needed a brutal 30g, cargo only. Length is the unlock.</div>
+    <div class="formula"><span class="f">Δv kick ≈ 100s of m/s</span>Ground launch alone is sub-orbital. A small restartable <span class="r">kick motor</span> circularizes at apogee — the only propellant on board.</div>
+  </div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card"><span class="tag">Aero-shell</span><h3>The Breakaway Shroud</h3><p>The pod rides inside a sacrificial hypersonic shell shaped with <b>NASA X-59 shockwave-tailoring data</b>. It eats the Mach 12 tube-to-air transition, then jettisons at 30–40 km, shedding dead thermal mass before the orbital burn. Triple-redundant cold-gas thrusters guarantee separation.</p></div>
+    <div class="card"><span class="tag">Exit geometry</span><h3>The Mountain Muzzle</h3><p>The tube exits at <b>4,000–6,000 m altitude</b> on a mountain face. Air density at 5 km is roughly half sea level — halving peak drag and heating during the worst milliseconds of flight. Non-negotiable at Mach 12+.</p></div>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="kicker">02 · The Price</div>
+  <h2>Cost per kilogram <span class="alt">to LEO</span></h2>
+  <p class="lede">Chemical rockets hit a floor set by fuel energy density. Electricity has no such floor — the grid does the work, and the launcher never needs rebuilding.</p>
+  <div class="chart">
+    <div class="crow"><div class="name">Space Shuttle<small>hand-built, massive refurb</small></div><div class="bartrack"><div class="bar" style="width:100%"></div></div><div class="val">$54,500</div></div>
+    <div class="crow"><div class="name">Falcon 9<small>fuel + expended hardware</small></div><div class="bartrack"><div class="bar" style="width:72%"></div></div><div class="val">$2,720</div></div>
+    <div class="crow"><div class="name">Starship (projected)<small>chemical energy-density limit</small></div><div class="bartrack"><div class="bar" style="width:57%"></div></div><div class="val">$100–1,000</div></div>
+    <div class="crow"><div class="name">KERAUNOS<small>electricity ≈ $0.53/kg</small></div><div class="bartrack"><div class="bar k" style="width:44%"></div></div><div class="val k">$20–250</div></div>
+    <div class="crow"><div class="name">KERAUNOS + skyhook<small>kick fuel → near zero</small></div><div class="bartrack"><div class="bar k" style="width:15%"></div></div><div class="val k">→ $5</div></div>
+    <p class="chartnote">Bar lengths on a logarithmic scale. Falcon 9 figure is customer price; SpaceX internal cost ≈ $630/kg.</p>
+  </div>
+</section>
+
+<section id="gap">
+  <div class="kicker">03 · Prior Art &amp; The Gap</div>
+  <h2>Everyone is pointing at this. <span class="alt">Nobody is building it.</span></h2>
+  <p class="lede">KERAUNOS is not science fiction without a pedigree — and it is not a "me too."</p>
+  <div class="grid g3">
+    <div class="card"><span class="tag">2008–2010 · Paper</span><h3>StarTram proved the physics</h3><p>Powell &amp; Maise (Powell co-invented superconducting maglev) projected <b>$30–43/kg</b> — but at 30g, cargo-only, from a ~130 km tube. Credible physics, brutal constraints.</p></div>
+    <div class="card"><span class="tag">2028 · Hardware</span><h3>China proved the intent</h3><p>Galactic Energy + CASIC + Ziyang government are building an electromagnetic launch pad for 2028 — a <b>Mach 1.6 assist</b> for conventional rockets. A faster runway, not an orbital injector: the rocket still carries the rocket equation on its back.</p></div>
+    <div class="card" style="border-color:var(--purple)"><span class="tag">The Gap</span><h3>KERAUNOS is the convergence</h3><p>Full orbital velocity. Gentle 3.3g. Launch every 3 hours. The full-length tube nobody has committed to is the entire difference between a demo and <b>the Space Panama Canal</b>.</p></div>
+  </div>
+  <div class="callout"><p>The host nation stops <b>paying</b> for space and starts <b>charging the planet</b> for it. Every constellation, lunar program, and orbital factory becomes a customer of the cheapest highway off Earth.</p></div>
+</section>
+
+<section id="systems">
+  <div class="kicker">04 · Engineering Systems</div>
+  <h2>A machine with <span class="alt">no throwaway parts</span></h2>
+  <p class="lede">Not even an aborted launch is wasted — its kinetic energy flows back into the storage rings.</p>
+  <div class="grid g2">
+    <div class="card"><span class="tag">Vacuum interface</span><h3>The MHD Plasma Window</h3><p>A physical door at a Mach 12 muzzle would destroy itself. Instead: a magnetically confined plug of ionized gas — solid wall to the atmosphere, transparent to the pod. <b>Real, patented tech</b> (Hershcovitch, Brookhaven, 1995; holds ~9 atm). Scaling it from cm-class apertures to pod diameter is the flagship R&amp;D work package; blast shutters stand behind it as the physical backup.</p></div>
+    <div class="card"><span class="tag">Energy</span><h3>The Superconducting Power Tap</h3><p>Regenerative braking returns an aborted pod's energy to the rings. Varistor quench protection sustains <b>100+ cycles/day</b>. Between launches the track is a grid-scale battery — soaking surplus solar and wind, selling stability. <b>It earns even when nothing flies.</b></p></div>
+    <div class="card"><span class="tag">Corridor defense</span><h3>The Laser Broom</h3><p>The launch power plant doubles as a debris-sweeping laser array, nudging junk off the corridor minutes before exit, while AI-planned kick burns route pods around high-risk clusters. High cadence requires a clean highway.</p></div>
+    <div class="card"><span class="tag">Circular economy</span><h3>48-Hour Shell Recovery</h3><p>Jettisoned aero-shells fall on hyper-predictable tracks. Autonomous sea drones catch them, re-coat the transpiration layer, and return them to the tube <b>within 48 hours</b>. The shell "sweats" liquid nitrogen through porous ceramics to survive 2,000°C+.</p></div>
+  </div>
+</section>
+
+<section id="failsafe">
+  <div class="kicker">05 · Fail-Safe Protocols</div>
+  <h2>A fail-safe for <span class="alt">every millisecond</span></h2>
+  <p class="lede">High speed in a tube is high stakes. Every failure mode has a named countermeasure.</p>
+  <table>
+    <tr><th>Failure</th><th>Consequence</th><th>Countermeasure</th></tr>
+    <tr><td>Shell fails to jettison</td><td>Dead mass prevents orbit</td><td><span class="cm">Triple-redundant cold-gas thrusters</span> force separation</td></tr>
+    <tr><td>Tube vacuum breach</td><td>Air wall strikes pod at Mach 12</td><td><span class="cm">Blast shutters every 10 km</span> isolate the breach</td></tr>
+    <tr><td>Thermal runaway at exit</td><td>2,000°C+ leading-edge ablation</td><td><span class="cm">Transpiration cooling</span> — LN₂ sweat through porous ceramics</td></tr>
+    <tr><td>Plasma window failure</td><td>Atmospheric backflow</td><td><span class="cm">Blast shutters</span> close as physical backup</td></tr>
+    <tr><td>Launch abort</td><td>Stranded kinetic energy</td><td><span class="cm">Regenerative magnetic braking</span> recovers it to storage</td></tr>
+  </table>
+</section>
+
+<section id="evidence">
+  <div class="kicker">06 · The Evidence</div>
+  <h2>Zero new physics. <span class="alt">Every piece already exists.</span></h2>
+  <p class="lede">Every subsystem has flown, fired, or been patented. The pieces exist — nobody has assembled them. That is the entire opportunity.</p>
+  <div class="ev"><div class="date">Oct 28, 2025 → flying supersonic now</div><h3>NASA X-59 — the aero-shell blueprint</h3><p>Flew Oct 28, 2025; running supersonic shockwave-tailoring test points as of mid-2026. Its pressure-distribution dataset shapes the shell, and its <b>XVS camera-vision system</b> replaces windows that would melt at launch.</p></div>
+  <div class="ev"><div class="date">Patented 1995 · Brookhaven National Lab</div><h3>The plasma window is real</h3><p>Invented by Ady Hershcovitch; demonstrated holding <b>up to ~9 atmospheres</b> while letting beams pass. Used today for non-vacuum electron-beam welding.</p></div>
+  <div class="ev"><div class="date">Operating today · launch pad 2028</div><h3>Superconducting maglev is mature</h3><p>603 km/h crewed rail record (Japan, 2015). China runs commercial maglev now and is building a <b>maglev launch-assist pad</b> with CASIC for 2028.</p></div>
+  <div class="ev"><div class="date">Feb–Mar 2024 · ISS</div><h3>The customers are already queueing</h3><p>Flawless Photonics drew <b>~12 km of ZBLAN fiber</b> in microgravity — repeatable 700 m runs, 1,141 m in a single day (the old record was 25 m). Orbital manufacturing demand is real and waiting on freight prices.</p></div>
+</section>
+
+<section id="industries">
+  <div class="kicker">07 · What It Unlocks</div>
+  <h2>Gravity is the impurity <span class="alt">we are deleting</span></h2>
+  <div class="grid g3">
+    <div class="card"><span class="tag">Photonics</span><h3>ZBLAN Fiber</h3><p>Microgravity-drawn fluoride glass: up to <b>100x lower theoretical loss</b> than silica. KERAUNOS turns a $20,000/kg product with $2,700/kg freight into one with $50/kg freight.</p></div>
+    <div class="card"><span class="tag">Medicine</span><h3>Organ Factories</h3><p>3D-printed hearts and lungs that collapse under their own weight in 1g. <b>Daily return pods</b> make orbital bioprinting a logistics business, not a stunt.</p></div>
+    <div class="card"><span class="tag">Salvage</span><h3>Debris Mining</h3><p>Thousands of tonnes of refined aerospace alloys already orbit as junk. At KERAUNOS freight prices, <b>salvage tugs turn a profit</b> — and the laser broom keeps the lane clean.</p></div>
+    <div class="card"><span class="tag">Logistics</span><h3>The Pellet System</h3><p>A 10-tonne dumb-cargo pod every 3 hours: water, food, shielding, propellant. <b>~29,000 tonnes/year</b> to LEO — a freight train schedule, not a launch manifest.</p></div>
+    <div class="card"><span class="tag">Deep space</span><h3>SEP Tug Network</h3><p>Solar-electric tugs catch pellets in LEO and slow-drift them to the Moon and Mars staging. <b>Chemical speed for people, electric efficiency for cargo.</b></p></div>
+    <div class="card"><span class="tag">Resources</span><h3>Asteroid Mining</h3><p>With launch cost no longer the gate, near-Earth asteroid <b>platinum-group recovery</b> finally closes its business case.</p></div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="kicker">08 · The Roadmap</div>
+  <h2>From thunderbolt to <span class="alt">$5 per kilogram</span></h2>
+  <div class="road" style="margin-top:30px">
+    <div class="phase"><h3>Subscale Demonstrator</h3><p>km-class track, plasma-window scaling, shell recovery trials. De-risk the two hard problems.</p><div class="cost">prove it</div></div>
+    <div class="phase"><h3>Cargo Injector</h3><p>Full 1,000 km tube, mountain exit, 10 t pods every 3 hours at 3.3g.</p><div class="cost">$20–250/kg</div></div>
+    <div class="phase"><h3>Grid Integration</h3><p>Storage rings sell stability services; the track earns between launches. Laser broom online.</p><div class="cost">margin engine</div></div>
+    <div class="phase"><h3>Skyhook Era</h3><p>Non-rotating tether catches pods and flings them moonward. Kick fuel → near zero.</p><div class="cost">→ $5/kg</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="quote">"Zeus didn't ship his thunderbolts on rockets."</div>
+  KERAUNOS · Maglev Space Launch System · Samuel Edwards · 2026
+</footer>
+
+</div>
+</body>
+</html>
