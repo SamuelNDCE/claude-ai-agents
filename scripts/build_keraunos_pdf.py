@@ -391,12 +391,14 @@ E.append(KeepTogether(sect("3", "Why Now: Three Signals in 24 Months") + [remind
 E.append(p(
     "<b>SpaceX put a lunar mass driver on its public roadmap in March 2026.</b> "
     "Elon Musk described \"a cannon-like device using magnetic power\" to launch "
-    "Moon-manufactured AI satellites at scale, and the company has shifted its "
-    "near-term focus from Mars to the Moon. The largest launch company on Earth "
-    "is pointing at exactly this machine. That is validation, and it is also a clock. "
-    "A partner positioned ahead of that build does not compete with SpaceX's lunar "
-    "infrastructure - it becomes the supply chain that makes the rest of the "
-    "architecture work."
+    "Moon-manufactured goods at scale. The Moon is not the destination - it is a "
+    "logistics node on the way to Mars: a propellant source, a manufacturing base, "
+    "a launch point for anything that does not need to climb out of Earth's gravity "
+    "well. A mass driver is the piece that makes the Moon actually useful as a space "
+    "port rather than just a flag. The largest launch company on Earth is building "
+    "toward exactly this machine. That is validation, and it is also a clock. "
+    "A partner positioned ahead of that build does not compete - it provides the "
+    "infrastructure the rest of the architecture depends on."
 ))
 E.append(p(
     "<b>China is building EM launch hardware, targeting 2028.</b> Galactic Energy, "
