@@ -17,11 +17,11 @@
     .header { padding: 18px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
     .header h1 { font-size: 1.2rem; font-weight: 700; color: var(--teal); margin-bottom: 3px; }
     .header .sub { font-size: 0.74rem; color: var(--muted); }
-    .disc { font-size: 0.68rem; color: var(--muted); background: rgba(124,58,237,.08); border: 1px solid rgba(124,58,237,.22); padding: 8px 12px; border-radius: 8px; line-height: 1.55; max-width: 280px; flex-shrink: 0; }
+    .disc { font-size: 0.68rem; color: var(--muted); background: rgba(124,58,237,.08); border: 1px solid rgba(124,58,237,.22); padding: 8px 12px; border-radius: 8px; line-height: 1.55; max-width: 290px; flex-shrink: 0; }
     .disc strong { color: #a78bfa; }
 
-    .tabs { display: flex; padding: 0 28px; border-bottom: 1px solid var(--border); }
-    .tab { padding: 11px 20px; cursor: pointer; font-size: 0.82rem; color: var(--muted); border-bottom: 2px solid transparent; transition: all .15s; user-select: none; }
+    .tabs { display: flex; padding: 0 28px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .tab { padding: 11px 18px; cursor: pointer; font-size: 0.82rem; color: var(--muted); border-bottom: 2px solid transparent; transition: all .15s; user-select: none; white-space: nowrap; }
     .tab:hover { color: var(--text); }
     .tab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 500; }
 
@@ -32,24 +32,24 @@
     .card h3 { font-size: 0.86rem; font-weight: 600; margin-bottom: 3px; }
     .card p  { font-size: 0.71rem; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
     .ch { position: relative; }
-    .ch-480 { height: 480px; }
+    .ch-520 { height: 520px; }
+    .ch-380 { height: 380px; }
     .ch-320 { height: 320px; }
     .ch-290 { height: 290px; }
     .ch-360 { height: 360px; }
+    .ch-260 { height: 260px; }
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 
-    /* Company toggle buttons */
     .toggle-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; align-items: center; }
     .toggle-bar .label { font-size: 0.7rem; color: var(--muted); margin-right: 4px; }
     .co-btn {
-      padding: 5px 14px; border-radius: 20px; border: 2px solid transparent;
-      color: #e2e8f0; font-size: 0.76rem; font-weight: 600; cursor: pointer;
+      padding: 5px 12px; border-radius: 20px; border: 2px solid transparent;
+      color: #e2e8f0; font-size: 0.74rem; font-weight: 600; cursor: pointer;
       transition: all .15s; background: transparent;
     }
     .co-btn.dim { opacity: 0.28; }
 
-    /* Metric toggle */
     .metric-bar { display: flex; gap: 0; margin-bottom: 14px; align-items: center; }
     .metric-bar .label { font-size: 0.7rem; color: var(--muted); margin-right: 10px; }
     .metric-btn {
@@ -60,22 +60,28 @@
     .metric-btn:last-of-type  { border-radius: 0 6px 6px 0; margin-left: -1px; }
     .metric-btn.active { background: var(--teal); border-color: var(--teal); color: #0a0d18; font-weight: 600; }
 
-    /* Legend note */
     .legend-note { font-size: 0.69rem; color: var(--muted); margin-bottom: 12px; display: flex; gap: 20px; flex-wrap: wrap; }
     .legend-note span { display: flex; align-items: center; gap: 6px; }
     .ln-solid { display: inline-block; width: 22px; height: 2.5px; background: #94a3b8; }
     .ln-dash  { display: inline-block; width: 22px; height: 0; border-top: 2px dashed #94a3b8; }
 
-    /* Stat cards */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; margin-top: 4px; }
     .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; border-left: 3px solid transparent; }
     .stat-ticker { font-size: 0.66rem; text-transform: uppercase; letter-spacing: .06em; }
-    .stat-num { font-size: 1.4rem; font-weight: 700; line-height: 1.2; margin: 3px 0 2px; }
+    .stat-num { font-size: 1.35rem; font-weight: 700; line-height: 1.2; margin: 3px 0 2px; }
     .stat-sub { font-size: 0.67rem; color: var(--muted); }
     .stat-note { font-size: 0.64rem; color: #475569; margin-top: 5px; }
     .pos { color: var(--green); } .neg { color: var(--red); }
 
-    /* Private */
+    /* Cloud share bar */
+    .share-year { margin-bottom: 20px; }
+    .share-yr-label { font-size: .73rem; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+    .share-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+    .share-label { font-size: .73rem; width: 52px; flex-shrink: 0; }
+    .share-track { flex: 1; height: 18px; background: #1e2d4a; border-radius: 4px; overflow: hidden; }
+    .share-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: .67rem; font-weight: 600; color: #fff; min-width: 20px; }
+    .share-val { font-size: .71rem; width: 38px; text-align: right; color: var(--muted); }
+
     .priv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 4px; }
     @media (max-width: 860px) { .priv-grid { grid-template-columns: 1fr; } }
     .priv-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
@@ -93,15 +99,21 @@
 <div class="header">
   <div>
     <h1>AI Company Dashboard — Stock &amp; Earnings</h1>
-    <div class="sub">NVDA &middot; MSFT &middot; GOOGL &middot; META &middot; AMD &middot; CSCO &nbsp;|&nbsp; Private: OpenAI &middot; Anthropic &nbsp;|&nbsp; Q1 2020 – Q1 2026</div>
+    <div class="sub">
+      NVDA &middot; MSFT &middot; GOOGL &middot; META &middot; AMD &middot; CSCO &middot; <strong style="color:#ff9900">AMZN</strong> &middot; <strong style="color:#e879f9">ORCL</strong>
+      &nbsp;|&nbsp; Cloud: AWS &middot; Azure &middot; GCP &middot; OCI
+      &nbsp;|&nbsp; Private: OpenAI &middot; Anthropic
+      &nbsp;|&nbsp; Q1 2020 – Q1 2026
+    </div>
   </div>
   <div class="disc"><strong>Approximate data — educational only.</strong><br>
-    Prices split-adjusted. Revenue/income estimated. Q3'25 onwards estimated. Not financial advice.</div>
+    Prices split-adjusted (NVDA ÷40, GOOGL ÷20, AMZN ÷20). Revenue/income estimated. Q3'25 onwards estimated. AMZN revenue = total company (not just AWS). Azure revenue = analyst estimates. Not financial advice.</div>
 </div>
 
 <div class="tabs">
   <div class="tab active" data-tab="stock">Stock + Earnings Overlay</div>
   <div class="tab" data-tab="earnings">Revenue &amp; Growth</div>
+  <div class="tab" data-tab="cloud">Cloud Revenue</div>
   <div class="tab" data-tab="private">Private Valuations</div>
 </div>
 
@@ -111,7 +123,7 @@
   <div class="pane active" id="pane-stock">
     <div class="card">
       <h3>Stock Price vs Financial Metrics — Indexed (Q1 2020 = 100)</h3>
-      <p>All series normalized to 100 at Q1&nbsp;2020 so growth rates are directly comparable. Toggle companies and switch the overlay metric below.</p>
+      <p>All series normalized to 100 at Q1&nbsp;2020 so growth rates are directly comparable regardless of company size. Solid = stock. Dashed = selected metric (same color). Toggle companies below.</p>
 
       <div class="toggle-bar">
         <span class="label">Show / hide:</span>
@@ -131,7 +143,7 @@
         </div>
       </div>
 
-      <div class="ch ch-480"><canvas id="mainChart"></canvas></div>
+      <div class="ch ch-520"><canvas id="mainChart"></canvas></div>
     </div>
     <div class="stats-grid" id="statsGrid"></div>
   </div>
@@ -140,29 +152,55 @@
   <div class="pane" id="pane-earnings">
     <div class="card">
       <h3>Revenue Indexed to FY2022 = 100</h3>
-      <p>Normalized annual revenue so growth rates are comparable regardless of company size. FY2025/26 estimated.</p>
+      <p>Normalized annual revenue so growth rates are comparable regardless of company size. AMZN revenue is total company including retail + AWS. FY2025/26 estimated.</p>
       <div class="ch ch-320"><canvas id="revIdxChart"></canvas></div>
     </div>
     <div class="card">
       <h3>Revenue Growth YoY (%)</h3>
-      <p>NVDA FY2024 +126% and FY2025 +114% dominates all peers. FY2026 = estimate.</p>
+      <p>NVDA FY2024 +126% and FY2025 +114% dominates all peers. ORCL FY2023 +18% reflects Cerner acquisition. FY2026 = estimate.</p>
       <div class="ch ch-290"><canvas id="growthChart"></canvas></div>
     </div>
     <div class="two-col">
       <div class="card">
-        <h3>Annual Revenue (Billions USD, log scale)</h3>
-        <p>Log scale required — spans $23B (AMD) to $385B+ (GOOGL).</p>
+        <h3>Annual Revenue — Billions USD (log scale)</h3>
+        <p>Log scale required — spans $16B (AMD) to $760B+ (AMZN). AMZN includes retail; compare only cloud/AI segments on Cloud tab.</p>
         <div class="ch ch-320"><canvas id="absRevChart"></canvas></div>
       </div>
       <div class="card">
-        <h3>Annual Net Income GAAP (Billions USD, log scale)</h3>
-        <p>NVDA FY2025 net income surpasses MSFT. FY2026 estimated.</p>
+        <h3>Annual Net Income GAAP — Billions USD</h3>
+        <p>AMZN lost ~$2.7B in FY2022. NVDA FY2025 net income surpasses all cloud peers. FY2026 estimated.</p>
         <div class="ch ch-320"><canvas id="incomeChart"></canvas></div>
       </div>
     </div>
   </div>
 
-  <!-- ===== TAB 3: PRIVATE ===== -->
+  <!-- ===== TAB 3: CLOUD REVENUE ===== -->
+  <div class="pane" id="pane-cloud">
+    <div class="card">
+      <h3>Quarterly Cloud Segment Revenue — Billions USD</h3>
+      <p>Cloud-only segments: AWS (disclosed by Amazon), Azure (estimated from MSFT % disclosures — MSFT does not report exact $), Google Cloud Platform (disclosed), Oracle Cloud Infrastructure (estimated). Q3'25+ estimated for all.</p>
+      <div class="ch ch-380"><canvas id="cloudAbsChart"></canvas></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Cloud Revenue — Indexed to Q1 2020 = 100</h3>
+        <p>GCP and OCI have grown fastest proportionally from smaller 2020 bases. AWS still largest absolute revenue.</p>
+        <div class="ch ch-260"><canvas id="cloudNormChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Cloud Revenue YoY Growth (%)</h3>
+        <p>All major clouds growing 15–30% YoY. Growth rates have converged as AWS matures. OCI accelerating from Cerner synergies + AI demand.</p>
+        <div class="ch ch-260"><canvas id="cloudGrowthChart"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Estimated Cloud Market Share — 4-Provider Segment</h3>
+      <p>Share of the AWS + Azure + GCP + OCI combined pool. AWS dominant but declining. Azure gaining steadily. Google Cloud fastest-growing proportionally. Oracle still niche but accelerating.</p>
+      <div id="shareViz"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 4: PRIVATE ===== -->
   <div class="pane" id="pane-private">
     <p style="font-size:.78rem;color:var(--muted);margin-bottom:18px;line-height:1.6">
       OpenAI and Anthropic are <strong style="color:var(--text)">private companies</strong> — no public stock.
@@ -170,7 +208,7 @@
     </p>
     <div class="card">
       <h3>Implied Valuation Milestones</h3>
-      <p>Billions USD. ★ = confirmed funding event &nbsp;·&nbsp; · = estimated from secondary market / growth trajectory. 14 data points per company — quarterly where possible. Anthropic's Q3'25 strategic round pushed it past OpenAI by Jan 2026.</p>
+      <p>Billions USD. ★ = confirmed funding event &nbsp;·&nbsp; · = estimated from secondary market / growth trajectory. 14 data points per company. Anthropic's Q3'25 strategic round pushed it past OpenAI by Jan 2026.</p>
       <div class="ch ch-360"><canvas id="privateChart"></canvas></div>
     </div>
     <div class="priv-grid" id="privGrid"></div>
@@ -181,8 +219,10 @@
 <script>
 // ================================================================
 // DATA — 25 quarters: Q1 2020 → Q1 2026
-// Prices: split-adjusted (NVDA ÷40, GOOGL ÷20 pre-Jul 2022)
+// Stock prices: split-adjusted (NVDA ÷40, GOOGL ÷20, AMZN ÷20)
 // Revenue & income: calendar-quarter approximations, billions USD
+// AMZN revenue = total company (retail + AWS + ads + other)
+// Azure = analyst estimates (MSFT does not disclose exact $)
 // * = estimated (Q3'25 onwards)
 // ================================================================
 
@@ -198,33 +238,37 @@ const QUARTERS = [
 
 const YEARS_6 = ["FY2021","FY2022","FY2023","FY2024","FY2025e","FY2026e"];
 
-// Annual data for Tab 2
+// Annual data for Tab 2 — all 8 companies
 const ANN = {
   revenue: {
-    NVDA: [16.7, 26.9, 27.0, 60.9, 130.5, 175.0],
-    MSFT: [168.1,198.3,211.9,245.1,278.0,310.0],
-    GOOGL:[182.5,282.8,307.4,350.0,385.0,420.0],
-    META: [85.9,116.6,134.9,164.5,188.0,210.0],
-    AMD:  [16.4, 23.6, 22.7, 25.8,  32.0,  40.0],
-    CSCO: [49.8, 51.6, 57.0, 53.8,  56.0,  60.0],
+    NVDA: [16.7,  26.9,  27.0,  60.9, 130.5, 175.0],
+    MSFT: [168.1, 198.3, 211.9, 245.1, 278.0, 310.0],
+    GOOGL:[182.5, 282.8, 307.4, 350.0, 385.0, 420.0],
+    META: [85.9,  116.6, 134.9, 164.5, 188.0, 210.0],
+    AMD:  [16.4,   23.6,  22.7,  25.8,  32.0,  40.0],
+    CSCO: [49.8,   51.6,  57.0,  53.8,  56.0,  60.0],
+    AMZN: [469.8, 514.0, 574.8, 638.0, 700.0, 760.0],
+    ORCL: [40.5,   42.4,  50.0,  52.9,  58.0,  65.0],
   },
   income: {
-    NVDA: [4.33, 9.75, 4.37,29.76, 72.9,  90.0],
-    MSFT: [61.3, 72.7,72.4, 88.1,  96.0, 108.0],
-    GOOGL:[76.0, 59.9,73.8,100.1, 115.0, 128.0],
-    META: [29.1, 23.2,39.1, 62.4,  72.0,  85.0],
-    AMD:  [3.16,  1.32, 0.85, 1.64,  2.3,   3.5],
-    CSCO: [10.6, 11.8,12.6, 10.3,  11.0,  12.5],
+    NVDA: [4.33,  9.75,   4.37, 29.76,  72.9,  90.0],
+    MSFT: [61.3,  72.7,  72.4,  88.1,   96.0, 108.0],
+    GOOGL:[76.0,  59.9,  73.8, 100.1,  115.0, 128.0],
+    META: [29.1,  23.2,  39.1,  62.4,   72.0,  85.0],
+    AMD:  [3.16,   1.32,  0.85,  1.64,   2.3,   3.5],
+    CSCO: [10.6,  11.8,  12.6,  10.3,   11.0,  12.5],
+    AMZN: [33.4,  -2.7,  30.4,  59.2,   70.0,  80.0],
+    ORCL: [13.7,   6.7,   8.5,  11.8,   12.5,  14.0],
   },
 };
 
 // Quarterly data — 25 elements each
 const COS = [
   {
-    ticker:"NVDA", name:"NVIDIA", color:"#76b900", note:"AI GPU leader — H100/Blackwell",
+    ticker:"NVDA", name:"NVIDIA", color:"#76b900", note:"AI GPU monopoly — H100/Blackwell",
     prices: [6.5,11.0,13.7,13.4, 13.5,20.0,22.5,29.5, 27.0,16.9,13.3,14.6, 27.7,42.3,43.5,49.5, 87.7,120.0,116.0,138.0, 112.0,135.0,125.0,148.0, 165.0],
-    revenue:[3.1, 3.9, 4.7, 5.0,  5.7, 6.5, 7.1, 7.6,  8.3, 6.7, 5.9, 6.1,  7.2,13.5,18.1,22.1, 26.0, 30.0, 35.1, 39.3,  44.1, 45.6, 47.0, 49.0,  43.5],
-    income: [0.9, 0.6, 1.3, 1.5,  1.9, 2.4, 2.5, 2.5,  3.4, 0.7, 0.7, 1.4,  2.0, 6.2, 9.2,12.3, 14.9, 17.0, 19.3, 22.1,  18.8, 19.5, 20.5, 21.5,  18.5],
+    revenue:[3.1,3.9,4.7,5.0, 5.7,6.5,7.1,7.6, 8.3,6.7,5.9,6.1, 7.2,13.5,18.1,22.1, 26.0,30.0,35.1,39.3, 44.1,45.6,47.0,49.0, 43.5],
+    income: [0.9,0.6,1.3,1.5, 1.9,2.4,2.5,2.5, 3.4,0.7,0.7,1.4, 2.0,6.2,9.2,12.3, 14.9,17.0,19.3,22.1, 18.8,19.5,20.5,21.5, 18.5],
   },
   {
     ticker:"MSFT", name:"Microsoft", color:"#22d3ee", note:"OpenAI partner, Azure AI + Copilot",
@@ -233,50 +277,87 @@ const COS = [
     income: [10.8,11.2,12.9,15.5, 15.5,16.5,17.2,18.8, 16.7,16.7,17.6,16.4, 18.3,20.1,18.3,22.3, 21.9,22.1,24.7,24.1, 25.8,24.7,26.0,27.5, 28.5],
   },
   {
-    ticker:"GOOGL", name:"Alphabet", color:"#f59e0b", note:"Gemini AI, DeepMind, Google TPUs",
+    ticker:"GOOGL", name:"Alphabet", color:"#f59e0b", note:"Gemini AI, DeepMind, Google Cloud + TPUs",
     prices: [55.5,72.0,81.0,87.5, 103.8,128.4,141.3,144.8, 137.3,112.6,100.0,89.0, 104.0,128.0,133.0,140.0, 157.0,178.0,166.0,192.0, 165.0,180.0,172.0,190.0, 200.0],
     revenue:[41.2,38.3,46.2,56.9, 55.3,61.9,65.1,75.3, 68.0,69.7,69.1,76.0, 69.8,74.6,76.7,86.3, 80.5,84.7,88.3,96.5, 90.2,96.4,98.0,105.0, 102.0],
-    income: [6.8, 7.0,11.2,15.2, 17.9,18.5,18.9,20.6, 16.4,15.9,13.9,13.6, 15.1,18.4,19.7,23.7, 23.7,23.6,26.3,26.5, 34.5,28.0,30.0,32.0,  33.0],
+    income: [6.8,7.0,11.2,15.2, 17.9,18.5,18.9,20.6, 16.4,15.9,13.9,13.6, 15.1,18.4,19.7,23.7, 23.7,23.6,26.3,26.5, 34.5,28.0,30.0,32.0, 33.0],
   },
   {
-    ticker:"META", name:"Meta", color:"#818cf8", note:"Llama open models, AI smart glasses",
+    ticker:"META", name:"Meta", color:"#818cf8", note:"Llama open models, AI smart glasses, Reels",
     prices: [166,224,263,273, 304,356,382,336, 222,162,136,120, 206,286,325,353, 527,490,564,590, 627,682,660,720, 755],
-    revenue:[17.7,18.7,21.5,28.1, 26.2,29.1,29.0,33.7, 27.9,28.8,27.7,32.2, 28.6,32.0,34.1,40.1, 36.5,39.1,40.6,48.4, 42.3,47.3,49.0,55.0,  50.0],
-    income: [4.9, 5.1, 7.8,11.2,  9.5,10.4, 9.2,10.3,  7.5, 6.7, 4.4, 4.7,  5.7, 7.8,11.6,14.0, 12.4,13.5,15.7,20.8, 16.6,18.4,20.0,22.0,  22.0],
+    revenue:[17.7,18.7,21.5,28.1, 26.2,29.1,29.0,33.7, 27.9,28.8,27.7,32.2, 28.6,32.0,34.1,40.1, 36.5,39.1,40.6,48.4, 42.3,47.3,49.0,55.0, 50.0],
+    income: [4.9,5.1,7.8,11.2, 9.5,10.4,9.2,10.3, 7.5,6.7,4.4,4.7, 5.7,7.8,11.6,14.0, 12.4,13.5,15.7,20.8, 16.6,18.4,20.0,22.0, 22.0],
   },
   {
     ticker:"AMD", name:"AMD", color:"#ef4444", note:"MI300X AI GPUs, EPYC data center CPUs",
     prices: [47,55,82,92, 83,88,112,144, 116,80,65,67, 90,114,110,147, 180,170,155,126, 98,110,105,115, 125],
-    revenue:[1.79,1.93,2.80,3.24, 3.45,3.85,4.31,4.83, 5.89,6.55,5.57,5.60, 5.35,5.36,5.80,6.17, 5.47,5.84,6.82,7.66, 7.44,7.90,8.30,8.90,  9.50],
-    income: [0.16,0.13,0.24,0.29, 0.36,0.71,0.38,0.97, 0.79,0.45,-0.56,0.21, 0.08,0.27,0.30,0.68, 0.12,0.11,0.77,1.09, 1.47,1.60,1.70,1.85,  1.95],
+    revenue:[1.79,1.93,2.80,3.24, 3.45,3.85,4.31,4.83, 5.89,6.55,5.57,5.60, 5.35,5.36,5.80,6.17, 5.47,5.84,6.82,7.66, 7.44,7.90,8.30,8.90, 9.50],
+    income: [0.16,0.13,0.24,0.29, 0.36,0.71,0.38,0.97, 0.79,0.45,-0.56,0.21, 0.08,0.27,0.30,0.68, 0.12,0.11,0.77,1.09, 1.47,1.60,1.70,1.85, 1.95],
   },
   {
-    ticker:"CSCO", name:"Cisco", color:"#f97316", note:"AI networking infrastructure & switches",
+    ticker:"CSCO", name:"Cisco", color:"#0070c0", note:"AI networking infrastructure — switches & routers",
     prices: [40,47,46,46, 48,52,57,60, 56,49,45,48, 50,51,55,58, 52,47,52,57, 59,62,60,65, 67],
-    revenue:[11.7,12.8,12.0,12.2, 12.0,13.0,12.8,13.0, 12.7,13.1,12.8,13.6, 14.2,15.0,14.6,14.6, 12.7,12.7,13.8,13.8, 14.0,14.6,14.8,15.0,  15.2],
-    income: [2.9, 3.0, 3.4, 3.4,  2.9, 3.5, 2.8, 3.2,  3.0, 2.8, 2.8, 3.0,  3.1, 3.6, 3.6, 3.6,  3.6, 3.4, 3.4, 3.5,  3.6, 3.7, 3.7, 3.8,   3.8],
+    revenue:[11.7,12.8,12.0,12.2, 12.0,13.0,12.8,13.0, 12.7,13.1,12.8,13.6, 14.2,15.0,14.6,14.6, 12.7,12.7,13.8,13.8, 14.0,14.6,14.8,15.0, 15.2],
+    income: [2.9,3.0,3.4,3.4, 2.9,3.5,2.8,3.2, 3.0,2.8,2.8,3.0, 3.1,3.6,3.6,3.6, 3.6,3.4,3.4,3.5, 3.6,3.7,3.7,3.8, 3.8],
+  },
+  {
+    ticker:"AMZN", name:"Amazon", color:"#ff9900", note:"AWS #1 cloud + Bedrock AI, Alexa, retail",
+    prices: [97.5,138,157,163, 162,179,170,168, 149,107,113,84, 104,130,127,153, 180,189,196,226, 210,218,228,240, 255],
+    revenue:[75.5,88.9,96.1,125.6, 108.5,113.1,110.8,137.4, 116.4,121.2,127.1,149.2, 127.4,134.4,143.1,169.9, 143.3,148.0,158.9,187.8, 155.7,162.0,170.0,190.0, 175.0],
+    income: [2.5,5.2,6.3,7.2, 8.1,7.8,3.2,14.3, -3.8,-2.0,2.9,0.3, 3.2,6.7,9.9,10.6, 10.4,13.5,15.3,20.0, 17.1,18.0,19.0,20.5, 18.0],
+  },
+  {
+    ticker:"ORCL", name:"Oracle", color:"#e879f9", note:"OCI AI cloud — late mover, accelerating fast",
+    prices: [46,55,59,62, 68,82,91,94, 80,67,65,67, 82,110,115,100, 124,138,152,168, 156,175,190,205, 218],
+    revenue:[9.8,10.1,9.7,9.8, 10.0,9.7,10.1,10.4, 10.5,11.4,12.3,12.4, 12.4,12.5,13.0,12.9, 13.3,14.3,14.1,14.9, 13.8,14.5,15.2,16.0, 17.0],
+    income: [2.9,2.1,2.3,3.2, 3.7,2.1,2.5,4.0, 2.7,2.4,1.6,1.2, 2.2,3.3,2.3,2.4, 3.0,3.1,2.9,3.2, 2.9,3.1,3.3,3.5, 3.7],
   },
 ];
 
-// ★ = confirmed funding event  · = estimated from secondary market / growth trajectory
+// Cloud segment data — quarterly $B
+// AWS = Amazon Web Services (disclosed)
+// Azure = estimated from MSFT growth % disclosures
+// GCP = Google Cloud Platform (disclosed from 2020)
+// OCI = Oracle Cloud Infrastructure (estimated)
+const CLOUD = [
+  { ticker:"AWS",   company:"AMZN", color:"#ff9900",
+    rev:[10.2,10.8,11.6,12.7, 13.5,14.8,16.1,17.8, 18.4,19.7,20.5,21.4, 21.4,22.1,23.4,24.2, 25.0,26.3,27.5,28.8, 29.3,30.5,32.0,33.5, 35.0] },
+  { ticker:"Azure", company:"MSFT", color:"#22d3ee",
+    rev:[3.5,4.0,4.5,5.0, 5.5,6.5,7.0,8.0, 9.0,10.0,10.5,11.0, 11.5,12.5,13.0,14.0, 15.5,17.0,18.5,20.0, 21.5,23.0,25.0,27.0, 29.0] },
+  { ticker:"GCP",   company:"GOOGL", color:"#f59e0b",
+    rev:[2.8,3.0,3.4,3.8, 4.0,4.6,5.0,5.5, 5.8,6.3,6.9,7.3, 7.5,8.0,8.4,9.2, 9.6,10.4,11.4,11.96, 12.3,13.0,14.0,15.0, 16.0] },
+  { ticker:"OCI",   company:"ORCL", color:"#e879f9",
+    rev:[0.9,1.0,1.1,1.2, 1.3,1.4,1.5,1.6, 1.8,2.0,2.3,2.6, 2.9,3.2,3.5,3.8, 4.1,4.3,4.6,5.0, 5.3,5.6,5.9,6.2, 6.5] },
+];
+
+// Market share estimates (% of 4-provider total)
+const SHARE_YEARS = ["2020","2021","2022","2023","2024","2025e"];
+const SHARE = {
+  AWS:   [40.9,40.1,37.8,35.2,33.0,30.5],
+  Azure: [14.0,16.5,17.7,18.7,22.0,24.5],
+  GCP:   [11.1,11.4,11.5,12.2,14.3,16.0],
+  OCI:   [3.6,3.5,3.9,5.0,6.7,7.5],
+};
+
+// ★ = confirmed funding event  · = estimated secondary market / growth trajectory
 const PRIVATE = [
   {
     name:"OpenAI", color:"#10a37f",
     milestones:[
-      { date:"Jan 2023", val:29,   note:"★ Microsoft $10B investment" },
-      { date:"Apr 2023", val:32,   note:"· Est. secondary market" },
-      { date:"Jul 2023", val:52,   note:"· Est. pre-tender growth" },
-      { date:"Oct 2023", val:86,   note:"★ Employee tender offer" },
-      { date:"Feb 2024", val:80,   note:"★ Secondary share sale (slight dip)" },
-      { date:"May 2024", val:90,   note:"· Est." },
-      { date:"Aug 2024", val:115,  note:"· Est. rapid revenue growth" },
-      { date:"Oct 2024", val:157,  note:"★ Series E — $6.6B raised" },
-      { date:"Jan 2025", val:195,  note:"· Est. post-Series E momentum" },
-      { date:"Mar 2025", val:300,  note:"★ SoftBank $40B round" },
-      { date:"Jun 2025", val:345,  note:"· Est." },
-      { date:"Sep 2025", val:395,  note:"· Est." },
-      { date:"Dec 2025", val:430,  note:"· Est." },
-      { date:"Jan 2026", val:450,  note:"· Est. secondary market" },
+      { date:"Jan 2023", val:29,  note:"★ Microsoft $10B investment" },
+      { date:"Apr 2023", val:32,  note:"· Est. secondary market" },
+      { date:"Jul 2023", val:52,  note:"· Est. pre-tender growth" },
+      { date:"Oct 2023", val:86,  note:"★ Employee tender offer" },
+      { date:"Feb 2024", val:80,  note:"★ Secondary share sale (slight dip)" },
+      { date:"May 2024", val:90,  note:"· Est." },
+      { date:"Aug 2024", val:115, note:"· Est. rapid revenue growth" },
+      { date:"Oct 2024", val:157, note:"★ Series E — $6.6B raised" },
+      { date:"Jan 2025", val:195, note:"· Est. post-Series E momentum" },
+      { date:"Mar 2025", val:300, note:"★ SoftBank $40B round" },
+      { date:"Jun 2025", val:345, note:"· Est." },
+      { date:"Sep 2025", val:395, note:"· Est." },
+      { date:"Dec 2025", val:430, note:"· Est." },
+      { date:"Jan 2026", val:450, note:"· Est. secondary market" },
     ],
   },
   {
@@ -317,11 +398,10 @@ const TIP = { backgroundColor:"#0f1629", borderColor:"#1e2d4a", borderWidth:1, t
 const BASE = { responsive:true, maintainAspectRatio:false, interaction:{ mode:"index", intersect:false } };
 const XS = { grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b", font:{size:10}, maxRotation:45} };
 const YS = { grid:{color:"#1e2d4a80"}, ticks:{color:"#64748b", font:{size:10}} };
-
 function yt(label) { return { display:true, text:label, color:"#64748b", font:{size:10} }; }
 
 // ================================================================
-// MAIN OVERLAY CHART
+// TAB 1: MAIN OVERLAY CHART
 // ================================================================
 
 let currentMetric = 'revenue';
@@ -333,7 +413,7 @@ COS.forEach(c => {
     data: normTo100(c.prices),
     borderColor: c.color,
     backgroundColor: 'transparent',
-    borderWidth: 2.5,
+    borderWidth: 2.2,
     borderDash: [],
     pointRadius: 2,
     pointHoverRadius: 6,
@@ -344,7 +424,7 @@ COS.forEach(c => {
     data: normTo100(c.revenue),
     borderColor: c.color,
     backgroundColor: 'transparent',
-    borderWidth: 1.6,
+    borderWidth: 1.5,
     borderDash: [7, 4],
     pointRadius: 0,
     pointHoverRadius: 5,
@@ -378,13 +458,8 @@ const mainChart = new Chart(document.getElementById("mainChart"), {
   },
 });
 
-// ================================================================
-// COMPANY TOGGLE BUTTONS
-// ================================================================
-
+// Company toggle buttons
 const toggleRow = document.getElementById("toggleRow");
-const coButtons = [];
-
 COS.forEach((c, i) => {
   const btn = document.createElement("button");
   btn.className = "co-btn";
@@ -412,15 +487,10 @@ COS.forEach((c, i) => {
       btn.classList.add("dim");
     }
   });
-
-  coButtons.push(btn);
   toggleRow.appendChild(btn);
 });
 
-// ================================================================
-// METRIC TOGGLE
-// ================================================================
-
+// Metric toggle
 function setMetric(metric) {
   currentMetric = metric;
   COS.forEach((c, i) => {
@@ -433,10 +503,7 @@ function setMetric(metric) {
   document.getElementById("btnInc").classList.toggle("active", metric === "income");
 }
 
-// ================================================================
-// STAT CARDS
-// ================================================================
-
+// Stat cards
 const sg = document.getElementById("statsGrid");
 COS.forEach(c => {
   const n = normTo100(c.prices);
@@ -452,12 +519,12 @@ COS.forEach(c => {
 });
 
 // ================================================================
-// TAB 2 CHARTS
+// TAB 2: REVENUE & GROWTH
 // ================================================================
 
-// Annual revenue indexed to FY2022=100
+const tickerList = COS.map(c => c.ticker);
+
 const annRevNorm = {};
-const tickerList = ["NVDA","MSFT","GOOGL","META","AMD","CSCO"];
 tickerList.forEach(t => {
   const arr = ANN.revenue[t];
   const base = arr[1]; // FY2022 = index 1
@@ -489,7 +556,6 @@ new Chart(document.getElementById("revIdxChart"), {
   },
 });
 
-// YoY growth chart — skip FY2021 (no FY2020 base)
 const GROWTH_YEARS = ["FY2022 YoY","FY2023 YoY","FY2024 YoY","FY2025e YoY","FY2026e YoY"];
 new Chart(document.getElementById("growthChart"), {
   type: "bar",
@@ -497,7 +563,7 @@ new Chart(document.getElementById("growthChart"), {
     labels: GROWTH_YEARS,
     datasets: COS.map(c => ({
       label: c.ticker,
-      data: yoy(ANN.revenue[c.ticker]).slice(1), // drop FY2021 null, start at FY2022 YoY
+      data: yoy(ANN.revenue[c.ticker]).slice(1),
       backgroundColor: c.color + "bb",
       borderColor: c.color,
       borderWidth: 1,
@@ -517,8 +583,7 @@ new Chart(document.getElementById("growthChart"), {
   },
 });
 
-// Absolute revenue log bar
-function makeLogBar(id, dataKey, labelFn) {
+function makeLogBar(id, dataKey, label) {
   new Chart(document.getElementById(id), {
     type: "bar",
     data: {
@@ -544,10 +609,10 @@ function makeLogBar(id, dataKey, labelFn) {
           type: "logarithmic",
           min: 0.5,
           grid: { color:"#1e2d4a80" },
-          title: yt(labelFn),
+          title: yt(label),
           ticks: {
             color:"#64748b", font:{size:10},
-            callback: v => [1,2,5,10,20,50,100,200,300,400].some(n => Math.abs(n-v)<0.02*n+0.01) ? "$"+v+"B" : null,
+            callback: v => [1,2,5,10,20,50,100,200,300,500,700].some(n => Math.abs(n-v)<0.02*n+0.01) ? "$"+v+"B" : null,
           },
         },
       },
@@ -555,10 +620,110 @@ function makeLogBar(id, dataKey, labelFn) {
   });
 }
 makeLogBar("absRevChart", "revenue", "Annual Revenue $B (log)");
-makeLogBar("incomeChart", "income", "Net Income $B (log)");
+makeLogBar("incomeChart", "income",  "Net Income $B (log)");
 
 // ================================================================
-// PRIVATE VALUATIONS CHART
+// TAB 3: CLOUD REVENUE
+// ================================================================
+
+new Chart(document.getElementById("cloudAbsChart"), {
+  type: "line",
+  data: {
+    labels: QUARTERS,
+    datasets: CLOUD.map(c => ({
+      label: `${c.ticker} (${c.company})`,
+      data: c.rev,
+      borderColor: c.color,
+      backgroundColor: c.color + "18",
+      borderWidth: 2.5,
+      pointRadius: 2.5,
+      pointHoverRadius: 6,
+      tension: 0.25,
+      fill: false,
+    })),
+  },
+  options: {
+    ...BASE,
+    plugins: {
+      legend: { position:"top", labels:{ color:"#94a3b8", font:{size:11}, padding:12 } },
+      tooltip: { ...TIP, callbacks:{ label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y.toFixed(1)}B` } },
+    },
+    scales: {
+      x: XS,
+      y: { ...YS, ticks:{ ...YS.ticks, callback: v => "$"+v+"B" }, title: yt("Cloud Segment Revenue $B") },
+    },
+  },
+});
+
+new Chart(document.getElementById("cloudNormChart"), {
+  type: "line",
+  data: {
+    labels: QUARTERS,
+    datasets: CLOUD.map(c => ({
+      label: c.ticker,
+      data: normTo100(c.rev),
+      borderColor: c.color,
+      backgroundColor: "transparent",
+      borderWidth: 2,
+      pointRadius: 2,
+      pointHoverRadius: 5,
+      tension: 0.25,
+    })),
+  },
+  options: {
+    ...BASE,
+    plugins: {
+      legend: { position:"top", labels:{ color:"#94a3b8", font:{size:10}, padding:8, boxWidth:14 } },
+      tooltip: { ...TIP, callbacks:{ label: ctx => { const v=ctx.parsed.y,d=v-100; return ` ${ctx.dataset.label}: ${v.toFixed(0)} (${d>=0?"+":""}${d.toFixed(0)}%)`; } } },
+    },
+    scales: { x: XS, y: { ...YS, title: yt("Index (Q1'20 = 100)") } },
+  },
+});
+
+new Chart(document.getElementById("cloudGrowthChart"), {
+  type: "bar",
+  data: {
+    labels: QUARTERS,
+    datasets: CLOUD.map(c => ({
+      label: c.ticker,
+      data: yoy(c.rev),
+      backgroundColor: c.color + "bb",
+      borderColor: c.color,
+      borderWidth: 1,
+      borderRadius: 2,
+    })),
+  },
+  options: {
+    ...BASE,
+    plugins: {
+      legend: { position:"top", labels:{ color:"#94a3b8", font:{size:10}, padding:8, boxWidth:12 } },
+      tooltip: { ...TIP, callbacks:{ label: ctx => ctx.parsed.y === null ? null : ` ${ctx.dataset.label}: ${ctx.parsed.y>=0?"+":""}${ctx.parsed.y}%` } },
+    },
+    scales: {
+      x: { ...XS, ticks:{ color:"#64748b", font:{size:9} } },
+      y: { ...YS, ticks:{ ...YS.ticks, callback: v => v+"%" }, title: yt("YoY Cloud Revenue Growth %") },
+    },
+  },
+});
+
+// Market share bars
+const sv = document.getElementById("shareViz");
+SHARE_YEARS.forEach(yr => {
+  const yi = SHARE_YEARS.indexOf(yr);
+  sv.innerHTML += `<div class="share-year"><div class="share-yr-label">${yr}</div>`;
+  CLOUD.forEach(c => {
+    const pct = SHARE[c.ticker][yi].toFixed(1);
+    sv.innerHTML += `<div class="share-row">
+      <span class="share-label" style="color:${c.color}">${c.ticker}</span>
+      <div class="share-track"><div class="share-fill" style="width:${Math.min(pct*2.5,100)}%;background:${c.color}cc">${pct>8?pct+"%":""}</div></div>
+      <span class="share-val">${pct}%</span>
+    </div>`;
+  });
+  sv.innerHTML += `</div>`;
+});
+
+// ================================================================
+// TAB 4: PRIVATE VALUATIONS
 // ================================================================
 
 const MO = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
@@ -597,7 +762,6 @@ new Chart(document.getElementById("privateChart"), {
   },
 });
 
-// Private milestone cards
 const pg = document.getElementById("privGrid");
 PRIVATE.forEach(co => {
   const last = co.milestones[co.milestones.length-1];
