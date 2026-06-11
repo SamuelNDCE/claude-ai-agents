@@ -140,7 +140,7 @@ def cover(c, doc):
     c.drawCentredString(W/2, 1.55*inch, "Samuel Edwards")
     c.setFillColor(DIM)
     c.setFont("Segoe", 10)
-    c.drawCentredString(W/2, 1.32*inch, "June 2026  ·  Concept Whitepaper")
+    c.drawCentredString(W/2, 1.32*inch, "June 2026  ·  Engineering Whitepaper")
     c.restoreState()
 
 def later(c, doc):
@@ -308,9 +308,15 @@ E.append(p(
     "already existed. Cislunar freight removes that deadlock."
 ))
 E.append(p(
-    "Propellant depots need water ice. Orbital stations need shielding mass. "
-    "The Moon has both. After SELENE exists, shipping them costs electricity. "
-    "<b>SELENE turns the Moon from a destination into the quarry of cislunar space.</b>"
+    "The highest-value product is propellant. Shackleton Crater holds an estimated "
+    "600 million tonnes of water ice within direct solar-power range of the south-pole "
+    "ridgelines. Cracked by electrolysis to liquid oxygen and hydrogen - or processed "
+    "by Sabatier to methane and LOX - it becomes propellant for every vehicle operating "
+    "in cislunar space. Launched by SELENE at around $5/kg and delivered to an L1 or "
+    "L2 depot, it is roughly <b>10x cheaper per kilogram than an equivalent mass "
+    "lifted from Earth's surface</b>. Any deep space architecture that needs to fuel "
+    "vehicles in orbit rather than launching full propellant loads from the ground has "
+    "a supply problem. SELENE solves it."
 ))
 E.append(p(
     "SELENE grows by ladder. The starter track stretches to a <b>10-12 km, 30 g line</b> "
@@ -387,7 +393,10 @@ E.append(p(
     "Elon Musk described \"a cannon-like device using magnetic power\" to launch "
     "Moon-manufactured AI satellites at scale, and the company has shifted its "
     "near-term focus from Mars to the Moon. The largest launch company on Earth "
-    "is pointing at exactly this machine. That is validation, and it is also a clock."
+    "is pointing at exactly this machine. That is validation, and it is also a clock. "
+    "A partner positioned ahead of that build does not compete with SpaceX's lunar "
+    "infrastructure - it becomes the supply chain that makes the rest of the "
+    "architecture work."
 ))
 E.append(p(
     "<b>China is building EM launch hardware, targeting 2028.</b> Galactic Energy, "
@@ -526,10 +535,13 @@ E.append(mathbox([
      "the interplanetary cruise. <b>Mars' moons become the warehouse district.</b>"),
 ]))
 E.append(p(
-    "Every Mars settlement plan dies on the same problem: the cost of the return trip. "
-    "ISRU propellant (Sabatier methane, LOX), return samples, and eventually "
-    "manufactured exports all ride to orbit on electricity. "
-    "<b>ARES turns Mars from a destination into a port.</b>"
+    "Every mission to Mars arrives on a vehicle that needs propellant for the return "
+    "trip. ISRU solves this on the surface: Sabatier methane and LOX from Martian CO2 "
+    "and water ice. ARES solves it in orbit: produced propellant launches to Phobos "
+    "at electromagnetic cost - electricity plus amortized track - and sits in a depot "
+    "for any vehicle departing the Mars system. Return cargo, manufactured exports, "
+    "and samples ride the same track. <b>ARES makes Mars a place you can leave as "
+    "easily as you can arrive.</b>"
 ))
 E.append(p(
     "ARES is Phase 4. SELENE proves the vacuum-world kit in the hardest vacuum. "
@@ -599,7 +611,9 @@ E.append(p(
     "Regolith serves as radiation shielding for stations and ships. "
     "Metal goes to orbital construction. SELENE fires all of it at 2.4 km/s toward "
     "any cislunar catch point. The Moon doesn't need to manufacture anything. "
-    "It just has to be a source of mass. It already is."
+    "It just has to be a source of mass. It already is. "
+    "At SELENE's full cadence, the cislunar propellant supply is no longer "
+    "constrained by how much you can lift from Earth."
 ))
 E.append(p(
     "Mars closes the return trip. Every Mars settlement plan faces the same problem: "
