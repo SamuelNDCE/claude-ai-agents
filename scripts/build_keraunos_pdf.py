@@ -35,34 +35,34 @@ pdfmetrics.registerFont(TTFont("Segoe-Semi", os.path.join(F, "seguisb.ttf")))
 W, H = letter
 
 S = {}
-S["body"] = ParagraphStyle("body", fontName="Segoe", fontSize=10, leading=14.6,
-                           textColor=BODY, spaceAfter=7)
-S["bullet"] = ParagraphStyle("bullet", parent=S["body"], leftIndent=16,
-                             bulletIndent=4, spaceAfter=5)
+S["body"] = ParagraphStyle("body", fontName="Segoe", fontSize=10.5, leading=16.0,
+                           textColor=BODY, spaceAfter=9)
+S["bullet"] = ParagraphStyle("bullet", parent=S["body"], leftIndent=18,
+                             bulletIndent=5, spaceAfter=7)
 S["h1"] = ParagraphStyle("h1", fontName="Segoe-Bold", fontSize=15.5, leading=19,
-                         textColor=NAVY, spaceBefore=18, spaceAfter=2)
-S["h2"] = ParagraphStyle("h2", fontName="Segoe-Semi", fontSize=11.5, leading=15,
-                         textColor=TEAL, spaceBefore=10, spaceAfter=4)
-S["reminder"] = ParagraphStyle("reminder", fontName="Segoe-Italic", fontSize=9.8,
-                               leading=13.5, textColor=PURPLE, leftIndent=14,
-                               spaceBefore=2, spaceAfter=10)
-S["mathbox"] = ParagraphStyle("mathbox", fontName="Segoe", fontSize=9.6,
-                              leading=13.6, textColor=BODY)
-S["tbl"] = ParagraphStyle("tbl", fontName="Segoe", fontSize=9, leading=12.2,
+                         textColor=NAVY, spaceBefore=22, spaceAfter=3)
+S["h2"] = ParagraphStyle("h2", fontName="Segoe-Semi", fontSize=12, leading=16,
+                         textColor=TEAL, spaceBefore=14, spaceAfter=6)
+S["reminder"] = ParagraphStyle("reminder", fontName="Segoe-Italic", fontSize=10,
+                               leading=14.5, textColor=PURPLE, leftIndent=14,
+                               spaceBefore=3, spaceAfter=12)
+S["mathbox"] = ParagraphStyle("mathbox", fontName="Segoe", fontSize=10,
+                              leading=14.5, textColor=BODY)
+S["tbl"] = ParagraphStyle("tbl", fontName="Segoe", fontSize=9.2, leading=13,
                           textColor=BODY)
-S["tblh"] = ParagraphStyle("tblh", fontName="Segoe-Semi", fontSize=9, leading=12,
+S["tblh"] = ParagraphStyle("tblh", fontName="Segoe-Semi", fontSize=9.2, leading=13,
                            textColor=white)
-S["caption"] = ParagraphStyle("caption", fontName="Segoe-Italic", fontSize=8.4,
-                              leading=11, textColor=DIM, spaceBefore=3, spaceAfter=8)
-S["quote"] = ParagraphStyle("quote", fontName="Segoe-Italic", fontSize=11.5,
-                            leading=16, textColor=PURPLE, alignment=TA_CENTER,
-                            spaceBefore=14, spaceAfter=14)
+S["caption"] = ParagraphStyle("caption", fontName="Segoe-Italic", fontSize=8.6,
+                              leading=12, textColor=DIM, spaceBefore=4, spaceAfter=10)
+S["quote"] = ParagraphStyle("quote", fontName="Segoe-Italic", fontSize=12,
+                            leading=17, textColor=PURPLE, alignment=TA_CENTER,
+                            spaceBefore=16, spaceAfter=16)
 
 
 def sect(num, title):
     return [Paragraph(f"{num}. {title}", S["h1"]),
-            HRFlowable(width="100%", thickness=1.4, color=TEAL, spaceBefore=3,
-                       spaceAfter=8)]
+            HRFlowable(width="100%", thickness=1.4, color=TEAL, spaceBefore=4,
+                       spaceAfter=12)]
 
 
 def reminder(text):
@@ -88,10 +88,10 @@ def mathbox(rows):
         ("BOX", (0, 0), (-1, -1), 0.8, HexColor("#c7d4ec")),
         ("LINEBELOW", (0, 0), (-1, -2), 0.5, HexColor("#d8e2f3")),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("TOPPADDING", (0, 0), (-1, -1), 7),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
-        ("LEFTPADDING", (0, 0), (-1, -1), 10),
-        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (-1, -1), 9),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 9),
+        ("LEFTPADDING", (0, 0), (-1, -1), 11),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 11),
     ]))
     return KeepTogether([t])
 
@@ -104,10 +104,10 @@ def styled_table(header, rows, widths, highlight_row=None):
     style = [
         ("BACKGROUND", (0, 0), (-1, 0), NAVY2),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("TOPPADDING", (0, 0), (-1, -1), 6),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-        ("LEFTPADDING", (0, 0), (-1, -1), 8),
-        ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+        ("TOPPADDING", (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+        ("LEFTPADDING", (0, 0), (-1, -1), 9),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 9),
         ("BOX", (0, 0), (-1, -1), 0.8, HexColor("#c7d4ec")),
         ("LINEBELOW", (0, 0), (-1, -2), 0.5, HexColor("#d8e2f3")),
     ]
@@ -210,8 +210,8 @@ def later(c, doc):
 
 
 doc = SimpleDocTemplate(OUT, pagesize=letter,
-                        leftMargin=0.85 * inch, rightMargin=0.85 * inch,
-                        topMargin=0.95 * inch, bottomMargin=0.8 * inch,
+                        leftMargin=0.95 * inch, rightMargin=0.95 * inch,
+                        topMargin=1.0 * inch, bottomMargin=0.85 * inch,
                         title="KERAUNOS: Maglev Space Launch System",
                         author="Samuel Edwards")
 
