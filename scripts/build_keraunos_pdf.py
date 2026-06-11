@@ -258,16 +258,18 @@ E.append(reminder(
     "The Moon has no atmosphere. That sentence deletes every hard engineering "
     "problem on the list below."
 ))
-E.append(p("On the Moon, these things do not exist:"))
-E.append(b("No vacuum tube. The track is already in vacuum."))
-E.append(b("No plasma window. There is no atmosphere trying to get in."))
-E.append(b("No aero-shell. Nothing for it to protect against."))
-E.append(b("No blast shutters. No tube to breach."))
-E.append(b("No transpiration cooling. The exit is into hard vacuum."))
-E.append(p(
-    "The track lays on regolith. That is the entire system. Every hard engineering "
-    "challenge from the Earth machine simply does not exist on the Moon."
-))
+E.append(KeepTogether([
+    p("On the Moon, these things do not exist:"),
+    b("No vacuum tube. The track is already in vacuum."),
+    b("No plasma window. There is no atmosphere trying to get in."),
+    b("No aero-shell. Nothing for it to protect against."),
+    b("No blast shutters. No tube to breach."),
+    b("No transpiration cooling. The exit is into hard vacuum."),
+    p(
+        "The track lays on regolith. That is the entire system. Every hard engineering "
+        "challenge from the Earth machine simply does not exist on the Moon."
+    ),
+]))
 E.append(p(
     "The starter track is <b>1-3 km</b>: roughly the length of an airport runway. "
     "At 100 g, a 1.5 km run reaches lunar orbit speed (<b>1.7 km/s</b>). A 2.9 km "
