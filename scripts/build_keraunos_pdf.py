@@ -126,7 +126,7 @@ def draw_gates(c):
     # badge card: near-black, compact
     bx0, by0 = W / 2 - 2.25 * inch, H - 3.4 * inch
     bw, bh = 4.5 * inch, 2.05 * inch
-    c.setFillColor(HexColor("#0d1322"))
+    c.setFillColor(HexColor("#070a13"))
     c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=0.3)
     c.setLineWidth(1)
     c.roundRect(bx0, by0, bw, bh, 14, stroke=1, fill=1)
@@ -559,9 +559,11 @@ E.append(b("<b>The proof of concept pays for itself, and it is tiny:</b> the sta
            "demo: it is a working exporter, throwing water ice and regolith to cislunar "
            "catch points from day one. Initial hardware arrives by heavy-lift rocket: the "
            "last rockets the program ever needs to buy."))
-E.append(b("<b>Then growth by pellet:</b> the full ~50 km, 3 g human-rated track is built "
-           "out from SELENE's own export revenue and, later, BRONTE shipments, each "
-           "10-tonne pod carrying coil segments, radiators, and solar arrays."))
+E.append(b("<b>Then growth by ladder:</b> the starter track stretches to a 10-12 km, "
+           "30 g line for hardened payloads (2.43-2.66 km/s, escape with margin), and "
+           "later to a ~50 km, 3 g human-rated track for passengers. Each step is built "
+           "from SELENE's own export revenue and, later, BRONTE shipments, each 10-tonne "
+           "pod carrying coil segments, radiators, and solar arrays."))
 E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX cracked from "
            "regolith, and raw shielding mass for stations and ships. Power from solar "
            "arrays at the Peaks of Eternal Light or compact fission. SELENE turns the Moon "
@@ -599,10 +601,11 @@ E.append(reminder("The lightning flashes before the thunder is heard. SELENE lau
 E.append(styled_table(
     ["Phase", "System", "What gets built", "What it proves / earns"],
     [["1", "<b>SELENE PoC</b> (Moon)",
-      "~10-12 km surface track, 30 g cargo mode, no tube",
-      "Exceeds lunar escape velocity (2.43-2.66 vs 2.38 km/s): exports water ice and "
+      "1-3 km surface track, 50-100 g dumb-cargo mode, no tube",
+      "~2.9 km at 100 g clears lunar escape (2.38 km/s): exports water ice and "
       "regolith to cislunar buyers from day one. Lowest-risk version of the machine: "
-      "the atmosphere problems don't exist."],
+      "the atmosphere problems don't exist. Stretches to 10-12 km (30 g cargo), then "
+      "~50 km (3 g, passengers) later."],
      ["2", "<b>BRONTE demo</b> (Earth)",
       "10-20 km track, vacuum tube, plasma window, mountain exit",
       "Mach 2-3 in 3 g human-rated mode; 2.4-3.4 km/s (Mach 7-10) in 30 g cargo mode: "
@@ -615,7 +618,7 @@ E.append(styled_table(
       "~180 km track, featherweight tube",
       "Mars becomes a port; the freight triangle closes."]],
     [0.55 * inch, 1.5 * inch, 2.05 * inch, 2.5 * inch]))
-E.append(Paragraph("Why Moon-first works: the proof of concept is 100x shorter than the "
+E.append(Paragraph("Why Moon-first works: the proof of concept is 300x shorter than the "
                    "full Earth machine, skips every atmosphere subsystem, and generates "
                    "revenue immediately. SELENE de-risks the magnets and mass-catch "
                    "logistics while BRONTE's demo de-risks the atmosphere tech in "
