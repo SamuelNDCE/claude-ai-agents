@@ -1,0 +1,432 @@
+<svg id="main" viewBox="0 0 1400 720" width="100%" style="display:block;max-width:1400px">
+<defs>
+  <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+    <path d="M30 0L0 0 0 30" fill="none" stroke="#111827" stroke-width="0.8"/>
+  </pattern>
+  <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse">
+    <path d="M0 6L6 0" stroke="#1e3a5f" stroke-width="1"/>
+  </pattern>
+  <linearGradient id="podGrad" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#0a1628"/>
+    <stop offset="25%" stop-color="#162040"/>
+    <stop offset="75%" stop-color="#162040"/>
+    <stop offset="100%" stop-color="#0a1628"/>
+  </linearGradient>
+  <linearGradient id="boreGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#050810"/>
+    <stop offset="50%" stop-color="#070a14"/>
+    <stop offset="100%" stop-color="#050810"/>
+  </linearGradient>
+  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#22d3ee"/>
+  </marker>
+  <marker id="arrdim" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+    <polygon points="0 0,6 2.5,0 5" fill="#5a6a8a"/>
+  </marker>
+  <marker id="arrdimL" markerWidth="6" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="0 0,6 2.5,0 5" fill="#5a6a8a"/>
+  </marker>
+</defs>
+
+<!-- BG -->
+<rect width="1400" height="720" fill="#080c18"/>
+<rect width="1400" height="720" fill="url(#grid)" opacity="0.55"/>
+
+<!-- ═══ SECTION TITLE ═══ -->
+<text x="690" y="28" fill="#22d3ee" font-size="10" text-anchor="middle" letter-spacing="2.5" font-family="monospace">SIDE ELEVATION — CUT-AWAY VIEW — SCALE 1:100</text>
+<text x="690" y="44" fill="#5a6a8a" font-size="8.5" text-anchor="middle" font-family="monospace">3-PHASE TRAVELING MAGNETIC WAVE ›› ›› ›› (snapshot: Phase A energised)</text>
+<line x1="20" y1="52" x2="1380" y2="52" stroke="#2a3245" stroke-width="0.7"/>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN SIDE ELEVATION
+     Section x: 90→1290 (1200px = 10m)   scale 120px/m
+     y_center = 215
+     bore half-h: 73px  →  1.46 m dia (≈ 1.5 m bore)
+     bore walls: y=142 to y=288
+     REBCO winding top: y=122 to y=142   (20px)
+     REBCO winding bot: y=288 to y=308
+     20K shield: y=115 to y=122  /  y=308 to y=315
+     vacuum insul: y=107 to y=115  /  y=315 to y=323
+     80K shield: y=100 to y=107  /  y=323 to y=330
+     outer vac jkt: y=91 to y=100  /  y=330 to y=339
+     structural: y=80 to y=91  /  y=339 to y=350
+═══════════════════════════════════════════════ -->
+
+<!-- STRUCTURAL SHELL -->
+<rect x="90" y="80" width="1200" height="11" fill="#1e2840" stroke="#3a5080" stroke-width="1"/>
+<rect x="90" y="339" width="1200" height="11" fill="#1e2840" stroke="#3a5080" stroke-width="1"/>
+
+<!-- OUTER VACUUM JACKET -->
+<rect x="90" y="91" width="1200" height="9" fill="#141b2e" stroke="#2a3a5f" stroke-width="0.6"/>
+<rect x="90" y="330" width="1200" height="9" fill="#141b2e" stroke="#2a3a5f" stroke-width="0.6"/>
+
+<!-- 80K THERMAL SHIELD (copper) -->
+<rect x="90" y="100" width="1200" height="7" fill="#0f1e3a" stroke="#1d40a0" stroke-width="0.7"/>
+<rect x="90" y="323" width="1200" height="7" fill="#0f1e3a" stroke="#1d40a0" stroke-width="0.7"/>
+
+<!-- INSULATION VACUUM (hatched) -->
+<rect x="90" y="107" width="1200" height="8" fill="url(#hatch)" opacity="0.7"/>
+<rect x="90" y="315" width="1200" height="8" fill="url(#hatch)" opacity="0.7"/>
+
+<!-- 20K THERMAL SHIELD (aluminium) -->
+<rect x="90" y="115" width="1200" height="7" fill="#0a1a30" stroke="#0891b2" stroke-width="0.7"/>
+<rect x="90" y="308" width="1200" height="7" fill="#0a1a30" stroke="#0891b2" stroke-width="0.7"/>
+
+<!-- REBCO COIL WINDING REGION (background) -->
+<rect x="90" y="122" width="1200" height="20" fill="#100820" stroke="#4a1f8a" stroke-width="0.6"/>
+<rect x="90" y="288" width="1200" height="20" fill="#100820" stroke="#4a1f8a" stroke-width="0.6"/>
+
+<!-- BORE INNER LINER (GFRP) -->
+<rect x="90" y="142" width="1200" height="5" fill="#162040" stroke="#0891b2" stroke-width="1.1"/>
+<rect x="90" y="283" width="1200" height="5" fill="#162040" stroke="#0891b2" stroke-width="1.1"/>
+
+<!-- BORE INTERIOR -->
+<rect x="90" y="147" width="1200" height="136" fill="url(#boreGrad)"/>
+
+<!-- ═══ 20 REBCO COIL RINGS ═══
+     First center: x = 90 + 0.25×120 = 120
+     Spacing: 0.5×120 = 60px
+     Centers: 120,180,240,300,360,420,480,540,600,660,720,780,840,900,960,1020,1080,1140,1200,1260
+     Width: 16px (each 8px either side of center)
+     Phase A (0,3,6,9,12,15,18): fill #22d3ee
+     Phase B (1,4,7,10,13,16,19): fill #7c3aed
+     Phase C (2,5,8,11,14,17): fill #a78bfa -->
+
+<!-- Phase A -->
+<g fill="#22d3ee" opacity="0.88">
+  <rect x="112" y="122" width="16" height="20"/>  <rect x="112" y="288" width="16" height="20"/>
+  <rect x="292" y="122" width="16" height="20"/>  <rect x="292" y="288" width="16" height="20"/>
+  <rect x="472" y="122" width="16" height="20"/>  <rect x="472" y="288" width="16" height="20"/>
+  <rect x="652" y="122" width="16" height="20"/>  <rect x="652" y="288" width="16" height="20"/>
+  <rect x="832" y="122" width="16" height="20"/>  <rect x="832" y="288" width="16" height="20"/>
+  <rect x="1012" y="122" width="16" height="20"/> <rect x="1012" y="288" width="16" height="20"/>
+  <rect x="1192" y="122" width="16" height="20"/> <rect x="1192" y="288" width="16" height="20"/>
+</g>
+<!-- Phase B -->
+<g fill="#7c3aed" opacity="0.88">
+  <rect x="172" y="122" width="16" height="20"/>  <rect x="172" y="288" width="16" height="20"/>
+  <rect x="352" y="122" width="16" height="20"/>  <rect x="352" y="288" width="16" height="20"/>
+  <rect x="532" y="122" width="16" height="20"/>  <rect x="532" y="288" width="16" height="20"/>
+  <rect x="712" y="122" width="16" height="20"/>  <rect x="712" y="288" width="16" height="20"/>
+  <rect x="892" y="122" width="16" height="20"/>  <rect x="892" y="288" width="16" height="20"/>
+  <rect x="1072" y="122" width="16" height="20"/> <rect x="1072" y="288" width="16" height="20"/>
+  <rect x="1252" y="122" width="16" height="20"/> <rect x="1252" y="288" width="16" height="20"/>
+</g>
+<!-- Phase C -->
+<g fill="#a78bfa" opacity="0.88">
+  <rect x="232" y="122" width="16" height="20"/>  <rect x="232" y="288" width="16" height="20"/>
+  <rect x="412" y="122" width="16" height="20"/>  <rect x="412" y="288" width="16" height="20"/>
+  <rect x="592" y="122" width="16" height="20"/>  <rect x="592" y="288" width="16" height="20"/>
+  <rect x="772" y="122" width="16" height="20"/>  <rect x="772" y="288" width="16" height="20"/>
+  <rect x="952" y="122" width="16" height="20"/>  <rect x="952" y="288" width="16" height="20"/>
+  <rect x="1132" y="122" width="16" height="20"/> <rect x="1132" y="288" width="16" height="20"/>
+</g>
+
+<!-- Ring inner bore walls (thin lines at bore boundary) -->
+<g stroke="#3a4a6a" stroke-width="0.5" opacity="0.4">
+  <line x1="112" y1="147" x2="112" y2="283"/> <line x1="128" y1="147" x2="128" y2="283"/>
+  <line x1="172" y1="147" x2="172" y2="283"/> <line x1="188" y1="147" x2="188" y2="283"/>
+  <line x1="232" y1="147" x2="232" y2="283"/> <line x1="248" y1="147" x2="248" y2="283"/>
+  <line x1="292" y1="147" x2="292" y2="283"/> <line x1="308" y1="147" x2="308" y2="283"/>
+  <line x1="352" y1="147" x2="352" y2="283"/> <line x1="368" y1="147" x2="368" y2="283"/>
+  <line x1="412" y1="147" x2="412" y2="283"/> <line x1="428" y1="147" x2="428" y2="283"/>
+  <line x1="472" y1="147" x2="472" y2="283"/> <line x1="488" y1="147" x2="488" y2="283"/>
+  <line x1="532" y1="147" x2="532" y2="283"/> <line x1="548" y1="147" x2="548" y2="283"/>
+  <line x1="592" y1="147" x2="592" y2="283"/> <line x1="608" y1="147" x2="608" y2="283"/>
+  <line x1="652" y1="147" x2="652" y2="283"/> <line x1="668" y1="147" x2="668" y2="283"/>
+  <line x1="712" y1="147" x2="712" y2="283"/> <line x1="728" y1="147" x2="728" y2="283"/>
+  <line x1="772" y1="147" x2="772" y2="283"/> <line x1="788" y1="147" x2="788" y2="283"/>
+  <line x1="832" y1="147" x2="832" y2="283"/> <line x1="848" y1="147" x2="848" y2="283"/>
+  <line x1="892" y1="147" x2="892" y2="283"/> <line x1="908" y1="147" x2="908" y2="283"/>
+  <line x1="952" y1="147" x2="952" y2="283"/> <line x1="968" y1="147" x2="968" y2="283"/>
+  <line x1="1012" y1="147" x2="1012" y2="283"/> <line x1="1028" y1="147" x2="1028" y2="283"/>
+  <line x1="1072" y1="147" x2="1072" y2="283"/> <line x1="1088" y1="147" x2="1088" y2="283"/>
+  <line x1="1132" y1="147" x2="1132" y2="283"/> <line x1="1148" y1="147" x2="1148" y2="283"/>
+  <line x1="1192" y1="147" x2="1192" y2="283"/> <line x1="1208" y1="147" x2="1208" y2="283"/>
+  <line x1="1252" y1="147" x2="1252" y2="283"/> <line x1="1268" y1="147" x2="1268" y2="283"/>
+</g>
+
+<!-- ═══ MAGNETIC FIELD LINES (dashed arcs in bore) ═══ -->
+<g stroke="#22d3ee" stroke-width="0.9" fill="none" opacity="0.18" stroke-dasharray="4,5">
+  <path d="M120 152 Q150 215 120 278"/>
+  <path d="M180 152 Q210 215 180 278"/>
+  <path d="M240 152 Q270 215 240 278"/>
+  <path d="M300 152 Q330 215 300 278"/>
+  <path d="M360 152 Q390 215 360 278"/>
+  <path d="M420 152 Q450 215 420 278"/>
+  <path d="M480 152 Q510 215 480 278"/>
+  <path d="M540 152 Q570 215 540 278"/>
+  <path d="M600 152 Q630 215 600 278"/>
+  <path d="M660 152 Q690 215 660 278"/>
+  <path d="M720 152 Q750 215 720 278"/>
+</g>
+
+<!-- ═══ POD ═══ -->
+<!-- Body x=430–840, y=150–280 -->
+<rect x="435" y="151" width="400" height="128" rx="4" fill="url(#podGrad)" stroke="#0891b2" stroke-width="1.6"/>
+<!-- Nose cone (rightward travel) -->
+<polygon points="835,151 835,279 880,215" fill="#0a1628" stroke="#0891b2" stroke-width="1.6"/>
+<!-- SC reaction magnet rings on pod exterior -->
+<g fill="#0891b2" opacity="0.5">
+  <rect x="465" y="151" width="9" height="128"/>
+  <rect x="520" y="151" width="9" height="128"/>
+  <rect x="580" y="151" width="9" height="128"/>
+  <rect x="640" y="151" width="9" height="128"/>
+  <rect x="700" y="151" width="9" height="128"/>
+  <rect x="760" y="151" width="9" height="128"/>
+</g>
+<g fill="none" stroke="#22d3ee" stroke-width="1.3" opacity="0.7">
+  <rect x="465" y="151" width="9" height="128"/>
+  <rect x="520" y="151" width="9" height="128"/>
+  <rect x="580" y="151" width="9" height="128"/>
+  <rect x="640" y="151" width="9" height="128"/>
+  <rect x="700" y="151" width="9" height="128"/>
+  <rect x="760" y="151" width="9" height="128"/>
+</g>
+<!-- Pod label -->
+<text x="635" y="208" fill="#22d3ee" font-size="9.5" text-anchor="middle" letter-spacing="1.5" font-family="monospace">PAYLOAD POD</text>
+<text x="635" y="223" fill="#5a6a8a" font-size="8" text-anchor="middle" font-family="monospace">REBCO reaction magnets · magnetically levitated</text>
+<!-- velocity arrow -->
+<line x1="886" y1="215" x2="935" y2="215" stroke="#22d3ee" stroke-width="2" marker-end="url(#arr)"/>
+<text x="940" y="211" fill="#22d3ee" font-size="9" font-family="monospace">v</text>
+
+<!-- ═══ CRYO-COOLERS (pulse-tube refrigerators) ═══ -->
+<!-- Top units at x≈360 and x≈1020 -->
+<g fill="#1c2840" stroke="#0891b2" stroke-width="1">
+  <rect x="340" y="55" width="48" height="22" rx="3"/>
+  <rect x="1000" y="55" width="48" height="22" rx="3"/>
+</g>
+<text x="364" y="65" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
+<text x="364" y="73" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
+<text x="1024" y="65" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
+<text x="1024" y="73" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
+<line x1="364" y1="77" x2="364" y2="91" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
+<line x1="1024" y1="77" x2="1024" y2="91" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
+<!-- Bottom units -->
+<line x1="364" y1="350" x2="364" y2="362" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
+<line x1="1024" y1="350" x2="1024" y2="362" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
+<g fill="#1c2840" stroke="#0891b2" stroke-width="1">
+  <rect x="340" y="362" width="48" height="22" rx="3"/>
+  <rect x="1000" y="362" width="48" height="22" rx="3"/>
+</g>
+<text x="364" y="372" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
+<text x="364" y="380" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
+<text x="1024" y="372" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
+<text x="1024" y="380" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
+
+<!-- ═══ IRIS DOORS ═══ -->
+<!-- LEFT (x=90): CLOSED -->
+<g transform="translate(90,215)">
+  <rect x="-20" y="-135" width="20" height="270" fill="#1c2840" stroke="#3a5080" stroke-width="1"/>
+  <text x="-10" y="-145" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">IRIS</text>
+  <text x="-10" y="-135" fill="#5a6a8a" font-size="7" text-anchor="middle" font-family="monospace">DOOR</text>
+  <!-- 6 closed blades -->
+  <polygon points="-18,-73 -18,73 3,37 3,-37" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
+  <polygon points="-2,-73 63,-37 37,0 -18,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
+  <polygon points="63,-37 63,37 15,73 -2,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
+  <polygon points="15,73 -18,73 -3,37 3,37" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
+  <polygon points="-18,73 -63,37 -37,0 15,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
+  <polygon points="-63,37 -63,-37 -18,-73 2,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
+  <circle r="5" fill="#030508" stroke="#22d3ee" stroke-width="0.5"/>
+  <text x="-10" y="88" fill="#7c3aed" font-size="7.5" text-anchor="middle" font-family="monospace">CLOSED</text>
+</g>
+
+<!-- RIGHT (x=1290): OPEN -->
+<g transform="translate(1290,215)">
+  <rect x="0" y="-135" width="20" height="270" fill="#1c2840" stroke="#3a5080" stroke-width="1"/>
+  <text x="10" y="-145" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">IRIS</text>
+  <text x="10" y="-135" fill="#5a6a8a" font-size="7" text-anchor="middle" font-family="monospace">DOOR</text>
+  <!-- Clear aperture ring -->
+  <circle r="73" fill="none" stroke="#3a5080" stroke-width="1" stroke-dasharray="3,4"/>
+  <!-- 6 retracted blades (just tips visible) -->
+  <line x1="0" y1="-73" x2="0" y2="-60" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
+  <line x1="63" y1="-37" x2="53" y2="-31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
+  <line x1="63" y1="37" x2="53" y2="31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
+  <line x1="0" y1="73" x2="0" y2="60" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
+  <line x1="-63" y1="37" x2="-53" y2="31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
+  <line x1="-63" y1="-37" x2="-53" y2="-31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
+  <!-- Inner clear space -->
+  <circle r="56" fill="#020408" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="2,3" opacity="0.6"/>
+  <text x="10" y="88" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">OPEN</text>
+</g>
+
+<!-- ═══ CURRENT DIRECTION INDICATORS (first 3 rings) ═══ -->
+<!-- Ring 0 (Phase A, x=120): I upward, N pole above -->
+<text x="120" y="136" fill="#22d3ee" font-size="11" text-anchor="middle">↑</text>
+<text x="120" y="304" fill="#22d3ee" font-size="11" text-anchor="middle">↓</text>
+<text x="120" y="119" fill="#22d3ee" font-size="6.5" text-anchor="middle" font-family="monospace">N</text>
+<text x="120" y="317" fill="#22d3ee" font-size="6.5" text-anchor="middle" font-family="monospace">S</text>
+<!-- Ring 1 (Phase B, x=180): I at 60° phase -->
+<text x="180" y="136" fill="#7c3aed" font-size="11" text-anchor="middle">↗</text>
+<!-- Ring 2 (Phase C, x=240): I downward, S above -->
+<text x="240" y="136" fill="#a78bfa" font-size="11" text-anchor="middle">↓</text>
+<text x="240" y="304" fill="#a78bfa" font-size="11" text-anchor="middle">↑</text>
+<text x="240" y="119" fill="#a78bfa" font-size="6.5" text-anchor="middle" font-family="monospace">S</text>
+<text x="240" y="317" fill="#a78bfa" font-size="6.5" text-anchor="middle" font-family="monospace">N</text>
+
+<!-- ═══ DIMENSION LINES ═══ -->
+<!-- Section length (below section) -->
+<line x1="90" y1="408" x2="1290" y2="408" stroke="#5a6a8a" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
+<line x1="90" y1="393" x2="90" y2="413" stroke="#5a6a8a" stroke-width="0.8"/>
+<line x1="1290" y1="393" x2="1290" y2="413" stroke="#5a6a8a" stroke-width="0.8"/>
+<text x="690" y="403" fill="#5a6a8a" font-size="9" text-anchor="middle" font-family="monospace" dominant-baseline="auto">10.0 m   SECTION LENGTH   (chain-coupled, bolted flanges, indium vacuum seals)</text>
+
+<!-- Bore diameter (left side) -->
+<line x1="58" y1="147" x2="58" y2="283" stroke="#5a6a8a" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
+<line x1="53" y1="147" x2="73" y2="147" stroke="#5a6a8a" stroke-width="0.8"/>
+<line x1="53" y1="283" x2="73" y2="283" stroke="#5a6a8a" stroke-width="0.8"/>
+<text x="36" y="215" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace" transform="rotate(-90,36,215)">∅ 1.5 m BORE</text>
+
+<!-- Outer diameter (further left) -->
+<line x1="22" y1="80" x2="22" y2="350" stroke="#5a6a8a" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
+<line x1="17" y1="80" x2="37" y2="80" stroke="#5a6a8a" stroke-width="0.8"/>
+<line x1="17" y1="350" x2="37" y2="350" stroke="#5a6a8a" stroke-width="0.8"/>
+<text x="9" y="215" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace" transform="rotate(-90,9,215)">∅ 2.2 m OD</text>
+
+<!-- ═══ LAYER CALLOUT (right margin) ═══ -->
+<g font-family="monospace" font-size="8" fill="#5a6a8a">
+  <line x1="1294" y1="85" x2="1320" y2="85" stroke="#5a6a8a" stroke-width="0.5"/>
+  <text x="1322" y="88">Carbon fibre structural shell</text>
+  <line x1="1294" y1="95" x2="1320" y2="95" stroke="#5a6a8a" stroke-width="0.5"/>
+  <text x="1322" y="98">Outer vacuum jacket</text>
+  <line x1="1294" y1="104" x2="1320" y2="104" stroke="#1d40a0" stroke-width="0.6"/>
+  <text x="1322" y="107" fill="#1d40a0">80 K thermal shield (Cu)</text>
+  <line x1="1294" y1="111" x2="1320" y2="111" stroke="#5a6a8a" stroke-width="0.5"/>
+  <text x="1322" y="114">Insulation vacuum</text>
+  <line x1="1294" y1="119" x2="1320" y2="119" stroke="#0891b2" stroke-width="0.6"/>
+  <text x="1322" y="122" fill="#0891b2">20 K thermal shield (Al)</text>
+  <line x1="1294" y1="132" x2="1320" y2="132" stroke="#7c3aed" stroke-width="0.7"/>
+  <text x="1322" y="135" fill="#a78bfa">REBCO coil winding   (5–20 K)</text>
+  <line x1="1294" y1="147" x2="1320" y2="147" stroke="#0891b2" stroke-width="0.6"/>
+  <text x="1322" y="150" fill="#0891b2">Bore liner (GFRP)</text>
+</g>
+
+<!-- ══════════════════════════════════════════
+     BOTTOM PANELS   y: 460–710
+══════════════════════════════════════════ -->
+<line x1="20" y1="455" x2="1380" y2="455" stroke="#2a3245" stroke-width="0.8"/>
+
+<!-- Panel headings -->
+<text x="210" y="470" fill="#22d3ee" font-size="9" text-anchor="middle" letter-spacing="2" font-family="monospace">SECTION A–A</text>
+<text x="580" y="470" fill="#22d3ee" font-size="9" text-anchor="middle" letter-spacing="2" font-family="monospace">IRIS DOOR DETAIL</text>
+<text x="1020" y="470" fill="#22d3ee" font-size="9" text-anchor="middle" letter-spacing="2" font-family="monospace">DESIGN PARAMETERS</text>
+
+<!-- ══ CROSS-SECTION (centred at 210, 595) ══ -->
+<g transform="translate(210,595)">
+  <!-- layers, outer to inner, scaled so outer radius = 100px -->
+  <circle r="100" fill="#1e2840" stroke="#3a5080" stroke-width="1.5"/>   <!-- struct shell -->
+  <circle r="91"  fill="#141b2e" stroke="#2a3a5f" stroke-width="0.6"/>   <!-- outer vac -->
+  <circle r="84"  fill="#0f1e3a" stroke="#1d40a0" stroke-width="1"/>     <!-- 80K shield -->
+  <circle r="76"  fill="#0a1220"/>                                        <!-- insulation -->
+  <circle r="71"  fill="#0a1a30" stroke="#0891b2" stroke-width="1"/>     <!-- 20K shield -->
+  <circle r="64"  fill="#100820" stroke="#7c3aed" stroke-width="1.5"/>   <!-- REBCO winding -->
+  <circle r="55"  fill="#162040" stroke="#0891b2" stroke-width="1"/>     <!-- bore liner -->
+  <circle r="52"  fill="#050810"/>                                        <!-- bore interior -->
+  <!-- Pod cross section -->
+  <circle r="44"  fill="#162040" stroke="#0891b2" stroke-width="1.3"/>
+  <!-- SC magnet rings (6, equally spaced) -->
+  <g fill="#0891b2" opacity="0.55">
+    <circle cx="0"   cy="-41" r="5"/>
+    <circle cx="36"  cy="-21" r="5"/>
+    <circle cx="36"  cy="21"  r="5"/>
+    <circle cx="0"   cy="41"  r="5"/>
+    <circle cx="-36" cy="21"  r="5"/>
+    <circle cx="-36" cy="-21" r="5"/>
+  </g>
+  <g fill="none" stroke="#22d3ee" stroke-width="1.2" opacity="0.8">
+    <circle cx="0"   cy="-41" r="5"/>
+    <circle cx="36"  cy="-21" r="5"/>
+    <circle cx="36"  cy="21"  r="5"/>
+    <circle cx="0"   cy="41"  r="5"/>
+    <circle cx="-36" cy="21"  r="5"/>
+    <circle cx="-36" cy="-21" r="5"/>
+  </g>
+  <!-- Payload cavity -->
+  <circle r="28" fill="#0a1220" stroke="#2a3a5f" stroke-width="0.8"/>
+  <text y="4" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">PAYLOAD</text>
+  <!-- Labels -->
+  <g font-size="7" font-family="monospace" fill="#5a6a8a">
+    <line x1="100" y1="-35" x2="118" y2="-35" stroke="#5a6a8a" stroke-width="0.5"/>
+    <text x="120" y="-32">Struct. shell</text>
+    <line x1="83" y1="-60" x2="118" y2="-60" stroke="#1d40a0" stroke-width="0.5"/>
+    <text x="120" y="-57" fill="#1d40a0">80 K shield</text>
+    <line x1="70" y1="-76" x2="118" y2="-76" stroke="#0891b2" stroke-width="0.5"/>
+    <text x="120" y="-73" fill="#0891b2">20 K shield</text>
+    <line x1="63" y1="-88" x2="118" y2="-88" stroke="#7c3aed" stroke-width="0.5"/>
+    <text x="120" y="-85" fill="#a78bfa">REBCO coil</text>
+    <line x1="52" y1="-96" x2="118" y2="-96" stroke="#0891b2" stroke-width="0.5"/>
+    <text x="120" y="-93" fill="#0891b2">Bore liner</text>
+    <line x1="44" y1="60" x2="118" y2="60" stroke="#22d3ee" stroke-width="0.5"/>
+    <text x="120" y="63" fill="#22d3ee">Pod + SC magnets</text>
+  </g>
+</g>
+
+<!-- ══ IRIS DOOR DETAIL (centred at 580, 595) ══ -->
+<g transform="translate(580,595)">
+  <!-- Outer frame ring -->
+  <circle r="104" fill="#1e2840" stroke="#3a5080" stroke-width="1.5"/>
+  <circle r="92"  fill="#080c18" stroke="#2a3a5f" stroke-width="0.6"/>
+  <!-- 6 partially-open blades (60% open aperture = clear radius ~55px) -->
+  <polygon points="0,-92 28,-80 18,-38 -18,-38" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
+  <polygon points="80,-46 92,-5 52,12 30,-28" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
+  <polygon points="80,46 48,88 26,52 58,16" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
+  <polygon points="0,92 -28,80 -18,38 18,38" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
+  <polygon points="-80,46 -92,-5 -52,12 -30,28" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
+  <polygon points="-80,-46 -48,-88 -26,-52 -58,-16" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
+  <!-- Clear bore aperture -->
+  <circle r="36" fill="#020408" stroke="#22d3ee" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <!-- Actuator pivots -->
+  <g fill="#0891b2">
+    <circle cx="0"   cy="-96" r="4.5"/>
+    <circle cx="83"  cy="-48" r="4.5"/>
+    <circle cx="83"  cy="48"  r="4.5"/>
+    <circle cx="0"   cy="96"  r="4.5"/>
+    <circle cx="-83" cy="48"  r="4.5"/>
+    <circle cx="-83" cy="-48" r="4.5"/>
+  </g>
+  <!-- Labels -->
+  <text y="-112" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">EM LINEAR ACTUATOR PIVOT</text>
+  <text x="108" y="-48" fill="#5a6a8a" font-size="7" text-anchor="start" font-family="monospace">6× Ti-6Al-4V</text>
+  <text x="108" y="-38" fill="#5a6a8a" font-size="7" text-anchor="start" font-family="monospace">blades</text>
+  <text y="116" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">SHOWN 60% OPEN · Open time &lt;50 ms</text>
+  <text y="129" fill="#7c3aed" font-size="7" text-anchor="middle" font-family="monospace">Predictive control — pod position sensed 3+ sections ahead</text>
+</g>
+
+<!-- ══ DESIGN PARAMETERS TABLE ══ -->
+<g font-family="monospace">
+  <line x1="780" y1="478" x2="1375" y2="478" stroke="#2a3245" stroke-width="0.5"/>
+  <line x1="780" y1="712" x2="1375" y2="712" stroke="#2a3245" stroke-width="0.5"/>
+  <line x1="1055" y1="478" x2="1055" y2="712" stroke="#2a3245" stroke-width="0.5"/>
+  <!-- Rows -->
+  <g font-size="8.5" fill="#5a6a8a">
+    <text x="785" y="495">Bore diameter</text>
+    <text x="785" y="513">Operating temperature</text>
+    <text x="785" y="531">Coil field (at 5 K)</text>
+    <text x="785" y="549">Critical current density Jc</text>
+    <text x="785" y="567">Conductor material</text>
+    <text x="785" y="585">Rings per section</text>
+    <text x="785" y="603">Ring pitch</text>
+    <text x="785" y="621">Section length</text>
+    <text x="785" y="639">Cryo-cooling method</text>
+    <text x="785" y="657">Power per cooler</text>
+    <text x="785" y="675">Cool-down time</text>
+    <text x="785" y="693">Iris door material</text>
+    <text x="785" y="711">Door open time</text>
+  </g>
+  <g font-size="8.5" fill="#eef2fa">
+    <text x="1060" y="495">1.5 m</text>
+    <text x="1060" y="513" fill="#22d3ee">5 – 20 K   (closed-cycle PTR)</text>
+    <text x="1060" y="531" fill="#22d3ee">20 – 26 T</text>
+    <text x="1060" y="549">&gt;1,000 A/mm²  @ 30 T, 4.2 K</text>
+    <text x="1060" y="567">REBCO  (YBa₂Cu₃O₇ / Hastelloy)</text>
+    <text x="1060" y="585">20</text>
+    <text x="1060" y="603">0.5 m</text>
+    <text x="1060" y="621">10 m  (chain-bolted, indium seals)</text>
+    <text x="1060" y="639">Pulse-tube refrigerator  (2× / section)</text>
+    <text x="1060" y="657">3 kW</text>
+    <text x="1060" y="675">~12 h from ambient</text>
+    <text x="1060" y="693">Ti-6Al-4V  (6-blade iris)</text>
+    <text x="1060" y="711" fill="#22d3ee">&lt;50 ms</text>
+  </g>
+</g>
+</svg>
