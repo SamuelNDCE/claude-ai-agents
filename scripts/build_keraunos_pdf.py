@@ -144,7 +144,7 @@ def draw_gates(c):
         t = i / (n - 1)
         cx = x0 + (x1 - x0) * t
         cy = y0 + (y1 - y0) * t
-        hh = (0.18 + 0.22 * t) * inch  # ring half-height grows toward the exit
+        hh = 0.30 * inch               # all rings the same size
         hw = hh * 0.30                 # narrow ellipse, seen edge-on
         base = 0.30 + 0.65 * t         # brightness ramps along the track
         c.saveState()
@@ -194,9 +194,7 @@ def cover(c, doc):
     c.drawCentredString(W / 2, H - 6.0 * inch, "Maglev Space Launch System  ·  SELENE · BRONTE · ARES")
     c.setFont("Segoe", 10.5)
     c.setFillColor(HexColor("#7e8db0"))
-    c.drawCentredString(W / 2, H - 7.6 * inch,
-                        "Rockets burn 90% of their mass fighting gravity.")
-    c.drawCentredString(W / 2, H - 7.82 * inch,
+    c.drawCentredString(W / 2, H - 7.7 * inch,
                         "KERAUNOS leaves the fuel on the ground.")
     c.setFillColor(white)
     c.setFont("Segoe-Semi", 13)
