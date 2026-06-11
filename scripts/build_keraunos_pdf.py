@@ -122,27 +122,34 @@ def styled_table(header, rows, widths, highlight_row=None):
 
 
 def draw_gates(c):
-    """Accelerator coil gates ascending diagonally, payload exiting the last ring."""
+    """KERAUNOS logo badge: accelerator coil gates ascending, payload exiting."""
+    # badge card
+    bx0, by0 = W / 2 - 2.85 * inch, H - 3.7 * inch
+    bw, bh = 5.7 * inch, 2.55 * inch
+    c.setFillColor(HexColor("#10172b"))
+    c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=0.35)
+    c.setLineWidth(1)
+    c.roundRect(bx0, by0, bw, bh, 16, stroke=1, fill=1)
+    # rings inside the badge
     n = 8
-    x0, y0 = W / 2 - 2.3 * inch, H - 3.35 * inch
-    x1, y1 = W / 2 + 1.95 * inch, H - 1.75 * inch
-    # faint dashed trajectory through the ring centers
+    x0, y0 = W / 2 - 2.05 * inch, H - 3.0 * inch
+    x1, y1 = W / 2 + 1.55 * inch, H - 1.8 * inch
     c.saveState()
     c.setDash(2, 5)
     c.setLineWidth(0.6)
     c.setStrokeColorRGB(0.45, 0.65, 0.75, alpha=0.25)
-    c.line(x0 - 0.15 * inch, y0 - 0.06 * inch, x1 + 0.55 * inch, y1 + 0.2 * inch)
+    c.line(x0 - 0.12 * inch, y0 - 0.05 * inch, x1 + 0.5 * inch, y1 + 0.17 * inch)
     c.restoreState()
     for i in range(n):
         t = i / (n - 1)
         cx = x0 + (x1 - x0) * t
         cy = y0 + (y1 - y0) * t
-        hh = (0.30 + 0.34 * t) * inch  # ring half-height grows toward the exit
+        hh = (0.26 + 0.30 * t) * inch  # ring half-height grows toward the exit
         hw = hh * 0.30                 # narrow ellipse, seen edge-on
         base = 0.30 + 0.65 * t         # brightness ramps along the track
         c.saveState()
         c.translate(cx, cy)
-        c.rotate(-14)
+        c.rotate(18)                   # perpendicular to the ascending track
         for lw, ga in ((7, 0.10), (4.5, 0.18), (2.6, 0.38), (1.4, 1.0)):
             c.setLineWidth(lw)
             c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=ga * base)
@@ -150,9 +157,11 @@ def draw_gates(c):
         c.restoreState()
     # the payload, clear of the muzzle
     c.setFillColorRGB(0.13, 0.83, 0.93, alpha=0.95)
-    c.circle(x1 + 0.45 * inch, y1 + 0.16 * inch, 3.2, stroke=0, fill=1)
-    c.setFillColorRGB(0.13, 0.83, 0.93, alpha=0.55)
-    c.circle(x1 + 0.75 * inch, y1 + 0.27 * inch, 1.7, stroke=0, fill=1)
+    c.circle(x1 + 0.42 * inch, y1 + 0.15 * inch, 3.2, stroke=0, fill=1)
+    # wordmark inside the badge
+    c.setFillColor(TEAL_BRIGHT)
+    c.setFont("Segoe-Semi", 12)
+    c.drawCentredString(W / 2, by0 + 0.22 * inch, "Κ Ε Ρ Α Υ Ν Ο Σ")
 
 
 def cover(c, doc):
@@ -169,10 +178,6 @@ def cover(c, doc):
         c.circle(x, y, r, stroke=0, fill=1)
     # accelerator gates
     draw_gates(c)
-    # greek
-    c.setFillColor(TEAL_BRIGHT)
-    c.setFont("Segoe-Semi", 13)
-    c.drawCentredString(W / 2 + 6, H - 3.95 * inch, "Κ Ε Ρ Α Υ Ν Ο Σ")
     # title
     c.setFillColor(white)
     c.setFont("Segoe-Bold", 56)

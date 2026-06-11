@@ -1,0 +1,35 @@
+<svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>ΚΕΡΑΥΝΟΣ magnetic launch system icon</title>
+  <desc>Eight electromagnetic coil rings arranged along a slightly upward-angling trajectory, representing the KERAUNOS magnetic launch system</desc>
+  <defs>
+    <filter id="g1" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="g2" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="g3" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="480" height="220" fill="#05080f" rx="10"/>
+  <line x1="50" y1="182" x2="460" y2="58" stroke="#22d3ee" stroke-width="0.5" stroke-dasharray="3,10" opacity="0.13"/>
+
+  <ellipse cx="65"  cy="175" rx="5.5" ry="22" transform="rotate(-16,65,175)"  fill="none" stroke="#0e6a80" stroke-width="2"   opacity="0.28" filter="url(#g1)"/>
+  <ellipse cx="115" cy="161" rx="5.5" ry="22" transform="rotate(-16,115,161)" fill="none" stroke="#0e6a80" stroke-width="2"   opacity="0.40" filter="url(#g1)"/>
+  <ellipse cx="165" cy="147" rx="5.5" ry="22" transform="rotate(-16,165,147)" fill="none" stroke="#22d3ee" stroke-width="2.2" opacity="0.53" filter="url(#g1)"/>
+  <ellipse cx="215" cy="132" rx="5.5" ry="22" transform="rotate(-16,215,132)" fill="none" stroke="#22d3ee" stroke-width="2.2" opacity="0.64" filter="url(#g1)"/>
+  <ellipse cx="265" cy="118" rx="5.5" ry="22" transform="rotate(-16,265,118)" fill="none" stroke="#22d3ee" stroke-width="2.4" opacity="0.74" filter="url(#g1)"/>
+  <ellipse cx="315" cy="103" rx="5.5" ry="22" transform="rotate(-16,315,103)" fill="none" stroke="#22d3ee" stroke-width="2.4" opacity="0.84" filter="url(#g1)"/>
+  <ellipse cx="365" cy="89"  rx="5.5" ry="22" transform="rotate(-16,365,89)"  fill="none" stroke="#7ef5ff" stroke-width="2.8" opacity="0.93" filter="url(#g2)"/>
+  <ellipse cx="415" cy="75"  rx="5.5" ry="22" transform="rotate(-16,415,75)"  fill="none" stroke="#7ef5ff" stroke-width="3.5" opacity="1.0"  filter="url(#g2)"/>
+
+  <circle cx="443" cy="62" r="2.5" fill="#7ef5ff" opacity="1.0" filter="url(#g3)"/>
+
+  <text x="240" y="208" text-anchor="middle" font-family="'Courier New', Courier, monospace"
+    font-size="11" letter-spacing="7" fill="#22d3ee" opacity="0.55">ΚΕΡΑΥΝΟΣ</text>
+</svg>
