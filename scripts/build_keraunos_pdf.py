@@ -340,13 +340,18 @@ E.append(p(
 E.append(Spacer(1, 10))
 E.append(Paragraph("Track section architecture: SELENE Linear Synchronous Motor", S["h2"]))
 E.append(p(
-    "Each 10 m section of the SELENE track contains 20 REBCO superconducting coil rings "
-    "spaced at 0.5 m pitch, wound in a 3-phase configuration. The structural shell is a "
-    "1.5 m bore cryostat: carbon fibre outer shell, dual vacuum jackets, 80 K and 20 K "
-    "thermal shields, and the REBCO winding layer at 5-20 K. Two pulse-tube refrigerators "
-    "(3 kW each) maintain operating temperature per section. Titanium iris doors at each "
-    "end open in under 50 ms on predictive sensor control. Sections bolt together with "
-    "indium vacuum seals."
+    "The SELENE track is fully open: no tube, no doors. The Moon's vacuum makes an "
+    "enclosure unnecessary. Each nominal 10 m section carries <b>25 REBCO coil rings at "
+    "0.4 m pitch</b>, each ring an independent sealed cryostat built the way SPARC-class "
+    "fusion magnets are built: vacuum vessel, thermal shield, 316LN coil case, and a "
+    "winding pack of REBCO double-pancakes. The three-phase winding follows the standard "
+    "A&nbsp;C'&nbsp;B&nbsp;A'&nbsp;C&nbsp;B' sequence with a 1.2 m pole pitch. Every coil "
+    "runs at a single design point of <b>20 K</b>, in the <b>20-30 T</b> field class, with "
+    "its own coolant branch and quench dump. A buried cryoplant uses the regolith's "
+    "constant ~250 K subsurface temperature as a thermal buffer through the 14-day lunar "
+    "day; a deployable sun shield and radiator panels reject heat to deep space. The pod "
+    "carries a kick stage for apogee circularization, a modular cargo bay on rails, and "
+    "a blunt dust fairing - no aerodynamics needed in vacuum."
 ))
 _SVG_TRACK = r"C:\Users\Futur\Documents\AiWorkspace\Claude\ui\selene-track-section.svg"
 if _SVGLIB and os.path.exists(_SVG_TRACK):
@@ -359,10 +364,11 @@ if _SVGLIB and os.path.exists(_SVG_TRACK):
         _drw.transform = (_scale, 0, 0, _scale, 0, 0)
         E.append(_drw)
         E.append(p(
-            "<i>Figure: Side elevation cut-away and cross-section of a single 10 m SELENE "
-            "LSM track section. Teal = Phase A coils; purple = Phase B; violet = Phase C. "
-            "Pod shown mid-section with 6 REBCO reaction magnet bands. Left iris door "
-            "closed; right door open. Scale 1:100.</i>"
+            "<i>Figure: SELENE-S open track section, drawing KER-SEL-TRK-001 Rev E. "
+            "Side elevation cut-away with coil ring face view, conductor detail, payload "
+            "configurations, and S/L variant table. Blue = Phase A, purple = Phase B, "
+            "violet = Phase C. Very early concept mock-up - not to scale; configuration "
+            "will change as the design matures.</i>"
         ))
 E.append(Spacer(1, 6))
 

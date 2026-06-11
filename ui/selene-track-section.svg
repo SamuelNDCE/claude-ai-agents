@@ -1,432 +1,488 @@
-<svg id="main" viewBox="0 0 1400 720" width="100%" style="display:block;max-width:1400px">
+<svg id="main" viewBox="0 0 1400 960" width="100%" style="display:block;max-width:1400px">
 <defs>
   <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-    <path d="M30 0L0 0 0 30" fill="none" stroke="#111827" stroke-width="0.8"/>
+    <path d="M30 0L0 0 0 30" fill="none" stroke="#e8ecf4" stroke-width="0.8"/>
   </pattern>
-  <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse">
-    <path d="M0 6L6 0" stroke="#1e3a5f" stroke-width="1"/>
+  <pattern id="regohatch" width="8" height="8" patternUnits="userSpaceOnUse">
+    <path d="M0 8L8 0" stroke="#c9c0ae" stroke-width="1"/>
   </pattern>
-  <linearGradient id="podGrad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#0a1628"/>
-    <stop offset="25%" stop-color="#162040"/>
-    <stop offset="75%" stop-color="#162040"/>
-    <stop offset="100%" stop-color="#0a1628"/>
-  </linearGradient>
-  <linearGradient id="boreGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#050810"/>
-    <stop offset="50%" stop-color="#070a14"/>
-    <stop offset="100%" stop-color="#050810"/>
-  </linearGradient>
   <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-    <polygon points="0 0,8 3,0 6" fill="#22d3ee"/>
+    <polygon points="0 0,8 3,0 6" fill="#0284c7"/>
   </marker>
   <marker id="arrdim" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
-    <polygon points="0 0,6 2.5,0 5" fill="#5a6a8a"/>
+    <polygon points="0 0,6 2.5,0 5" fill="#4a5568"/>
   </marker>
   <marker id="arrdimL" markerWidth="6" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
-    <polygon points="0 0,6 2.5,0 5" fill="#5a6a8a"/>
+    <polygon points="0 0,6 2.5,0 5" fill="#4a5568"/>
   </marker>
 </defs>
 
 <!-- BG -->
-<rect width="1400" height="720" fill="#080c18"/>
-<rect width="1400" height="720" fill="url(#grid)" opacity="0.55"/>
+<rect width="1400" height="960" fill="#ffffff"/>
+<rect width="1400" height="960" fill="url(#grid)" opacity="0.5"/>
 
-<!-- ═══ SECTION TITLE ═══ -->
-<text x="690" y="28" fill="#22d3ee" font-size="10" text-anchor="middle" letter-spacing="2.5" font-family="monospace">SIDE ELEVATION — CUT-AWAY VIEW — SCALE 1:100</text>
-<text x="690" y="44" fill="#5a6a8a" font-size="8.5" text-anchor="middle" font-family="monospace">3-PHASE TRAVELING MAGNETIC WAVE ›› ›› ›› (snapshot: Phase A energised)</text>
-<line x1="20" y1="52" x2="1380" y2="52" stroke="#2a3245" stroke-width="0.7"/>
-
-<!-- ═══════════════════════════════════════════════
-     MAIN SIDE ELEVATION
-     Section x: 90→1290 (1200px = 10m)   scale 120px/m
-     y_center = 215
-     bore half-h: 73px  →  1.46 m dia (≈ 1.5 m bore)
-     bore walls: y=142 to y=288
-     REBCO winding top: y=122 to y=142   (20px)
-     REBCO winding bot: y=288 to y=308
-     20K shield: y=115 to y=122  /  y=308 to y=315
-     vacuum insul: y=107 to y=115  /  y=315 to y=323
-     80K shield: y=100 to y=107  /  y=323 to y=330
-     outer vac jkt: y=91 to y=100  /  y=330 to y=339
-     structural: y=80 to y=91  /  y=339 to y=350
-═══════════════════════════════════════════════ -->
-
-<!-- STRUCTURAL SHELL -->
-<rect x="90" y="80" width="1200" height="11" fill="#1e2840" stroke="#3a5080" stroke-width="1"/>
-<rect x="90" y="339" width="1200" height="11" fill="#1e2840" stroke="#3a5080" stroke-width="1"/>
-
-<!-- OUTER VACUUM JACKET -->
-<rect x="90" y="91" width="1200" height="9" fill="#141b2e" stroke="#2a3a5f" stroke-width="0.6"/>
-<rect x="90" y="330" width="1200" height="9" fill="#141b2e" stroke="#2a3a5f" stroke-width="0.6"/>
-
-<!-- 80K THERMAL SHIELD (copper) -->
-<rect x="90" y="100" width="1200" height="7" fill="#0f1e3a" stroke="#1d40a0" stroke-width="0.7"/>
-<rect x="90" y="323" width="1200" height="7" fill="#0f1e3a" stroke="#1d40a0" stroke-width="0.7"/>
-
-<!-- INSULATION VACUUM (hatched) -->
-<rect x="90" y="107" width="1200" height="8" fill="url(#hatch)" opacity="0.7"/>
-<rect x="90" y="315" width="1200" height="8" fill="url(#hatch)" opacity="0.7"/>
-
-<!-- 20K THERMAL SHIELD (aluminium) -->
-<rect x="90" y="115" width="1200" height="7" fill="#0a1a30" stroke="#0891b2" stroke-width="0.7"/>
-<rect x="90" y="308" width="1200" height="7" fill="#0a1a30" stroke="#0891b2" stroke-width="0.7"/>
-
-<!-- REBCO COIL WINDING REGION (background) -->
-<rect x="90" y="122" width="1200" height="20" fill="#100820" stroke="#4a1f8a" stroke-width="0.6"/>
-<rect x="90" y="288" width="1200" height="20" fill="#100820" stroke="#4a1f8a" stroke-width="0.6"/>
-
-<!-- BORE INNER LINER (GFRP) -->
-<rect x="90" y="142" width="1200" height="5" fill="#162040" stroke="#0891b2" stroke-width="1.1"/>
-<rect x="90" y="283" width="1200" height="5" fill="#162040" stroke="#0891b2" stroke-width="1.1"/>
-
-<!-- BORE INTERIOR -->
-<rect x="90" y="147" width="1200" height="136" fill="url(#boreGrad)"/>
-
-<!-- ═══ 20 REBCO COIL RINGS ═══
-     First center: x = 90 + 0.25×120 = 120
-     Spacing: 0.5×120 = 60px
-     Centers: 120,180,240,300,360,420,480,540,600,660,720,780,840,900,960,1020,1080,1140,1200,1260
-     Width: 16px (each 8px either side of center)
-     Phase A (0,3,6,9,12,15,18): fill #22d3ee
-     Phase B (1,4,7,10,13,16,19): fill #7c3aed
-     Phase C (2,5,8,11,14,17): fill #a78bfa -->
-
-<!-- Phase A -->
-<g fill="#22d3ee" opacity="0.88">
-  <rect x="112" y="122" width="16" height="20"/>  <rect x="112" y="288" width="16" height="20"/>
-  <rect x="292" y="122" width="16" height="20"/>  <rect x="292" y="288" width="16" height="20"/>
-  <rect x="472" y="122" width="16" height="20"/>  <rect x="472" y="288" width="16" height="20"/>
-  <rect x="652" y="122" width="16" height="20"/>  <rect x="652" y="288" width="16" height="20"/>
-  <rect x="832" y="122" width="16" height="20"/>  <rect x="832" y="288" width="16" height="20"/>
-  <rect x="1012" y="122" width="16" height="20"/> <rect x="1012" y="288" width="16" height="20"/>
-  <rect x="1192" y="122" width="16" height="20"/> <rect x="1192" y="288" width="16" height="20"/>
-</g>
-<!-- Phase B -->
-<g fill="#7c3aed" opacity="0.88">
-  <rect x="172" y="122" width="16" height="20"/>  <rect x="172" y="288" width="16" height="20"/>
-  <rect x="352" y="122" width="16" height="20"/>  <rect x="352" y="288" width="16" height="20"/>
-  <rect x="532" y="122" width="16" height="20"/>  <rect x="532" y="288" width="16" height="20"/>
-  <rect x="712" y="122" width="16" height="20"/>  <rect x="712" y="288" width="16" height="20"/>
-  <rect x="892" y="122" width="16" height="20"/>  <rect x="892" y="288" width="16" height="20"/>
-  <rect x="1072" y="122" width="16" height="20"/> <rect x="1072" y="288" width="16" height="20"/>
-  <rect x="1252" y="122" width="16" height="20"/> <rect x="1252" y="288" width="16" height="20"/>
-</g>
-<!-- Phase C -->
-<g fill="#a78bfa" opacity="0.88">
-  <rect x="232" y="122" width="16" height="20"/>  <rect x="232" y="288" width="16" height="20"/>
-  <rect x="412" y="122" width="16" height="20"/>  <rect x="412" y="288" width="16" height="20"/>
-  <rect x="592" y="122" width="16" height="20"/>  <rect x="592" y="288" width="16" height="20"/>
-  <rect x="772" y="122" width="16" height="20"/>  <rect x="772" y="288" width="16" height="20"/>
-  <rect x="952" y="122" width="16" height="20"/>  <rect x="952" y="288" width="16" height="20"/>
-  <rect x="1132" y="122" width="16" height="20"/> <rect x="1132" y="288" width="16" height="20"/>
+<!-- STARS (dark mode only) -->
+<g fill="#16192a" opacity="0">
+  <circle cx="180" cy="30" r="1"/>
+  <circle cx="420" cy="22" r="0.8"/>
+  <circle cx="700" cy="32" r="1"/>
+  <circle cx="1010" cy="24" r="0.8"/>
+  <circle cx="1230" cy="37" r="1"/>
+  <circle cx="60" cy="200" r="0.8"/>
+  <circle cx="1350" cy="160" r="0.8"/>
+  <circle cx="1180" cy="180" r="0.8"/>
+  <circle cx="1340" cy="300" r="0.8"/>
 </g>
 
-<!-- Ring inner bore walls (thin lines at bore boundary) -->
-<g stroke="#3a4a6a" stroke-width="0.5" opacity="0.4">
-  <line x1="112" y1="147" x2="112" y2="283"/> <line x1="128" y1="147" x2="128" y2="283"/>
-  <line x1="172" y1="147" x2="172" y2="283"/> <line x1="188" y1="147" x2="188" y2="283"/>
-  <line x1="232" y1="147" x2="232" y2="283"/> <line x1="248" y1="147" x2="248" y2="283"/>
-  <line x1="292" y1="147" x2="292" y2="283"/> <line x1="308" y1="147" x2="308" y2="283"/>
-  <line x1="352" y1="147" x2="352" y2="283"/> <line x1="368" y1="147" x2="368" y2="283"/>
-  <line x1="412" y1="147" x2="412" y2="283"/> <line x1="428" y1="147" x2="428" y2="283"/>
-  <line x1="472" y1="147" x2="472" y2="283"/> <line x1="488" y1="147" x2="488" y2="283"/>
-  <line x1="532" y1="147" x2="532" y2="283"/> <line x1="548" y1="147" x2="548" y2="283"/>
-  <line x1="592" y1="147" x2="592" y2="283"/> <line x1="608" y1="147" x2="608" y2="283"/>
-  <line x1="652" y1="147" x2="652" y2="283"/> <line x1="668" y1="147" x2="668" y2="283"/>
-  <line x1="712" y1="147" x2="712" y2="283"/> <line x1="728" y1="147" x2="728" y2="283"/>
-  <line x1="772" y1="147" x2="772" y2="283"/> <line x1="788" y1="147" x2="788" y2="283"/>
-  <line x1="832" y1="147" x2="832" y2="283"/> <line x1="848" y1="147" x2="848" y2="283"/>
-  <line x1="892" y1="147" x2="892" y2="283"/> <line x1="908" y1="147" x2="908" y2="283"/>
-  <line x1="952" y1="147" x2="952" y2="283"/> <line x1="968" y1="147" x2="968" y2="283"/>
-  <line x1="1012" y1="147" x2="1012" y2="283"/> <line x1="1028" y1="147" x2="1028" y2="283"/>
-  <line x1="1072" y1="147" x2="1072" y2="283"/> <line x1="1088" y1="147" x2="1088" y2="283"/>
-  <line x1="1132" y1="147" x2="1132" y2="283"/> <line x1="1148" y1="147" x2="1148" y2="283"/>
-  <line x1="1192" y1="147" x2="1192" y2="283"/> <line x1="1208" y1="147" x2="1208" y2="283"/>
-  <line x1="1252" y1="147" x2="1252" y2="283"/> <line x1="1268" y1="147" x2="1268" y2="283"/>
+<!-- TITLE + DISCLAIMER -->
+<text x="690" y="24" fill="#0284c7" font-size="12" text-anchor="middle" letter-spacing="2.5">SIDE ELEVATION — CUT-AWAY — SELENE-S — OPEN TRACK (NOT TO SCALE)</text>
+<text x="690" y="39" fill="#4a5568" font-size="9.5" text-anchor="middle">3-PHASE LSM · WINDING A C' B A' C B' · tau = 1.2 m · ALL COILS 20 K · FIELD CLASS 20-30 T</text>
+<line x1="20" y1="45" x2="1380" y2="45" stroke="#c3ccdd" stroke-width="0.7"/>
+<text x="690" y="57" fill="#6d28d9" font-size="10.5" text-anchor="middle" letter-spacing="1.5">VERY EARLY CONCEPT MOCK-UP — TEST DESIGN — NOT TO SCALE</text>
+
+<!-- RADIATORS -->
+<g fill="#f4f6fb" stroke="#0284c7" stroke-width="0.9">
+  <rect x="160" y="64" width="70" height="6"/>
+  <rect x="320" y="64" width="70" height="6"/>
+  <rect x="480" y="64" width="70" height="6"/>
+  <rect x="640" y="64" width="70" height="6"/>
+  <rect x="800" y="64" width="70" height="6"/>
+  <rect x="960" y="64" width="70" height="6"/>
+</g>
+<g stroke="#c3ccdd" stroke-width="2">
+  <line x1="195" y1="70" x2="195" y2="78"/>
+  <line x1="355" y1="70" x2="355" y2="78"/>
+  <line x1="515" y1="70" x2="515" y2="78"/>
+  <line x1="675" y1="70" x2="675" y2="78"/>
+  <line x1="835" y1="70" x2="835" y2="78"/>
+  <line x1="995" y1="70" x2="995" y2="78"/>
 </g>
 
-<!-- ═══ MAGNETIC FIELD LINES (dashed arcs in bore) ═══ -->
-<g stroke="#22d3ee" stroke-width="0.9" fill="none" opacity="0.18" stroke-dasharray="4,5">
-  <path d="M120 152 Q150 215 120 278"/>
-  <path d="M180 152 Q210 215 180 278"/>
-  <path d="M240 152 Q270 215 240 278"/>
-  <path d="M300 152 Q330 215 300 278"/>
-  <path d="M360 152 Q390 215 360 278"/>
-  <path d="M420 152 Q450 215 420 278"/>
-  <path d="M480 152 Q510 215 480 278"/>
-  <path d="M540 152 Q570 215 540 278"/>
-  <path d="M600 152 Q630 215 600 278"/>
-  <path d="M660 152 Q690 215 660 278"/>
-  <path d="M720 152 Q750 215 720 278"/>
+<!-- SUN SHIELD -->
+<rect x="110" y="78" width="1020" height="8" fill="#eef1f8" stroke="#4a5568" stroke-width="0.8"/>
+<g fill="#eef1f8" stroke="#64748b" stroke-width="0.5">
+  <rect x="166" y="86" width="8" height="9"/>
+  <rect x="616" y="86" width="8" height="9"/>
+  <rect x="1066" y="86" width="8" height="9"/>
 </g>
 
-<!-- ═══ POD ═══ -->
-<!-- Body x=430–840, y=150–280 -->
-<rect x="435" y="151" width="400" height="128" rx="4" fill="url(#podGrad)" stroke="#0891b2" stroke-width="1.6"/>
-<!-- Nose cone (rightward travel) -->
-<polygon points="835,151 835,279 880,215" fill="#0a1628" stroke="#0891b2" stroke-width="1.6"/>
-<!-- SC reaction magnet rings on pod exterior -->
-<g fill="#0891b2" opacity="0.5">
-  <rect x="465" y="151" width="9" height="128"/>
-  <rect x="520" y="151" width="9" height="128"/>
-  <rect x="580" y="151" width="9" height="128"/>
-  <rect x="640" y="151" width="9" height="128"/>
-  <rect x="700" y="151" width="9" height="128"/>
-  <rect x="760" y="151" width="9" height="128"/>
+<!-- BORE BACKDROP -->
+<rect x="120" y="145" width="1000" height="200" fill="#e9edf5"/>
+
+<!-- FIELD ARCS -->
+<g stroke="#0284c7" stroke-width="0.9" fill="none" opacity="0.25" stroke-dasharray="4,5">
+  <path d="M140 168 Q165 245 140 340"/>
+  <path d="M180 168 Q205 245 180 340"/>
+  <path d="M220 168 Q245 245 220 340"/>
+  <path d="M260 168 Q285 245 260 340"/>
+  <path d="M300 168 Q325 245 300 340"/>
 </g>
-<g fill="none" stroke="#22d3ee" stroke-width="1.3" opacity="0.7">
-  <rect x="465" y="151" width="9" height="128"/>
-  <rect x="520" y="151" width="9" height="128"/>
-  <rect x="580" y="151" width="9" height="128"/>
-  <rect x="640" y="151" width="9" height="128"/>
-  <rect x="700" y="151" width="9" height="128"/>
-  <rect x="760" y="151" width="9" height="128"/>
+
+<!-- 25 COIL RING CASINGS -->
+<g fill="#eef1f8" stroke="#64748b" stroke-width="0.8">
+  <rect x="126" y="95" width="28" height="50"/><rect x="126" y="345" width="28" height="50"/>
+  <rect x="166" y="95" width="28" height="50"/><rect x="166" y="345" width="28" height="50"/>
+  <rect x="206" y="95" width="28" height="50"/><rect x="206" y="345" width="28" height="50"/>
+  <rect x="246" y="95" width="28" height="50"/><rect x="246" y="345" width="28" height="50"/>
+  <rect x="286" y="95" width="28" height="50"/><rect x="286" y="345" width="28" height="50"/>
+  <rect x="326" y="95" width="28" height="50"/><rect x="326" y="345" width="28" height="50"/>
+  <rect x="366" y="95" width="28" height="50"/><rect x="366" y="345" width="28" height="50"/>
+  <rect x="406" y="95" width="28" height="50"/><rect x="406" y="345" width="28" height="50"/>
+  <rect x="446" y="95" width="28" height="50"/><rect x="446" y="345" width="28" height="50"/>
+  <rect x="486" y="95" width="28" height="50"/><rect x="486" y="345" width="28" height="50"/>
+  <rect x="526" y="95" width="28" height="50"/><rect x="526" y="345" width="28" height="50"/>
+  <rect x="566" y="95" width="28" height="50"/><rect x="566" y="345" width="28" height="50"/>
+  <rect x="606" y="95" width="28" height="50"/><rect x="606" y="345" width="28" height="50"/>
+  <rect x="646" y="95" width="28" height="50"/><rect x="646" y="345" width="28" height="50"/>
+  <rect x="686" y="95" width="28" height="50"/><rect x="686" y="345" width="28" height="50"/>
+  <rect x="726" y="95" width="28" height="50"/><rect x="726" y="345" width="28" height="50"/>
+  <rect x="766" y="95" width="28" height="50"/><rect x="766" y="345" width="28" height="50"/>
+  <rect x="806" y="95" width="28" height="50"/><rect x="806" y="345" width="28" height="50"/>
+  <rect x="846" y="95" width="28" height="50"/><rect x="846" y="345" width="28" height="50"/>
+  <rect x="886" y="95" width="28" height="50"/><rect x="886" y="345" width="28" height="50"/>
+  <rect x="926" y="95" width="28" height="50"/><rect x="926" y="345" width="28" height="50"/>
+  <rect x="966" y="95" width="28" height="50"/><rect x="966" y="345" width="28" height="50"/>
+  <rect x="1006" y="95" width="28" height="50"/><rect x="1006" y="345" width="28" height="50"/>
+  <rect x="1046" y="95" width="28" height="50"/><rect x="1046" y="345" width="28" height="50"/>
+  <rect x="1086" y="95" width="28" height="50"/><rect x="1086" y="345" width="28" height="50"/>
 </g>
-<!-- Pod label -->
-<text x="635" y="208" fill="#22d3ee" font-size="9.5" text-anchor="middle" letter-spacing="1.5" font-family="monospace">PAYLOAD POD</text>
-<text x="635" y="223" fill="#5a6a8a" font-size="8" text-anchor="middle" font-family="monospace">REBCO reaction magnets · magnetically levitated</text>
+
+<!-- WINDING PACKS — Phase A/A' -->
+<g fill="#0284c7" opacity="0.9">
+  <rect x="132" y="106" width="16" height="30"/><rect x="132" y="354" width="16" height="30"/>
+  <rect x="252" y="106" width="16" height="30"/><rect x="252" y="354" width="16" height="30"/>
+  <rect x="372" y="106" width="16" height="30"/><rect x="372" y="354" width="16" height="30"/>
+  <rect x="492" y="106" width="16" height="30"/><rect x="492" y="354" width="16" height="30"/>
+  <rect x="612" y="106" width="16" height="30"/><rect x="612" y="354" width="16" height="30"/>
+  <rect x="732" y="106" width="16" height="30"/><rect x="732" y="354" width="16" height="30"/>
+  <rect x="852" y="106" width="16" height="30"/><rect x="852" y="354" width="16" height="30"/>
+  <rect x="972" y="106" width="16" height="30"/><rect x="972" y="354" width="16" height="30"/>
+  <rect x="1092" y="106" width="16" height="30"/><rect x="1092" y="354" width="16" height="30"/>
+</g>
+<!-- Phase C/C' -->
+<g fill="#8b5cf6" opacity="0.9">
+  <rect x="172" y="106" width="16" height="30"/><rect x="172" y="354" width="16" height="30"/>
+  <rect x="292" y="106" width="16" height="30"/><rect x="292" y="354" width="16" height="30"/>
+  <rect x="412" y="106" width="16" height="30"/><rect x="412" y="354" width="16" height="30"/>
+  <rect x="532" y="106" width="16" height="30"/><rect x="532" y="354" width="16" height="30"/>
+  <rect x="652" y="106" width="16" height="30"/><rect x="652" y="354" width="16" height="30"/>
+  <rect x="772" y="106" width="16" height="30"/><rect x="772" y="354" width="16" height="30"/>
+  <rect x="892" y="106" width="16" height="30"/><rect x="892" y="354" width="16" height="30"/>
+  <rect x="1012" y="106" width="16" height="30"/><rect x="1012" y="354" width="16" height="30"/>
+</g>
+<!-- Phase B/B' -->
+<g fill="#6d28d9" opacity="0.9">
+  <rect x="212" y="106" width="16" height="30"/><rect x="212" y="354" width="16" height="30"/>
+  <rect x="332" y="106" width="16" height="30"/><rect x="332" y="354" width="16" height="30"/>
+  <rect x="452" y="106" width="16" height="30"/><rect x="452" y="354" width="16" height="30"/>
+  <rect x="572" y="106" width="16" height="30"/><rect x="572" y="354" width="16" height="30"/>
+  <rect x="692" y="106" width="16" height="30"/><rect x="692" y="354" width="16" height="30"/>
+  <rect x="812" y="106" width="16" height="30"/><rect x="812" y="354" width="16" height="30"/>
+  <rect x="932" y="106" width="16" height="30"/><rect x="932" y="354" width="16" height="30"/>
+  <rect x="1052" y="106" width="16" height="30"/><rect x="1052" y="354" width="16" height="30"/>
+</g>
+
+<!-- WINDING-SENSE SYMBOLS (first 6: A C' B A' C B') -->
+<g stroke="#ffffff" stroke-width="1.2" fill="none">
+  <circle cx="140" cy="121" r="5"/><line x1="137.2" y1="118.2" x2="142.8" y2="123.8"/><line x1="137.2" y1="123.8" x2="142.8" y2="118.2"/>
+  <circle cx="140" cy="369" r="5"/><circle cx="140" cy="369" r="1.6" fill="#ffffff"/>
+  <circle cx="180" cy="121" r="5"/><circle cx="180" cy="121" r="1.6" fill="#ffffff"/>
+  <circle cx="180" cy="369" r="5"/><line x1="177.2" y1="366.2" x2="182.8" y2="371.8"/><line x1="177.2" y1="371.8" x2="182.8" y2="366.2"/>
+  <circle cx="220" cy="121" r="5"/><line x1="217.2" y1="118.2" x2="222.8" y2="123.8"/><line x1="217.2" y1="123.8" x2="222.8" y2="118.2"/>
+  <circle cx="220" cy="369" r="5"/><circle cx="220" cy="369" r="1.6" fill="#ffffff"/>
+  <circle cx="260" cy="121" r="5"/><circle cx="260" cy="121" r="1.6" fill="#ffffff"/>
+  <circle cx="260" cy="369" r="5"/><line x1="257.2" y1="366.2" x2="262.8" y2="371.8"/><line x1="257.2" y1="371.8" x2="262.8" y2="366.2"/>
+  <circle cx="300" cy="121" r="5"/><line x1="297.2" y1="118.2" x2="302.8" y2="123.8"/><line x1="297.2" y1="123.8" x2="302.8" y2="118.2"/>
+  <circle cx="300" cy="369" r="5"/><circle cx="300" cy="369" r="1.6" fill="#ffffff"/>
+  <circle cx="340" cy="121" r="5"/><circle cx="340" cy="121" r="1.6" fill="#ffffff"/>
+  <circle cx="340" cy="369" r="5"/><line x1="337.2" y1="366.2" x2="342.8" y2="371.8"/><line x1="337.2" y1="371.8" x2="342.8" y2="366.2"/>
+</g>
+<!-- PHASE LABELS -->
+<g font-size="9" text-anchor="middle">
+  <text x="140" y="159" fill="#0284c7">A</text>
+  <text x="180" y="159" fill="#8b5cf6">C'</text>
+  <text x="220" y="159" fill="#6d28d9">B</text>
+  <text x="260" y="159" fill="#0284c7">A'</text>
+  <text x="300" y="159" fill="#8b5cf6">C</text>
+  <text x="340" y="159" fill="#6d28d9">B'</text>
+</g>
+
+<!-- TRUSS + MANIFOLD + TAPS + PYLONS -->
+<rect x="120" y="395" width="1000" height="14" fill="#f4f6fb" stroke="#c3ccdd" stroke-width="0.8"/>
+<line x1="130" y1="402" x2="1115" y2="402" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.8"/>
+<g stroke="#0284c7" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.7">
+  <line x1="140" y1="395" x2="140" y2="402"/><line x1="180" y1="395" x2="180" y2="402"/>
+  <line x1="220" y1="395" x2="220" y2="402"/><line x1="260" y1="395" x2="260" y2="402"/>
+  <line x1="300" y1="395" x2="300" y2="402"/><line x1="340" y1="395" x2="340" y2="402"/>
+  <line x1="380" y1="395" x2="380" y2="402"/><line x1="420" y1="395" x2="420" y2="402"/>
+  <line x1="460" y1="395" x2="460" y2="402"/><line x1="500" y1="395" x2="500" y2="402"/>
+  <line x1="540" y1="395" x2="540" y2="402"/><line x1="580" y1="395" x2="580" y2="402"/>
+  <line x1="620" y1="395" x2="620" y2="402"/><line x1="660" y1="395" x2="660" y2="402"/>
+  <line x1="700" y1="395" x2="700" y2="402"/><line x1="740" y1="395" x2="740" y2="402"/>
+  <line x1="780" y1="395" x2="780" y2="402"/><line x1="820" y1="395" x2="820" y2="402"/>
+  <line x1="860" y1="395" x2="860" y2="402"/><line x1="900" y1="395" x2="900" y2="402"/>
+  <line x1="940" y1="395" x2="940" y2="402"/><line x1="980" y1="395" x2="980" y2="402"/>
+  <line x1="1020" y1="395" x2="1020" y2="402"/><line x1="1060" y1="395" x2="1060" y2="402"/>
+  <line x1="1100" y1="395" x2="1100" y2="402"/>
+</g>
+<g fill="#f4f6fb" stroke="#64748b" stroke-width="0.7">
+  <rect x="160" y="409" width="14" height="31"/>
+  <rect x="310" y="409" width="14" height="31"/>
+  <rect x="460" y="409" width="14" height="31"/>
+  <rect x="610" y="409" width="14" height="31"/>
+  <rect x="760" y="409" width="14" height="31"/>
+  <rect x="910" y="409" width="14" height="31"/>
+  <rect x="1060" y="409" width="14" height="31"/>
+</g>
+
+<!-- GROUND + REGOLITH -->
+<line x1="20" y1="440" x2="1380" y2="440" stroke="#4a5568" stroke-width="1.2"/>
+<rect x="20" y="440" width="1360" height="120" fill="#f0ebe2"/>
+<rect x="20" y="440" width="1360" height="120" fill="url(#regohatch)" opacity="0.8"/>
+
+<!-- GENERAL NOTES -->
+<rect x="35" y="464" width="385" height="94" fill="#ffffff" opacity="0.94" stroke="#c3ccdd" stroke-width="0.8"/>
+<text x="45" y="479" fill="#0284c7" font-size="9.5" letter-spacing="2">GENERAL NOTES</text>
+<g font-size="8" fill="#4a5568">
+  <text x="45" y="492">1. EARLY CONCEPT ILLUSTRATION — NOT TO SCALE.</text>
+  <text x="45" y="504">2. ALL COILS AT 20 K · FIELD CLASS 20-30 T.</text>
+  <text x="45" y="516">3. EACH COIL: OWN LOOP, CRYO BRANCH + QUENCH DUMP.</text>
+  <text x="45" y="528">4. WINDING A C' B A' C B' — tau = 1.2 m, WAVE 2.4 m.</text>
+  <text x="45" y="540">5. BORE OPEN TO VACUUM. NO TUBE. NO DOORS.</text>
+  <text x="45" y="552">6. POD: KICK STAGE + EXPANDED CARGO BAY + FAIRING.</text>
+</g>
+
+<!-- BURIED CRYOPLANT -->
+<rect x="430" y="465" width="270" height="75" rx="10" fill="#f4f6fb" stroke="#0369a1" stroke-width="1.2"/>
+<text x="565" y="490" fill="#0284c7" font-size="9.5" text-anchor="middle" letter-spacing="1.2">BURIED CRYOPLANT &amp; THERMAL STORE</text>
+<text x="565" y="507" fill="#4a5568" font-size="8.5" text-anchor="middle">20 K closed He loop · heat banked over 14-day lunar day</text>
+<text x="565" y="523" fill="#4a5568" font-size="8.5" text-anchor="middle">regolith ~250 K constant below 2 m — natural cold buffer</text>
+<line x1="500" y1="465" x2="500" y2="402" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="4,4" opacity="0.8"/>
+<line x1="640" y1="465" x2="640" y2="402" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="4,4" opacity="0.8"/>
+
+<!-- ═══ POD: kick stage + EXPANDED cargo bay + dust fairing ═══ -->
+<polygon points="354,225 380,237 380,253 354,265" fill="#f4f6fb" stroke="#0369a1" stroke-width="1.2"/>
+<rect x="380" y="165" width="450" height="160" rx="4" fill="#eef2f9" stroke="#0369a1" stroke-width="1.6"/>
+<rect x="390" y="216" width="57" height="58" rx="16" fill="#e2e8f2" stroke="#c3ccdd" stroke-width="1"/>
+<text x="418" y="249" fill="#4a5568" font-size="7.5" text-anchor="middle">PROP</text>
+<line x1="390" y1="245" x2="380" y2="245" stroke="#c3ccdd" stroke-width="1.5"/>
+<text x="418" y="192" fill="#4a5568" font-size="7.5" text-anchor="middle">KICK+AVIONICS</text>
+<line x1="455" y1="165" x2="455" y2="325" stroke="#0369a1" stroke-width="0.7" opacity="0.5"/>
+<!-- payload rails -->
+<line x1="462" y1="196" x2="820" y2="196" stroke="#c3ccdd" stroke-width="1"/>
+<line x1="462" y1="294" x2="820" y2="294" stroke="#c3ccdd" stroke-width="1"/>
+<!-- 4 cargo modules (expanded bay) -->
+<g fill="#e2e8f2" stroke="#c3ccdd" stroke-width="1">
+  <rect x="468" y="201" width="80" height="88" rx="3"/>
+  <rect x="556" y="201" width="80" height="88" rx="3"/>
+  <rect x="644" y="201" width="80" height="88" rx="3"/>
+  <rect x="732" y="201" width="80" height="88" rx="3"/>
+</g>
+<g fill="#4a5568" font-size="8" text-anchor="middle">
+  <text x="508" y="249">MOD 1</text>
+  <text x="596" y="249">MOD 2</text>
+  <text x="684" y="249">MOD 3</text>
+  <text x="772" y="249">MOD 4</text>
+</g>
+<!-- dust fairing -->
+<path d="M830,165 L848,165 Q888,165 888,213 L888,277 Q888,325 848,325 L830,325 Z" fill="#eef2f9" stroke="#0369a1" stroke-width="1.6"/>
+<line x1="830" y1="165" x2="830" y2="325" stroke="#0369a1" stroke-width="0.8" opacity="0.6"/>
+<text x="861" y="247" fill="#4a5568" font-size="7.5" text-anchor="middle" transform="rotate(-90,861,247)">FAIRING</text>
+<!-- field pole rings N·S·N @ tau=1.2 m (centers 500, 620, 740) -->
+<g fill="#0369a1" opacity="0.55" stroke="#0284c7" stroke-width="1">
+  <rect x="482" y="161" width="36" height="22"/><rect x="482" y="307" width="36" height="22"/>
+  <rect x="602" y="161" width="36" height="22"/><rect x="602" y="307" width="36" height="22"/>
+  <rect x="722" y="161" width="36" height="22"/><rect x="722" y="307" width="36" height="22"/>
+</g>
+<g font-size="10" fill="#ffffff" text-anchor="middle">
+  <text x="500" y="177">N</text><text x="620" y="177">S</text><text x="740" y="177">N</text>
+  <text x="500" y="323">N</text><text x="620" y="323">S</text><text x="740" y="323">N</text>
+</g>
+<text x="620" y="158" fill="#0284c7" font-size="10" text-anchor="middle" letter-spacing="1.2">PAYLOAD POD Ø1.6 m — EXPANDED CARGO BAY — POLES N·S·N @ tau = 1.2 m</text>
+<text x="620" y="338" fill="#4a5568" font-size="9" text-anchor="middle">kick stage (Isp 350 s) · 4 modules on rails — 3.6 m cargo bay · blunt dust fairing</text>
 <!-- velocity arrow -->
-<line x1="886" y1="215" x2="935" y2="215" stroke="#22d3ee" stroke-width="2" marker-end="url(#arr)"/>
-<text x="940" y="211" fill="#22d3ee" font-size="9" font-family="monospace">v</text>
+<line x1="896" y1="245" x2="948" y2="245" stroke="#0284c7" stroke-width="2" marker-end="url(#arr)"/>
+<text x="954" y="241" fill="#0284c7" font-size="10">v</text>
 
-<!-- ═══ CRYO-COOLERS (pulse-tube refrigerators) ═══ -->
-<!-- Top units at x≈360 and x≈1020 -->
-<g fill="#1c2840" stroke="#0891b2" stroke-width="1">
-  <rect x="340" y="55" width="48" height="22" rx="3"/>
-  <rect x="1000" y="55" width="48" height="22" rx="3"/>
-</g>
-<text x="364" y="65" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
-<text x="364" y="73" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
-<text x="1024" y="65" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
-<text x="1024" y="73" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
-<line x1="364" y1="77" x2="364" y2="91" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
-<line x1="1024" y1="77" x2="1024" y2="91" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
-<!-- Bottom units -->
-<line x1="364" y1="350" x2="364" y2="362" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
-<line x1="1024" y1="350" x2="1024" y2="362" stroke="#0891b2" stroke-width="1.3" stroke-dasharray="2,2"/>
-<g fill="#1c2840" stroke="#0891b2" stroke-width="1">
-  <rect x="340" y="362" width="48" height="22" rx="3"/>
-  <rect x="1000" y="362" width="48" height="22" rx="3"/>
-</g>
-<text x="364" y="372" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
-<text x="364" y="380" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
-<text x="1024" y="372" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">PTR</text>
-<text x="1024" y="380" fill="#5a6a8a" font-size="6.5" text-anchor="middle" font-family="monospace">3 kW / 5K</text>
+<!-- DIMENSIONS (indicative) -->
+<line x1="98" y1="145" x2="98" y2="345" stroke="#4a5568" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
+<line x1="93" y1="145" x2="113" y2="145" stroke="#4a5568" stroke-width="0.8"/>
+<line x1="93" y1="345" x2="113" y2="345" stroke="#4a5568" stroke-width="0.8"/>
+<text x="84" y="245" fill="#4a5568" font-size="9" text-anchor="middle" transform="rotate(-90,84,245)">Ø 2.0 m BORE — OPEN</text>
+<line x1="60" y1="95" x2="60" y2="395" stroke="#4a5568" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
+<line x1="55" y1="95" x2="75" y2="95" stroke="#4a5568" stroke-width="0.8"/>
+<line x1="55" y1="395" x2="75" y2="395" stroke="#4a5568" stroke-width="0.8"/>
+<text x="46" y="245" fill="#4a5568" font-size="9" text-anchor="middle" transform="rotate(-90,46,245)">Ø 3.0 m RING OD</text>
+<line x1="120" y1="578" x2="1120" y2="578" stroke="#4a5568" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
+<line x1="120" y1="568" x2="120" y2="586" stroke="#4a5568" stroke-width="0.8"/>
+<line x1="1120" y1="568" x2="1120" y2="586" stroke="#4a5568" stroke-width="0.8"/>
+<text x="620" y="573" fill="#4a5568" font-size="10.5" text-anchor="middle">NOMINAL 10 m SECTION (drawn not to scale) — 25 COILS @ 0.4 m — sections share the cryoplant</text>
 
-<!-- ═══ IRIS DOORS ═══ -->
-<!-- LEFT (x=90): CLOSED -->
-<g transform="translate(90,215)">
-  <rect x="-20" y="-135" width="20" height="270" fill="#1c2840" stroke="#3a5080" stroke-width="1"/>
-  <text x="-10" y="-145" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">IRIS</text>
-  <text x="-10" y="-135" fill="#5a6a8a" font-size="7" text-anchor="middle" font-family="monospace">DOOR</text>
-  <!-- 6 closed blades -->
-  <polygon points="-18,-73 -18,73 3,37 3,-37" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
-  <polygon points="-2,-73 63,-37 37,0 -18,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
-  <polygon points="63,-37 63,37 15,73 -2,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
-  <polygon points="15,73 -18,73 -3,37 3,37" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
-  <polygon points="-18,73 -63,37 -37,0 15,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
-  <polygon points="-63,37 -63,-37 -18,-73 2,0" fill="#1e3a5f" stroke="#22d3ee" stroke-width="0.9" opacity="0.9"/>
-  <circle r="5" fill="#030508" stroke="#22d3ee" stroke-width="0.5"/>
-  <text x="-10" y="88" fill="#7c3aed" font-size="7.5" text-anchor="middle" font-family="monospace">CLOSED</text>
+<!-- RIGHT-SIDE CALLOUTS -->
+<g font-size="9.5" fill="#4a5568">
+  <line x1="1032" y1="67" x2="1140" y2="67" stroke="#0284c7" stroke-width="0.5"/>
+  <text x="1144" y="70" fill="#0284c7">Radiators — heat to deep space</text>
+  <line x1="1130" y1="82" x2="1140" y2="82" stroke="#4a5568" stroke-width="0.5"/>
+  <text x="1144" y="85">Sun shield (lunar day, 390 K)</text>
+  <line x1="1114" y1="112" x2="1140" y2="112" stroke="#64748b" stroke-width="0.5"/>
+  <text x="1144" y="115">Coil ring — sealed cryostat</text>
+  <line x1="1108" y1="130" x2="1140" y2="130" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="1144" y="133" fill="#8b5cf6">REBCO winding — 20 K · 20-30 T</text>
+  <line x1="1122" y1="245" x2="1140" y2="245" stroke="#4a5568" stroke-width="0.5"/>
+  <text x="1144" y="242">Bore open to lunar vacuum</text>
+  <text x="1144" y="254">— no tube, no doors</text>
+  <line x1="1116" y1="402" x2="1140" y2="402" stroke="#0284c7" stroke-width="0.5"/>
+  <text x="1144" y="405" fill="#0284c7">20 K manifold — branch per coil</text>
+  <text x="1144" y="455">LUNAR REGOLITH</text>
+  <line x1="702" y1="502" x2="1140" y2="502" stroke="#0369a1" stroke-width="0.4" stroke-dasharray="3,4" opacity="0.6"/>
+  <text x="1144" y="505" fill="#0369a1">Plant feeds every section</text>
 </g>
 
-<!-- RIGHT (x=1290): OPEN -->
-<g transform="translate(1290,215)">
-  <rect x="0" y="-135" width="20" height="270" fill="#1c2840" stroke="#3a5080" stroke-width="1"/>
-  <text x="10" y="-145" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">IRIS</text>
-  <text x="10" y="-135" fill="#5a6a8a" font-size="7" text-anchor="middle" font-family="monospace">DOOR</text>
-  <!-- Clear aperture ring -->
-  <circle r="73" fill="none" stroke="#3a5080" stroke-width="1" stroke-dasharray="3,4"/>
-  <!-- 6 retracted blades (just tips visible) -->
-  <line x1="0" y1="-73" x2="0" y2="-60" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
-  <line x1="63" y1="-37" x2="53" y2="-31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
-  <line x1="63" y1="37" x2="53" y2="31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
-  <line x1="0" y1="73" x2="0" y2="60" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
-  <line x1="-63" y1="37" x2="-53" y2="31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
-  <line x1="-63" y1="-37" x2="-53" y2="-31" stroke="#22d3ee" stroke-width="3" opacity="0.7"/>
-  <!-- Inner clear space -->
-  <circle r="56" fill="#020408" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="2,3" opacity="0.6"/>
-  <text x="10" y="88" fill="#22d3ee" font-size="7.5" text-anchor="middle" font-family="monospace">OPEN</text>
-</g>
+<!-- ══════════ BOTTOM PANELS ══════════ -->
+<line x1="20" y1="595" x2="1380" y2="595" stroke="#c3ccdd" stroke-width="0.8"/>
+<text x="215" y="615" fill="#0284c7" font-size="10.5" text-anchor="middle" letter-spacing="2">COIL RING — FACE VIEW</text>
+<text x="605" y="615" fill="#0284c7" font-size="10.5" text-anchor="middle" letter-spacing="2">CONDUCTOR &amp; WINDING</text>
+<text x="905" y="615" fill="#0284c7" font-size="10.5" text-anchor="middle" letter-spacing="2">PAYLOAD CONFIGS</text>
+<text x="1220" y="615" fill="#0284c7" font-size="10.5" text-anchor="middle" letter-spacing="2">VARIANTS — S THEN L</text>
 
-<!-- ═══ CURRENT DIRECTION INDICATORS (first 3 rings) ═══ -->
-<!-- Ring 0 (Phase A, x=120): I upward, N pole above -->
-<text x="120" y="136" fill="#22d3ee" font-size="11" text-anchor="middle">↑</text>
-<text x="120" y="304" fill="#22d3ee" font-size="11" text-anchor="middle">↓</text>
-<text x="120" y="119" fill="#22d3ee" font-size="6.5" text-anchor="middle" font-family="monospace">N</text>
-<text x="120" y="317" fill="#22d3ee" font-size="6.5" text-anchor="middle" font-family="monospace">S</text>
-<!-- Ring 1 (Phase B, x=180): I at 60° phase -->
-<text x="180" y="136" fill="#7c3aed" font-size="11" text-anchor="middle">↗</text>
-<!-- Ring 2 (Phase C, x=240): I downward, S above -->
-<text x="240" y="136" fill="#a78bfa" font-size="11" text-anchor="middle">↓</text>
-<text x="240" y="304" fill="#a78bfa" font-size="11" text-anchor="middle">↑</text>
-<text x="240" y="119" fill="#a78bfa" font-size="6.5" text-anchor="middle" font-family="monospace">S</text>
-<text x="240" y="317" fill="#a78bfa" font-size="6.5" text-anchor="middle" font-family="monospace">N</text>
-
-<!-- ═══ DIMENSION LINES ═══ -->
-<!-- Section length (below section) -->
-<line x1="90" y1="408" x2="1290" y2="408" stroke="#5a6a8a" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
-<line x1="90" y1="393" x2="90" y2="413" stroke="#5a6a8a" stroke-width="0.8"/>
-<line x1="1290" y1="393" x2="1290" y2="413" stroke="#5a6a8a" stroke-width="0.8"/>
-<text x="690" y="403" fill="#5a6a8a" font-size="9" text-anchor="middle" font-family="monospace" dominant-baseline="auto">10.0 m   SECTION LENGTH   (chain-coupled, bolted flanges, indium vacuum seals)</text>
-
-<!-- Bore diameter (left side) -->
-<line x1="58" y1="147" x2="58" y2="283" stroke="#5a6a8a" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
-<line x1="53" y1="147" x2="73" y2="147" stroke="#5a6a8a" stroke-width="0.8"/>
-<line x1="53" y1="283" x2="73" y2="283" stroke="#5a6a8a" stroke-width="0.8"/>
-<text x="36" y="215" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace" transform="rotate(-90,36,215)">∅ 1.5 m BORE</text>
-
-<!-- Outer diameter (further left) -->
-<line x1="22" y1="80" x2="22" y2="350" stroke="#5a6a8a" stroke-width="0.8" marker-start="url(#arrdimL)" marker-end="url(#arrdim)"/>
-<line x1="17" y1="80" x2="37" y2="80" stroke="#5a6a8a" stroke-width="0.8"/>
-<line x1="17" y1="350" x2="37" y2="350" stroke="#5a6a8a" stroke-width="0.8"/>
-<text x="9" y="215" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace" transform="rotate(-90,9,215)">∅ 2.2 m OD</text>
-
-<!-- ═══ LAYER CALLOUT (right margin) ═══ -->
-<g font-family="monospace" font-size="8" fill="#5a6a8a">
-  <line x1="1294" y1="85" x2="1320" y2="85" stroke="#5a6a8a" stroke-width="0.5"/>
-  <text x="1322" y="88">Carbon fibre structural shell</text>
-  <line x1="1294" y1="95" x2="1320" y2="95" stroke="#5a6a8a" stroke-width="0.5"/>
-  <text x="1322" y="98">Outer vacuum jacket</text>
-  <line x1="1294" y1="104" x2="1320" y2="104" stroke="#1d40a0" stroke-width="0.6"/>
-  <text x="1322" y="107" fill="#1d40a0">80 K thermal shield (Cu)</text>
-  <line x1="1294" y1="111" x2="1320" y2="111" stroke="#5a6a8a" stroke-width="0.5"/>
-  <text x="1322" y="114">Insulation vacuum</text>
-  <line x1="1294" y1="119" x2="1320" y2="119" stroke="#0891b2" stroke-width="0.6"/>
-  <text x="1322" y="122" fill="#0891b2">20 K thermal shield (Al)</text>
-  <line x1="1294" y1="132" x2="1320" y2="132" stroke="#7c3aed" stroke-width="0.7"/>
-  <text x="1322" y="135" fill="#a78bfa">REBCO coil winding   (5–20 K)</text>
-  <line x1="1294" y1="147" x2="1320" y2="147" stroke="#0891b2" stroke-width="0.6"/>
-  <text x="1322" y="150" fill="#0891b2">Bore liner (GFRP)</text>
-</g>
-
-<!-- ══════════════════════════════════════════
-     BOTTOM PANELS   y: 460–710
-══════════════════════════════════════════ -->
-<line x1="20" y1="455" x2="1380" y2="455" stroke="#2a3245" stroke-width="0.8"/>
-
-<!-- Panel headings -->
-<text x="210" y="470" fill="#22d3ee" font-size="9" text-anchor="middle" letter-spacing="2" font-family="monospace">SECTION A–A</text>
-<text x="580" y="470" fill="#22d3ee" font-size="9" text-anchor="middle" letter-spacing="2" font-family="monospace">IRIS DOOR DETAIL</text>
-<text x="1020" y="470" fill="#22d3ee" font-size="9" text-anchor="middle" letter-spacing="2" font-family="monospace">DESIGN PARAMETERS</text>
-
-<!-- ══ CROSS-SECTION (centred at 210, 595) ══ -->
-<g transform="translate(210,595)">
-  <!-- layers, outer to inner, scaled so outer radius = 100px -->
-  <circle r="100" fill="#1e2840" stroke="#3a5080" stroke-width="1.5"/>   <!-- struct shell -->
-  <circle r="91"  fill="#141b2e" stroke="#2a3a5f" stroke-width="0.6"/>   <!-- outer vac -->
-  <circle r="84"  fill="#0f1e3a" stroke="#1d40a0" stroke-width="1"/>     <!-- 80K shield -->
-  <circle r="76"  fill="#0a1220"/>                                        <!-- insulation -->
-  <circle r="71"  fill="#0a1a30" stroke="#0891b2" stroke-width="1"/>     <!-- 20K shield -->
-  <circle r="64"  fill="#100820" stroke="#7c3aed" stroke-width="1.5"/>   <!-- REBCO winding -->
-  <circle r="55"  fill="#162040" stroke="#0891b2" stroke-width="1"/>     <!-- bore liner -->
-  <circle r="52"  fill="#050810"/>                                        <!-- bore interior -->
-  <!-- Pod cross section -->
-  <circle r="44"  fill="#162040" stroke="#0891b2" stroke-width="1.3"/>
-  <!-- SC magnet rings (6, equally spaced) -->
-  <g fill="#0891b2" opacity="0.55">
-    <circle cx="0"   cy="-41" r="5"/>
-    <circle cx="36"  cy="-21" r="5"/>
-    <circle cx="36"  cy="21"  r="5"/>
-    <circle cx="0"   cy="41"  r="5"/>
-    <circle cx="-36" cy="21"  r="5"/>
-    <circle cx="-36" cy="-21" r="5"/>
+<!-- ══ PANEL 1: RING FACE VIEW ══ -->
+<g transform="translate(215,775)">
+  <rect x="-16" y="-126" width="32" height="16" fill="#f4f6fb" stroke="#0284c7" stroke-width="0.8"/>
+  <line x1="-8" y1="-110" x2="-8" y2="-99" stroke="#0284c7" stroke-width="1"/>
+  <line x1="8" y1="-110" x2="8" y2="-99" stroke="#0284c7" stroke-width="1"/>
+  <text y="-132" fill="#4a5568" font-size="7.5" text-anchor="middle">PHASE FEED + QUENCH DETECTION</text>
+  <circle r="100" fill="#eef1f8" stroke="#64748b" stroke-width="1.5"/>
+  <circle r="87" fill="#f4f6fb" stroke="#1e3a8a" stroke-width="1"/>
+  <circle r="75" fill="#eef1f8" stroke="#64748b" stroke-width="1"/>
+  <circle r="72.5" fill="none" stroke="#a16207" stroke-width="2"/>
+  <circle r="60" fill="none" stroke="#6d28d9" stroke-width="20" opacity="0.9"/>
+  <circle r="60" fill="none" stroke="#ffffff" stroke-width="20" stroke-dasharray="2.5,13.2"/>
+  <circle r="49" fill="none" stroke="#a16207" stroke-width="1.5"/>
+  <circle r="48" fill="#eef1f8" stroke="#64748b" stroke-width="1"/>
+  <circle r="42" fill="#e9edf5" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.8"/>
+  <g fill="#f4f6fb" stroke="#0284c7" stroke-width="1">
+    <circle cx="57.3" cy="-57.3" r="4.5"/>
+    <circle cx="57.3" cy="57.3" r="4.5"/>
+    <circle cx="-57.3" cy="57.3" r="4.5"/>
+    <circle cx="-57.3" cy="-57.3" r="4.5"/>
   </g>
-  <g fill="none" stroke="#22d3ee" stroke-width="1.2" opacity="0.8">
-    <circle cx="0"   cy="-41" r="5"/>
-    <circle cx="36"  cy="-21" r="5"/>
-    <circle cx="36"  cy="21"  r="5"/>
-    <circle cx="0"   cy="41"  r="5"/>
-    <circle cx="-36" cy="21"  r="5"/>
-    <circle cx="-36" cy="-21" r="5"/>
-  </g>
-  <!-- Payload cavity -->
-  <circle r="28" fill="#0a1220" stroke="#2a3a5f" stroke-width="0.8"/>
-  <text y="4" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">PAYLOAD</text>
-  <!-- Labels -->
-  <g font-size="7" font-family="monospace" fill="#5a6a8a">
-    <line x1="100" y1="-35" x2="118" y2="-35" stroke="#5a6a8a" stroke-width="0.5"/>
-    <text x="120" y="-32">Struct. shell</text>
-    <line x1="83" y1="-60" x2="118" y2="-60" stroke="#1d40a0" stroke-width="0.5"/>
-    <text x="120" y="-57" fill="#1d40a0">80 K shield</text>
-    <line x1="70" y1="-76" x2="118" y2="-76" stroke="#0891b2" stroke-width="0.5"/>
-    <text x="120" y="-73" fill="#0891b2">20 K shield</text>
-    <line x1="63" y1="-88" x2="118" y2="-88" stroke="#7c3aed" stroke-width="0.5"/>
-    <text x="120" y="-85" fill="#a78bfa">REBCO coil</text>
-    <line x1="52" y1="-96" x2="118" y2="-96" stroke="#0891b2" stroke-width="0.5"/>
-    <text x="120" y="-93" fill="#0891b2">Bore liner</text>
-    <line x1="44" y1="60" x2="118" y2="60" stroke="#22d3ee" stroke-width="0.5"/>
-    <text x="120" y="63" fill="#22d3ee">Pod + SC magnets</text>
+  <text y="3" fill="#4a5568" font-size="9" text-anchor="middle">BORE Ø2.0 m</text>
+  <g font-size="8.5" fill="#4a5568">
+    <line x1="72" y1="-70" x2="106" y2="-70" stroke="#64748b" stroke-width="0.5"/>
+    <text x="110" y="-67">Vacuum vessel</text>
+    <line x1="71" y1="-50" x2="106" y2="-50" stroke="#1e3a8a" stroke-width="0.5"/>
+    <text x="110" y="-47" fill="#1e3a8a">Thermal shield + MLI</text>
+    <line x1="68" y1="-32" x2="106" y2="-32" stroke="#64748b" stroke-width="0.5"/>
+    <text x="110" y="-29">Coil case — 316LN</text>
+    <line x1="71" y1="-14" x2="106" y2="-14" stroke="#a16207" stroke-width="0.5"/>
+    <text x="110" y="-11" fill="#a16207">G10 insulation</text>
+    <line x1="70" y1="4" x2="106" y2="4" stroke="#6d28d9" stroke-width="0.5"/>
+    <text x="110" y="7" fill="#6d28d9">REBCO winding</text>
+    <line x1="60" y1="55" x2="106" y2="55" stroke="#0284c7" stroke-width="0.5"/>
+    <text x="110" y="58" fill="#0284c7">ScHe channels — 20 K</text>
   </g>
 </g>
+<text x="215" y="895" fill="#4a5568" font-size="8.5" text-anchor="middle">construction mirrors SPARC-class fusion TF coils</text>
 
-<!-- ══ IRIS DOOR DETAIL (centred at 580, 595) ══ -->
-<g transform="translate(580,595)">
-  <!-- Outer frame ring -->
-  <circle r="104" fill="#1e2840" stroke="#3a5080" stroke-width="1.5"/>
-  <circle r="92"  fill="#080c18" stroke="#2a3a5f" stroke-width="0.6"/>
-  <!-- 6 partially-open blades (60% open aperture = clear radius ~55px) -->
-  <polygon points="0,-92 28,-80 18,-38 -18,-38" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
-  <polygon points="80,-46 92,-5 52,12 30,-28" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
-  <polygon points="80,46 48,88 26,52 58,16" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
-  <polygon points="0,92 -28,80 -18,38 18,38" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
-  <polygon points="-80,46 -92,-5 -52,12 -30,28" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
-  <polygon points="-80,-46 -48,-88 -26,-52 -58,-16" fill="#1e3a5f" stroke="#22d3ee" stroke-width="1.1" opacity="0.92"/>
-  <!-- Clear bore aperture -->
-  <circle r="36" fill="#020408" stroke="#22d3ee" stroke-width="1.2" stroke-dasharray="3,2"/>
-  <!-- Actuator pivots -->
-  <g fill="#0891b2">
-    <circle cx="0"   cy="-96" r="4.5"/>
-    <circle cx="83"  cy="-48" r="4.5"/>
-    <circle cx="83"  cy="48"  r="4.5"/>
-    <circle cx="0"   cy="96"  r="4.5"/>
-    <circle cx="-83" cy="48"  r="4.5"/>
-    <circle cx="-83" cy="-48" r="4.5"/>
+<!-- ══ PANEL 2: CONDUCTOR & WINDING ══ -->
+<text x="605" y="640" fill="#4a5568" font-size="8.5" text-anchor="middle" letter-spacing="1.2">SINGLE REBCO TAPE — FILM CROSS-SECTION</text>
+<g stroke="#c3ccdd" stroke-width="0.6">
+  <rect x="460" y="648" width="130" height="14" fill="#b07c4a"/>
+  <rect x="460" y="662" width="130" height="6"  fill="#94a3b8"/>
+  <rect x="460" y="668" width="130" height="10" fill="#0284c7"/>
+  <rect x="460" y="678" width="130" height="4"  fill="#4a5568"/>
+  <rect x="460" y="682" width="130" height="22" fill="#64748b"/>
+  <rect x="460" y="704" width="130" height="14" fill="#b07c4a"/>
+</g>
+<g font-size="8" fill="#4a5568">
+  <text x="596" y="659">Cu stabilizer — 20 µm</text>
+  <text x="596" y="668">Ag cap — 2 µm</text>
+  <text x="596" y="677" fill="#0284c7">REBCO film — 1.6 µm</text>
+  <text x="596" y="685">buffer oxides — 0.2 µm</text>
+  <text x="596" y="697">Hastelloy C-276 — 50 µm</text>
+  <text x="596" y="714">Cu stabilizer — 20 µm</text>
+</g>
+<text x="605" y="731" fill="#0284c7" font-size="8" text-anchor="middle">the film is microns — the MAGNET is not:</text>
+<text x="605" y="743" fill="#0284c7" font-size="8" text-anchor="middle">~320 turns of tape stack into a winding pack ~ 8 × 10 cm</text>
+
+<text x="605" y="760" fill="#4a5568" font-size="8.5" text-anchor="middle" letter-spacing="1.2">WINDING PACK — 8 DOUBLE-PANCAKES × 40 TURNS</text>
+<g>
+  <rect x="480" y="766" width="250" height="74" fill="#e2e8f2" stroke="#c3ccdd" stroke-width="0.6"/>
+  <g fill="#6d28d9" opacity="0.9">
+    <rect x="481" y="767" width="248" height="4"/>
+    <rect x="481" y="776" width="248" height="4"/>
+    <rect x="481" y="785" width="248" height="4"/>
+    <rect x="481" y="794" width="248" height="4"/>
+    <rect x="481" y="803" width="248" height="4"/>
+    <rect x="481" y="812" width="248" height="4"/>
+    <rect x="481" y="821" width="248" height="4"/>
+    <rect x="481" y="830" width="248" height="4"/>
   </g>
-  <!-- Labels -->
-  <text y="-112" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">EM LINEAR ACTUATOR PIVOT</text>
-  <text x="108" y="-48" fill="#5a6a8a" font-size="7" text-anchor="start" font-family="monospace">6× Ti-6Al-4V</text>
-  <text x="108" y="-38" fill="#5a6a8a" font-size="7" text-anchor="start" font-family="monospace">blades</text>
-  <text y="116" fill="#5a6a8a" font-size="7.5" text-anchor="middle" font-family="monospace">SHOWN 60% OPEN · Open time &lt;50 ms</text>
-  <text y="129" fill="#7c3aed" font-size="7" text-anchor="middle" font-family="monospace">Predictive control — pod position sensed 3+ sections ahead</text>
+  <g fill="#0284c7" opacity="0.8">
+    <rect x="481" y="771.5" width="248" height="4"/>
+    <rect x="481" y="780.5" width="248" height="4"/>
+    <rect x="481" y="789.5" width="248" height="4"/>
+    <rect x="481" y="798.5" width="248" height="4"/>
+    <rect x="481" y="807.5" width="248" height="4"/>
+    <rect x="481" y="816.5" width="248" height="4"/>
+    <rect x="481" y="825.5" width="248" height="4"/>
+    <rect x="481" y="834.5" width="248" height="4"/>
+  </g>
+</g>
+<line x1="734" y1="788" x2="750" y2="788" stroke="#a16207" stroke-width="0.5"/>
+<text x="753" y="791" fill="#a16207" font-size="7.5">G10 layers</text>
+<text x="605" y="856" fill="#4a5568" font-size="8" text-anchor="middle">VPI epoxy · 316LN former</text>
+<text x="605" y="868" fill="#4a5568" font-size="8" text-anchor="middle">one loop · one cryo branch · one dump</text>
+
+<!-- ══ PANEL 3: PAYLOAD CONFIGS ══ -->
+<text x="905" y="650" fill="#4a5568" font-size="8.5" text-anchor="middle" letter-spacing="1.2">CONFIG A — UP TO 4 STD MODULES</text>
+<rect x="785" y="658" width="200" height="50" rx="8" fill="#eef2f9" stroke="#0369a1" stroke-width="1.2"/>
+<line x1="950" y1="658" x2="950" y2="708" stroke="#0369a1" stroke-width="0.6" opacity="0.6"/>
+<g fill="#e2e8f2" stroke="#c3ccdd" stroke-width="0.8">
+  <rect x="791" y="665" width="36" height="36" rx="2"/>
+  <rect x="831" y="665" width="36" height="36" rx="2"/>
+  <rect x="871" y="665" width="36" height="36" rx="2"/>
+  <rect x="911" y="665" width="36" height="36" rx="2"/>
+</g>
+<text x="905" y="736" fill="#4a5568" font-size="8.5" text-anchor="middle" letter-spacing="1.2">CONFIG B — SINGLE BULK PAYLOAD</text>
+<rect x="785" y="744" width="200" height="50" rx="8" fill="#eef2f9" stroke="#0369a1" stroke-width="1.2"/>
+<line x1="950" y1="744" x2="950" y2="794" stroke="#0369a1" stroke-width="0.6" opacity="0.6"/>
+<rect x="793" y="751" width="148" height="36" rx="14" fill="#f4f6fb" stroke="#0284c7" stroke-width="0.9"/>
+<text x="867" y="773" fill="#0284c7" font-size="7.5" text-anchor="middle">BULK PAYLOAD</text>
+<text x="905" y="820" fill="#4a5568" font-size="8.5" text-anchor="middle">right cap = dust fairing — blunt, no aero</text>
+<text x="905" y="834" fill="#4a5568" font-size="8.5" text-anchor="middle">3.6 m cargo bay, <=1,000 kg (S)</text>
+<text x="905" y="848" fill="#4a5568" font-size="8.5" text-anchor="middle">modules lock to rails — mix freely</text>
+
+<!-- ══ PANEL 4: VARIANTS TABLE ══ -->
+<g>
+  <line x1="1050" y1="630" x2="1390" y2="630" stroke="#c3ccdd" stroke-width="0.5"/>
+  <line x1="1050" y1="856" x2="1390" y2="856" stroke="#c3ccdd" stroke-width="0.5"/>
+  <line x1="1185" y1="630" x2="1185" y2="856" stroke="#c3ccdd" stroke-width="0.5"/>
+  <line x1="1288" y1="630" x2="1288" y2="856" stroke="#c3ccdd" stroke-width="0.5"/>
+  <text x="1192" y="649" font-size="9.5" fill="#0284c7" letter-spacing="0.5">SELENE-S</text>
+  <text x="1294" y="649" font-size="9.5" fill="#8b5cf6" letter-spacing="0.5">SELENE-L</text>
+  <line x1="1050" y1="657" x2="1390" y2="657" stroke="#c3ccdd" stroke-width="0.4"/>
+  <g font-size="9.5" fill="#4a5568">
+    <text x="1056" y="677">Bore</text>
+    <text x="1056" y="701">Cargo bay</text>
+    <text x="1056" y="725">Mass</text>
+    <text x="1056" y="749">Field</text>
+    <text x="1056" y="773">Temp</text>
+    <text x="1056" y="797">Coils/10 m</text>
+    <text x="1056" y="821">Exit v</text>
+    <text x="1056" y="845">Order</text>
+  </g>
+  <g font-size="9.5" fill="#16192a">
+    <text x="1192" y="677">2.0 m</text>
+    <text x="1192" y="701">Ø1.6×3.6 m</text>
+    <text x="1192" y="725"><=1,000 kg</text>
+    <text x="1192" y="749" fill="#0284c7">20-30 T</text>
+    <text x="1192" y="773" fill="#0284c7">20 K</text>
+    <text x="1192" y="797">25 @ 0.4 m</text>
+    <text x="1192" y="821">2.38 km/s</text>
+    <text x="1192" y="845" fill="#0284c7">FIRST</text>
+  </g>
+  <g font-size="9.5" fill="#16192a">
+    <text x="1294" y="677">5.0 m</text>
+    <text x="1294" y="701">Ø4.2×10 m</text>
+    <text x="1294" y="725"><=25,000 kg</text>
+    <text x="1294" y="749" fill="#0284c7">20-30 T</text>
+    <text x="1294" y="773" fill="#0284c7">20 K</text>
+    <text x="1294" y="797">25 @ 0.4 m</text>
+    <text x="1294" y="821">2.38 km/s</text>
+    <text x="1294" y="845" fill="#8b5cf6">after S</text>
+  </g>
 </g>
 
-<!-- ══ DESIGN PARAMETERS TABLE ══ -->
-<g font-family="monospace">
-  <line x1="780" y1="478" x2="1375" y2="478" stroke="#2a3245" stroke-width="0.5"/>
-  <line x1="780" y1="712" x2="1375" y2="712" stroke="#2a3245" stroke-width="0.5"/>
-  <line x1="1055" y1="478" x2="1055" y2="712" stroke="#2a3245" stroke-width="0.5"/>
-  <!-- Rows -->
-  <g font-size="8.5" fill="#5a6a8a">
-    <text x="785" y="495">Bore diameter</text>
-    <text x="785" y="513">Operating temperature</text>
-    <text x="785" y="531">Coil field (at 5 K)</text>
-    <text x="785" y="549">Critical current density Jc</text>
-    <text x="785" y="567">Conductor material</text>
-    <text x="785" y="585">Rings per section</text>
-    <text x="785" y="603">Ring pitch</text>
-    <text x="785" y="621">Section length</text>
-    <text x="785" y="639">Cryo-cooling method</text>
-    <text x="785" y="657">Power per cooler</text>
-    <text x="785" y="675">Cool-down time</text>
-    <text x="785" y="693">Iris door material</text>
-    <text x="785" y="711">Door open time</text>
+<!-- ══════════ TITLE BLOCK ══════════ -->
+<g>
+  <rect x="20" y="905" width="1360" height="48" fill="#f4f6fb" stroke="#c3ccdd" stroke-width="1"/>
+  <line x1="330" y1="905" x2="330" y2="953" stroke="#c3ccdd" stroke-width="0.7"/>
+  <line x1="760" y1="905" x2="760" y2="953" stroke="#c3ccdd" stroke-width="0.7"/>
+  <line x1="905" y1="905" x2="905" y2="953" stroke="#c3ccdd" stroke-width="0.7"/>
+  <line x1="955" y1="905" x2="955" y2="953" stroke="#c3ccdd" stroke-width="0.7"/>
+  <line x1="1030" y1="905" x2="1030" y2="953" stroke="#c3ccdd" stroke-width="0.7"/>
+  <line x1="1085" y1="905" x2="1085" y2="953" stroke="#c3ccdd" stroke-width="0.7"/>
+  <line x1="1185" y1="905" x2="1185" y2="953" stroke="#c3ccdd" stroke-width="0.7"/>
+  <g font-size="6.5" fill="#8a94a8" letter-spacing="1">
+    <text x="28" y="918">COMPANY / PROJECT</text>
+    <text x="338" y="918">TITLE</text>
+    <text x="768" y="918">DWG NO</text>
+    <text x="913" y="918">REV</text>
+    <text x="963" y="918">SCALE</text>
+    <text x="1038" y="918">UNITS</text>
+    <text x="1093" y="918">DATE</text>
+    <text x="1193" y="918">STATUS</text>
   </g>
-  <g font-size="8.5" fill="#eef2fa">
-    <text x="1060" y="495">1.5 m</text>
-    <text x="1060" y="513" fill="#22d3ee">5 – 20 K   (closed-cycle PTR)</text>
-    <text x="1060" y="531" fill="#22d3ee">20 – 26 T</text>
-    <text x="1060" y="549">&gt;1,000 A/mm²  @ 30 T, 4.2 K</text>
-    <text x="1060" y="567">REBCO  (YBa₂Cu₃O₇ / Hastelloy)</text>
-    <text x="1060" y="585">20</text>
-    <text x="1060" y="603">0.5 m</text>
-    <text x="1060" y="621">10 m  (chain-bolted, indium seals)</text>
-    <text x="1060" y="639">Pulse-tube refrigerator  (2× / section)</text>
-    <text x="1060" y="657">3 kW</text>
-    <text x="1060" y="675">~12 h from ambient</text>
-    <text x="1060" y="693">Ti-6Al-4V  (6-blade iris)</text>
-    <text x="1060" y="711" fill="#22d3ee">&lt;50 ms</text>
+  <g font-size="10" fill="#16192a">
+    <text x="28" y="941">PERPETUAL TECHNOLOGIES — KERAUNOS</text>
+    <text x="338" y="941">SELENE-S LSM — 10 m OPEN TRACK SECTION</text>
+    <text x="768" y="941" fill="#0284c7">KER-SEL-TRK-001</text>
+    <text x="913" y="941" fill="#0284c7">E</text>
+    <text x="963" y="941">NTS</text>
+    <text x="1038" y="941">m</text>
+    <text x="1093" y="941">2026-06-11</text>
+    <text x="1193" y="941" fill="#6d28d9" font-size="8.5">EARLY MOCK-UP — NOT FOR CONSTRUCTION</text>
   </g>
 </g>
 </svg>

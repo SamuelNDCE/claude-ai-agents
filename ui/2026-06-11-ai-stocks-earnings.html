@@ -26,7 +26,6 @@
       padding-bottom: 48px;
     }
 
-    /* ---- Header ---- */
     .header {
       padding: 20px 32px;
       border-bottom: 1px solid var(--border);
@@ -44,10 +43,9 @@
     }
     .disc strong { color: #a78bfa; }
 
-    /* ---- Tabs ---- */
     .tabs {
       display: flex; padding: 0 32px;
-      border-bottom: 1px solid var(--border); gap: 0;
+      border-bottom: 1px solid var(--border);
     }
     .tab {
       padding: 12px 22px; cursor: pointer; font-size: 0.83rem;
@@ -57,7 +55,6 @@
     .tab:hover { color: var(--text); }
     .tab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 500; }
 
-    /* ---- Layout ---- */
     .content { padding: 24px 32px; }
     .pane { display: none; }
     .pane.active { display: block; }
@@ -69,10 +66,16 @@
     .card h3 { font-size: 0.87rem; font-weight: 600; margin-bottom: 3px; }
     .card p  { font-size: 0.72rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
 
+    /* CRITICAL: fixed-height wrapper so Chart.js doesn't expand forever */
+    .ch { position: relative; }
+    .ch-420 { height: 420px; }
+    .ch-330 { height: 330px; }
+    .ch-300 { height: 300px; }
+    .ch-360 { height: 360px; }
+
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 
-    /* ---- Stat cards ---- */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
@@ -84,13 +87,26 @@
       border-left: 3px solid transparent;
     }
     .stat-ticker { font-size: 0.67rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-    .stat-num  { font-size: 1.45rem; font-weight: 700; line-height: 1.2; margin: 4px 0 2px; }
-    .stat-sub  { font-size: 0.68rem; color: var(--muted); }
-    .stat-note { font-size: 0.66rem; color: #475569; margin-top: 6px; }
+    .stat-num    { font-size: 1.45rem; font-weight: 700; line-height: 1.2; margin: 4px 0 2px; }
+    .stat-sub    { font-size: 0.68rem; color: var(--muted); }
+    .stat-note   { font-size: 0.66rem; color: #475569; margin-top: 6px; }
     .pos { color: var(--green); }
     .neg { color: var(--red); }
 
-    /* ---- Private cards ---- */
+    /* colour swatch legend used alongside charts */
+    .swatch-row {
+      display: flex; flex-wrap: wrap; gap: 10px 18px;
+      margin-bottom: 14px;
+    }
+    .swatch {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.74rem; color: var(--text);
+    }
+    .swatch-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     .priv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 4px; }
     @media (max-width: 900px) { .priv-grid { grid-template-columns: 1fr; } }
     .priv-card {
@@ -112,7 +128,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <div class="header">
   <div>
     <h1>AI Company Dashboard — Stock &amp; Earnings</h1>
@@ -120,11 +135,10 @@
   </div>
   <div class="disc">
     <strong>Approximate data — educational only.</strong><br>
-    Stock prices are split-adjusted quarter-end estimates. Revenue/earnings rounded. Q1–Q2 2025 estimated. Not financial advice.
+    Quarter-end prices, split-adjusted. Revenue/earnings rounded. Q1–Q2&nbsp;2025 estimated. Not financial advice.
   </div>
 </div>
 
-<!-- Tabs -->
 <div class="tabs">
   <div class="tab active" data-tab="stock">Stock Performance</div>
   <div class="tab" data-tab="earnings">Revenue &amp; Earnings</div>
@@ -137,30 +151,40 @@
   <div class="pane active" id="pane-stock">
     <div class="card">
       <h3>Normalized Stock Return — Q1 2022 = 100</h3>
-      <p>Quarter-end prices indexed to 100 at Q1 2022. Split-adjusted. Q1–Q2 2025 are estimates. Hover for values.</p>
-      <canvas id="stockChart" height="420"></canvas>
+      <p>Quarter-end prices indexed to 100 at Q1&nbsp;2022 so all companies start at the same point. Split-adjusted. * = estimated.</p>
+      <div class="swatch-row" id="stockLegend"></div>
+      <div class="ch ch-420"><canvas id="stockChart"></canvas></div>
     </div>
     <div class="stats-grid" id="statsGrid"></div>
   </div>
 
   <!-- ===== EARNINGS ===== -->
   <div class="pane" id="pane-earnings">
-    <div class="two-col">
-      <div class="card">
-        <h3>Annual Revenue</h3>
-        <p>Billions USD. Log scale — spans $23B (AMD) to $385B (GOOGL). FY2025 estimated.</p>
-        <canvas id="revenueChart" height="320"></canvas>
-      </div>
-      <div class="card">
-        <h3>Annual Net Income (GAAP)</h3>
-        <p>Billions USD. Log scale. FY2025 estimated. AMD&apos;s Xilinx amortization suppresses GAAP income.</p>
-        <canvas id="incomeChart" height="320"></canvas>
-      </div>
+    <div class="card">
+      <h3>Annual Revenue — Indexed to FY2022 = 100</h3>
+      <p>Normalised so all companies start at 100 in FY2022, making growth rates directly comparable regardless of company size.</p>
+      <div class="swatch-row" id="revLegend"></div>
+      <div class="ch ch-330"><canvas id="revenueChart"></canvas></div>
     </div>
+
     <div class="card">
       <h3>Revenue Growth Year-over-Year (%)</h3>
-      <p>Growth rates make cross-scale comparison possible. NVDA&apos;s FY2024 and FY2025 growth completely dominates peers.</p>
-      <canvas id="growthChart" height="280"></canvas>
+      <p>NVDA&apos;s FY2024 (+126%) and FY2025 (+114%) growth completely dominates all peers. FY2025 = estimate.</p>
+      <div class="swatch-row" id="growthLegend"></div>
+      <div class="ch ch-300"><canvas id="growthChart"></canvas></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>Absolute Revenue (Billions USD)</h3>
+        <p>Log scale needed — spans $23B (AMD) to $385B (GOOGL). Hover to compare.</p>
+        <div class="ch ch-330"><canvas id="absRevChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Net Income GAAP (Billions USD)</h3>
+        <p>Log scale. AMD&apos;s Xilinx amortization suppresses GAAP numbers. FY2025 estimated.</p>
+        <div class="ch ch-330"><canvas id="incomeChart"></canvas></div>
+      </div>
     </div>
   </div>
 
@@ -168,12 +192,12 @@
   <div class="pane" id="pane-private">
     <p style="font-size:.79rem;color:var(--muted);margin-bottom:20px;line-height:1.6">
       OpenAI and Anthropic are <strong style="color:var(--text)">private companies</strong> — no public stock exists.
-      The chart below tracks implied valuations from funding rounds and tender offers only. These valuations are not liquid market prices.
+      The chart tracks implied valuations from funding rounds and tender offers only.
     </p>
     <div class="card">
       <h3>Implied Valuation Milestones</h3>
-      <p>Billions USD from announced funding rounds. Hover for details.</p>
-      <canvas id="privateChart" height="340"></canvas>
+      <p>Billions USD from announced funding rounds. Not reflective of liquid market value.</p>
+      <div class="ch ch-360"><canvas id="privateChart"></canvas></div>
     </div>
     <div class="priv-grid" id="privGrid"></div>
   </div>
@@ -182,8 +206,48 @@
 
 <script>
 // ============================================================
-// DATA
+// COMPANY DATA
+// Distinct colours — green, cyan, amber, indigo, red, orange
+// so each company is immediately identifiable
 // ============================================================
+const COS = [
+  {
+    name:"NVIDIA",    ticker:"NVDA", color:"#76b900", note:"AI GPU leader — H100/Blackwell",
+    prices:  [28.0,16.5,13.3,14.6, 27.7,42.3,44.0,49.5, 87.7,120.0,116.0,138.0, 112.0,135.0],
+    revenue: [26.9, 27.0, 60.9,130.5],
+    income:  [ 9.75, 4.37, 29.76, 72.9],
+  },
+  {
+    name:"Microsoft", ticker:"MSFT", color:"#22d3ee", note:"OpenAI partner, Azure AI",
+    prices:  [305,271,235,240, 288,337,377,375, 420,446,432,443, 388,448],
+    revenue: [198, 211, 245, 278],
+    income:  [72.7, 72.4, 88.1, 96.0],
+  },
+  {
+    name:"Alphabet",  ticker:"GOOGL", color:"#f59e0b", note:"Gemini AI, DeepMind, TPUs",
+    prices:  [137,112,100,89, 104,128,133,140, 157,178,166,192, 165,180],
+    revenue: [283, 307, 350, 385],
+    income:  [59.9, 73.8,100.1,115.0],
+  },
+  {
+    name:"Meta",      ticker:"META", color:"#818cf8", note:"Llama open models, AI glasses",
+    prices:  [222,162,136,120, 206,286,325,353, 527,490,564,590, 627,682],
+    revenue: [116, 134, 164, 188],
+    income:  [23.2, 39.1, 62.4, 72.0],
+  },
+  {
+    name:"AMD",       ticker:"AMD", color:"#ef4444", note:"MI300X AI GPUs, EPYC CPUs",
+    prices:  [116,80,65,67, 90,114,110,147, 180,170,155,126, 98,110],
+    revenue: [23.6, 22.7, 25.8, 32.0],
+    income:  [ 1.32, 0.85,  1.64,  2.3],
+  },
+  {
+    name:"Cisco",     ticker:"CSCO", color:"#f97316", note:"AI networking infrastructure",
+    prices:  [56,49,45,48, 50,51,55,58, 52,47,52,57, 59,62],
+    revenue: [51.6, 57.0, 53.8, 56.0],
+    income:  [11.8, 12.6, 10.3, 11.0],
+  },
+];
 
 const QUARTERS = [
   "Q1'22","Q2'22","Q3'22","Q4'22",
@@ -191,48 +255,9 @@ const QUARTERS = [
   "Q1'24","Q2'24","Q3'24","Q4'24",
   "Q1'25*","Q2'25*"
 ];
-
-const COS = [
-  {
-    name:"NVIDIA", ticker:"NVDA", color:"#76b900", note:"AI GPU leader — H100/H200/Blackwell",
-    // Split-adjusted quarter-end prices (10:1 split June 2024)
-    prices:[28.0,16.5,13.3,14.6, 27.7,42.3,44.0,49.5, 87.7,120.0,116.0,138.0, 112.0,135.0],
-    revenue:[26.9, 27.0, 60.9, 130.5],
-    income: [9.75,  4.37, 29.76, 72.9],
-  },
-  {
-    name:"Microsoft", ticker:"MSFT", color:"#00a4ef", note:"OpenAI partner, Azure AI & Copilot",
-    prices:[305,271,235,240, 288,337,377,375, 420,446,432,443, 388,448],
-    revenue:[198, 211, 245, 278],
-    income: [72.7, 72.4, 88.1, 96.0],
-  },
-  {
-    name:"Alphabet", ticker:"GOOGL", color:"#4285f4", note:"Gemini AI, DeepMind, TPUs",
-    prices:[137,112,100,89, 104,128,133,140, 157,178,166,192, 165,180],
-    revenue:[283, 307, 350, 385],
-    income: [59.9, 73.8, 100.1, 115.0],
-  },
-  {
-    name:"Meta", ticker:"META", color:"#1877f2", note:"Llama open models, AI glasses",
-    prices:[222,162,136,120, 206,286,325,353, 527,490,564,590, 627,682],
-    revenue:[116, 134, 164, 188],
-    income: [23.2, 39.1, 62.4, 72.0],
-  },
-  {
-    name:"AMD", ticker:"AMD", color:"#ed1c24", note:"MI300X AI GPUs, EPYC CPUs",
-    prices:[116,80,65,67, 90,114,110,147, 180,170,155,126, 98,110],
-    revenue:[23.6, 22.7, 25.8, 32.0],
-    income: [1.32, 0.85, 1.64, 2.3],
-  },
-  {
-    name:"Cisco", ticker:"CSCO", color:"#049fd9", note:"AI networking infrastructure",
-    prices:[56,49,45,48, 50,51,55,58, 52,47,52,57, 59,62],
-    revenue:[51.6, 57.0, 53.8, 56.0],
-    income: [11.8, 12.6, 10.3, 11.0],
-  },
-];
-
 const YEARS = ["FY2022","FY2023","FY2024","FY2025e"];
+// Growth chart skips FY2022 (no prior year for YoY)
+const GROWTH_YEARS = ["FY2023 YoY","FY2024 YoY","FY2025e YoY"];
 
 const PRIVATE = [
   {
@@ -262,37 +287,46 @@ const PRIVATE = [
 // HELPERS
 // ============================================================
 
-function norm(prices) {
-  const base = prices[0];
-  return prices.map(p => +(p / base * 100).toFixed(2));
+function norm(arr) {
+  const base = arr[0];
+  return arr.map(v => +(v / base * 100).toFixed(2));
 }
 
+// Returns YoY % for indices 1..n (skips index 0)
 function yoy(arr) {
-  return arr.map((v, i) => i === 0 ? null : +(((v - arr[i-1]) / arr[i-1]) * 100).toFixed(1));
+  const out = [];
+  for (let i = 1; i < arr.length; i++) {
+    out.push(+(((arr[i] - arr[i-1]) / arr[i-1]) * 100).toFixed(1));
+  }
+  return out; // length = arr.length - 1, no nulls
 }
 
 const TIP = {
   backgroundColor:"#0f1629", borderColor:"#1e2d4a", borderWidth:1,
   titleColor:"#e2e8f0", bodyColor:"#94a3b8", padding:10,
 };
+const BASE = { responsive:true, maintainAspectRatio:false, interaction:{mode:"index",intersect:false} };
+const XSCALE = { grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b",font:{size:10},maxRotation:45} };
+const YSCALE = { grid:{color:"#1e2d4a80"}, ticks:{color:"#64748b",font:{size:10}} };
 
-const BASE_OPTS = {
-  responsive:true, maintainAspectRatio:false,
-  interaction:{ mode:"index", intersect:false },
-};
+function yscaleTitle(label) {
+  return { display:true, text:label, color:"#64748b", font:{size:10} };
+}
 
-function axisStyle(yLabel, extra) {
-  return {
-    x:{ grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b", font:{size:10}} },
-    y:{ grid:{color:"#1e2d4a80"}, ticks:{color:"#64748b", font:{size:10}},
-        title:{display:!!yLabel, text:yLabel||"", color:"#64748b", font:{size:10}},
-        ...extra },
-  };
+// Build inline swatch legend
+function buildLegend(id, items) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = items.map(it =>
+    `<span class="swatch"><span class="swatch-dot" style="background:${it.color}"></span>${it.label}</span>`
+  ).join("");
 }
 
 // ============================================================
 // STOCK CHART
 // ============================================================
+
+buildLegend("stockLegend", COS.map(c => ({ color:c.color, label:`${c.ticker} — ${c.name}` })));
 
 new Chart(document.getElementById("stockChart"), {
   type:"line",
@@ -311,12 +345,9 @@ new Chart(document.getElementById("stockChart"), {
     })),
   },
   options:{
-    ...BASE_OPTS,
+    ...BASE,
     plugins:{
-      legend:{
-        position:"top",
-        labels:{color:"#94a3b8", font:{size:11}, padding:14, boxWidth:20},
-      },
+      legend:{ display:false },
       tooltip:{
         ...TIP,
         callbacks:{
@@ -329,16 +360,16 @@ new Chart(document.getElementById("stockChart"), {
       },
     },
     scales:{
-      ...axisStyle("Index (Q1'22 = 100)"),
-      x:{ grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b", font:{size:10}, maxRotation:45} },
+      x: XSCALE,
+      y:{
+        ...YSCALE,
+        title: yscaleTitle("Index (Q1'22 = 100)"),
+      },
     },
   },
 });
 
-// ============================================================
-// STAT CARDS
-// ============================================================
-
+// Stat cards
 const sg = document.getElementById("statsGrid");
 COS.forEach(c => {
   const n = norm(c.prices);
@@ -346,91 +377,162 @@ COS.forEach(c => {
   const pos = ret >= 0;
   sg.innerHTML += `
     <div class="stat-card" style="border-left-color:${c.color}">
-      <div class="stat-ticker">${c.ticker}</div>
+      <div class="stat-ticker" style="color:${c.color}">${c.ticker}</div>
       <div class="stat-num ${pos?"pos":"neg"}">${pos?"+":""}${ret.toFixed(0)}%</div>
-      <div class="stat-sub">since Q1 2022</div>
+      <div class="stat-sub">return since Q1 2022</div>
       <div class="stat-note">${c.note}</div>
     </div>`;
 });
 
 // ============================================================
-// BAR CHART FACTORY
+// REVENUE INDEXED CHART
 // ============================================================
 
-function makeBar(id, labels, datasets, yLabel, isLog) {
-  const logOpts = isLog ? {
-    type:"logarithmic",
-    ticks:{
-      color:"#64748b", font:{size:10},
-      callback: v => {
-        const nice = [0.5,1,2,5,10,20,50,100,200,300,400];
-        return nice.some(n => Math.abs(n-v)<0.01*n+0.001) ? "$"+v+"B" : "";
-      },
-    },
-    grid:{color:"#1e2d4a80"},
-    title:{display:true, text:yLabel, color:"#64748b", font:{size:10}},
-  } : {
-    ticks:{color:"#64748b", font:{size:10}, callback: v => v+"%"},
-    grid:{color:"#1e2d4a80"},
-    title:{display:true, text:yLabel, color:"#64748b", font:{size:10}},
-  };
+buildLegend("revLegend", COS.map(c => ({ color:c.color, label:`${c.ticker} — ${c.name}` })));
 
-  new Chart(document.getElementById(id), {
-    type:"bar",
-    data:{
-      labels,
-      datasets: datasets.map(c => ({
-        label: c.ticker,
-        data: c.data,
-        backgroundColor: c.color+"bb",
-        borderColor: c.color,
-        borderWidth:1, borderRadius:3,
-      })),
-    },
-    options:{
-      ...BASE_OPTS,
-      plugins:{
-        legend:{position:"top", labels:{color:"#94a3b8", font:{size:10}, padding:8, boxWidth:12}},
-        tooltip:{
-          ...TIP,
-          callbacks:{
-            label: ctx => ctx.parsed.y === null ? null
-              : isLog ? ` ${ctx.dataset.label}: $${ctx.parsed.y}B`
-              : ` ${ctx.dataset.label}: ${ctx.parsed.y > 0 ? "+" : ""}${ctx.parsed.y}%`,
+new Chart(document.getElementById("revenueChart"), {
+  type:"line",
+  data:{
+    labels: YEARS,
+    datasets: COS.map(c => ({
+      label: c.ticker,
+      data: norm(c.revenue),
+      borderColor: c.color,
+      backgroundColor: c.color + "10",
+      borderWidth: 2.5,
+      pointRadius: 5,
+      pointHoverRadius: 8,
+      tension: 0.2,
+      fill: false,
+    })),
+  },
+  options:{
+    ...BASE,
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        ...TIP,
+        callbacks:{
+          label: ctx => {
+            const v = ctx.parsed.y;
+            const d = v - 100;
+            return ` ${ctx.dataset.label}: ${v.toFixed(1)} (${d >= 0 ? "+" : ""}${d.toFixed(1)}%)`;
           },
         },
       },
+    },
+    scales:{
+      x: XSCALE,
+      y:{ ...YSCALE, title: yscaleTitle("Index (FY2022 = 100)") },
+    },
+  },
+});
+
+// ============================================================
+// GROWTH CHART  — no nulls, only FY2023/24/25e
+// ============================================================
+
+buildLegend("growthLegend", COS.map(c => ({ color:c.color, label:`${c.ticker} — ${c.name}` })));
+
+new Chart(document.getElementById("growthChart"), {
+  type:"bar",
+  data:{
+    labels: GROWTH_YEARS,
+    datasets: COS.map(c => ({
+      label: c.ticker,
+      data: yoy(c.revenue),   // 3 values, zero nulls
+      backgroundColor: c.color + "cc",
+      borderColor: c.color,
+      borderWidth: 1,
+      borderRadius: 4,
+    })),
+  },
+  options:{
+    ...BASE,
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        ...TIP,
+        callbacks:{
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? "+" : ""}${ctx.parsed.y}%`,
+        },
+      },
+    },
+    scales:{
+      x:{ ...XSCALE, ticks:{ color:"#64748b", font:{size:10} } },
+      y:{
+        ...YSCALE,
+        title: yscaleTitle("YoY Revenue Growth %"),
+        ticks:{ ...YSCALE.ticks, callback: v => v+"%" },
+      },
+    },
+  },
+});
+
+// ============================================================
+// ABSOLUTE REVENUE & INCOME — log scale with guarded min
+// ============================================================
+
+function makeLogBar(id, label, dataKey, tip) {
+  new Chart(document.getElementById(id), {
+    type:"bar",
+    data:{
+      labels: YEARS,
+      datasets: COS.map(c => ({
+        label: c.ticker,
+        data: c[dataKey],
+        backgroundColor: c.color + "bb",
+        borderColor: c.color,
+        borderWidth: 1,
+        borderRadius: 3,
+      })),
+    },
+    options:{
+      ...BASE,
+      plugins:{
+        legend:{ position:"top", labels:{ color:"#94a3b8", font:{size:10}, padding:8, boxWidth:12 } },
+        tooltip:{
+          ...TIP,
+          callbacks:{ label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y}B` },
+        },
+      },
       scales:{
-        x:{grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b"}},
-        y: logOpts,
+        x: XSCALE,
+        y:{
+          type:"logarithmic",
+          min: 0.5,
+          grid:{ color:"#1e2d4a80" },
+          title: yscaleTitle(label),
+          ticks:{
+            color:"#64748b", font:{size:10},
+            callback: v => {
+              // Only label clean round numbers to avoid clutter
+              if ([1,2,5,10,20,50,100,200,300,400].some(n => Math.abs(n-v) < 0.01)) {
+                return "$"+v+"B";
+              }
+              return null;
+            },
+          },
+        },
       },
     },
   });
 }
 
-makeBar("revenueChart", YEARS,
-  COS.map(c => ({ ticker:c.ticker, color:c.color, data:c.revenue })),
-  "Billions USD (log scale)", true);
-
-makeBar("incomeChart", YEARS,
-  COS.map(c => ({ ticker:c.ticker, color:c.color, data:c.income })),
-  "Billions USD (log scale)", true);
-
-makeBar("growthChart", YEARS,
-  COS.map(c => ({ ticker:c.ticker, color:c.color, data:yoy(c.revenue) })),
-  "YoY Revenue Growth %", false);
+makeLogBar("absRevChart", "Revenue — Billions USD (log)", "revenue");
+makeLogBar("incomeChart", "Net Income — Billions USD (log)", "income");
 
 // ============================================================
-// PRIVATE VALUATION CHART
+// PRIVATE VALUATIONS CHART
 // ============================================================
 
 const MO = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
-const sortDate = (a,b) => {
-  const [mA,yA] = a.split(" "), [mB,yB] = b.split(" ");
+const sortDates = (a,b) => {
+  const [mA,yA]=a.split(" "), [mB,yB]=b.split(" ");
   return (parseInt(yA)*12+MO[mA]) - (parseInt(yB)*12+MO[mB]);
 };
 
-const allDates = [...new Set(PRIVATE.flatMap(co => co.milestones.map(m => m.date)))].sort(sortDate);
+const allDates = [...new Set(PRIVATE.flatMap(co=>co.milestones.map(m=>m.date)))].sort(sortDates);
 
 new Chart(document.getElementById("privateChart"), {
   type:"line",
@@ -438,50 +540,49 @@ new Chart(document.getElementById("privateChart"), {
     labels: allDates,
     datasets: PRIVATE.map(co => ({
       label: co.name,
-      data: allDates.map(d => (co.milestones.find(m => m.date===d) || {}).val ?? null),
+      data: allDates.map(d => (co.milestones.find(m=>m.date===d)||{}).val ?? null),
       borderColor: co.color,
-      backgroundColor: co.color+"18",
-      borderWidth:2.5,
-      pointRadius:7, pointHoverRadius:11,
-      tension:0.2, spanGaps:true,
+      backgroundColor: co.color + "18",
+      borderWidth: 2.5,
+      pointRadius: 7,
+      pointHoverRadius: 11,
+      tension: 0.2,
+      spanGaps: true,
     })),
   },
   options:{
-    ...BASE_OPTS,
+    ...BASE,
     plugins:{
-      legend:{position:"top", labels:{color:"#94a3b8", font:{size:12}, padding:16}},
+      legend:{ position:"top", labels:{ color:"#94a3b8", font:{size:12}, padding:16 } },
       tooltip:{
         ...TIP,
         callbacks:{
           label: ctx => ctx.parsed.y !== null
-            ? ` ${ctx.dataset.label}: $${ctx.parsed.y}B implied valuation`
+            ? ` ${ctx.dataset.label}: $${ctx.parsed.y}B valuation`
             : null,
         },
       },
     },
     scales:{
-      x:{grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b", maxRotation:45}},
+      x: XSCALE,
       y:{
-        grid:{color:"#1e2d4a80"},
-        ticks:{color:"#64748b", callback: v => "$"+v+"B"},
-        title:{display:true, text:"Implied Valuation (Billions USD)", color:"#64748b", font:{size:10}},
+        ...YSCALE,
+        title: yscaleTitle("Implied Valuation (Billions USD)"),
+        ticks:{ ...YSCALE.ticks, callback: v => "$"+v+"B" },
       },
     },
   },
 });
 
-// ============================================================
-// PRIVATE MILESTONE CARDS
-// ============================================================
-
+// Private milestone cards
 const pg = document.getElementById("privGrid");
 PRIVATE.forEach(co => {
   const last = co.milestones[co.milestones.length-1];
   pg.innerHTML += `
     <div class="priv-card">
       <h3 style="color:${co.color}">${co.name}</h3>
-      <div class="priv-meta">Private company &nbsp;&middot;&nbsp; Latest: <strong style="color:var(--text)">$${last.val}B</strong> (${last.date})</div>
-      ${co.milestones.map(m => `
+      <div class="priv-meta">Private &nbsp;&middot;&nbsp; Latest: <strong style="color:var(--text)">$${last.val}B</strong> (${last.date})</div>
+      ${co.milestones.map(m=>`
         <div class="m-row">
           <span class="m-date">${m.date}</span>
           <span class="m-val" style="color:${co.color}">$${m.val}B</span>
@@ -497,13 +598,12 @@ PRIVATE.forEach(co => {
 document.querySelectorAll(".tab").forEach(t => {
   t.addEventListener("click", () => {
     const id = t.dataset.tab;
-    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
-    document.querySelectorAll(".pane").forEach(x => x.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".pane").forEach(x=>x.classList.remove("active"));
     t.classList.add("active");
     document.getElementById("pane-"+id).classList.add("active");
   });
 });
 </script>
-
 </body>
 </html>
