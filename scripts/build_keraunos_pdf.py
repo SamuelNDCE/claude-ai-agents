@@ -396,7 +396,24 @@ E.append(b("<b>China is proving the intent in hardware (target 2028).</b> Galact
            "CASIC, and the Ziyang (Sichuan) government are building an electromagnetic "
            "launch verification platform that accelerates a conventional rocket to roughly "
            "Mach 1.6 before ignition. That is a faster runway, not an orbital injector: "
-           "the rocket still carries the rocket equation on its back."))
+           "the rocket still carries the rocket equation on its back. And the state is "
+           "aiming further: a lunar mass driver is folded into International Lunar "
+           "Research Station planning for the mid-2030s, at a claimed tenth of rocket "
+           "costs."))
+E.append(b("<b>SpaceX just validated the Moon-first thesis (March 2026).</b> SpaceX put "
+           "a lunar mass driver on its public roadmap: Musk described a \"cannon-like "
+           "device using magnetic power\" to launch Moon-manufactured AI satellites at "
+           "enormous scale, and the company has shifted its near-term focus from Mars to "
+           "the Moon. The biggest player in launch is pointing at the same future. That "
+           "is validation, and it is also a clock."))
+E.append(b("<b>The hardware and the field already exist.</b> General Atomics has run "
+           "EMALS, a linear EM launcher, on a US carrier for years, and a 2023 AFOSR "
+           "report recommends evolving it for lunar launch. Auriga Space has raised "
+           "$12.2M with AFWERX Phase II contracts for an EM launch-assist track, selling "
+           "hypersonic testing while it grows. SpinLaunch, the centrifuge approach, has "
+           "pivoted to satellites: the linear track won that argument. There is even a "
+           "standing US SBIR solicitation for a magnetically levitated sled driven to "
+           "7 km/s by a linear motor. The demand signal is public."))
 E.append(b("<b>The gap KERAUNOS fills:</b> everyone is fighting the launcher's worst "
            "case. China is racing for an Earth assist; StarTram stayed a paper about an "
            "Earth tube. Nobody is productizing the launcher where it is native: airless "
@@ -574,9 +591,15 @@ E.append(mathbox([
      "shielding mass, structural metal."),
 ]))
 E.append(b("<b>Validated pedigree:</b> Gerard O'Neill's lunar mass-driver studies (NASA "
-           "Ames / Princeton, 1970s) worked this physics out fifty years ago. What was "
-           "missing was a cheap way to ship the hardware. That is exactly what the Earth "
-           "KERAUNOS provides."))
+           "Ames / Princeton, 1970s) worked this physics out fifty years ago. What "
+           "killed every program since was the same thing: all government money and no "
+           "revenue until a Moon base existed. The hypersonic test market breaks that "
+           "curse on Earth, and cislunar freight breaks it on the Moon."))
+E.append(b("<b>The reference design already exists in the literature:</b> a published "
+           "lunar mass-driver study (San Jose State) puts 25 kg pellets at 2.4 km/s "
+           "using 8.7 MW of continuous polar solar power, a 37,000 m&sup2; array, and "
+           "about a million amps of coil current per shot. SELENE's starter track is "
+           "the same class of machine."))
 E.append(b("<b>The proof of concept pays for itself, and it is tiny:</b> the starter "
            "track is 1-3 km, about the length of an airport runway. Dumb cargo (water, "
            "regolith, metal billets) doesn't mind high g, so at 100 g a 1.5 km track "
@@ -594,6 +617,12 @@ E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX crack
            "regolith, and raw shielding mass for stations and ships. Power from solar "
            "arrays at the Peaks of Eternal Light or compact fission. SELENE turns the Moon "
            "from a destination into <b>the quarry of cislunar space</b>."))
+E.append(b("<b>The south pole does half the engineering for us:</b> Shackleton-rim "
+           "ridgelines see sun 80-90% of the time, the water ice sits in the shadowed "
+           "crater next door, and ambient temperature is near 90K, just below the 92K "
+           "critical temperature of YBCO superconductors. At the lunar south pole the "
+           "coils run with no active cooling at all. The Moon refrigerates the launcher "
+           "for free."))
 E.append(b("<b>The kit, not the site:</b> SELENE's track-on-regolith design is the "
            "reference kit for every airless body worth working: Phobos and Deimos, "
            "Ceres, Mercury, the asteroid belt. Design once, stamp copies. The fleet of "
@@ -640,7 +669,9 @@ E.append(KeepTogether([styled_table(
       "10-20 km track, vacuum tube, plasma window, mountain exit",
       "Mach 2-3 in 3 g human-rated mode; 2.4-3.4 km/s (Mach 7-10) in 30 g cargo mode: "
       "a hypersonic testbed beyond anything flying, and well past China's Mach 1.6 "
-      "target for 2028. Validates the tube, the window, and the shell in atmosphere."],
+      "target for 2028. Validates the tube, the window, and the shell in atmosphere. "
+      "Sells hypersonic test runs to a market the DoD funds today: the revenue model "
+      "Auriga proved, and the thing every dead mass-driver program before it lacked."],
      ["3", "<b>The fleet</b> (vacuum worlds)",
       "SELENE-class kits stamped onto other airless bodies: Phobos, Deimos, Ceres, "
       "the asteroid belt",
