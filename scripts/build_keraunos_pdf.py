@@ -8,6 +8,11 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Table,
                                 TableStyle, PageBreak, KeepTogether, HRFlowable)
+try:
+    from svglib.svglib import svg2rlg
+    _SVGLIB = True
+except ImportError:
+    _SVGLIB = False
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
@@ -330,6 +335,36 @@ E.append(p(
     "Phobos. Deimos. Ceres. The asteroid belt. Design once, stamp copies. "
     "The fleet of these machines is the real bet."
 ))
+
+# ===== TRACK ARCHITECTURE DIAGRAM =====
+E.append(Spacer(1, 10))
+E.append(Paragraph("Track section architecture: SELENE Linear Synchronous Motor", S["h2"]))
+E.append(p(
+    "Each 10 m section of the SELENE track contains 20 REBCO superconducting coil rings "
+    "spaced at 0.5 m pitch, wound in a 3-phase configuration. The structural shell is a "
+    "1.5 m bore cryostat: carbon fibre outer shell, dual vacuum jackets, 80 K and 20 K "
+    "thermal shields, and the REBCO winding layer at 5-20 K. Two pulse-tube refrigerators "
+    "(3 kW each) maintain operating temperature per section. Titanium iris doors at each "
+    "end open in under 50 ms on predictive sensor control. Sections bolt together with "
+    "indium vacuum seals."
+))
+_SVG_TRACK = r"C:\Users\Futur\Documents\AiWorkspace\Claude\ui\selene-track-section.svg"
+if _SVGLIB and os.path.exists(_SVG_TRACK):
+    _drw = svg2rlg(_SVG_TRACK)
+    if _drw:
+        _page_w = 6.5 * inch
+        _scale = _page_w / _drw.width
+        _drw.width  *= _scale
+        _drw.height *= _scale
+        _drw.transform = (_scale, 0, 0, _scale, 0, 0)
+        E.append(_drw)
+        E.append(p(
+            "<i>Figure: Side elevation cut-away and cross-section of a single 10 m SELENE "
+            "LSM track section. Teal = Phase A coils; purple = Phase B; violet = Phase C. "
+            "Pod shown mid-section with 6 REBCO reaction magnet bands. Left iris door "
+            "closed; right door open. Scale 1:100.</i>"
+        ))
+E.append(Spacer(1, 6))
 
 # ===== 2. PHYSICS =====
 E.append(KeepTogether(sect("2", "The Physics and Price") + [reminder(
@@ -834,8 +869,10 @@ E.append(styled_table(
          "(2024). Commonwealth Fusion Systems demonstrated a <b>20 T</b> REBCO magnet "
          "for the SPARC fusion reactor in September 2021 - the same conductor type "
          "KERAUNOS uses. Critical current density exceeds 1,000 A/mm² at 30 T. "
-         "Lunar south pole ambient (~90 K) cools passively; a small closed-cycle "
-         "cryo-cooler drops to 65-70 K for full margin. Commercial tape suppliers: "
+         "Lunar south pole ambient (~90 K) is just below Tc — adequate for low-field "
+         "operation. Active closed-cycle pulse-tube refrigerators (PTR) drop to "
+         "<b>5–20 K</b>, unlocking <b>20–26 T</b> field strength and 4× higher force "
+         "density. SELENE target operating range: 5–20 K. Commercial tape suppliers: "
          "SuperPower Inc., American Superconductor, Fujikura, SuNAM."],
         ["MHD plasma window",
          "Invented by A. Hershcovitch at Brookhaven National Lab; patented 1995. Holds "
