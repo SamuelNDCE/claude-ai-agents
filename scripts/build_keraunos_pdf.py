@@ -231,23 +231,82 @@ E.append(styled_table(
       "No atmosphere: no tube, no plasma window, no aero-shell. A ~10 km PoC track "
       "already beats lunar escape velocity. The demo is a working exporter."],
      ["<b>BRONTE</b>", "Earth", "2: The thunder",
-      "A 10–20 km demonstrator first, then the full 1,000 km, 8 km/s orbital injector. "
+      "A 10-20 km demonstrator first, then the full 1,000 km, 8 km/s orbital injector. "
       "Thunder follows the lightning, and you need an atmosphere to hear it."],
      ["<b>ARES</b>", "Mars", "3: The port",
       "0.6% atmosphere makes the tube featherweight. Turns Mars from a destination "
       "into a port."]],
     [1.0 * inch, 0.7 * inch, 1.55 * inch, 3.35 * inch]))
 E.append(Spacer(1, 6))
-stats = styled_table(
-    ["Metric", "Value", "Why it matters"],
-    [["Exit velocity", "4–8 km/s (Mach 12–25)", "Full orbital injection, not a runway assist"],
-     ["Cargo mass fraction", "80% cargo / 20% fuel", "The inverse of a chemical rocket (10% / 90%)"],
-     ["Acceleration", "3.3 g over 1,000 km", "Gentle enough for precision payloads, eventually people"],
-     ["Energy cost", "~$0.53 of electricity per kg", "8.9 kWh/kg; everything above this is amortization"],
-     ["Cost to LEO", "$20–250/kg, toward $5/kg", "vs Falcon 9 ~$2,720/kg customer price"],
-     ["Cadence", "One 10 t pod every 3 hours", "~29,000 tonnes/year: a freight schedule, not a manifest"]],
-    [1.45 * inch, 1.95 * inch, 3.2 * inch])
-E.append(stats)
+E.append(Paragraph("Specifications by launcher", S["h2"]))
+E.append(p("Each launcher gets its own table below so there is no ambiguity about which "
+           "body a number belongs to. BRONTE (Earth) is the flagship and gets the deepest "
+           "treatment, then SELENE (Moon), then ARES (Mars)."))
+
+E.append(Paragraph("BRONTE: Earth (flagship system)", S["h2"]))
+E.append(styled_table(
+    ["Parameter", "Value", "Notes"],
+    [["Role", "Primary orbital injector",
+      "\"The thunder.\" The full-scale Earth machine and the program's revenue engine"],
+     ["Track length", "1,000 km vacuum tube",
+      "Tube length is the unlock: it buys the gentle g-load"],
+     ["Exit velocity", "4-8 km/s",
+      "Mach 12.7-25.3 at the 6 km exit, where the speed of sound is ~316 m/s"],
+     ["Acceleration", "3.3 g constant (32 m/s<super>2</super>)",
+      "a = v<super>2</super>/2L. Only 0.8 g if run to 4 km/s. StarTram needed 30 g"],
+     ["Time on track", "250 s (4 min 10 s)",
+      "t = v/a at full 8 km/s"],
+     ["Energy per kg", "8.9 kWh ($0.53 at $0.06/kWh)",
+      "E = &frac12;v<super>2</super> = 32 MJ/kg. Everything above this is amortization"],
+     ["Drive power (10 t pod)", "1.28 GW average, 2.56 GW peak",
+      "320 GJ per launch over 250 s; peak P = m&middot;a&middot;v at the muzzle"],
+     ["Onboard kick", "0.5-1 km/s at apogee",
+      "20% propellant at Isp 350 s buys ~0.77 km/s: the claims are consistent"],
+     ["Exit altitude", "~6,000 m mountain face",
+      "Air density there is ~55% of sea level, cutting peak drag and heating nearly in half"],
+     ["Cadence", "One 10 t pod every 3 hours",
+      "80 t/day, ~29,000 t/year: a freight schedule, not a launch manifest"],
+     ["Cost to LEO", "$20-250/kg, toward $5/kg",
+      "vs Falcon 9 ~$2,720/kg customer price; skyhook phase pushes toward $5"],
+     ["Demonstrator first", "10-20 km track",
+      "Mach 2-3 at 3 g human-rated; 2.4-3.4 km/s (Mach 7-10) at 30 g cargo mode"]],
+    [1.45 * inch, 1.85 * inch, 3.3 * inch]))
+E.append(Paragraph("All derived values from a = v&sup2;/2L, t = v/a, E = &frac12;v&sup2;, "
+                   "P = m&middot;a&middot;v, with g = 9.81 m/s&sup2;.", S["caption"]))
+
+E.append(Paragraph("SELENE: Moon (Phase 1 proof of concept)", S["h2"]))
+E.append(styled_table(
+    ["Parameter", "Value", "Notes"],
+    [["Role", "Proof of concept + mass exporter",
+      "Water ice, oxygen, shielding mass to cislunar buyers"],
+     ["Atmosphere", "None",
+      "No tube, no plasma window, no aero-shell, no blast shutters. The track is the launcher"],
+     ["PoC track", "10-12 km at 30 g (cargo)",
+      "Reaches 2.43-2.66 km/s, clearing lunar escape velocity (2.38 km/s). 8 s ride"],
+     ["Full track", "~50 km at 3 g",
+      "Low lunar orbit speed (~1.7 km/s) in a 58 s run; ~96 km version reaches escape"],
+     ["Energy per kg", "0.40 kWh (orbit), 0.79 kWh (escape)",
+      "Roughly 1/20th of the Earth launch energy"],
+     ["Throw to Earth orbit", "~2.4 km/s from the lunar surface",
+      "vs 9.4+ km/s from Earth's surface: the Moon wins on every kg that can start there"]],
+    [1.45 * inch, 1.95 * inch, 3.2 * inch]))
+
+E.append(Paragraph("ARES: Mars (Phase 3 frontier port)", S["h2"]))
+E.append(styled_table(
+    ["Parameter", "Value", "Notes"],
+    [["Role", "Export port for the Mars economy",
+      "ISRU propellant, samples, manufactured goods"],
+     ["Atmosphere", "~6 mbar (0.6% of Earth)",
+      "Featherweight tube; the plasma window's job is 99.4% done by the planet"],
+     ["Track (orbit)", "~180 km at 3.3 g",
+      "Low Mars orbit speed (~3.4 km/s) in a 105 s run"],
+     ["Track (escape)", "~390 km at 3.3 g",
+      "Mars escape (~5.0 km/s) in a 155 s run"],
+     ["Energy per kg", "1.6 kWh (orbit), 3.5 kWh (escape)",
+      "Between Moon and Earth in scale, far easier than Earth in engineering"],
+     ["Staging", "Phobos and Deimos",
+      "Catch points and depots; SEP tugs handle the interplanetary cruise"]],
+    [1.45 * inch, 1.95 * inch, 3.2 * inch]))
 E.append(Spacer(1, 6))
 
 # ---- 1. PHYSICS & PRICE ----
@@ -259,15 +318,18 @@ E.append(b("<b>The Mass Fraction Flip:</b> a normal rocket is 90% fuel / 10% car
            "more payload per launched tonne."))
 E.append(b("<b>The Kick Motor:</b> even an 8 km/s ground launch is sub-orbital; without a "
            "circularization burn at apogee the pod hits the ocean. A small restartable "
-           "motor supplies the few hundred m/s of finesse: the only propellant on board."))
+           "motor supplies roughly 0.5-1 km/s of circularization and trim (a 20% "
+           "propellant fraction at Isp 350 s buys ~0.77 km/s): the only propellant on "
+           "board."))
 E.append(b("<b>The Breakaway Aero-Shell:</b> the pod rides inside a sacrificial hypersonic "
            "shroud shaped with NASA X-59 pressure-distribution data. It eats the tube-to-air "
-           "transition, then jettisons at 30–40 km, shedding dead thermal mass before the "
+           "transition, then jettisons at 30-40 km, shedding dead thermal mass before the "
            "orbital burn."))
-E.append(b("<b>The Mountain Muzzle (new):</b> the tube exits at 4,000–6,000 m altitude on a "
-           "mountain face. Air density at 5 km is roughly half of sea level, halving peak "
-           "drag and heating during the worst milliseconds of the flight. Non-negotiable at "
-           "Mach 12+, and it matches the StarTram reference design."))
+E.append(b("<b>The Mountain Muzzle (new):</b> the tube exits at roughly 6,000 m altitude "
+           "on a mountain face, where air density is ~55% of sea level, cutting peak drag "
+           "and heating nearly in half during the worst milliseconds of the flight. "
+           "Non-negotiable at Mach 12+, and it matches the StarTram reference design "
+           "(exit at 4,000-8,000 m)."))
 E.append(Spacer(1, 4))
 E.append(Paragraph("The arithmetic that carries the whole pitch", S["h2"]))
 E.append(mathbox([
@@ -287,8 +349,8 @@ E.append(styled_table(
     ["Launch system", "Cost per kg", "Economic bottleneck"],
     [["Space Shuttle", "$54,500", "Hand-built, massive refurbishment"],
      ["SpaceX Falcon 9", "~$2,720 price / ~$630 internal", "Fuel costs + expended hardware"],
-     ["SpaceX Starship (projected)", "$100–$1,000", "Limit of chemical fuel energy density"],
-     ["<b>KERAUNOS</b>", "<b>$20–$250</b>", "Electricity is ~$0.53/kg; price is amortization"],
+     ["SpaceX Starship (projected)", "$100-$1,000", "Limit of chemical fuel energy density"],
+     ["<b>KERAUNOS</b>", "<b>$20-$250</b>", "Electricity is ~$0.53/kg; price is amortization"],
      ["<b>KERAUNOS + skyhook</b>", "<b>toward $5</b>", "Kick-motor fuel drops toward zero"]],
     [1.9 * inch, 1.95 * inch, 2.75 * inch], highlight_row=4))
 E.append(Paragraph("Falcon 9 figures: customer price vs estimated internal cost. Starship "
@@ -298,8 +360,8 @@ E.append(Paragraph("Falcon 9 figures: customer price vs estimated internal cost.
 E += sect("2", "Prior Art &amp; The Gap: Everyone Is Pointing at This, Nobody Is Building It")
 E.append(reminder("KERAUNOS is not science fiction without a pedigree, and it is not a "
                   "\"me too.\""))
-E.append(b("<b>StarTram proved the physics on paper (2008–2010).</b> James Powell, "
-           "co-inventor of superconducting maglev, and George Maise projected $30–43/kg "
+E.append(b("<b>StarTram proved the physics on paper (2008-2010).</b> James Powell, "
+           "co-inventor of superconducting maglev, and George Maise projected $30-43/kg "
            "to orbit. But their Gen-1 was 30 g, cargo-only, from a ~130 km tube: credible "
            "physics, brutal payload constraints."))
 E.append(b("<b>China is proving the intent in hardware (target 2028).</b> Galactic Energy, "
@@ -355,7 +417,7 @@ E += sect("5", "New Industries &amp; Orbital Manufacturing")
 E.append(reminder("Focus on gravity-sensitive production. Gravity is the impurity we are "
                   "deleting."))
 E.append(b("<b>ZBLAN fiber (the demand is already proven):</b> microgravity-drawn fluoride "
-           "glass with up to 100x lower theoretical signal loss than silica. In Feb–Mar "
+           "glass with up to 100x lower theoretical signal loss than silica. In Feb-Mar "
            "2024, Flawless Photonics drew <b>~12 km of ZBLAN on the ISS</b>, with "
            "repeatable 700 m runs and 1,141 m in a single day (the previous record was "
            "25 m). The factory customers are queueing; they are waiting on freight prices."))
@@ -395,7 +457,7 @@ E += sect("8", "The MHD \"Invisible Door\" (Vacuum Maintenance)")
 E.append(reminder("You can't have a physical door at the end of a Mach 12 tube; it would be "
                   "obliterated. We need a seal made of energy."))
 E.append(b("<b>The problem:</b> keeping a 1,000 km vacuum tube sealed while a projectile "
-           "exits at 4–8 km/s, without letting air rush back in."))
+           "exits at 4-8 km/s, without letting air rush back in."))
 E.append(b("<b>The solution:</b> an MHD plasma window: a magnetically confined plug of "
            "ionized gas that behaves like a solid wall to the outside atmosphere but is "
            "transparent to the projectile."))
@@ -466,8 +528,8 @@ E.append(b("<b>Validated pedigree:</b> Gerard O'Neill's lunar mass-driver studie
            "Ames / Princeton, 1970s) worked this physics out fifty years ago. What was "
            "missing was a cheap way to ship the hardware. That is exactly what the Earth "
            "KERAUNOS provides."))
-E.append(b("<b>The proof of concept pays for itself:</b> a ~10–12 km track at 30 g (cargo "
-           "mode) reaches ~2.45 km/s, <b>above lunar escape velocity (2.38 km/s)</b>. The "
+E.append(b("<b>The proof of concept pays for itself:</b> a 10-12 km track at 30 g (cargo "
+           "mode) reaches 2.43-2.66 km/s, <b>clearing lunar escape velocity (2.38 km/s)</b>. The "
            "very first SELENE segment is not a demo: it is a working exporter, throwing "
            "water ice and regolith to cislunar catch points from day one. Initial hardware "
            "arrives by heavy-lift rocket: the last rockets the program ever needs to buy."))
@@ -511,18 +573,18 @@ E.append(reminder("The lightning flashes before the thunder is heard. SELENE lau
 E.append(styled_table(
     ["Phase", "System", "What gets built", "What it proves / earns"],
     [["1", "<b>SELENE PoC</b> (Moon)",
-      "~10–12 km surface track, 30 g cargo mode, no tube",
-      "Exceeds lunar escape velocity (2.45 vs 2.38 km/s): exports water ice and "
+      "~10-12 km surface track, 30 g cargo mode, no tube",
+      "Exceeds lunar escape velocity (2.43-2.66 vs 2.38 km/s): exports water ice and "
       "regolith to cislunar buyers from day one. Lowest-risk version of the machine: "
       "the atmosphere problems don't exist."],
      ["2", "<b>BRONTE demo</b> (Earth)",
-      "10–20 km track, vacuum tube, plasma window, mountain exit",
-      "Mach 2–3 in 3 g human-rated mode; 2.4–3.4 km/s (Mach 7–10) in 30 g cargo mode: "
+      "10-20 km track, vacuum tube, plasma window, mountain exit",
+      "Mach 2-3 in 3 g human-rated mode; 2.4-3.4 km/s (Mach 7-10) in 30 g cargo mode: "
       "a hypersonic testbed beyond anything flying, and well past China's Mach 1.6 "
       "target for 2028. Validates the tube, the window, and the shell in atmosphere."],
      ["3", "<b>BRONTE full</b> (Earth)",
       "1,000 km tube, 8 km/s, 3.3 g",
-      "$20–250/kg to LEO at one pod every 3 hours. The Space Panama Canal opens."],
+      "$20-250/kg to LEO at one pod every 3 hours. The Space Panama Canal opens."],
      ["4", "<b>ARES</b> (Mars)",
       "~180 km track, featherweight tube",
       "Mars becomes a port; the freight triangle closes."]],
@@ -564,7 +626,7 @@ E.append(styled_table(
     ["Building block", "Status (verified June 2026)"],
     [["NASA X-59 shockwave tailoring",
       "First flight Oct 28, 2025 (67 min, Palmdale). Flying supersonic test points as of "
-      "Apr–May 2026. XVS camera-vision system flight-proven."],
+      "Apr-May 2026. XVS camera-vision system flight-proven."],
      ["MHD plasma window",
       "Invented by A. Hershcovitch, Brookhaven National Lab; patented 1995. Holds up to "
       "~9 atm. In industrial use for non-vacuum e-beam welding. Demonstrated at cm-scale "
@@ -576,17 +638,17 @@ E.append(styled_table(
       "Galactic Energy + CASIC + Ziyang government verification platform targeting 2028 "
       "(~Mach 1.6 assist). The supply chain is being built, just for the wrong finish line."],
      ["Full-scale maglev launch studies",
-      "StarTram (Powell &amp; Maise, IEEE 2008–2010): $30–43/kg projected at 30 g over "
-      "~130 km, mountain exit at 4,000–8,000 m."],
+      "StarTram (Powell &amp; Maise, IEEE 2008-2010): $30-43/kg projected at 30 g over "
+      "~130 km, mountain exit at 4,000-8,000 m."],
      ["Lunar mass driver",
       "G. O'Neill mass-driver studies, NASA Ames / Princeton, 1970s. Physics settled for "
       "half a century."],
      ["Orbital manufacturing demand",
-      "Flawless Photonics: ~12 km of ZBLAN fiber drawn on ISS, Feb–Mar 2024; repeatable "
+      "Flawless Photonics: ~12 km of ZBLAN fiber drawn on ISS, Feb-Mar 2024; repeatable "
       "700 m runs; 1,141 m in one day vs prior 25 m record."],
      ["Launch market baseline",
       "Falcon 9 ~$2,720/kg customer price (~$630/kg internal); Starship targeting "
-      "&lt;$100/kg, $250–600/kg realistic near-term."]],
+      "&lt;$100/kg, $250-600/kg realistic near-term."]],
     [2.0 * inch, 4.6 * inch]))
 E.append(Spacer(1, 10))
 E.append(p("<b>KERAUNOS requires zero new physics.</b> It requires the decision to build "

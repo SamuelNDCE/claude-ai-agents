@@ -1,10 +1,13 @@
 import { createServer } from 'http'
 import { watch } from 'chokidar'
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, realpathSync } from 'fs'
 import { fileURLToPath } from 'url'
-import { dirname, join, basename } from 'path'
+import { dirname, join, basename, sep } from 'path'
+import { randomUUID } from 'crypto'
 import matter from 'gray-matter'
 import open from 'open'
+
+const SESSION_TOKEN = randomUUID().replace(/-/g, '')
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const TOKENS_FILE = join(__dirname, '.tokens.json')
@@ -70,7 +73,7 @@ function appendToLog(line) {
 
 // ── Preview HTML ─────────────────────────────────────────────────────────────
 
-function previewHtml(filename, content) {
+function previewHtml(filename, content, token) {
   const escaped = JSON.stringify(content)
   return `<!DOCTYPE html><html><head><meta charset="utf-8">
 <title>LinkedIn Preview</title>
@@ -107,6 +110,7 @@ button{padding:.6rem 1.4rem;border:none;border-radius:20px;font-size:.875rem;fon
 <div class="msg" id="msg"></div></div>
 <script>
 const FILE=${JSON.stringify(filename)}
+const TOK=${JSON.stringify(token)}
 const ed=document.getElementById('ed')
 ed.value=${escaped}
 sync()
@@ -122,14 +126,14 @@ function sync(){
 async function doPost(){
   const pb=document.getElementById('pb')
   pb.disabled=true;pb.textContent='Posting...'
-  const r=await fetch('/approve/'+encodeURIComponent(FILE),{method:'POST',
+  const r=await fetch('/approve/'+encodeURIComponent(FILE)+'?t='+TOK,{method:'POST',
     headers:{'Content-Type':'application/json'},body:JSON.stringify({text:ed.value})})
   const d=await r.json(),m=document.getElementById('msg')
   if(d.ok){m.className='msg ok';m.textContent='✓ Posted! ';const a=document.createElement('a');a.href=d.url;a.target='_blank';a.rel='noopener';a.style.color='#86efac';a.textContent='View on LinkedIn';m.appendChild(a)}
   else{m.className='msg err';m.textContent='Error: '+d.error;pb.disabled=false;pb.textContent='Post to LinkedIn'}
 }
 async function doCancel(){
-  await fetch('/cancel/'+encodeURIComponent(FILE),{method:'POST'})
+  await fetch('/cancel/'+encodeURIComponent(FILE)+'?t='+TOK,{method:'POST',headers:{'Content-Type':'application/json'},body:'null'})
   window.close()
 }
 </script></body></html>`
@@ -137,22 +141,52 @@ async function doCancel(){
 
 // ── HTTP server (preview + approve + cancel) ─────────────────────────────────
 
-const server = createServer(async (req, res) => {
-  const parts = decodeURIComponent(req.url).split('/').filter(Boolean)
-  const [action, filename] = parts
-  const filePath = filename ? join(OUTBOX, filename) : null
+// Resolve OUTBOX once so path-containment check is stable
+const OUTBOX_REAL = realpathSync(OUTBOX)
 
-  if (req.method === 'GET' && action === 'preview' && filePath) {
-    if (!existsSync(filePath)) { res.writeHead(404); res.end('Not found'); return }
+function safeFilePath(raw) {
+  if (!raw || raw !== basename(raw) || !raw.endsWith('.md') || raw.includes('\0')) return null
+  const resolved = join(OUTBOX, raw)
+  try {
+    const real = realpathSync(resolved)
+    if (!real.startsWith(OUTBOX_REAL + sep)) return null
+    return resolved
+  } catch { return null }
+}
+
+function csrfOk(req) {
+  const urlObj = new URL(req.url, `http://127.0.0.1:${PORT}`)
+  if (urlObj.searchParams.get('t') !== SESSION_TOKEN) return false
+  const origin = req.headers['origin'] || req.headers['referer'] || ''
+  return origin.startsWith(`http://localhost:${PORT}`) || origin.startsWith(`http://127.0.0.1:${PORT}`)
+}
+
+const server = createServer(async (req, res) => {
+  const urlObj = new URL(req.url, `http://127.0.0.1:${PORT}`)
+  const parts = urlObj.pathname.split('/').filter(Boolean)
+  const [action, rawFilename] = parts
+
+  if (req.method === 'GET' && action === 'preview') {
+    const filePath = safeFilePath(decodeURIComponent(rawFilename ?? ''))
+    if (!filePath || !existsSync(filePath)) { res.writeHead(404); res.end('Not found'); return }
+    const urlToken = urlObj.searchParams.get('t')
+    if (urlToken !== SESSION_TOKEN) { res.writeHead(403); res.end('Forbidden'); return }
     const { content } = matter(readFileSync(filePath, 'utf8'))
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-    res.end(previewHtml(filename, content.trim()))
+    res.end(previewHtml(decodeURIComponent(rawFilename), content.trim(), SESSION_TOKEN))
     return
   }
 
-  if (req.method === 'POST' && action === 'approve' && filePath) {
+  if (req.method === 'POST' && (action === 'approve' || action === 'cancel')) {
+    if (!csrfOk(req)) { res.writeHead(403); res.end('Forbidden'); return }
+    if (!req.headers['content-type']?.includes('application/json')) { res.writeHead(415); res.end(); return }
+    const filePath = safeFilePath(decodeURIComponent(rawFilename ?? ''))
+    if (!filePath) { res.writeHead(400); res.end(); return }
     const body = await new Promise(r => { let d=''; req.on('data',c=>d+=c); req.on('end',()=>r(d)) })
-    const { text } = JSON.parse(body)
+    const parsed_body = JSON.parse(body)
+
+  if (action === 'approve') {
+    const { text } = parsed_body
     try {
       let tokens = loadTokens()
       tokens = await refreshIfNeeded(tokens)
@@ -163,7 +197,7 @@ const server = createServer(async (req, res) => {
       parsed.data.linkedin_url = url
       parsed.data.published_at = new Date().toISOString()
       writeFileSync(filePath, matter.stringify(parsed.content, parsed.data))
-      appendToLog(`"${parsed.data.title || filename}" published. ${url}`)
+      appendToLog(`"${parsed.data.title || rawFilename}" published. ${url}`)
       console.log(`✓ Published: ${url}`)
       res.writeHead(200, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ ok: true, url }))
@@ -175,21 +209,23 @@ const server = createServer(async (req, res) => {
     return
   }
 
-  if (req.method === 'POST' && action === 'cancel' && filePath) {
+  if (action === 'cancel') {
     if (existsSync(filePath)) {
       const raw = readFileSync(filePath, 'utf8')
       const parsed = matter(raw)
       parsed.data.status = 'draft'
       writeFileSync(filePath, matter.stringify(parsed.content, parsed.data))
     }
-    res.writeHead(200); res.end('ok')
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ ok: true }))
     return
   }
+  } // end POST approve/cancel block
 
   res.writeHead(404); res.end()
 })
 
-server.listen(PORT, () => console.log(`Preview server: http://localhost:${PORT}`))
+server.listen(PORT, '127.0.0.1', () => console.log(`Preview server: http://127.0.0.1:${PORT}`))
 
 // ── Vault watcher ─────────────────────────────────────────────────────────────
 
@@ -201,7 +237,7 @@ async function handleFile(filePath) {
   const { data } = matter(readFileSync(filePath, 'utf8'))
   if (data.status !== 'preview') return
   opened.set(filePath, Date.now())
-  const url = `http://localhost:${PORT}/preview/${encodeURIComponent(basename(filePath))}`
+  const url = `http://127.0.0.1:${PORT}/preview/${encodeURIComponent(basename(filePath))}?t=${SESSION_TOKEN}`
   console.log(`\nOpening preview: ${url}`)
   await open(url)
 }
