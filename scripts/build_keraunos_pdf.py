@@ -171,11 +171,6 @@ E.append(PageBreak())
 # ===== 0. EXECUTIVE SUMMARY =====
 E += sect("0", "Executive Summary")
 E.append(p(
-    "Most of the solar system has no atmosphere. A maglev launcher on an airless world "
-    "needs no vacuum tube, no plasma window, and no heat shield. The track is the "
-    "launcher. <b>KERAUNOS is built on that fact.</b>"
-))
-E.append(p(
     "Earth, with its thick atmosphere, is the hardest body in the system to launch from "
     "electromagnetically. So the program starts on the Moon, where the machine is "
     "native, and works outward from there. The full Earth injector is the long-horizon "
