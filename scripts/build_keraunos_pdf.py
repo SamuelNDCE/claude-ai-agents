@@ -248,8 +248,8 @@ E.append(p("KERAUNOS is the program. It deploys as three launchers, and it start
 E.append(styled_table(
     ["Launcher", "Body", "Phase", "Character"],
     [["<b>SELENE</b>", "Moon", "1: Proof of concept",
-      "No atmosphere: no tube, no plasma window, no aero-shell. A ~10 km PoC track "
-      "already beats lunar escape velocity. The demo is a working exporter."],
+      "No atmosphere: no tube, no plasma window, no aero-shell. The starter track is "
+      "single-digit km: at 100 g, ~2.9 km throws dumb cargo clear off the Moon."],
      ["<b>BRONTE</b>", "Earth", "2: The thunder",
       "A 10-20 km demonstrator first, then the full 1,000 km, 8 km/s orbital injector. "
       "Thunder follows the lightning, and you need an atmosphere to hear it."],
@@ -301,9 +301,12 @@ E.append(styled_table(
       "Water ice, oxygen, shielding mass to cislunar buyers"],
      ["Atmosphere", "None",
       "No tube, no plasma window, no aero-shell, no blast shutters. The track is the launcher"],
-     ["PoC track", "10-12 km at 30 g (cargo)",
-      "Reaches 2.43-2.66 km/s, clearing lunar escape velocity (2.38 km/s). 8 s ride"],
-     ["Full track", "~50 km at 3 g",
+     ["Starter track (PoC)", "1-3 km at 50-100 g, dumb cargo",
+      "At 100 g: 1.5 km reaches orbit speed (1.7 km/s), ~2.9 km clears escape "
+      "(2.38 km/s) in a 2.4 s ride. Water, regolith, and metal don't mind the g"],
+     ["Cargo track (growth)", "10-12 km at 30 g",
+      "2.43-2.66 km/s for hardened payloads, escape with margin; 8 s ride"],
+     ["Passenger track (later)", "~50 km at 3 g",
       "Low lunar orbit speed (~1.7 km/s) in a 58 s run; ~96 km version reaches escape"],
      ["Energy per kg", "0.40 kWh (orbit), 0.79 kWh (escape)",
       "Roughly 1/20th of the Earth launch energy"],
@@ -548,11 +551,14 @@ E.append(b("<b>Validated pedigree:</b> Gerard O'Neill's lunar mass-driver studie
            "Ames / Princeton, 1970s) worked this physics out fifty years ago. What was "
            "missing was a cheap way to ship the hardware. That is exactly what the Earth "
            "KERAUNOS provides."))
-E.append(b("<b>The proof of concept pays for itself:</b> a 10-12 km track at 30 g (cargo "
-           "mode) reaches 2.43-2.66 km/s, <b>clearing lunar escape velocity (2.38 km/s)</b>. The "
-           "very first SELENE segment is not a demo: it is a working exporter, throwing "
-           "water ice and regolith to cislunar catch points from day one. Initial hardware "
-           "arrives by heavy-lift rocket: the last rockets the program ever needs to buy."))
+E.append(b("<b>The proof of concept pays for itself, and it is tiny:</b> the starter "
+           "track is 1-3 km, about the length of an airport runway. Dumb cargo (water, "
+           "regolith, metal billets) doesn't mind high g, so at 50-100 g a ~1.5 km track "
+           "reaches lunar orbit speed (1.7 km/s) and <b>~2.9 km clears escape velocity "
+           "(2.38 km/s)</b> in a 2.4-second ride. The very first SELENE segment is not a "
+           "demo: it is a working exporter, throwing water ice and regolith to cislunar "
+           "catch points from day one. Initial hardware arrives by heavy-lift rocket: the "
+           "last rockets the program ever needs to buy."))
 E.append(b("<b>Then growth by pellet:</b> the full ~50 km, 3 g human-rated track is built "
            "out from SELENE's own export revenue and, later, BRONTE shipments, each "
            "10-tonne pod carrying coil segments, radiators, and solar arrays."))
