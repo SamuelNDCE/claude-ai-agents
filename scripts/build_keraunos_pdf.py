@@ -281,10 +281,11 @@ E.append(p(
 ))
 E.append(mathbox([
     ("0.79 kWh/kg to escape",
-     "Lunar escape costs roughly <b>1/20th of Earth launch energy</b>. And from the "
-     "Moon, you are already partway to everywhere else. Moon-to-Earth-orbit requires "
-     "~2.4 km/s; Earth's surface requires 9.4+ km/s. Every kilogram of water ice, "
-     "oxygen, or structural metal that starts on the Moon instead of Earth is "
+     "Lunar escape costs roughly <b>one-tenth of Earth-to-orbit launch energy</b> "
+     "(0.79 kWh/kg vs 8.9 kWh/kg at 8 km/s). From the Moon, you are already "
+     "partway to everywhere else. Moon-to-Earth-orbit requires ~2.4 km/s; Earth's "
+     "surface to LEO requires 8+ km/s electromagnetically. Every kilogram of water "
+     "ice, oxygen, or structural metal that starts on the Moon instead of Earth is "
      "dramatically cheaper to ship anywhere in the inner solar system."),
     ("Ambient ~90K at south pole",
      "YBCO superconductors go superconducting below <b>92K</b>. The lunar south pole "
@@ -325,11 +326,10 @@ E.append(p(
 ))
 
 # ===== 2. PHYSICS =====
-E += sect("2", "The Physics and Price")
-E.append(reminder(
+E.append(KeepTogether(sect("2", "The Physics and Price") + [reminder(
     "The electricity cost to reach orbit is $0.53 per kilogram at 8 km/s. "
     "Everything above that price is hardware amortization, not physics."
-))
+)]))
 E.append(p(
     "At 8 km/s, kinetic energy is <b>32 MJ per kilogram</b>. At $0.06/kWh, "
     "that is <b>$0.53 of electricity per kilogram</b>. Falcon 9 burns roughly "
@@ -378,11 +378,10 @@ E.append(KeepTogether([
 ]))
 
 # ===== 3. WHY NOW =====
-E += sect("3", "Why Now: Three Signals in 24 Months")
-E.append(reminder(
+E.append(KeepTogether(sect("3", "Why Now: Three Signals in 24 Months") + [reminder(
     "The field just validated itself publicly. The window to enter "
     "at peer level is right now."
-))
+)]))
 E.append(p(
     "<b>SpaceX put a lunar mass driver on its public roadmap in March 2026.</b> "
     "Elon Musk described \"a cannon-like device using magnetic power\" to launch "
@@ -417,11 +416,10 @@ E.append(p(
 ))
 
 # ===== 4. CHIMBORAZO =====
-E += sect("4", "The Chimborazo Project: BRONTE's Earth Demonstrator")
-E.append(reminder(
+E.append(KeepTogether(sect("4", "The Chimborazo Project: BRONTE's Earth Demonstrator") + [reminder(
     "BRONTE is not a 1,000 km commitment. "
     "It is a 10-20 km demonstrator, and the site is already chosen."
-))
+)]))
 E.append(p(
     "<b>Chimborazo. Ecuador. 6,263 meters above sea level. 1.47 degrees south latitude.</b>"
 ))
@@ -508,11 +506,10 @@ E.append(KeepTogether([
 E.append(Spacer(1, 4))
 
 # ===== 5. ARES =====
-E += sect("5", "ARES: The Mars Port")
-E.append(reminder(
+E.append(KeepTogether(sect("5", "ARES: The Mars Port") + [reminder(
     "Mars atmosphere is 0.6% of Earth's. The hard parts of the Earth machine "
     "are nearly free there."
-))
+)]))
 E.append(p(
     "The tube only holds back 0.6% of the pressure the Earth tube fights. "
     "The plasma window's job is 99.4% done by the planet. Exit heating is a "
@@ -541,37 +538,41 @@ E.append(p(
 ))
 
 # ===== 6. BUILD ORDER =====
-E += sect("6", "The Build Order")
-E.append(reminder(
-    "The lightning flashes before the thunder is heard. "
-    "SELENE launches silently in vacuum before BRONTE shakes the air on Earth."
-))
-E.append(KeepTogether([styled_table(
-    ["Phase", "System", "What gets built", "What it proves / earns"],
+E.append(KeepTogether(
+    sect("6", "The Build Order") +
     [
-        ["1", "<b>SELENE PoC</b> (Moon)",
-         "1-3 km surface track, 50-100 g dumb cargo, no tube, south pole",
-         "2.9 km at 100 g clears lunar escape. Exports water ice and regolith "
-         "to cislunar buyers from day one. The atmosphere problems don't exist. "
-         "Grows to 10-12 km (30 g cargo) then ~50 km (3 g passengers)."],
-        ["2", "<b>Chimborazo</b> (Earth)",
-         "10-20 km track, Chimborazo, Ecuador; evacuated tube, plasma window, aero-shell",
-         "Mach 7-10 hypersonic capability at 6,263 m on the equator. DoD test "
-         "contracts fund operations. Validates every atmosphere subsystem before "
-         "any larger Earth commitment. Exceeds China's 2028 Mach 1.6 target."],
-        ["3", "<b>Vacuum-world fleet</b>",
-         "SELENE-class kits on Phobos, Deimos, Ceres, asteroid belt",
-         "The core bet pays out. Phobos and Deimos become Mars freight terminals "
-         "before ARES exists. A standard launcher on every airless body worth working."],
-        ["4", "<b>ARES</b> (Mars)",
-         "~180 km track, featherweight tube",
-         "Mars becomes a port. The freight triangle closes."],
-        ["5", "<b>BRONTE full</b> (Earth, if proven)",
-         "Full Earth injector, if economics and plasma window scaling prove out",
-         "The endgame. Built only after Chimborazo data validates the cost per "
-         "kilometer and the atmosphere subsystems at scale."],
-    ],
-    [0.55*inch, 1.5*inch, 2.05*inch, 2.5*inch])]))
+        reminder(
+            "The lightning flashes before the thunder is heard. "
+            "SELENE launches silently in vacuum before BRONTE shakes the air on Earth."
+        ),
+        styled_table(
+            ["Phase", "System", "What gets built", "What it proves / earns"],
+            [
+                ["1", "<b>SELENE PoC</b> (Moon)",
+                 "1-3 km surface track, 50-100 g dumb cargo, no tube, south pole",
+                 "2.9 km at 100 g clears lunar escape. Exports water ice and regolith "
+                 "to cislunar buyers from day one. The atmosphere problems don't exist. "
+                 "Grows to 10-12 km (30 g cargo) then ~50 km (3 g passengers)."],
+                ["2", "<b>Chimborazo</b> (Earth)",
+                 "10-20 km track, Chimborazo, Ecuador; evacuated tube, plasma window, aero-shell",
+                 "Mach 7-10 hypersonic capability at 6,263 m on the equator. DoD test "
+                 "contracts fund operations. Validates every atmosphere subsystem before "
+                 "any larger Earth commitment. Exceeds China's 2028 Mach 1.6 target."],
+                ["3", "<b>Vacuum-world fleet</b>",
+                 "SELENE-class kits on Phobos, Deimos, Ceres, asteroid belt",
+                 "The core bet pays out. Phobos and Deimos become Mars freight terminals "
+                 "before ARES exists. A standard launcher on every airless body worth working."],
+                ["4", "<b>ARES</b> (Mars)",
+                 "~180 km track, featherweight tube",
+                 "Mars becomes a port. The freight network closes."],
+                ["5", "<b>BRONTE full</b> (Earth, if proven)",
+                 "Full Earth injector, if economics and plasma window scaling prove out",
+                 "The endgame. Built only after Chimborazo data validates the cost per "
+                 "kilometer and the atmosphere subsystems at scale."],
+            ],
+            [0.55*inch, 1.5*inch, 2.05*inch, 2.5*inch]),
+    ]
+))
 E.append(Paragraph(
     "SELENE is 300x shorter than any full Earth injector, skips every atmosphere "
     "subsystem, and generates revenue immediately. Chimborazo is 50-100x shorter "
@@ -580,11 +581,10 @@ E.append(Paragraph(
     S["caption"]))
 
 # ===== 7. HOW THE NETWORK MOVES MASS =====
-E += sect("7", "How the Network Moves Mass")
-E.append(reminder(
+E.append(KeepTogether(sect("7", "How the Network Moves Mass") + [reminder(
     "Three launchers, one supply chain. Once all three exist, the cost of moving "
     "mass around the inner solar system is mostly the cost of running the launchers."
-))
+)]))
 E.append(p(
     "Earth sends what only Earth can build. Machines, precision electronics, "
     "medical supplies, manufactured components - anything that requires industrial "
@@ -625,11 +625,10 @@ E.append(b(
 ))
 
 # ===== 8. THE SKYHOOK =====
-E += sect("8", "The Skyhook: How Cost Falls Toward $5 per Kilogram")
-E.append(reminder(
+E.append(KeepTogether(sect("8", "The Skyhook: How Cost Falls Toward $5 per Kilogram") + [reminder(
     "A rotating tether in orbit catches KERAUNOS pods and flings them higher. "
     "No propellant. The pod delivers more payload per launch. Cost drops."
-))
+)]))
 E.append(p(
     "The problem with reaching orbit from the ground: the launcher accelerates the "
     "pod to full orbital velocity, and the pod still carries a kick motor for the "
@@ -702,11 +701,10 @@ E.append(p(
 ))
 
 # ===== 9. IF THE EARTH SYSTEM GETS BUILT =====
-E += sect("9", "If the Full Earth Injector Gets Built")
-E.append(reminder(
+E.append(KeepTogether(sect("9", "If the Full Earth Injector Gets Built") + [reminder(
     "This is not the plan. The vacuum fleet is the plan. "
     "But if the vacuum fleet works, this is what becomes possible."
-))
+)]))
 E.append(p(
     "A full Earth injector - roughly 1,000 km of evacuated superconducting track, "
     "a plasma window at the muzzle, a high-altitude mountain site, pods surviving "
@@ -774,12 +772,11 @@ E.append(p(
 ))
 
 # ===== 10. ZERO NEW PHYSICS =====
-E += sect("10", "Zero New Physics")
-E.append(reminder(
+E.append(KeepTogether(sect("10", "Zero New Physics") + [reminder(
     "Every subsystem has flown, fired, or been patented. "
     "The pieces exist. Nobody has assembled them."
-))
-E.append(KeepTogether([styled_table(
+)]))
+E.append(styled_table(
     ["Building block", "Status (verified June 2026)"],
     [
         ["EMALS (US Navy)",
@@ -820,7 +817,7 @@ E.append(KeepTogether([styled_table(
          "Public roadmap, March 2026: \"cannon-like device using magnetic power.\" "
          "The largest launch company on Earth is building toward the same machine."],
     ],
-    [2.0*inch, 4.6*inch])]))
+    [2.0*inch, 4.6*inch]))
 E.append(Spacer(1, 8))
 E.append(p(
     "<b>KERAUNOS requires zero new physics.</b> The Chimborazo demonstrator validates "
@@ -830,11 +827,10 @@ E.append(p(
 ))
 
 # ===== 11. HARD PARTS =====
-E += sect("11", "The Hard Parts")
-E.append(reminder(
+E.append(KeepTogether(sect("11", "The Hard Parts") + [reminder(
     "A document about a project this large that doesn't name the real "
     "problems is salesmanship, not engineering."
-))
+)]))
 E.append(b(
     "<b>Plasma window scaling.</b> Demonstrated at centimeter-scale apertures. "
     "Needed at pod diameter. This gets the first R&amp;D dollar before anything else. "
@@ -865,8 +861,9 @@ E.append(b(
 ))
 
 # ===== 12. WHAT THIS UNLOCKS =====
-E += sect("12", "What KERAUNOS Unlocks")
-E.append(Paragraph("Orbital manufacturing", S["h2"]))
+E.append(KeepTogether(sect("12", "What KERAUNOS Unlocks") + [
+    Paragraph("Orbital manufacturing", S["h2"])
+]))
 E.append(b(
     "<b>ZBLAN fiber.</b> Microgravity-drawn fluoride glass with up to 100x lower "
     "theoretical signal loss than silica. Flawless Photonics drew <b>~12 km on the "
