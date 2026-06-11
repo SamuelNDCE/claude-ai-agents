@@ -547,6 +547,12 @@
       "skillPath": "skills/finance-billing-ops/SKILL.md",
       "computedHash": "0187779ffb42ae6205b12994be43556e0c22eefda413c31644bf7f4fe3f7c0c0"
     },
+    "fireworks-tech-graph": {
+      "source": "Xinyu-lumos/fireworks-tech-graph",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "aa475695a8e05e32f786468a3d759e8206abafc7ceb80367703f84940446a419"
+    },
     "flox-environments": {
       "source": "affaan-m/everything-claude-code",
       "sourceType": "github",
