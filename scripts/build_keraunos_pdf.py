@@ -121,22 +121,38 @@ def styled_table(header, rows, widths, highlight_row=None):
     return t
 
 
-def draw_bolt(c, cx, cy, scale, color):
-    """Lightning bolt polygon centered-ish at cx, cy."""
-    pts = [(62, 2), (18, 84), (44, 84), (34, 148), (86, 56), (56, 56)]
-    path = c.beginPath()
-    first = True
-    for x, y in pts:
-        px = cx + (x - 50) * scale
-        py = cy - (y - 75) * scale
-        if first:
-            path.moveTo(px, py)
-            first = False
-        else:
-            path.lineTo(px, py)
-    path.close()
-    c.setFillColor(color)
-    c.drawPath(path, stroke=0, fill=1)
+def draw_gates(c):
+    """Accelerator coil gates ascending diagonally, payload exiting the last ring."""
+    n = 8
+    x0, y0 = W / 2 - 2.3 * inch, H - 3.35 * inch
+    x1, y1 = W / 2 + 1.95 * inch, H - 1.75 * inch
+    # faint dashed trajectory through the ring centers
+    c.saveState()
+    c.setDash(2, 5)
+    c.setLineWidth(0.6)
+    c.setStrokeColorRGB(0.45, 0.65, 0.75, alpha=0.25)
+    c.line(x0 - 0.15 * inch, y0 - 0.06 * inch, x1 + 0.55 * inch, y1 + 0.2 * inch)
+    c.restoreState()
+    for i in range(n):
+        t = i / (n - 1)
+        cx = x0 + (x1 - x0) * t
+        cy = y0 + (y1 - y0) * t
+        hh = (0.30 + 0.34 * t) * inch  # ring half-height grows toward the exit
+        hw = hh * 0.30                 # narrow ellipse, seen edge-on
+        base = 0.30 + 0.65 * t         # brightness ramps along the track
+        c.saveState()
+        c.translate(cx, cy)
+        c.rotate(-14)
+        for lw, ga in ((7, 0.10), (4.5, 0.18), (2.6, 0.38), (1.4, 1.0)):
+            c.setLineWidth(lw)
+            c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=ga * base)
+            c.ellipse(-hw, -hh, hw, hh, stroke=1, fill=0)
+        c.restoreState()
+    # the payload, clear of the muzzle
+    c.setFillColorRGB(0.13, 0.83, 0.93, alpha=0.95)
+    c.circle(x1 + 0.45 * inch, y1 + 0.16 * inch, 3.2, stroke=0, fill=1)
+    c.setFillColorRGB(0.13, 0.83, 0.93, alpha=0.55)
+    c.circle(x1 + 0.75 * inch, y1 + 0.27 * inch, 1.7, stroke=0, fill=1)
 
 
 def cover(c, doc):
@@ -151,9 +167,8 @@ def cover(c, doc):
         r = rng.uniform(0.3, 1.1)
         c.setFillColorRGB(1, 1, 1, alpha=rng.uniform(0.15, 0.55))
         c.circle(x, y, r, stroke=0, fill=1)
-    # bolt glow + bolt
-    draw_bolt(c, W / 2 + 2, H - 2.55 * inch - 2, 0.62, HexColor("#3b2a6e"))
-    draw_bolt(c, W / 2, H - 2.55 * inch, 0.6, TEAL_BRIGHT)
+    # accelerator gates
+    draw_gates(c)
     # greek
     c.setFillColor(TEAL_BRIGHT)
     c.setFont("Segoe-Semi", 13)
