@@ -474,8 +474,15 @@ E.append(b("<b>SELENE's first bill is a rocket bill.</b> The starter track's coi
            "plant, and radiators still ride to the Moon on somebody else's launcher at "
            "today's prices. The proof of concept has to be light enough to afford."))
 E.append(b("<b>Catching is harder than throwing.</b> Cislunar catch points for high-g "
-           "pellets exist on paper only. Until a tug catches the first pod, the export "
-           "revenue is theoretical."))
+           "pellets exist on paper only. Pellets will carry small correction thrusters "
+           "(tens of m/s, a few percent of their mass) and a catch tug has a wide "
+           "capture cone, but until a tug catches the first pod, the export revenue is "
+           "theoretical."))
+E.append(b("<b>The treaty question is unsettled.</b> The Outer Space Treaty bans "
+           "weapons on celestial bodies but says nothing about commercial mass drivers, "
+           "and a kinetic launcher is inherently dual-use. That ambiguity cuts both "
+           "ways: scrutiny on one side, AFWERX and AFOSR funding on the other. EMALS "
+           "and GPS both walked this road."))
 
 # ---- 5. INDUSTRIES ----
 E += sect("5", "New Industries &amp; Orbital Manufacturing")
@@ -735,6 +742,17 @@ E.append(KeepTogether([styled_table(
      ["Superconducting maglev",
       "603 km/h crewed rail record (JR Central, 2015). Commercial maglev operating in "
       "China today."],
+     ["EMALS (US Navy)",
+      "Operational linear EM launcher on USS Gerald R. Ford: 484 MJ of flywheel "
+      "storage, 45 s recharge, in carrier service today. A 2023 AFOSR report "
+      "recommends evolving it for lunar launch."],
+     ["High-g electronics",
+      "Guided artillery electronics survive over 10,000 g in service. SELENE's 100 g "
+      "cargo mode is conservative by two orders of magnitude."],
+     ["HTS superconductors",
+      "YBCO critical temperature is 92K: liquid nitrogen does the cooling on Earth, "
+      "and lunar polar ambient (~90K) does it passively. Commercial tape suppliers "
+      "exist."],
      ["Electromagnetic launch assist",
       "Galactic Energy + CASIC + Ziyang government verification platform targeting 2028 "
       "(~Mach 1.6 assist). The supply chain is being built, just for the wrong finish line."],
