@@ -233,22 +233,27 @@ E.append(PageBreak())
 
 # ---- EXECUTIVE SUMMARY ----
 E += sect("0", "Executive Summary")
-E.append(p("KERAUNOS is ground infrastructure that replaces the first stage of every "
-           "rocket, permanently. A 1,000 km superconducting maglev track inside a vacuum "
-           "tube accelerates cargo pods to 8 km/s on grid electricity, fires them through "
-           "a plasma window at a mountain-altitude exit, and lets a small onboard kick "
-           "motor finish the job at apogee. The launcher never leaves the ground, never "
-           "gets rebuilt, and earns money between launches as a grid-scale battery."))
-E.append(p("KERAUNOS is the program. It deploys as three launchers, and it starts on the "
-           "Moon, where the machine is at its simplest, then brings the lessons home."))
+E.append(p("KERAUNOS is a family of electromagnetic mass launchers, and the core bet is "
+           "deliberately simple: a maglev rail on an airless world needs no vacuum tube, "
+           "no plasma window, and no heat shield, and the solar system is full of airless "
+           "worlds. Earth, with its thick atmosphere, is the hardest place in the system "
+           "to build one. So the program starts on the Moon, where the machine is native, "
+           "and proves the hardware as a repeatable kit. The full 1,000 km Earth injector "
+           "(8 km/s on grid electricity, a plasma window at a mountain exit, a kick motor "
+           "at apogee) is the long-horizon prize at the end of that road, not the opening "
+           "move. Wherever it stands, the launcher never leaves the ground, never gets "
+           "rebuilt, and earns between launches."))
+E.append(p("Three named launchers come first. After them, the same kit is meant to be "
+           "stamped onto every useful airless rock in the system."))
 E.append(KeepTogether([styled_table(
     ["Launcher", "Body", "Phase", "Character"],
     [["<b>SELENE</b>", "Moon", "1: Proof of concept",
       "No atmosphere: no tube, no plasma window, no aero-shell. The starter track is "
       "single-digit km: at 100 g, ~2.9 km throws dumb cargo clear off the Moon."],
      ["<b>BRONTE</b>", "Earth", "2: The thunder",
-      "A 10-20 km demonstrator first, then the full 1,000 km, 8 km/s orbital injector. "
-      "Thunder follows the lightning, and you need an atmosphere to hear it."],
+      "A 10-20 km demonstrator near-term. The full 1,000 km injector is the long-horizon "
+      "prize, built only once the vacuum-world fleet has proven the hardware and the "
+      "economics."],
      ["<b>ARES</b>", "Mars", "3: The port",
       "0.6% atmosphere makes the tube featherweight. ARES is the return half of the "
       "settlement economy."]],
@@ -259,11 +264,12 @@ E.append(p("Each launcher gets its own table below so there is no ambiguity abou
            "body a number belongs to. BRONTE (Earth) is the flagship and gets the deepest "
            "treatment, then SELENE (Moon), then ARES (Mars)."))
 
-E.append(KeepTogether([Paragraph("BRONTE: Earth (flagship system)", S["h2"]),
+E.append(KeepTogether([Paragraph("BRONTE: Earth (the hardest site, and the endgame)", S["h2"]),
                        styled_table(
     ["Parameter", "Value", "Notes"],
     [["Role", "Primary orbital injector",
-      "\"The thunder.\" The full-scale Earth machine and the program's revenue engine"],
+      "\"The thunder.\" Earth is the hardest site in the system; these are the full "
+      "machine's target figures, not a near-term commitment"],
      ["Track length", "1,000 km vacuum tube",
       "Tube length is the unlock: it buys the gentle g-load"],
      ["Exit velocity", "4-8 km/s",
@@ -391,11 +397,14 @@ E.append(b("<b>China is proving the intent in hardware (target 2028).</b> Galact
            "launch verification platform that accelerates a conventional rocket to roughly "
            "Mach 1.6 before ignition. That is a faster runway, not an orbital injector: "
            "the rocket still carries the rocket equation on its back."))
-E.append(b("<b>The gap KERAUNOS fills:</b> full orbital velocity, gentle 3.3 g, launch "
-           "every 3 hours. The full-length tube nobody has committed to is the entire "
-           "difference between a demo and the Space Panama Canal. Because the major players "
-           "are already hitting the efficiency wall of hybrid designs, they are primed to "
-           "accept KERAUNOS as the logical final evolution of their own research."))
+E.append(b("<b>The gap KERAUNOS fills:</b> everyone is fighting the launcher's worst "
+           "case. China is racing for an Earth assist; StarTram stayed a paper about an "
+           "Earth tube. Nobody is productizing the launcher where it is native: airless "
+           "worlds, where the tube, the plasma window, and the heat shield simply do not "
+           "exist. KERAUNOS starts there and treats the full-length Earth tube as the "
+           "prize at the end of the road, not the ante. And because the major players are "
+           "already hitting the efficiency wall of hybrid designs, they are primed to "
+           "accept the vacuum-world kit as the logical evolution of their own research."))
 
 # ---- 3. GEOPOLITICS ----
 E += sect("3", "The Geopolitical Superpower Race")
