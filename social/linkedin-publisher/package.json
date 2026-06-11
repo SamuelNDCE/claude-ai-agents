@@ -1,0 +1,14 @@
+{
+  "name": "nv-linkedin",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "auth": "node --env-file=.env oauth.js",
+    "start": "node --env-file=.env index.js"
+  },
+  "dependencies": {
+    "chokidar": "^4.0.0",
+    "gray-matter": "^4.0.3",
+    "open": "^10.1.0"
+  }
+}

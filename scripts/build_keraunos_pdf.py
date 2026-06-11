@@ -171,7 +171,7 @@ def cover(c, doc):
     c.line(W / 2 - 1.6 * inch, H - 5.62 * inch, W / 2 + 1.6 * inch, H - 5.62 * inch)
     c.setFillColor(HexColor("#9fb0d0"))
     c.setFont("Segoe", 12.5)
-    c.drawCentredString(W / 2, H - 6.0 * inch, "Maglev Space Launch System  ·  Earth / Moon / Mars")
+    c.drawCentredString(W / 2, H - 6.0 * inch, "Maglev Space Launch System  ·  SELENE — BRONTE — ARES")
     c.setFont("Segoe", 10.5)
     c.setFillColor(HexColor("#7e8db0"))
     c.drawCentredString(W / 2, H - 7.6 * inch,
@@ -223,10 +223,21 @@ E.append(p("KERAUNOS is ground infrastructure that replaces the first stage of e
            "a plasma window at a mountain-altitude exit, and lets a small onboard kick "
            "motor finish the job at apogee. The launcher never leaves the ground, never "
            "gets rebuilt, and earns money between launches as a grid-scale battery."))
-E.append(p("The same architecture then gets easier off-Earth: the Moon has no atmosphere "
-           "(no tube needed at all) and Mars has 0.6% of Earth's (a featherweight tube). "
-           "KERAUNOS is not one launcher. It is a solar-system freight standard, deployed "
-           "in three stages: Earth, Moon (KERAUNOS-SELENE), Mars (KERAUNOS-ARES)."))
+E.append(p("KERAUNOS is the program. It deploys as three launchers — and it starts on the "
+           "Moon, where the machine is at its simplest, then brings the lessons home."))
+E.append(styled_table(
+    ["Launcher", "Body", "Phase", "Character"],
+    [["<b>SELENE</b>", "Moon", "1 — Proof of concept",
+      "No atmosphere: no tube, no plasma window, no aero-shell. A ~10 km PoC track "
+      "already beats lunar escape velocity — the demo is a working exporter."],
+     ["<b>BRONTE</b>", "Earth", "2 — The thunder",
+      "A 10–20 km demonstrator first, then the full 1,000 km, 8 km/s orbital injector. "
+      "Thunder follows the lightning — and you need an atmosphere to hear it."],
+     ["<b>ARES</b>", "Mars", "3 — The port",
+      "0.6% atmosphere makes the tube featherweight. Turns Mars from a destination "
+      "into a port."]],
+    [1.0 * inch, 0.7 * inch, 1.55 * inch, 3.35 * inch]))
+E.append(Spacer(1, 6))
 stats = styled_table(
     ["Metric", "Value", "Why it matters"],
     [["Exit velocity", "4–8 km/s (Mach 12–25)", "Full orbital injection, not a runway assist"],
@@ -435,7 +446,7 @@ E.append(b("<b>Circular economy:</b> autonomous seafaring drones wait in the dro
            "one), not the shell, not even an aborted launch's kinetic energy."))
 
 # ---- 13. SELENE ----
-E += sect("13", "KERAUNOS-SELENE: The Lunar Launcher")
+E += sect("13", "SELENE: The Lunar Launcher — Phase 1, The Proof of Concept")
 E.append(reminder("The Moon is the easiest place in the solar system to build a KERAUNOS. "
                   "No air means no tube."))
 E.append(b("<b>Delete the hard parts:</b> no atmosphere means no vacuum tube, no plasma "
@@ -455,16 +466,21 @@ E.append(b("<b>Validated pedigree:</b> Gerard O'Neill's lunar mass-driver studie
            "Ames / Princeton, 1970s) worked this physics out fifty years ago. What was "
            "missing was a cheap way to ship the hardware. That is exactly what the Earth "
            "KERAUNOS provides."))
-E.append(b("<b>Bootstrap by pellet:</b> SELENE is built from KERAUNOS shipments — each "
-           "10-tonne pod carries coil segments, radiators, and solar arrays. The first "
-           "railroad pays for the second."))
+E.append(b("<b>The proof of concept pays for itself:</b> a ~10–12 km track at 30 g (cargo "
+           "mode) reaches ~2.45 km/s — <b>above lunar escape velocity (2.38 km/s)</b>. The "
+           "very first SELENE segment is not a demo: it is a working exporter, throwing "
+           "water ice and regolith to cislunar catch points from day one. Initial hardware "
+           "arrives by heavy-lift rocket — the last rockets the program ever needs to buy."))
+E.append(b("<b>Then growth by pellet:</b> the full ~50 km, 3 g human-rated track is built "
+           "out from SELENE's own export revenue and, later, BRONTE shipments — each "
+           "10-tonne pod carrying coil segments, radiators, and solar arrays."))
 E.append(b("<b>Exports:</b> Shackleton-region water ice as propellant, LOX cracked from "
            "regolith, and raw shielding mass for stations and ships. Power from solar "
            "arrays at the Peaks of Eternal Light or compact fission. SELENE turns the Moon "
            "from a destination into <b>the quarry of cislunar space</b>."))
 
 # ---- 14. ARES ----
-E += sect("14", "KERAUNOS-ARES: The Mars Launcher")
+E += sect("14", "ARES: The Mars Launcher")
 E.append(reminder("Mars' atmosphere is 0.6% of Earth's. The hard parts of the Earth machine "
                   "become easy there."))
 E.append(b("<b>A featherweight tube:</b> ambient pressure on Mars is ~6 millibars — the "
@@ -484,17 +500,46 @@ E.append(b("<b>Why it matters:</b> every Mars settlement plan dies on the cost o
            "return trip. ARES closes the loop — ISRU propellant (Sabatier methane, LOX), "
            "return samples, and eventually manufactured exports ride to orbit on "
            "electricity. <b>ARES turns Mars from a destination into a port.</b>"))
-E.append(b("<b>Sequencing:</b> ARES is phase three. Earth proves the full machine, SELENE "
-           "proves off-world construction with a 5%-scale track, and ARES inherits a "
+E.append(b("<b>Sequencing:</b> ARES is the final node. SELENE proves the machine in hard "
+           "vacuum, BRONTE masters the atmosphere problem on Earth, and ARES inherits a "
            "mature hardware standard delivered by the pellet pipeline."))
 
-# ---- 15. TRIANGLE ----
-E += sect("15", "The Interplanetary Freight Triangle")
+# ---- 15. BUILD ORDER ----
+E += sect("15", "The Build Order: Moon First")
+E.append(reminder("The lightning flashes before the thunder is heard. SELENE launches "
+                  "silently in vacuum before BRONTE shakes the air on Earth."))
+E.append(styled_table(
+    ["Phase", "System", "What gets built", "What it proves / earns"],
+    [["1", "<b>SELENE PoC</b> (Moon)",
+      "~10–12 km surface track, 30 g cargo mode, no tube",
+      "Exceeds lunar escape velocity (2.45 vs 2.38 km/s) — exports water ice and "
+      "regolith to cislunar buyers from day one. Lowest-risk version of the machine: "
+      "the atmosphere problems don't exist."],
+     ["2", "<b>BRONTE demo</b> (Earth)",
+      "10–20 km track, vacuum tube, plasma window, mountain exit",
+      "Mach 2–3 in 3 g human-rated mode; 2.4–3.4 km/s (Mach 7–10) in 30 g cargo mode — "
+      "a hypersonic testbed beyond anything flying, and well past China's Mach 1.6 "
+      "target for 2028. Validates the tube, the window, and the shell in atmosphere."],
+     ["3", "<b>BRONTE full</b> (Earth)",
+      "1,000 km tube, 8 km/s, 3.3 g",
+      "$20–250/kg to LEO at one pod every 3 hours. The Space Panama Canal opens."],
+     ["4", "<b>ARES</b> (Mars)",
+      "~180 km track, featherweight tube",
+      "Mars becomes a port; the freight triangle closes."]],
+    [0.55 * inch, 1.5 * inch, 2.05 * inch, 2.5 * inch]))
+E.append(Paragraph("Why Moon-first works: the proof of concept is 100x shorter than the "
+                   "full Earth machine, skips every atmosphere subsystem, and generates "
+                   "revenue immediately. SELENE de-risks the magnets and mass-catch "
+                   "logistics while BRONTE's demo de-risks the atmosphere tech in "
+                   "parallel.", S["caption"]))
+
+# ---- 16. TRIANGLE ----
+E += sect("16", "The Interplanetary Freight Triangle")
 E.append(reminder("Three launchers, one standard. The marginal cost of moving a kilogram "
                   "anywhere becomes electricity."))
 E.append(styled_table(
     ["Node", "Role", "Throws"],
-    [["<b>KERAUNOS</b> (Earth)", "The forge", "Industry: machines, electronics, precision "
+    [["<b>BRONTE</b> (Earth)", "The forge", "Industry: machines, electronics, precision "
       "goods — and eventually people, at 3.3 g"],
      ["<b>SELENE</b> (Moon)", "The quarry", "Mass: water, oxygen, shielding, structural "
       "metal at ~2.4 km/s to anywhere in cislunar space"],
@@ -505,14 +550,14 @@ E.append(Spacer(1, 6))
 E.append(b("<b>SEP tugs ride the lanes between nodes.</b> Chemical fuel is burned only for "
            "final kicks and landings; everything else is electromagnetic launch and "
            "electric cruise."))
-E.append(b("<b>Each node builds the next.</b> Earth ships SELENE's coils; SELENE ships "
-           "ARES's shielding and the depots' propellant; every new node makes the next one "
-           "cheaper. This is how railroads conquered continents — and it is how KERAUNOS "
-           "conquers the solar system."))
+E.append(b("<b>Each node builds the next.</b> Rockets ship SELENE's first coils; SELENE's "
+           "exports help build out BRONTE; BRONTE's pellet pipeline delivers ARES; every "
+           "new node makes the next one cheaper. This is how railroads conquered "
+           "continents — and it is how KERAUNOS conquers the solar system."))
 E.append(Paragraph("“Zeus didn't ship his thunderbolts on rockets.”", S["quote"]))
 
-# ---- 16. EVIDENCE ----
-E += sect("16", "The Evidence Ledger: Zero New Physics")
+# ---- 17. EVIDENCE ----
+E += sect("17", "The Evidence Ledger: Zero New Physics")
 E.append(reminder("Every subsystem has flown, fired, or been patented. The pieces exist — "
                   "nobody has assembled them. That is the entire opportunity."))
 E.append(styled_table(
