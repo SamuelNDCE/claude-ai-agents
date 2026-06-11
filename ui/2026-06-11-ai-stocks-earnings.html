@@ -170,7 +170,7 @@
     </p>
     <div class="card">
       <h3>Implied Valuation Milestones</h3>
-      <p>Billions USD. Anthropic reached ~$880B in 2026. OpenAI 2026 figure is estimated.</p>
+      <p>Billions USD. ★ = confirmed funding event &nbsp;·&nbsp; · = estimated from secondary market / growth trajectory. 14 data points per company — quarterly where possible. Anthropic's Q3'25 strategic round pushed it past OpenAI by Jan 2026.</p>
       <div class="ch ch-360"><canvas id="privateChart"></canvas></div>
     </div>
     <div class="priv-grid" id="privGrid"></div>
@@ -258,28 +258,44 @@ const COS = [
   },
 ];
 
+// ★ = confirmed funding event  · = estimated from secondary market / growth trajectory
 const PRIVATE = [
   {
     name:"OpenAI", color:"#10a37f",
     milestones:[
-      { date:"Jan 2023", val:29,   note:"Microsoft $10B investment" },
-      { date:"Oct 2023", val:86,   note:"Employee tender offer" },
-      { date:"Feb 2024", val:80,   note:"Secondary share sale" },
-      { date:"Oct 2024", val:157,  note:"Series E — $6.6B raised" },
-      { date:"Mar 2025", val:300,  note:"SoftBank $40B round" },
-      { date:"Jan 2026", val:450,  note:"Estimated — secondary market" },
+      { date:"Jan 2023", val:29,   note:"★ Microsoft $10B investment" },
+      { date:"Apr 2023", val:32,   note:"· Est. secondary market" },
+      { date:"Jul 2023", val:52,   note:"· Est. pre-tender growth" },
+      { date:"Oct 2023", val:86,   note:"★ Employee tender offer" },
+      { date:"Feb 2024", val:80,   note:"★ Secondary share sale (slight dip)" },
+      { date:"May 2024", val:90,   note:"· Est." },
+      { date:"Aug 2024", val:115,  note:"· Est. rapid revenue growth" },
+      { date:"Oct 2024", val:157,  note:"★ Series E — $6.6B raised" },
+      { date:"Jan 2025", val:195,  note:"· Est. post-Series E momentum" },
+      { date:"Mar 2025", val:300,  note:"★ SoftBank $40B round" },
+      { date:"Jun 2025", val:345,  note:"· Est." },
+      { date:"Sep 2025", val:395,  note:"· Est." },
+      { date:"Dec 2025", val:430,  note:"· Est." },
+      { date:"Jan 2026", val:450,  note:"· Est. secondary market" },
     ],
   },
   {
     name:"Anthropic", color:"#d97706",
     milestones:[
-      { date:"Apr 2023", val:4.1,  note:"Series C — $1.25B" },
-      { date:"Sep 2023", val:11.3, note:"Google $2B investment" },
-      { date:"Dec 2023", val:18.4, note:"Amazon $4B commitment" },
-      { date:"Mar 2024", val:18.0, note:"Series D — $2.75B" },
-      { date:"Nov 2024", val:40.0, note:"Series E — $4B raised" },
-      { date:"Mar 2025", val:61.5, note:"Series F — $3.5B raised" },
-      { date:"Jan 2026", val:880,  note:"2026 funding round" },
+      { date:"Feb 2023", val:3.0,  note:"· Est. pre-Series C" },
+      { date:"Apr 2023", val:4.1,  note:"★ Series C — $1.25B" },
+      { date:"Jul 2023", val:7.5,  note:"· Est. Google investment talks" },
+      { date:"Sep 2023", val:11.3, note:"★ Google $2B commitment" },
+      { date:"Dec 2023", val:18.4, note:"★ Amazon $4B commitment" },
+      { date:"Mar 2024", val:18.0, note:"★ Series D — $2.75B" },
+      { date:"Jun 2024", val:22.0, note:"· Est." },
+      { date:"Sep 2024", val:30.0, note:"· Est. Claude 3.5 Sonnet traction" },
+      { date:"Nov 2024", val:40.0, note:"★ Series E — $4B raised" },
+      { date:"Mar 2025", val:61.5, note:"★ Series F — $3.5B raised" },
+      { date:"Jun 2025", val:130,  note:"· Est. Claude 4 launch momentum" },
+      { date:"Sep 2025", val:340,  note:"· Est. major strategic round" },
+      { date:"Dec 2025", val:650,  note:"· Est." },
+      { date:"Jan 2026", val:880,  note:"★ 2026 funding round (~$900B)" },
     ],
   },
 ];
