@@ -123,45 +123,45 @@ def styled_table(header, rows, widths, highlight_row=None):
 
 def draw_gates(c):
     """KERAUNOS logo badge: accelerator coil gates ascending, payload exiting."""
-    # badge card
-    bx0, by0 = W / 2 - 2.85 * inch, H - 3.7 * inch
-    bw, bh = 5.7 * inch, 2.55 * inch
-    c.setFillColor(HexColor("#10172b"))
-    c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=0.35)
+    # badge card: near-black, compact
+    bx0, by0 = W / 2 - 2.25 * inch, H - 3.4 * inch
+    bw, bh = 4.5 * inch, 2.05 * inch
+    c.setFillColor(HexColor("#0b0f1d"))
+    c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=0.3)
     c.setLineWidth(1)
-    c.roundRect(bx0, by0, bw, bh, 16, stroke=1, fill=1)
-    # rings inside the badge
+    c.roundRect(bx0, by0, bw, bh, 14, stroke=1, fill=1)
+    # rings, centered as a composition inside the badge
     n = 8
-    x0, y0 = W / 2 - 2.05 * inch, H - 3.0 * inch
-    x1, y1 = W / 2 + 1.55 * inch, H - 1.8 * inch
+    x0, y0 = W / 2 - 1.5 * inch, H - 2.75 * inch
+    x1, y1 = W / 2 + 1.2 * inch, H - 1.95 * inch
     c.saveState()
     c.setDash(2, 5)
-    c.setLineWidth(0.6)
+    c.setLineWidth(0.5)
     c.setStrokeColorRGB(0.45, 0.65, 0.75, alpha=0.25)
-    c.line(x0 - 0.12 * inch, y0 - 0.05 * inch, x1 + 0.5 * inch, y1 + 0.17 * inch)
+    c.line(x0 - 0.1 * inch, y0 - 0.04 * inch, x1 + 0.38 * inch, y1 + 0.12 * inch)
     c.restoreState()
     for i in range(n):
         t = i / (n - 1)
         cx = x0 + (x1 - x0) * t
         cy = y0 + (y1 - y0) * t
-        hh = (0.26 + 0.30 * t) * inch  # ring half-height grows toward the exit
+        hh = (0.18 + 0.22 * t) * inch  # ring half-height grows toward the exit
         hw = hh * 0.30                 # narrow ellipse, seen edge-on
         base = 0.30 + 0.65 * t         # brightness ramps along the track
         c.saveState()
         c.translate(cx, cy)
         c.rotate(18)                   # perpendicular to the ascending track
-        for lw, ga in ((7, 0.10), (4.5, 0.18), (2.6, 0.38), (1.4, 1.0)):
+        for lw, ga in ((5.5, 0.10), (3.5, 0.18), (2.1, 0.38), (1.1, 1.0)):
             c.setLineWidth(lw)
             c.setStrokeColorRGB(0.13, 0.83, 0.93, alpha=ga * base)
             c.ellipse(-hw, -hh, hw, hh, stroke=1, fill=0)
         c.restoreState()
     # the payload, clear of the muzzle
     c.setFillColorRGB(0.13, 0.83, 0.93, alpha=0.95)
-    c.circle(x1 + 0.42 * inch, y1 + 0.15 * inch, 3.2, stroke=0, fill=1)
+    c.circle(x1 + 0.3 * inch, y1 + 0.1 * inch, 2.6, stroke=0, fill=1)
     # wordmark inside the badge
     c.setFillColor(TEAL_BRIGHT)
-    c.setFont("Segoe-Semi", 12)
-    c.drawCentredString(W / 2, by0 + 0.22 * inch, "Κ Ε Ρ Α Υ Ν Ο Σ")
+    c.setFont("Segoe-Semi", 10.5)
+    c.drawCentredString(W / 2, by0 + 0.2 * inch, "Κ Ε Ρ Α Υ Ν Ο Σ")
 
 
 def cover(c, doc):
