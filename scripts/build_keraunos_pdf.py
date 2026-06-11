@@ -93,7 +93,7 @@ def mathbox(rows):
         ("LEFTPADDING", (0, 0), (-1, -1), 10),
         ("RIGHTPADDING", (0, 0), (-1, -1), 10),
     ]))
-    return t
+    return KeepTogether([t])
 
 
 def styled_table(header, rows, widths, highlight_row=None):
@@ -245,7 +245,7 @@ E.append(p("KERAUNOS is ground infrastructure that replaces the first stage of e
            "gets rebuilt, and earns money between launches as a grid-scale battery."))
 E.append(p("KERAUNOS is the program. It deploys as three launchers, and it starts on the "
            "Moon, where the machine is at its simplest, then brings the lessons home."))
-E.append(styled_table(
+E.append(KeepTogether([styled_table(
     ["Launcher", "Body", "Phase", "Character"],
     [["<b>SELENE</b>", "Moon", "1: Proof of concept",
       "No atmosphere: no tube, no plasma window, no aero-shell. The starter track is "
@@ -256,15 +256,15 @@ E.append(styled_table(
      ["<b>ARES</b>", "Mars", "3: The port",
       "0.6% atmosphere makes the tube featherweight. Turns Mars from a destination "
       "into a port."]],
-    [1.0 * inch, 0.7 * inch, 1.55 * inch, 3.35 * inch]))
+    [1.0 * inch, 0.7 * inch, 1.55 * inch, 3.35 * inch])]))
 E.append(Spacer(1, 6))
 E.append(Paragraph("Specifications by launcher", S["h2"]))
 E.append(p("Each launcher gets its own table below so there is no ambiguity about which "
            "body a number belongs to. BRONTE (Earth) is the flagship and gets the deepest "
            "treatment, then SELENE (Moon), then ARES (Mars)."))
 
-E.append(Paragraph("BRONTE: Earth (flagship system)", S["h2"]))
-E.append(styled_table(
+E.append(KeepTogether([Paragraph("BRONTE: Earth (flagship system)", S["h2"]),
+                       styled_table(
     ["Parameter", "Value", "Notes"],
     [["Role", "Primary orbital injector",
       "\"The thunder.\" The full-scale Earth machine and the program's revenue engine"],
@@ -290,12 +290,13 @@ E.append(styled_table(
       "vs Falcon 9 ~$2,720/kg customer price; skyhook phase pushes toward $5"],
      ["Demonstrator first", "10-20 km track",
       "Mach 2-3 at 3 g human-rated; 2.4-3.4 km/s (Mach 7-10) at 30 g cargo mode"]],
-    [1.45 * inch, 1.85 * inch, 3.3 * inch]))
-E.append(Paragraph("All derived values from a = v&sup2;/2L, t = v/a, E = &frac12;v&sup2;, "
-                   "P = m&middot;a&middot;v, with g = 9.81 m/s&sup2;.", S["caption"]))
+    [1.45 * inch, 1.85 * inch, 3.3 * inch]),
+                       Paragraph("All derived values from a = v&sup2;/2L, t = v/a, "
+                                 "E = &frac12;v&sup2;, P = m&middot;a&middot;v, with "
+                                 "g = 9.81 m/s&sup2;.", S["caption"])]))
 
-E.append(Paragraph("SELENE: Moon (Phase 1 proof of concept)", S["h2"]))
-E.append(styled_table(
+E.append(KeepTogether([Paragraph("SELENE: Moon (Phase 1 proof of concept)", S["h2"]),
+                       styled_table(
     ["Parameter", "Value", "Notes"],
     [["Role", "Proof of concept + mass exporter",
       "Water ice, oxygen, shielding mass to cislunar buyers"],
@@ -312,10 +313,10 @@ E.append(styled_table(
       "Roughly 1/20th of the Earth launch energy"],
      ["Throw to Earth orbit", "~2.4 km/s from the lunar surface",
       "vs 9.4+ km/s from Earth's surface: the Moon wins on every kg that can start there"]],
-    [1.45 * inch, 1.95 * inch, 3.2 * inch]))
+    [1.45 * inch, 1.95 * inch, 3.2 * inch])]))
 
-E.append(Paragraph("ARES: Mars (Phase 3 frontier port)", S["h2"]))
-E.append(styled_table(
+E.append(KeepTogether([Paragraph("ARES: Mars (Phase 3 frontier port)", S["h2"]),
+                       styled_table(
     ["Parameter", "Value", "Notes"],
     [["Role", "Export port for the Mars economy",
       "ISRU propellant, samples, manufactured goods"],
@@ -329,7 +330,7 @@ E.append(styled_table(
       "Between Moon and Earth in scale, far easier than Earth in engineering"],
      ["Staging", "Phobos and Deimos",
       "Catch points and depots; SEP tugs handle the interplanetary cruise"]],
-    [1.45 * inch, 1.95 * inch, 3.2 * inch]))
+    [1.45 * inch, 1.95 * inch, 3.2 * inch])]))
 E.append(Spacer(1, 6))
 
 # ---- 1. PHYSICS & PRICE ----
@@ -367,17 +368,19 @@ E.append(mathbox([
      "cannon into a universal launcher."),
 ]))
 E.append(Spacer(1, 8))
-E.append(Paragraph("Comparative launch costs (per kg to LEO)", S["h2"]))
-E.append(styled_table(
+E.append(KeepTogether([
+    Paragraph("Comparative launch costs (per kg to LEO)", S["h2"]),
+    styled_table(
     ["Launch system", "Cost per kg", "Economic bottleneck"],
     [["Space Shuttle", "$54,500", "Hand-built, massive refurbishment"],
      ["SpaceX Falcon 9", "~$2,720 price / ~$630 internal", "Fuel costs + expended hardware"],
      ["SpaceX Starship (projected)", "$100-$1,000", "Limit of chemical fuel energy density"],
      ["<b>KERAUNOS</b>", "<b>$20-$250</b>", "Electricity is ~$0.53/kg; price is amortization"],
      ["<b>KERAUNOS + skyhook</b>", "<b>toward $5</b>", "Kick-motor fuel drops toward zero"]],
-    [1.9 * inch, 1.95 * inch, 2.75 * inch], highlight_row=4))
-E.append(Paragraph("Falcon 9 figures: customer price vs estimated internal cost. Starship "
-                   "range reflects near-term reuse assumptions.", S["caption"]))
+    [1.9 * inch, 1.95 * inch, 2.75 * inch], highlight_row=4),
+    Paragraph("Falcon 9 figures: customer price vs estimated internal cost. Starship "
+              "range reflects near-term reuse assumptions.", S["caption"]),
+]))
 
 # ---- 2. PRIOR ART ----
 E += sect("2", "Prior Art &amp; The Gap: Everyone Is Pointing at This, Nobody Is Building It")
@@ -416,7 +419,7 @@ E.append(b("<b>The deterrence dividend:</b> a launcher that can place 29,000 ton
 E += sect("4", "Risk Assessment: The Fail-Safe Protocols")
 E.append(reminder("High speed in a tube is high stakes. We need a fail-safe for every "
                   "millisecond."))
-E.append(styled_table(
+E.append(KeepTogether([styled_table(
     ["Failure", "Consequence", "Countermeasure"],
     [["Aero-shell fails to jettison at Mach 12+",
       "Dead mass prevents orbit",
@@ -433,7 +436,7 @@ E.append(styled_table(
      ["Launch abort",
       "Stranded kinetic energy, overspeed risk",
       "Regenerative magnetic braking pumps the energy back into the storage rings"]],
-    [1.85 * inch, 1.8 * inch, 2.95 * inch]))
+    [1.85 * inch, 1.8 * inch, 2.95 * inch])]))
 
 # ---- 5. INDUSTRIES ----
 E += sect("5", "New Industries &amp; Orbital Manufacturing")
@@ -598,7 +601,7 @@ E.append(b("<b>Sequencing:</b> ARES is the final node. SELENE proves the machine
 E += sect("15", "The Build Order: Moon First")
 E.append(reminder("The lightning flashes before the thunder is heard. SELENE launches "
                   "silently in vacuum before BRONTE shakes the air on Earth."))
-E.append(styled_table(
+E.append(KeepTogether([styled_table(
     ["Phase", "System", "What gets built", "What it proves / earns"],
     [["1", "<b>SELENE PoC</b> (Moon)",
       "1-3 km surface track, 50-100 g dumb-cargo mode, no tube",
@@ -617,7 +620,7 @@ E.append(styled_table(
      ["4", "<b>ARES</b> (Mars)",
       "~180 km track, featherweight tube",
       "Mars becomes a port; the freight triangle closes."]],
-    [0.55 * inch, 1.5 * inch, 2.05 * inch, 2.5 * inch]))
+    [0.55 * inch, 1.5 * inch, 2.05 * inch, 2.5 * inch])]))
 E.append(Paragraph("Why Moon-first works: the proof of concept is 300x shorter than the "
                    "full Earth machine, skips every atmosphere subsystem, and generates "
                    "revenue immediately. SELENE de-risks the magnets and mass-catch "
@@ -628,7 +631,7 @@ E.append(Paragraph("Why Moon-first works: the proof of concept is 300x shorter t
 E += sect("16", "The Interplanetary Freight Triangle")
 E.append(reminder("Three launchers, one standard. The marginal cost of moving a kilogram "
                   "anywhere becomes electricity."))
-E.append(styled_table(
+E.append(KeepTogether([styled_table(
     ["Node", "Role", "Throws"],
     [["<b>BRONTE</b> (Earth)", "The forge", "Industry: machines, electronics, precision "
       "goods, and eventually people, at 3.3 g"],
@@ -636,7 +639,7 @@ E.append(styled_table(
       "metal at ~2.4 km/s to anywhere in cislunar space"],
      ["<b>ARES</b> (Mars)", "The frontier port", "Propellant, samples, and exports from "
       "ISRU: the return half of the settlement economy"]],
-    [1.55 * inch, 1.3 * inch, 3.75 * inch]))
+    [1.55 * inch, 1.3 * inch, 3.75 * inch])]))
 E.append(Spacer(1, 6))
 E.append(b("<b>SEP tugs ride the lanes between nodes.</b> Chemical fuel is burned only for "
            "final kicks and landings; everything else is electromagnetic launch and "
@@ -651,7 +654,7 @@ E.append(Paragraph("“Zeus didn't ship his thunderbolts on rockets.”", S["quo
 E += sect("17", "The Evidence Ledger: Zero New Physics")
 E.append(reminder("Every subsystem has flown, fired, or been patented. The pieces exist. "
                   "Nobody has assembled them. That is the entire opportunity."))
-E.append(styled_table(
+E.append(KeepTogether([styled_table(
     ["Building block", "Status (verified June 2026)"],
     [["NASA X-59 shockwave tailoring",
       "First flight Oct 28, 2025 (67 min, Palmdale). Flying supersonic test points as of "
@@ -678,7 +681,7 @@ E.append(styled_table(
      ["Launch market baseline",
       "Falcon 9 ~$2,720/kg customer price (~$630/kg internal); Starship targeting "
       "&lt;$100/kg, $250-600/kg realistic near-term."]],
-    [2.0 * inch, 4.6 * inch]))
+    [2.0 * inch, 4.6 * inch])]))
 E.append(Spacer(1, 10))
 E.append(p("<b>KERAUNOS requires zero new physics.</b> It requires the decision to build "
            "the full-length track everyone else keeps approaching by halves, and the "
