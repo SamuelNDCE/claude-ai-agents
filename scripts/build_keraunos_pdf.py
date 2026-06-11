@@ -144,7 +144,7 @@ def draw_gates(c):
         t = i / (n - 1)
         cx = x0 + (x1 - x0) * t
         cy = y0 + (y1 - y0) * t
-        hh = 0.30 * inch               # all rings the same size
+        hh = 0.24 * inch               # all rings the same size
         hw = hh * 0.30                 # narrow ellipse, seen edge-on
         base = 0.30 + 0.65 * t         # brightness ramps along the track
         c.saveState()
@@ -161,7 +161,7 @@ def draw_gates(c):
     # wordmark inside the badge
     c.setFillColor(TEAL_BRIGHT)
     c.setFont("Segoe-Semi", 10.5)
-    c.drawCentredString(W / 2, by0 + 0.2 * inch, "Κ Ε Ρ Α Υ Ν Ο Σ")
+    c.drawCentredString(W / 2, by0 + 0.2 * inch, "K E R A U N O S")
 
 
 def cover(c, doc):
@@ -682,6 +682,10 @@ E.append(b("<b>Each node builds the next.</b> Rockets ship SELENE's first coils;
            "exports help build out BRONTE; BRONTE's pellet pipeline delivers ARES; every "
            "new node makes the next one cheaper. This is how railroads conquered "
            "continents, and it is how KERAUNOS conquers the solar system."))
+E.append(b("<b>The triangle is just the start.</b> Every airless body in the system is a "
+           "SELENE site waiting for a kit. The bet was never one heroic tube on Earth; it "
+           "is a standard launcher stamped across a solar system that is mostly made of "
+           "airless rocks."))
 E.append(Paragraph("“Zeus didn't ship his thunderbolts on rockets.”", S["quote"]))
 
 # ---- 17. EVIDENCE ----
@@ -717,10 +721,12 @@ E.append(KeepTogether([styled_table(
       "&lt;$100/kg, $250-600/kg realistic near-term."]],
     [2.0 * inch, 4.6 * inch])]))
 E.append(Spacer(1, 10))
-E.append(p("<b>KERAUNOS requires zero new physics.</b> It requires the decision to build "
-           "the full-length track everyone else keeps approaching by halves, and the "
-           "nation or company that makes that decision first owns the freight standard of "
-           "the solar system: Earth, Moon, and Mars."))
+E.append(p("<b>KERAUNOS requires zero new physics.</b> And the bet is not one heroic "
+           "1,000 km tube on Earth; that is the prize for later, if the economics earn "
+           "it. The bet is that a rail on an airless rock is the cheapest launcher in "
+           "the solar system, and the solar system is made of airless rocks. Whoever "
+           "standardizes that kit first owns the freight standard everywhere: the Moon, "
+           "Mars, and one day Earth itself."))
 
 doc.build(E, onFirstPage=cover, onLaterPages=later)
 print("OK:", OUT)
