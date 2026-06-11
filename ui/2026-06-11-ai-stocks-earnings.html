@@ -7,123 +7,85 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg: #0a0d18;
-      --surface: #0f1629;
-      --border: #1e2d4a;
-      --teal: #22d3ee;
-      --purple: #7c3aed;
-      --text: #e2e8f0;
-      --muted: #64748b;
-      --green: #22c55e;
-      --red: #ef4444;
+      --bg: #0a0d18; --surface: #0f1629; --border: #1e2d4a;
+      --teal: #22d3ee; --text: #e2e8f0; --muted: #64748b;
+      --green: #22c55e; --red: #ef4444;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      min-height: 100vh;
-      padding-bottom: 48px;
-    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding-bottom: 48px; }
 
-    .header {
-      padding: 20px 32px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .header h1 { font-size: 1.25rem; font-weight: 700; color: var(--teal); margin-bottom: 3px; }
-    .header .sub { font-size: 0.76rem; color: var(--muted); }
-    .disc {
-      font-size: 0.69rem; color: var(--muted);
-      background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.22);
-      padding: 9px 14px; border-radius: 8px; line-height: 1.55; max-width: 300px;
-    }
+    .header { padding: 18px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .header h1 { font-size: 1.2rem; font-weight: 700; color: var(--teal); margin-bottom: 3px; }
+    .header .sub { font-size: 0.74rem; color: var(--muted); }
+    .disc { font-size: 0.68rem; color: var(--muted); background: rgba(124,58,237,.08); border: 1px solid rgba(124,58,237,.22); padding: 8px 12px; border-radius: 8px; line-height: 1.55; max-width: 280px; flex-shrink: 0; }
     .disc strong { color: #a78bfa; }
 
-    .tabs {
-      display: flex; padding: 0 32px;
-      border-bottom: 1px solid var(--border);
-    }
-    .tab {
-      padding: 12px 22px; cursor: pointer; font-size: 0.83rem;
-      color: var(--muted); border-bottom: 2px solid transparent;
-      transition: all 0.15s; user-select: none; white-space: nowrap;
-    }
+    .tabs { display: flex; padding: 0 28px; border-bottom: 1px solid var(--border); }
+    .tab { padding: 11px 20px; cursor: pointer; font-size: 0.82rem; color: var(--muted); border-bottom: 2px solid transparent; transition: all .15s; user-select: none; }
     .tab:hover { color: var(--text); }
     .tab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 500; }
 
-    .content { padding: 24px 32px; }
-    .pane { display: none; }
-    .pane.active { display: block; }
+    .content { padding: 20px 28px; }
+    .pane { display: none; } .pane.active { display: block; }
 
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 22px 24px; margin-bottom: 20px;
-    }
-    .card h3 { font-size: 0.87rem; font-weight: 600; margin-bottom: 3px; }
-    .card p  { font-size: 0.72rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
-
-    /* CRITICAL: fixed-height wrapper so Chart.js doesn't expand forever */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-bottom: 18px; }
+    .card h3 { font-size: 0.86rem; font-weight: 600; margin-bottom: 3px; }
+    .card p  { font-size: 0.71rem; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
     .ch { position: relative; }
-    .ch-420 { height: 420px; }
-    .ch-330 { height: 330px; }
-    .ch-300 { height: 300px; }
+    .ch-480 { height: 480px; }
+    .ch-320 { height: 320px; }
+    .ch-290 { height: 290px; }
     .ch-360 { height: 360px; }
-
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-      gap: 12px; margin-top: 4px;
+    /* Company toggle buttons */
+    .toggle-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; align-items: center; }
+    .toggle-bar .label { font-size: 0.7rem; color: var(--muted); margin-right: 4px; }
+    .co-btn {
+      padding: 5px 14px; border-radius: 20px; border: 2px solid transparent;
+      color: #e2e8f0; font-size: 0.76rem; font-weight: 600; cursor: pointer;
+      transition: all .15s; background: transparent;
     }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 14px 15px;
-      border-left: 3px solid transparent;
-    }
-    .stat-ticker { font-size: 0.67rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-    .stat-num    { font-size: 1.45rem; font-weight: 700; line-height: 1.2; margin: 4px 0 2px; }
-    .stat-sub    { font-size: 0.68rem; color: var(--muted); }
-    .stat-note   { font-size: 0.66rem; color: #475569; margin-top: 6px; }
-    .pos { color: var(--green); }
-    .neg { color: var(--red); }
+    .co-btn.dim { opacity: 0.28; }
 
-    /* colour swatch legend used alongside charts */
-    .swatch-row {
-      display: flex; flex-wrap: wrap; gap: 10px 18px;
-      margin-bottom: 14px;
+    /* Metric toggle */
+    .metric-bar { display: flex; gap: 0; margin-bottom: 14px; align-items: center; }
+    .metric-bar .label { font-size: 0.7rem; color: var(--muted); margin-right: 10px; }
+    .metric-btn {
+      padding: 4px 14px; font-size: 0.73rem; font-weight: 500; cursor: pointer;
+      border: 1px solid var(--border); background: transparent; color: var(--muted); transition: all .15s;
     }
-    .swatch {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 0.74rem; color: var(--text);
-    }
-    .swatch-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .metric-btn:first-of-type { border-radius: 6px 0 0 6px; }
+    .metric-btn:last-of-type  { border-radius: 0 6px 6px 0; margin-left: -1px; }
+    .metric-btn.active { background: var(--teal); border-color: var(--teal); color: #0a0d18; font-weight: 600; }
 
-    .priv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 4px; }
-    @media (max-width: 900px) { .priv-grid { grid-template-columns: 1fr; } }
-    .priv-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px;
-    }
-    .priv-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 3px; }
-    .priv-meta { font-size: 0.71rem; color: var(--muted); margin-bottom: 16px; }
-    .m-row {
-      display: flex; align-items: baseline; gap: 10px;
-      padding: 8px 0; border-bottom: 1px solid var(--border);
-      font-size: 0.79rem;
-    }
+    /* Legend note */
+    .legend-note { font-size: 0.69rem; color: var(--muted); margin-bottom: 12px; display: flex; gap: 20px; flex-wrap: wrap; }
+    .legend-note span { display: flex; align-items: center; gap: 6px; }
+    .ln-solid { display: inline-block; width: 22px; height: 2.5px; background: #94a3b8; }
+    .ln-dash  { display: inline-block; width: 22px; height: 0; border-top: 2px dashed #94a3b8; }
+
+    /* Stat cards */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; margin-top: 4px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; border-left: 3px solid transparent; }
+    .stat-ticker { font-size: 0.66rem; text-transform: uppercase; letter-spacing: .06em; }
+    .stat-num { font-size: 1.4rem; font-weight: 700; line-height: 1.2; margin: 3px 0 2px; }
+    .stat-sub { font-size: 0.67rem; color: var(--muted); }
+    .stat-note { font-size: 0.64rem; color: #475569; margin-top: 5px; }
+    .pos { color: var(--green); } .neg { color: var(--red); }
+
+    /* Private */
+    .priv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 4px; }
+    @media (max-width: 860px) { .priv-grid { grid-template-columns: 1fr; } }
+    .priv-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+    .priv-card h3 { font-size: .95rem; font-weight: 600; margin-bottom: 2px; }
+    .priv-meta { font-size: .7rem; color: var(--muted); margin-bottom: 14px; }
+    .m-row { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: .78rem; }
     .m-row:last-child { border-bottom: none; }
-    .m-date { color: var(--muted); min-width: 74px; font-size: 0.7rem; }
-    .m-val  { font-weight: 700; min-width: 62px; }
-    .m-note { color: var(--muted); font-size: 0.68rem; }
+    .m-date { color: var(--muted); min-width: 72px; font-size: .69rem; }
+    .m-val  { font-weight: 700; min-width: 60px; }
+    .m-note { color: var(--muted); font-size: .67rem; }
   </style>
 </head>
 <body>
@@ -131,72 +93,84 @@
 <div class="header">
   <div>
     <h1>AI Company Dashboard — Stock &amp; Earnings</h1>
-    <div class="sub">NVDA &middot; MSFT &middot; GOOGL &middot; META &middot; AMD &middot; CSCO &nbsp;|&nbsp; Private: OpenAI &middot; Anthropic</div>
+    <div class="sub">NVDA &middot; MSFT &middot; GOOGL &middot; META &middot; AMD &middot; CSCO &nbsp;|&nbsp; Private: OpenAI &middot; Anthropic &nbsp;|&nbsp; Q1 2020 – Q1 2026</div>
   </div>
-  <div class="disc">
-    <strong>Approximate data — educational only.</strong><br>
-    Quarter-end prices, split-adjusted. Revenue/earnings rounded. Q1–Q2&nbsp;2025 estimated. Not financial advice.
-  </div>
+  <div class="disc"><strong>Approximate data — educational only.</strong><br>
+    Prices split-adjusted. Revenue/income estimated. Q3'25 onwards estimated. Not financial advice.</div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" data-tab="stock">Stock Performance</div>
-  <div class="tab" data-tab="earnings">Revenue &amp; Earnings</div>
+  <div class="tab active" data-tab="stock">Stock + Earnings Overlay</div>
+  <div class="tab" data-tab="earnings">Revenue &amp; Growth</div>
   <div class="tab" data-tab="private">Private Valuations</div>
 </div>
 
 <div class="content">
 
-  <!-- ===== STOCK ===== -->
+  <!-- ===== TAB 1: MAIN OVERLAY ===== -->
   <div class="pane active" id="pane-stock">
     <div class="card">
-      <h3>Normalized Stock Return — Q1 2022 = 100</h3>
-      <p>Quarter-end prices indexed to 100 at Q1&nbsp;2022 so all companies start at the same point. Split-adjusted. * = estimated.</p>
-      <div class="swatch-row" id="stockLegend"></div>
-      <div class="ch ch-420"><canvas id="stockChart"></canvas></div>
+      <h3>Stock Price vs Financial Metrics — Indexed (Q1 2020 = 100)</h3>
+      <p>All series normalized to 100 at Q1&nbsp;2020 so growth rates are directly comparable. Toggle companies and switch the overlay metric below.</p>
+
+      <div class="toggle-bar">
+        <span class="label">Show / hide:</span>
+        <div id="toggleRow"></div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:24px; margin-bottom:14px; flex-wrap:wrap;">
+        <div class="metric-bar">
+          <span class="label">Overlay (dashed):</span>
+          <button class="metric-btn active" id="btnRev" onclick="setMetric('revenue')">Revenue</button>
+          <button class="metric-btn" id="btnInc" onclick="setMetric('income')">Net Income</button>
+        </div>
+        <div class="legend-note" style="margin-bottom:0">
+          <span><span class="ln-solid"></span> Stock price (indexed)</span>
+          <span><span class="ln-dash"></span> Selected metric (indexed)</span>
+          <span style="color:#64748b;font-size:.67rem">* = estimated</span>
+        </div>
+      </div>
+
+      <div class="ch ch-480"><canvas id="mainChart"></canvas></div>
     </div>
     <div class="stats-grid" id="statsGrid"></div>
   </div>
 
-  <!-- ===== EARNINGS ===== -->
+  <!-- ===== TAB 2: REVENUE & GROWTH ===== -->
   <div class="pane" id="pane-earnings">
     <div class="card">
-      <h3>Annual Revenue — Indexed to FY2022 = 100</h3>
-      <p>Normalised so all companies start at 100 in FY2022, making growth rates directly comparable regardless of company size.</p>
-      <div class="swatch-row" id="revLegend"></div>
-      <div class="ch ch-330"><canvas id="revenueChart"></canvas></div>
+      <h3>Revenue Indexed to FY2022 = 100</h3>
+      <p>Normalized annual revenue so growth rates are comparable regardless of company size. FY2025/26 estimated.</p>
+      <div class="ch ch-320"><canvas id="revIdxChart"></canvas></div>
     </div>
-
     <div class="card">
-      <h3>Revenue Growth Year-over-Year (%)</h3>
-      <p>NVDA&apos;s FY2024 (+126%) and FY2025 (+114%) growth completely dominates all peers. FY2025 = estimate.</p>
-      <div class="swatch-row" id="growthLegend"></div>
-      <div class="ch ch-300"><canvas id="growthChart"></canvas></div>
+      <h3>Revenue Growth YoY (%)</h3>
+      <p>NVDA FY2024 +126% and FY2025 +114% dominates all peers. FY2026 = estimate.</p>
+      <div class="ch ch-290"><canvas id="growthChart"></canvas></div>
     </div>
-
     <div class="two-col">
       <div class="card">
-        <h3>Absolute Revenue (Billions USD)</h3>
-        <p>Log scale needed — spans $23B (AMD) to $385B (GOOGL). Hover to compare.</p>
-        <div class="ch ch-330"><canvas id="absRevChart"></canvas></div>
+        <h3>Annual Revenue (Billions USD, log scale)</h3>
+        <p>Log scale required — spans $23B (AMD) to $385B+ (GOOGL).</p>
+        <div class="ch ch-320"><canvas id="absRevChart"></canvas></div>
       </div>
       <div class="card">
-        <h3>Net Income GAAP (Billions USD)</h3>
-        <p>Log scale. AMD&apos;s Xilinx amortization suppresses GAAP numbers. FY2025 estimated.</p>
-        <div class="ch ch-330"><canvas id="incomeChart"></canvas></div>
+        <h3>Annual Net Income GAAP (Billions USD, log scale)</h3>
+        <p>NVDA FY2025 net income surpasses MSFT. FY2026 estimated.</p>
+        <div class="ch ch-320"><canvas id="incomeChart"></canvas></div>
       </div>
     </div>
   </div>
 
-  <!-- ===== PRIVATE ===== -->
+  <!-- ===== TAB 3: PRIVATE ===== -->
   <div class="pane" id="pane-private">
-    <p style="font-size:.79rem;color:var(--muted);margin-bottom:20px;line-height:1.6">
-      OpenAI and Anthropic are <strong style="color:var(--text)">private companies</strong> — no public stock exists.
-      The chart tracks implied valuations from funding rounds and tender offers only.
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:18px;line-height:1.6">
+      OpenAI and Anthropic are <strong style="color:var(--text)">private companies</strong> — no public stock.
+      Valuations are from funding rounds, tender offers, and secondary markets only.
     </p>
     <div class="card">
       <h3>Implied Valuation Milestones</h3>
-      <p>Billions USD from announced funding rounds. Not reflective of liquid market value.</p>
+      <p>Billions USD. Anthropic reached ~$880B in 2026. OpenAI 2026 figure is estimated.</p>
       <div class="ch ch-360"><canvas id="privateChart"></canvas></div>
     </div>
     <div class="priv-grid" id="privGrid"></div>
@@ -205,59 +179,84 @@
 </div>
 
 <script>
-// ============================================================
-// COMPANY DATA
-// Distinct colours — green, cyan, amber, indigo, red, orange
-// so each company is immediately identifiable
-// ============================================================
-const COS = [
-  {
-    name:"NVIDIA",    ticker:"NVDA", color:"#76b900", note:"AI GPU leader — H100/Blackwell",
-    prices:  [28.0,16.5,13.3,14.6, 27.7,42.3,44.0,49.5, 87.7,120.0,116.0,138.0, 112.0,135.0],
-    revenue: [26.9, 27.0, 60.9,130.5],
-    income:  [ 9.75, 4.37, 29.76, 72.9],
-  },
-  {
-    name:"Microsoft", ticker:"MSFT", color:"#22d3ee", note:"OpenAI partner, Azure AI",
-    prices:  [305,271,235,240, 288,337,377,375, 420,446,432,443, 388,448],
-    revenue: [198, 211, 245, 278],
-    income:  [72.7, 72.4, 88.1, 96.0],
-  },
-  {
-    name:"Alphabet",  ticker:"GOOGL", color:"#f59e0b", note:"Gemini AI, DeepMind, TPUs",
-    prices:  [137,112,100,89, 104,128,133,140, 157,178,166,192, 165,180],
-    revenue: [283, 307, 350, 385],
-    income:  [59.9, 73.8,100.1,115.0],
-  },
-  {
-    name:"Meta",      ticker:"META", color:"#818cf8", note:"Llama open models, AI glasses",
-    prices:  [222,162,136,120, 206,286,325,353, 527,490,564,590, 627,682],
-    revenue: [116, 134, 164, 188],
-    income:  [23.2, 39.1, 62.4, 72.0],
-  },
-  {
-    name:"AMD",       ticker:"AMD", color:"#ef4444", note:"MI300X AI GPUs, EPYC CPUs",
-    prices:  [116,80,65,67, 90,114,110,147, 180,170,155,126, 98,110],
-    revenue: [23.6, 22.7, 25.8, 32.0],
-    income:  [ 1.32, 0.85,  1.64,  2.3],
-  },
-  {
-    name:"Cisco",     ticker:"CSCO", color:"#f97316", note:"AI networking infrastructure",
-    prices:  [56,49,45,48, 50,51,55,58, 52,47,52,57, 59,62],
-    revenue: [51.6, 57.0, 53.8, 56.0],
-    income:  [11.8, 12.6, 10.3, 11.0],
-  },
-];
+// ================================================================
+// DATA — 25 quarters: Q1 2020 → Q1 2026
+// Prices: split-adjusted (NVDA ÷40, GOOGL ÷20 pre-Jul 2022)
+// Revenue & income: calendar-quarter approximations, billions USD
+// * = estimated (Q3'25 onwards)
+// ================================================================
 
 const QUARTERS = [
+  "Q1'20","Q2'20","Q3'20","Q4'20",
+  "Q1'21","Q2'21","Q3'21","Q4'21",
   "Q1'22","Q2'22","Q3'22","Q4'22",
   "Q1'23","Q2'23","Q3'23","Q4'23",
   "Q1'24","Q2'24","Q3'24","Q4'24",
-  "Q1'25*","Q2'25*"
+  "Q1'25","Q2'25","Q3'25*","Q4'25*",
+  "Q1'26*"
 ];
-const YEARS = ["FY2022","FY2023","FY2024","FY2025e"];
-// Growth chart skips FY2022 (no prior year for YoY)
-const GROWTH_YEARS = ["FY2023 YoY","FY2024 YoY","FY2025e YoY"];
+
+const YEARS_6 = ["FY2021","FY2022","FY2023","FY2024","FY2025e","FY2026e"];
+
+// Annual data for Tab 2
+const ANN = {
+  revenue: {
+    NVDA: [16.7, 26.9, 27.0, 60.9, 130.5, 175.0],
+    MSFT: [168.1,198.3,211.9,245.1,278.0,310.0],
+    GOOGL:[182.5,282.8,307.4,350.0,385.0,420.0],
+    META: [85.9,116.6,134.9,164.5,188.0,210.0],
+    AMD:  [16.4, 23.6, 22.7, 25.8,  32.0,  40.0],
+    CSCO: [49.8, 51.6, 57.0, 53.8,  56.0,  60.0],
+  },
+  income: {
+    NVDA: [4.33, 9.75, 4.37,29.76, 72.9,  90.0],
+    MSFT: [61.3, 72.7,72.4, 88.1,  96.0, 108.0],
+    GOOGL:[76.0, 59.9,73.8,100.1, 115.0, 128.0],
+    META: [29.1, 23.2,39.1, 62.4,  72.0,  85.0],
+    AMD:  [3.16,  1.32, 0.85, 1.64,  2.3,   3.5],
+    CSCO: [10.6, 11.8,12.6, 10.3,  11.0,  12.5],
+  },
+};
+
+// Quarterly data — 25 elements each
+const COS = [
+  {
+    ticker:"NVDA", name:"NVIDIA", color:"#76b900", note:"AI GPU leader — H100/Blackwell",
+    prices: [6.5,11.0,13.7,13.4, 13.5,20.0,22.5,29.5, 27.0,16.9,13.3,14.6, 27.7,42.3,43.5,49.5, 87.7,120.0,116.0,138.0, 112.0,135.0,125.0,148.0, 165.0],
+    revenue:[3.1, 3.9, 4.7, 5.0,  5.7, 6.5, 7.1, 7.6,  8.3, 6.7, 5.9, 6.1,  7.2,13.5,18.1,22.1, 26.0, 30.0, 35.1, 39.3,  44.1, 45.6, 47.0, 49.0,  43.5],
+    income: [0.9, 0.6, 1.3, 1.5,  1.9, 2.4, 2.5, 2.5,  3.4, 0.7, 0.7, 1.4,  2.0, 6.2, 9.2,12.3, 14.9, 17.0, 19.3, 22.1,  18.8, 19.5, 20.5, 21.5,  18.5],
+  },
+  {
+    ticker:"MSFT", name:"Microsoft", color:"#22d3ee", note:"OpenAI partner, Azure AI + Copilot",
+    prices: [157,204,213,222, 235,284,307,333, 305,271,235,240, 288,337,377,375, 420,446,432,443, 388,448,440,465, 480],
+    revenue:[35.0,38.0,37.2,43.1, 41.7,46.2,46.2,45.3, 51.7,52.7,49.4,50.1, 52.9,56.2,52.7,56.5, 61.9,64.7,65.6,69.6, 70.1,68.4,72.0,75.0, 77.0],
+    income: [10.8,11.2,12.9,15.5, 15.5,16.5,17.2,18.8, 16.7,16.7,17.6,16.4, 18.3,20.1,18.3,22.3, 21.9,22.1,24.7,24.1, 25.8,24.7,26.0,27.5, 28.5],
+  },
+  {
+    ticker:"GOOGL", name:"Alphabet", color:"#f59e0b", note:"Gemini AI, DeepMind, Google TPUs",
+    prices: [55.5,72.0,81.0,87.5, 103.8,128.4,141.3,144.8, 137.3,112.6,100.0,89.0, 104.0,128.0,133.0,140.0, 157.0,178.0,166.0,192.0, 165.0,180.0,172.0,190.0, 200.0],
+    revenue:[41.2,38.3,46.2,56.9, 55.3,61.9,65.1,75.3, 68.0,69.7,69.1,76.0, 69.8,74.6,76.7,86.3, 80.5,84.7,88.3,96.5, 90.2,96.4,98.0,105.0, 102.0],
+    income: [6.8, 7.0,11.2,15.2, 17.9,18.5,18.9,20.6, 16.4,15.9,13.9,13.6, 15.1,18.4,19.7,23.7, 23.7,23.6,26.3,26.5, 34.5,28.0,30.0,32.0,  33.0],
+  },
+  {
+    ticker:"META", name:"Meta", color:"#818cf8", note:"Llama open models, AI smart glasses",
+    prices: [166,224,263,273, 304,356,382,336, 222,162,136,120, 206,286,325,353, 527,490,564,590, 627,682,660,720, 755],
+    revenue:[17.7,18.7,21.5,28.1, 26.2,29.1,29.0,33.7, 27.9,28.8,27.7,32.2, 28.6,32.0,34.1,40.1, 36.5,39.1,40.6,48.4, 42.3,47.3,49.0,55.0,  50.0],
+    income: [4.9, 5.1, 7.8,11.2,  9.5,10.4, 9.2,10.3,  7.5, 6.7, 4.4, 4.7,  5.7, 7.8,11.6,14.0, 12.4,13.5,15.7,20.8, 16.6,18.4,20.0,22.0,  22.0],
+  },
+  {
+    ticker:"AMD", name:"AMD", color:"#ef4444", note:"MI300X AI GPUs, EPYC data center CPUs",
+    prices: [47,55,82,92, 83,88,112,144, 116,80,65,67, 90,114,110,147, 180,170,155,126, 98,110,105,115, 125],
+    revenue:[1.79,1.93,2.80,3.24, 3.45,3.85,4.31,4.83, 5.89,6.55,5.57,5.60, 5.35,5.36,5.80,6.17, 5.47,5.84,6.82,7.66, 7.44,7.90,8.30,8.90,  9.50],
+    income: [0.16,0.13,0.24,0.29, 0.36,0.71,0.38,0.97, 0.79,0.45,-0.56,0.21, 0.08,0.27,0.30,0.68, 0.12,0.11,0.77,1.09, 1.47,1.60,1.70,1.85,  1.95],
+  },
+  {
+    ticker:"CSCO", name:"Cisco", color:"#f97316", note:"AI networking infrastructure & switches",
+    prices: [40,47,46,46, 48,52,57,60, 56,49,45,48, 50,51,55,58, 52,47,52,57, 59,62,60,65, 67],
+    revenue:[11.7,12.8,12.0,12.2, 12.0,13.0,12.8,13.0, 12.7,13.1,12.8,13.6, 14.2,15.0,14.6,14.6, 12.7,12.7,13.8,13.8, 14.0,14.6,14.8,15.0,  15.2],
+    income: [2.9, 3.0, 3.4, 3.4,  2.9, 3.5, 2.8, 3.2,  3.0, 2.8, 2.8, 3.0,  3.1, 3.6, 3.6, 3.6,  3.6, 3.4, 3.4, 3.5,  3.6, 3.7, 3.7, 3.8,   3.8],
+  },
+];
 
 const PRIVATE = [
   {
@@ -268,6 +267,7 @@ const PRIVATE = [
       { date:"Feb 2024", val:80,   note:"Secondary share sale" },
       { date:"Oct 2024", val:157,  note:"Series E — $6.6B raised" },
       { date:"Mar 2025", val:300,  note:"SoftBank $40B round" },
+      { date:"Jan 2026", val:450,  note:"Estimated — secondary market" },
     ],
   },
   {
@@ -277,266 +277,284 @@ const PRIVATE = [
       { date:"Sep 2023", val:11.3, note:"Google $2B investment" },
       { date:"Dec 2023", val:18.4, note:"Amazon $4B commitment" },
       { date:"Mar 2024", val:18.0, note:"Series D — $2.75B" },
-      { date:"Nov 2024", val:40.0, note:"Series E — $4B" },
-      { date:"Mar 2025", val:61.5, note:"Series F — $3.5B" },
+      { date:"Nov 2024", val:40.0, note:"Series E — $4B raised" },
+      { date:"Mar 2025", val:61.5, note:"Series F — $3.5B raised" },
+      { date:"Jan 2026", val:880,  note:"2026 funding round" },
     ],
   },
 ];
 
-// ============================================================
+// ================================================================
 // HELPERS
-// ============================================================
+// ================================================================
 
-function norm(arr) {
-  const base = arr[0];
-  return arr.map(v => +(v / base * 100).toFixed(2));
+function normTo100(arr) {
+  const b = arr[0];
+  return arr.map(v => v === null ? null : +(v / b * 100).toFixed(1));
 }
 
-// Returns YoY % for indices 1..n (skips index 0)
 function yoy(arr) {
-  const out = [];
-  for (let i = 1; i < arr.length; i++) {
-    out.push(+(((arr[i] - arr[i-1]) / arr[i-1]) * 100).toFixed(1));
-  }
-  return out; // length = arr.length - 1, no nulls
+  return arr.map((v, i) => i === 0 ? null : +(((v - arr[i-1]) / arr[i-1]) * 100).toFixed(1));
 }
 
-const TIP = {
-  backgroundColor:"#0f1629", borderColor:"#1e2d4a", borderWidth:1,
-  titleColor:"#e2e8f0", bodyColor:"#94a3b8", padding:10,
-};
-const BASE = { responsive:true, maintainAspectRatio:false, interaction:{mode:"index",intersect:false} };
-const XSCALE = { grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b",font:{size:10},maxRotation:45} };
-const YSCALE = { grid:{color:"#1e2d4a80"}, ticks:{color:"#64748b",font:{size:10}} };
+const TIP = { backgroundColor:"#0f1629", borderColor:"#1e2d4a", borderWidth:1, titleColor:"#e2e8f0", bodyColor:"#94a3b8", padding:10 };
+const BASE = { responsive:true, maintainAspectRatio:false, interaction:{ mode:"index", intersect:false } };
+const XS = { grid:{color:"#1e2d4a40"}, ticks:{color:"#64748b", font:{size:10}, maxRotation:45} };
+const YS = { grid:{color:"#1e2d4a80"}, ticks:{color:"#64748b", font:{size:10}} };
 
-function yscaleTitle(label) {
-  return { display:true, text:label, color:"#64748b", font:{size:10} };
-}
+function yt(label) { return { display:true, text:label, color:"#64748b", font:{size:10} }; }
 
-// Build inline swatch legend
-function buildLegend(id, items) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.innerHTML = items.map(it =>
-    `<span class="swatch"><span class="swatch-dot" style="background:${it.color}"></span>${it.label}</span>`
-  ).join("");
-}
+// ================================================================
+// MAIN OVERLAY CHART
+// ================================================================
 
-// ============================================================
-// STOCK CHART
-// ============================================================
+let currentMetric = 'revenue';
+const mainDatasets = [];
 
-buildLegend("stockLegend", COS.map(c => ({ color:c.color, label:`${c.ticker} — ${c.name}` })));
+COS.forEach(c => {
+  mainDatasets.push({
+    label: `${c.ticker} Stock`,
+    data: normTo100(c.prices),
+    borderColor: c.color,
+    backgroundColor: 'transparent',
+    borderWidth: 2.5,
+    borderDash: [],
+    pointRadius: 2,
+    pointHoverRadius: 6,
+    tension: 0.25,
+  });
+  mainDatasets.push({
+    label: `${c.ticker} Revenue`,
+    data: normTo100(c.revenue),
+    borderColor: c.color,
+    backgroundColor: 'transparent',
+    borderWidth: 1.6,
+    borderDash: [7, 4],
+    pointRadius: 0,
+    pointHoverRadius: 5,
+    tension: 0.25,
+  });
+});
 
-new Chart(document.getElementById("stockChart"), {
-  type:"line",
-  data:{
-    labels: QUARTERS,
-    datasets: COS.map(c => ({
-      label: c.ticker,
-      data: norm(c.prices),
-      borderColor: c.color,
-      backgroundColor: c.color + "12",
-      borderWidth: 2.5,
-      pointRadius: 3.5,
-      pointHoverRadius: 7,
-      tension: 0.3,
-      fill: false,
-    })),
-  },
-  options:{
+const mainChart = new Chart(document.getElementById("mainChart"), {
+  type: "line",
+  data: { labels: QUARTERS, datasets: mainDatasets },
+  options: {
     ...BASE,
-    plugins:{
-      legend:{ display:false },
-      tooltip:{
+    plugins: {
+      legend: { display: false },
+      tooltip: {
         ...TIP,
-        callbacks:{
+        callbacks: {
           label: ctx => {
             const v = ctx.parsed.y;
+            if (v === null) return null;
             const d = v - 100;
-            return ` ${ctx.dataset.label}: ${v.toFixed(1)}  (${d >= 0 ? "+" : ""}${d.toFixed(1)}%)`;
+            return ` ${ctx.dataset.label}: ${v.toFixed(0)}  (${d >= 0 ? "+" : ""}${d.toFixed(0)}%)`;
           },
         },
       },
     },
-    scales:{
-      x: XSCALE,
-      y:{
-        ...YSCALE,
-        title: yscaleTitle("Index (Q1'22 = 100)"),
-      },
+    scales: {
+      x: XS,
+      y: { ...YS, title: yt("Index (Q1'20 = 100)") },
     },
   },
 });
 
-// Stat cards
+// ================================================================
+// COMPANY TOGGLE BUTTONS
+// ================================================================
+
+const toggleRow = document.getElementById("toggleRow");
+const coButtons = [];
+
+COS.forEach((c, i) => {
+  const btn = document.createElement("button");
+  btn.className = "co-btn";
+  btn.textContent = c.ticker;
+  btn.title = c.name;
+  btn.style.borderColor = c.color;
+  btn.style.backgroundColor = c.color + "28";
+  btn.style.color = "#e2e8f0";
+
+  btn.addEventListener("click", () => {
+    const vis = mainChart.isDatasetVisible(i * 2);
+    const now = !vis;
+    mainChart.setDatasetVisibility(i * 2, now);
+    mainChart.setDatasetVisibility(i * 2 + 1, now);
+    mainChart.update();
+    if (now) {
+      btn.style.borderColor = c.color;
+      btn.style.backgroundColor = c.color + "28";
+      btn.style.color = "#e2e8f0";
+      btn.classList.remove("dim");
+    } else {
+      btn.style.borderColor = "#334155";
+      btn.style.backgroundColor = "transparent";
+      btn.style.color = "#64748b";
+      btn.classList.add("dim");
+    }
+  });
+
+  coButtons.push(btn);
+  toggleRow.appendChild(btn);
+});
+
+// ================================================================
+// METRIC TOGGLE
+// ================================================================
+
+function setMetric(metric) {
+  currentMetric = metric;
+  COS.forEach((c, i) => {
+    const ds = mainChart.data.datasets[i * 2 + 1];
+    ds.data = normTo100(c[metric]);
+    ds.label = `${c.ticker} ${metric === 'revenue' ? 'Revenue' : 'Net Income'}`;
+  });
+  mainChart.update();
+  document.getElementById("btnRev").classList.toggle("active", metric === "revenue");
+  document.getElementById("btnInc").classList.toggle("active", metric === "income");
+}
+
+// ================================================================
+// STAT CARDS
+// ================================================================
+
 const sg = document.getElementById("statsGrid");
 COS.forEach(c => {
-  const n = norm(c.prices);
-  const ret = n[n.length-1] - 100;
+  const n = normTo100(c.prices);
+  const ret = n[n.length - 1] - 100;
   const pos = ret >= 0;
   sg.innerHTML += `
     <div class="stat-card" style="border-left-color:${c.color}">
       <div class="stat-ticker" style="color:${c.color}">${c.ticker}</div>
       <div class="stat-num ${pos?"pos":"neg"}">${pos?"+":""}${ret.toFixed(0)}%</div>
-      <div class="stat-sub">return since Q1 2022</div>
+      <div class="stat-sub">stock return Q1'20 → Q1'26*</div>
       <div class="stat-note">${c.note}</div>
     </div>`;
 });
 
-// ============================================================
-// REVENUE INDEXED CHART
-// ============================================================
+// ================================================================
+// TAB 2 CHARTS
+// ================================================================
 
-buildLegend("revLegend", COS.map(c => ({ color:c.color, label:`${c.ticker} — ${c.name}` })));
+// Annual revenue indexed to FY2022=100
+const annRevNorm = {};
+const tickerList = ["NVDA","MSFT","GOOGL","META","AMD","CSCO"];
+tickerList.forEach(t => {
+  const arr = ANN.revenue[t];
+  const base = arr[1]; // FY2022 = index 1
+  annRevNorm[t] = arr.map(v => +(v / base * 100).toFixed(1));
+});
 
-new Chart(document.getElementById("revenueChart"), {
-  type:"line",
-  data:{
-    labels: YEARS,
+new Chart(document.getElementById("revIdxChart"), {
+  type: "line",
+  data: {
+    labels: YEARS_6,
     datasets: COS.map(c => ({
       label: c.ticker,
-      data: norm(c.revenue),
+      data: annRevNorm[c.ticker],
       borderColor: c.color,
-      backgroundColor: c.color + "10",
-      borderWidth: 2.5,
-      pointRadius: 5,
-      pointHoverRadius: 8,
+      backgroundColor: "transparent",
+      borderWidth: 2.2,
+      pointRadius: 4,
+      pointHoverRadius: 7,
       tension: 0.2,
-      fill: false,
     })),
   },
-  options:{
+  options: {
     ...BASE,
-    plugins:{
-      legend:{ display:false },
-      tooltip:{
-        ...TIP,
-        callbacks:{
-          label: ctx => {
-            const v = ctx.parsed.y;
-            const d = v - 100;
-            return ` ${ctx.dataset.label}: ${v.toFixed(1)} (${d >= 0 ? "+" : ""}${d.toFixed(1)}%)`;
-          },
-        },
-      },
+    plugins: {
+      legend: { position:"top", labels:{ color:"#94a3b8", font:{size:10}, padding:10, boxWidth:14 } },
+      tooltip: { ...TIP, callbacks:{ label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(0)} (${(ctx.parsed.y-100)>=0?"+":""}${(ctx.parsed.y-100).toFixed(0)}%)` } },
     },
-    scales:{
-      x: XSCALE,
-      y:{ ...YSCALE, title: yscaleTitle("Index (FY2022 = 100)") },
-    },
+    scales: { x: XS, y: { ...YS, title: yt("Index (FY2022 = 100)") } },
   },
 });
 
-// ============================================================
-// GROWTH CHART  — no nulls, only FY2023/24/25e
-// ============================================================
-
-buildLegend("growthLegend", COS.map(c => ({ color:c.color, label:`${c.ticker} — ${c.name}` })));
-
+// YoY growth chart — skip FY2021 (no FY2020 base)
+const GROWTH_YEARS = ["FY2022 YoY","FY2023 YoY","FY2024 YoY","FY2025e YoY","FY2026e YoY"];
 new Chart(document.getElementById("growthChart"), {
-  type:"bar",
-  data:{
+  type: "bar",
+  data: {
     labels: GROWTH_YEARS,
     datasets: COS.map(c => ({
       label: c.ticker,
-      data: yoy(c.revenue),   // 3 values, zero nulls
-      backgroundColor: c.color + "cc",
+      data: yoy(ANN.revenue[c.ticker]).slice(1), // drop FY2021 null, start at FY2022 YoY
+      backgroundColor: c.color + "bb",
       borderColor: c.color,
       borderWidth: 1,
-      borderRadius: 4,
+      borderRadius: 3,
     })),
   },
-  options:{
+  options: {
     ...BASE,
-    plugins:{
-      legend:{ display:false },
-      tooltip:{
-        ...TIP,
-        callbacks:{
-          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? "+" : ""}${ctx.parsed.y}%`,
-        },
-      },
+    plugins: {
+      legend: { position:"top", labels:{ color:"#94a3b8", font:{size:10}, padding:10, boxWidth:12 } },
+      tooltip: { ...TIP, callbacks:{ label: ctx => ctx.parsed.y === null ? null : ` ${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? "+" : ""}${ctx.parsed.y}%` } },
     },
-    scales:{
-      x:{ ...XSCALE, ticks:{ color:"#64748b", font:{size:10} } },
-      y:{
-        ...YSCALE,
-        title: yscaleTitle("YoY Revenue Growth %"),
-        ticks:{ ...YSCALE.ticks, callback: v => v+"%" },
-      },
+    scales: {
+      x: { ...XS, ticks:{ color:"#64748b", font:{size:10} } },
+      y: { ...YS, ticks:{ ...YS.ticks, callback: v => v+"%" }, title: yt("YoY Revenue Growth %") },
     },
   },
 });
 
-// ============================================================
-// ABSOLUTE REVENUE & INCOME — log scale with guarded min
-// ============================================================
-
-function makeLogBar(id, label, dataKey, tip) {
+// Absolute revenue log bar
+function makeLogBar(id, dataKey, labelFn) {
   new Chart(document.getElementById(id), {
-    type:"bar",
-    data:{
-      labels: YEARS,
+    type: "bar",
+    data: {
+      labels: YEARS_6,
       datasets: COS.map(c => ({
         label: c.ticker,
-        data: c[dataKey],
+        data: ANN[dataKey][c.ticker],
         backgroundColor: c.color + "bb",
         borderColor: c.color,
         borderWidth: 1,
         borderRadius: 3,
       })),
     },
-    options:{
+    options: {
       ...BASE,
-      plugins:{
-        legend:{ position:"top", labels:{ color:"#94a3b8", font:{size:10}, padding:8, boxWidth:12 } },
-        tooltip:{
-          ...TIP,
-          callbacks:{ label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y}B` },
-        },
+      plugins: {
+        legend: { position:"top", labels:{ color:"#94a3b8", font:{size:10}, padding:8, boxWidth:12 } },
+        tooltip: { ...TIP, callbacks:{ label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y}B` } },
       },
-      scales:{
-        x: XSCALE,
-        y:{
-          type:"logarithmic",
+      scales: {
+        x: { ...XS, ticks:{ color:"#64748b", font:{size:10} } },
+        y: {
+          type: "logarithmic",
           min: 0.5,
-          grid:{ color:"#1e2d4a80" },
-          title: yscaleTitle(label),
-          ticks:{
+          grid: { color:"#1e2d4a80" },
+          title: yt(labelFn),
+          ticks: {
             color:"#64748b", font:{size:10},
-            callback: v => {
-              // Only label clean round numbers to avoid clutter
-              if ([1,2,5,10,20,50,100,200,300,400].some(n => Math.abs(n-v) < 0.01)) {
-                return "$"+v+"B";
-              }
-              return null;
-            },
+            callback: v => [1,2,5,10,20,50,100,200,300,400].some(n => Math.abs(n-v)<0.02*n+0.01) ? "$"+v+"B" : null,
           },
         },
       },
     },
   });
 }
+makeLogBar("absRevChart", "revenue", "Annual Revenue $B (log)");
+makeLogBar("incomeChart", "income", "Net Income $B (log)");
 
-makeLogBar("absRevChart", "Revenue — Billions USD (log)", "revenue");
-makeLogBar("incomeChart", "Net Income — Billions USD (log)", "income");
-
-// ============================================================
+// ================================================================
 // PRIVATE VALUATIONS CHART
-// ============================================================
+// ================================================================
 
 const MO = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
-const sortDates = (a,b) => {
+const sortD = (a,b) => {
   const [mA,yA]=a.split(" "), [mB,yB]=b.split(" ");
-  return (parseInt(yA)*12+MO[mA]) - (parseInt(yB)*12+MO[mB]);
+  return (parseInt(yA)*12+MO[mA])-(parseInt(yB)*12+MO[mB]);
 };
-
-const allDates = [...new Set(PRIVATE.flatMap(co=>co.milestones.map(m=>m.date)))].sort(sortDates);
+const allDates = [...new Set(PRIVATE.flatMap(co=>co.milestones.map(m=>m.date)))].sort(sortD);
 
 new Chart(document.getElementById("privateChart"), {
-  type:"line",
-  data:{
+  type: "line",
+  data: {
     labels: allDates,
     datasets: PRIVATE.map(co => ({
       label: co.name,
@@ -545,31 +563,20 @@ new Chart(document.getElementById("privateChart"), {
       backgroundColor: co.color + "18",
       borderWidth: 2.5,
       pointRadius: 7,
-      pointHoverRadius: 11,
+      pointHoverRadius: 10,
       tension: 0.2,
       spanGaps: true,
     })),
   },
-  options:{
+  options: {
     ...BASE,
-    plugins:{
-      legend:{ position:"top", labels:{ color:"#94a3b8", font:{size:12}, padding:16 } },
-      tooltip:{
-        ...TIP,
-        callbacks:{
-          label: ctx => ctx.parsed.y !== null
-            ? ` ${ctx.dataset.label}: $${ctx.parsed.y}B valuation`
-            : null,
-        },
-      },
+    plugins: {
+      legend: { position:"top", labels:{ color:"#94a3b8", font:{size:12}, padding:16 } },
+      tooltip: { ...TIP, callbacks:{ label: ctx => ctx.parsed.y !== null ? ` ${ctx.dataset.label}: $${ctx.parsed.y}B valuation` : null } },
     },
-    scales:{
-      x: XSCALE,
-      y:{
-        ...YSCALE,
-        title: yscaleTitle("Implied Valuation (Billions USD)"),
-        ticks:{ ...YSCALE.ticks, callback: v => "$"+v+"B" },
-      },
+    scales: {
+      x: { ...XS, ticks:{ color:"#64748b", font:{size:10}, maxRotation:45 } },
+      y: { ...YS, ticks:{ ...YS.ticks, callback: v => "$"+v+"B" }, title: yt("Implied Valuation $B") },
     },
   },
 });
@@ -591,10 +598,9 @@ PRIVATE.forEach(co => {
     </div>`;
 });
 
-// ============================================================
+// ================================================================
 // TAB SWITCHING
-// ============================================================
-
+// ================================================================
 document.querySelectorAll(".tab").forEach(t => {
   t.addEventListener("click", () => {
     const id = t.dataset.tab;
