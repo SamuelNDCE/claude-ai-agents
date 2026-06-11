@@ -166,20 +166,12 @@ def draw_gates(c):
 
 def cover(c, doc):
     c.saveState()
-    c.setFillColor(HexColor("#05070e"))
+    c.setFillColor(white)
     c.rect(0, 0, W, H, stroke=0, fill=1)
-    # subtle star field
-    import random
-    rng = random.Random(7)
-    for _ in range(90):
-        x, y = rng.uniform(0, W), rng.uniform(0, H)
-        r = rng.uniform(0.3, 1.1)
-        c.setFillColorRGB(1, 1, 1, alpha=rng.uniform(0.15, 0.55))
-        c.circle(x, y, r, stroke=0, fill=1)
     # accelerator gates
     draw_gates(c)
     # title
-    c.setFillColor(white)
+    c.setFillColor(NAVY)
     c.setFont("Segoe-Bold", 56)
     c.drawCentredString(W / 2, H - 4.85 * inch, "KERAUNOS")
     c.setFillColor(VIOLET)
@@ -189,15 +181,15 @@ def cover(c, doc):
     c.setStrokeColor(PURPLE)
     c.setLineWidth(1.2)
     c.line(W / 2 - 1.6 * inch, H - 5.62 * inch, W / 2 + 1.6 * inch, H - 5.62 * inch)
-    c.setFillColor(HexColor("#9fb0d0"))
+    c.setFillColor(DIM)
     c.setFont("Segoe", 12.5)
     c.drawCentredString(W / 2, H - 6.0 * inch, "Maglev Space Launch System  ·  SELENE · BRONTE · ARES")
     c.setFont("Segoe", 10.5)
     c.setFillColor(HexColor("#7e8db0"))
-    c.setFillColor(white)
+    c.setFillColor(NAVY)
     c.setFont("Segoe-Semi", 13)
     c.drawCentredString(W / 2, 1.55 * inch, "Samuel Edwards")
-    c.setFillColor(HexColor("#7e8db0"))
+    c.setFillColor(DIM)
     c.setFont("Segoe", 10)
     c.drawCentredString(W / 2, 1.32 * inch, "June 2026  ·  Concept Whitepaper")
     c.restoreState()
