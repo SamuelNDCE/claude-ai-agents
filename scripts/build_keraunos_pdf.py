@@ -263,7 +263,7 @@ E.append(reminder(
     "The Moon has no atmosphere. That sentence deletes every hard engineering "
     "problem on the list below."
 ))
-E.append(p("Here is what does not exist on the Moon:"))
+E.append(p("On the Moon, these things do not exist:"))
 E.append(b("No vacuum tube. The track is already in vacuum."))
 E.append(b("No plasma window. There is no atmosphere trying to get in."))
 E.append(b("No aero-shell. Nothing for it to protect against."))
@@ -580,48 +580,202 @@ E.append(Paragraph(
     "Both de-risk in parallel.",
     S["caption"]))
 
-# ===== 7. FREIGHT TRIANGLE =====
-E += sect("7", "The Interplanetary Freight Triangle")
+# ===== 7. HOW THE NETWORK MOVES MASS =====
+E += sect("7", "How the Network Moves Mass")
 E.append(reminder(
-    "Three launchers, one standard. The marginal cost of moving a kilogram "
-    "anywhere in the inner solar system becomes electricity."
+    "Three launchers, one supply chain. Once all three exist, the cost of moving "
+    "mass around the inner solar system is mostly the cost of running the launchers."
 ))
-E.append(KeepTogether([styled_table(
-    ["Node", "Role", "Throws"],
-    [
-        ["<b>BRONTE</b> (Earth)", "The forge",
-         "Industry: machines, electronics, precision goods, and eventually people. "
-         "3.3 g, from Chimborazo, equatorial orbit."],
-        ["<b>SELENE</b> (Moon)",  "The quarry",
-         "Mass: water, oxygen, shielding, structural metal at ~2.4 km/s "
-         "to anywhere in cislunar space."],
-        ["<b>ARES</b> (Mars)",    "The frontier port",
-         "Propellant, samples, and ISRU exports: the return half "
-         "of the settlement economy."],
-    ],
-    [1.55*inch, 1.3*inch, 3.75*inch])]))
-E.append(Spacer(1, 8))
+E.append(p(
+    "Earth sends what only Earth can build. Machines, precision electronics, "
+    "medical supplies, manufactured components - anything that requires industrial "
+    "civilization to produce. BRONTE fires at 80 tonnes per day, 29,000 tonnes per "
+    "year, at 3.3 g from Chimborazo. Precision cargo at 3 g, bulk at higher "
+    "acceleration."
+))
+E.append(p(
+    "The Moon sends raw mass. Water ice from Shackleton Crater is the most "
+    "valuable commodity in cislunar space: cracked to hydrogen and oxygen, it "
+    "becomes propellant for every depot and transfer vehicle in the system. "
+    "Regolith serves as radiation shielding for stations and ships. "
+    "Metal goes to orbital construction. SELENE fires all of it at 2.4 km/s toward "
+    "any cislunar catch point. The Moon doesn't need to manufacture anything. "
+    "It just has to be a source of mass. It already is."
+))
+E.append(p(
+    "Mars closes the return trip. Every Mars settlement plan faces the same problem: "
+    "the cost of getting anything back. ARES solves it. ISRU methane and LOX, "
+    "return samples, and eventually manufactured exports all ride to Phobos or "
+    "Deimos orbit on electricity. SEP tugs handle the interplanetary cruise from "
+    "there."
+))
+E.append(p(
+    "SEP tugs connect the nodes. Weeks to months per trip, not hours, but they run "
+    "on sunlight and burn almost no propellant. Chemical rockets do final descent "
+    "burns and landings only. The electromagnetic launchers handle all the heavy "
+    "lifting off any surface."
+))
 E.append(b(
-    "<b>SEP tugs ride the lanes.</b> Chemical fuel burns only for final kicks and "
-    "landings. Everything else is EM launch and electric cruise."
+    "<b>Each node funds the next.</b> Rockets deliver SELENE's first coils to the "
+    "Moon: the last rocket buy the program needs for lunar construction. SELENE's "
+    "export revenue funds the Chimborazo demonstrator. BRONTE's cargo line delivers "
+    "ARES hardware. Every additional airless body added to the network - Phobos, "
+    "Deimos, Ceres, anything in the asteroid belt - makes the whole system richer. "
+    "The long-term bet is not one system. It is a standard launcher on every "
+    "airless body worth working."
 ))
-E.append(b(
-    "<b>Each node builds the next.</b> Rockets deliver SELENE's first coils. "
-    "SELENE's exports supply BRONTE's construction pipeline. BRONTE's pellets "
-    "deliver ARES. Every new node makes the next one cheaper. "
-    "This is how railroads conquered continents."
-))
-E.append(b(
-    "<b>Every airless body is a candidate.</b> The bet was never one heroic Earth "
-    "tube. It is a standard launcher stamped across a solar system that is mostly "
-    "made of airless rock."
-))
-E.append(Paragraph(
-    "“Zeus didn’t ship his thunderbolts on rockets.”",
-    S["quote"]))
 
-# ===== 8. ZERO NEW PHYSICS =====
-E += sect("8", "Zero New Physics")
+# ===== 8. THE SKYHOOK =====
+E += sect("8", "The Skyhook: How Cost Falls Toward $5 per Kilogram")
+E.append(reminder(
+    "A rotating tether in orbit catches KERAUNOS pods and flings them higher. "
+    "No propellant. The pod delivers more payload per launch. Cost drops."
+))
+E.append(p(
+    "The problem with reaching orbit from the ground: the launcher accelerates the "
+    "pod to full orbital velocity, and the pod still carries a kick motor for the "
+    "circularization burn at apogee. That motor and its propellant account for "
+    "roughly 20% of the pod's mass. The skyhook removes that requirement "
+    "entirely."
+))
+E.append(Paragraph("What it is", S["h2"]))
+E.append(p(
+    "A long tether rotating in low Earth orbit. As it rotates, the bottom tip sweeps "
+    "downward and moves slower than orbital velocity at that altitude. A KERAUNOS "
+    "pod that reaches the bottom tip at the right moment gets grabbed. Half a "
+    "rotation later, the pod is at the top of the tether, now moving much faster "
+    "than orbital velocity. It gets released on a trajectory to the Moon, high orbit, "
+    "or wherever the mission calls for. No propellant involved."
+))
+E.append(p(
+    "With a tip speed of <b>1.5 km/s</b>, KERAUNOS needs to accelerate a pod to "
+    "<b>6.3 km/s</b> instead of 7.8 km/s. Since kinetic energy scales as v&sup2;, "
+    "that is roughly <b>35% less energy per launch</b>. Less energy means a shorter "
+    "track for the same g-load, or a lower g-load for the same track. "
+    "It also means the pod exits the tube at Mach 21 instead of Mach 26, "
+    "which reduces stagnation heating and simplifies the aero-shell."
+))
+E.append(Paragraph("What happens to the pod", S["h2"]))
+E.append(p(
+    "The pod currently carries ~20% propellant mass for the circularization burn. "
+    "That is the only reason the propellant is there. With the skyhook handling "
+    "circularization, the pod carries propellant only for small trajectory "
+    "corrections: roughly 2-5% by mass instead of 20%. "
+    "The other 15-18% becomes additional payload."
+))
+E.append(p(
+    "That shift is where <b>$5/kg</b> comes from. The launcher runs on the same "
+    "grid electricity. The tether costs essentially nothing to operate. "
+    "Each pod delivers roughly 50% more useful mass per flight than the baseline."
+))
+E.append(Paragraph("Keeping the tether in orbit", S["h2"]))
+E.append(p(
+    "Each time the tether catches a pod, it loses a small amount of orbital energy. "
+    "Two ways to replenish it:"
+))
+E.append(b(
+    "<b>Electrodynamic tether propulsion.</b> Run electrical current through the "
+    "tether cable. Earth's magnetic field acts on that current and pushes the tether "
+    "to a higher orbit. No propellant consumed: just electricity from solar panels "
+    "on the station at the tether's center. This is demonstrated technology."
+))
+E.append(b(
+    "<b>Return mass flow.</b> Return capsules descending from orbit can be caught at "
+    "the tether's bottom tip on the way down, transferring their momentum back into "
+    "the system. At 80 tonnes per day going up, even a small fraction of that mass "
+    "returning keeps the tether stable with minimal electrodynamic assist."
+))
+E.append(Paragraph("The lunar extension", S["h2"]))
+E.append(p(
+    "The same logic applies at the Moon. A tether rotating in cislunar space can "
+    "intercept mass fired by SELENE and redirect it: to low lunar orbit, to "
+    "Earth-Moon L1, or on a direct Earth trajectory. A catching tether in Earth "
+    "orbit handles the arrival. The full chain: SELENE fires, a cislunar tether "
+    "redirects, a transfer tug hands off, an Earth-orbit tether captures. "
+    "The cargo arrives without a single propellant burn from the cargo itself. "
+    "The electricity cost is on both ends. The tether does the rest."
+))
+E.append(p(
+    "Momentum exchange tethers have been studied since the 1970s. Boeing published "
+    "a detailed rotovator design study in 1999. The engineering challenge is "
+    "building a tether long and strong enough at orbital scale. "
+    "Materials and manufacturing, not new physics."
+))
+
+# ===== 9. IF THE EARTH SYSTEM GETS BUILT =====
+E += sect("9", "If the Full Earth Injector Gets Built")
+E.append(reminder(
+    "This is not the plan. The vacuum fleet is the plan. "
+    "But if the vacuum fleet works, this is what becomes possible."
+))
+E.append(p(
+    "A full Earth injector - roughly 1,000 km of evacuated superconducting track, "
+    "a plasma window at the muzzle, a high-altitude mountain site, pods surviving "
+    "the transition to Mach 26 in open air - is the hardest version of this machine. "
+    "It is also the most consequential piece of infrastructure ever built."
+))
+E.append(p(
+    "Here is the key point: <b>if SELENE works on the Moon, and the Chimborazo "
+    "demonstrator validates the atmosphere subsystems, the full Earth injector "
+    "stops being a physics question. It becomes a construction question.</b> "
+    "After a decade of building vacuum-world launchers across the solar system, "
+    "the teams involved will know exactly what they are doing."
+))
+E.append(Paragraph("What $5-20 per kilogram to orbit actually changes", S["h2"]))
+E.append(p(
+    "Right now, LEO costs roughly $2,700 per kilogram on Falcon 9. "
+    "That number puts a floor under everything in space. Satellites are expensive "
+    "partly because launch is expensive. Space stations require enormous budgets "
+    "partly because resupply is expensive. Orbital manufacturing stays a research "
+    "activity because the freight economics never worked. At $5-20/kg, all of "
+    "that changes."
+))
+E.append(b(
+    "<b>Satellites.</b> A GPS satellite launch on Falcon 9 costs roughly $60 million. "
+    "At $10/kg for a 2,000 kg satellite, that is $20,000. "
+    "Constellation operators can afford to replace satellites on a maintenance "
+    "schedule rather than engineering them for 15-year lifetimes just to amortize "
+    "the launch cost."
+))
+E.append(b(
+    "<b>Space stations.</b> The ISS spends a large fraction of its $4 billion annual "
+    "budget on supply launches. At $10/kg, that supply bill drops by a factor of "
+    "roughly 300. A station housing a thousand people becomes economically normal. "
+    "Stations housing tens of thousands become conceivable."
+))
+E.append(b(
+    "<b>Orbital manufacturing.</b> ZBLAN fiber, pharmaceutical crystals, exotic "
+    "alloys: all require microgravity, all require shipping the product back to Earth. "
+    "At $5/kg, the viable product list grows to almost anything with real margins. "
+    "Flawless Photonics drew 12 km of ZBLAN on the ISS in early 2024. Factory "
+    "customers are already queuing. They are waiting on the freight price."
+))
+E.append(b(
+    "<b>Deep space.</b> With cheap Earth-to-orbit and SELENE supplying lunar "
+    "propellant mass, the economics of going anywhere in the solar system shift "
+    "completely. Mars missions stop being nation-sized budget exercises. "
+    "The asteroid belt becomes commercially reachable."
+))
+E.append(Paragraph("The strategic picture", S["h2"]))
+E.append(p(
+    "The operator of a full Earth injector controls the access ramp to all of space. "
+    "At 80 tonnes per day, the commercial launch market runs through one chokepoint. "
+    "Every satellite operator, every space station program, every deep space mission "
+    "pays for the privilege. The operator doesn't pay for launch. It charges."
+))
+E.append(p(
+    "A system placing 29,000 tonnes per year into orbit can replenish a damaged "
+    "satellite constellation in hours. Orbital logistics become a strategic asset "
+    "in a way they have never been, because cost was always the constraint. "
+    "At $5-20/kg, it is not the constraint anymore."
+))
+E.append(p(
+    "The vacuum fleet is the plan. It pays for itself. "
+    "The Earth injector is what the vacuum fleet eventually makes possible."
+))
+
+# ===== 10. ZERO NEW PHYSICS =====
+E += sect("10", "Zero New Physics")
 E.append(reminder(
     "Every subsystem has flown, fired, or been patented. "
     "The pieces exist. Nobody has assembled them."
@@ -676,8 +830,8 @@ E.append(p(
     "commercialization, not invention."
 ))
 
-# ===== 9. HARD PARTS =====
-E += sect("9", "The Hard Parts")
+# ===== 11. HARD PARTS =====
+E += sect("11", "The Hard Parts")
 E.append(reminder(
     "A document about a project this large that doesn't name the real "
     "problems is salesmanship, not engineering."
@@ -711,8 +865,8 @@ E.append(b(
     "EMALS and GPS both walked this road."
 ))
 
-# ===== 10. WHAT THIS UNLOCKS =====
-E += sect("10", "What KERAUNOS Unlocks")
+# ===== 12. WHAT THIS UNLOCKS =====
+E += sect("12", "What KERAUNOS Unlocks")
 E.append(Paragraph("Orbital manufacturing", S["h2"]))
 E.append(b(
     "<b>ZBLAN fiber.</b> Microgravity-drawn fluoride glass with up to 100x lower "
@@ -754,11 +908,6 @@ E.append(b(
 E.append(b(
     "<b>Laser debris sweeping.</b> The same power plant that feeds the track drives "
     "ground lasers that nudge small debris off the launch corridor before each exit."
-))
-E.append(b(
-    "<b>Skyhook: toward $5/kg.</b> Once the system fires at full cadence, a "
-    "non-rotating skyhook catches pods at altitude and flings them moonward. "
-    "Kick-motor fuel approaches zero. Cost falls from $20 toward $5 per kilogram."
 ))
 
 doc.build(E, onFirstPage=cover, onLaterPages=later)
