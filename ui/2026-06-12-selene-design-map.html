@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KERAUNOS — SELENE DESIGN MAP — Lunar South Pole Launcher (KER-SEL-TRK-002 REV B)</title>
+<title>KERAUNOS — SELENE DESIGN MAP — Lunar South Pole Launcher (KER-SEL-TRK-002 REV C)</title>
 <style>
   @media print { @page { size: A4 landscape; margin: 6mm; } body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; max-width:none; } }
   body { background:#e8eaef; margin:0; padding:24px; font-family:"Segoe UI",Arial,sans-serif; color:#1e293b; }
@@ -21,133 +21,71 @@
 <p class="intro">VERY EARLY CONCEPT ILLUSTRATION — NOT A DESIGN DOCUMENT. The SELENE design map, companion to
 the BRONTE Chimborazo sheet (KER-BRO-TRK-001). Two machines, one ridge: <b>EOS-1</b> (Ø1.2 m pod — built
 first, cargo return to Earth) and <b>EOS-2</b> (Ø2.0 m pod — second machine, second pad, bigger cargo,
-future). Site positions follow published LOLA-derived literature; the chart is schematic, not a survey.
-All physics figures re-derived June 12, 2026.</p>
+future). The site map is rendered from real NASA LRO/LOLA laser topography (20 m/px polar DEM); only the
+track alignment drawn on it is conceptual. All physics figures re-derived June 12, 2026.</p>
 
-<h2 class="panel">PANEL A — SITE CHART: SHACKLETON / CONNECTING RIDGE — LUNAR SOUTH POLE</h2>
-<svg viewBox="0 0 1600 800" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
-  <rect x="4" y="4" width="1592" height="792" fill="none" stroke="#334155" stroke-width="2"/>
-  <text x="800" y="38" text-anchor="middle" font-size="17" font-weight="700" letter-spacing="1.1">WHERE THIS IS: THE VERY BOTTOM OF THE MOON — THE SHACKLETON–DE GERLACHE CONNECTING RIDGE, ~89.7°S</text>
-  <text x="800" y="60" text-anchor="middle" font-size="12" fill="#0e7490" class="t">POSITIONS FROM LOLA LITERATURE (SCHEMATIC) · SUN 80–90% OF THE TIME ON RIDGE CRESTS · EARTH PERMANENTLY ON THE HORIZON · COLD TRAPS NEXT DOOR</text>
+<h2 class="panel">PANEL A — SITE: REAL LRO/LOLA TOPOGRAPHY — SHACKLETON / CONNECTING RIDGE, ~89.7°S</h2>
+<div class="mapbox" style="border:1.5px solid #334155"><img style="width:100%;display:block" src="selene-south-pole-map.png" alt="Real LOLA topography of the lunar south pole with SELENE track"></div>
 
-  <!-- regolith field -->
-  <rect x="60" y="80" width="900" height="660" fill="#e8e4dc"/>
-  <g stroke="#d6d0c4" stroke-width="1"><line x1="700" y1="700" x2="930" y2="660"/><line x1="640" y1="120" x2="880" y2="104"/></g>
-  <!-- latitude rings -->
-  <circle cx="500" cy="400" r="220" fill="none" stroke="#b8b0a0" stroke-width="1" stroke-dasharray="6 6"/>
-  <circle cx="500" cy="400" r="440" fill="none" stroke="#b8b0a0" stroke-width="1" stroke-dasharray="6 6"/>
-  <text x="712" y="395" font-size="9.5" fill="#8a7f6a" class="t">89°S</text>
-  <text x="930" y="395" font-size="9.5" fill="#8a7f6a" class="t">88°S</text>
-  <path d="M 500,394 l -5,9 l 10,0 Z" fill="#334155"/>
-  <text x="510" y="392" font-size="10.5" font-weight="700" fill="#334155" class="t">SOUTH POLE (90°S)</text>
-
-  <!-- WHERE-ON-THE-MOON locator inset -->
+<h2 class="panel">PANEL A2 — WHERE ON THE MOON · WHAT DOES NOT EXIST HERE · TWO MACHINES</h2>
+<svg viewBox="0 0 1600 430" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="4" y="4" width="1592" height="422" fill="none" stroke="#334155" stroke-width="2"/>
+  <!-- locator with REAL Moon photo -->
   <g>
-    <rect x="74" y="92" width="240" height="282" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
-    <text x="194" y="112" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0e7490" class="t">WHERE ON THE MOON?</text>
-    <circle cx="194" cy="216" r="86" fill="#d8d2c6" stroke="#8a7f6a" stroke-width="2"/>
-    <g fill="#b9b09e">
-      <ellipse cx="170" cy="180" rx="30" ry="20"/>
-      <ellipse cx="226" cy="200" rx="22" ry="15"/>
-      <ellipse cx="186" cy="238" rx="16" ry="11"/>
-    </g>
-    <circle cx="194" cy="299" r="6" fill="#f43f5e" stroke="#0f172a" stroke-width="1.5"/>
-    <line x1="194" y1="307" x2="194" y2="330" stroke="#f43f5e" stroke-width="2"/>
-    <text x="194" y="344" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9f1239" class="t">HERE — SOUTH POLE</text>
-    <text x="194" y="358" text-anchor="middle" font-size="9" fill="#64748b" class="t">(BOTTOM EDGE AS SEEN FROM EARTH)</text>
-    <text x="194" y="132" text-anchor="middle" font-size="9" fill="#64748b" class="t">NEARSIDE, AS SEEN FROM EARTH</text>
+    <rect x="60" y="24" width="370" height="382" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="245" y="48" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0e7490" class="t">WHERE ON THE MOON?</text>
+    <defs><clipPath id="moonclip"><circle cx="245" cy="210" r="138"/></clipPath></defs>
+    <image href="moon-nearside.jpg" x="100" y="64" width="290" height="292" clip-path="url(#moonclip)" preserveAspectRatio="xMidYMid slice"/>
+    <circle cx="245" cy="210" r="138" fill="none" stroke="#334155" stroke-width="2"/>
+    <circle cx="245" cy="345" r="7" fill="none" stroke="#f43f5e" stroke-width="3"/>
+    <line x1="245" y1="352" x2="245" y2="372" stroke="#f43f5e" stroke-width="2.5"/>
+    <text x="245" y="388" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9f1239" class="t">HERE — SOUTH POLE (BOTTOM EDGE, AS SEEN FROM EARTH)</text>
+    <text x="245" y="404" text-anchor="middle" font-size="9" fill="#64748b" class="t">PHOTO: REAL NEARSIDE (FULL MOON) · PANEL A MAP: REAL LRO/LOLA LASER TOPOGRAPHY</text>
   </g>
-
-  <!-- Shackleton -->
-  <circle cx="558" cy="447" r="76" fill="#cfc8ba" stroke="#8a7f6a" stroke-width="2"/>
-  <circle cx="558" cy="447" r="58" fill="#3b3a36"/>
-  <text x="558" y="443" text-anchor="middle" font-size="10" fill="#e2e8f0" class="t">PSR — PERMANENT</text>
-  <text x="558" y="456" text-anchor="middle" font-size="10" fill="#e2e8f0" class="t">SHADOW (COLD TRAP)</text>
-  <text x="648" y="540" font-size="11.5" font-weight="700" fill="#334155" class="t">SHACKLETON — Ø21 km</text>
-  <text x="648" y="555" font-size="10" fill="#64748b" class="t">89.66°S 129°E · ICE BOUNDED ≤5–10 wt%</text>
-  <text x="648" y="569" font-size="10" fill="#64748b" class="t">(UNPROVEN — CHANG'E-7 GROUND-TRUTHS 2026)</text>
-
-  <!-- de Gerlache -->
-  <circle cx="170" cy="383" r="116" fill="#cfc8ba" stroke="#8a7f6a" stroke-width="2"/>
-  <circle cx="170" cy="383" r="92" fill="#3b3a36"/>
-  <text x="170" y="387" text-anchor="middle" font-size="10" fill="#e2e8f0" class="t">PSR</text>
-  <text x="170" y="528" text-anchor="middle" font-size="11.5" font-weight="700" fill="#334155" class="t">DE GERLACHE — Ø32 km</text>
-
-  <!-- connecting ridge -->
-  <path d="M 487,432 Q 360,396 286,386 L 292,366 Q 368,376 492,410 Z" fill="#ddd6c8" stroke="#8a7f6a" stroke-width="1.2"/>
-  <text x="306" y="348" font-size="10.5" fill="#8a7f6a" class="t">CONNECTING RIDGE — SUNLIT 80–90% · NEAR-CONSTANT EARTH LINE-OF-SIGHT</text>
-
-  <!-- EOS-1 track (first build) -->
-  <line x1="474" y1="419" x2="453" y2="414" stroke="#7c3aed" stroke-width="8" stroke-linecap="round"/>
-  <line x1="453" y1="414" x2="387" y2="401" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="474" cy="419" r="6" fill="#22d3ee" stroke="#0f172a" stroke-width="1.5"/>
-  <circle cx="453" cy="414" r="4" fill="#f43f5e" stroke="#0f172a" stroke-width="1.2"/>
-  <!-- EOS-2 future pad (second machine, parallel alignment NW on the ridge) -->
-  <line x1="468" y1="404" x2="330" y2="380" stroke="#f59e0b" stroke-width="4" stroke-dasharray="8 7" stroke-linecap="round"/>
-  <circle cx="468" cy="404" r="4" fill="#f59e0b" stroke="#0f172a" stroke-width="1.2"/>
-  <!-- launch azimuth -->
-  <line x1="474" y1="419" x2="600" y2="300" stroke="#0e7490" stroke-width="2.2" stroke-dasharray="8 7"/>
-  <path d="M 608,292 l -16,2 l 6,9 Z" fill="#0e7490"/>
-  <text x="612" y="288" font-size="10.5" fill="#0e7490" class="t">DEPARTURES — ORBIT PLANE SET BY LAUNCH TIME (POLAR SITE COVERS ALL CISLUNAR GEOMETRY MONTHLY)</text>
-
-  <g stroke="#64748b" stroke-width="1">
-    <line x1="463" y1="425" x2="520" y2="620"/>
-    <line x1="420" y1="412" x2="470" y2="660"/>
-    <line x1="396" y1="390" x2="430" y2="700"/>
-  </g>
-  <g font-size="10.5" fill="#334155" class="t">
-    <text x="526" y="634" fill="#7c3aed">EOS-1 TRACK — FIRST BUILD: 2.9 km @ 100 g (THICK), STRETCHES TO 12 km @ 30 g</text>
-    <text x="526" y="648" fill="#64748b">LOAD-IN + POWER, EAST END (CYAN) · MUZZLE (RED) · FIRES ALONG THE RIDGE</text>
-    <text x="476" y="674" fill="#b45309">EOS-2 PAD — SECOND MACHINE, SECOND ALIGNMENT (DASHED) — FUTURE, BIGGER CARGO</text>
-    <text x="436" y="714" fill="#64748b">SAME RIDGE, SAME POWER PLANT, SAME KIT — JUST A WIDER RING</text>
-  </g>
-
-  <!-- Earth direction -->
-  <line x1="500" y1="180" x2="500" y2="120" stroke="#16a34a" stroke-width="4"/>
-  <path d="M 500,108 l -9,18 l 18,0 Z" fill="#16a34a"/>
-  <text x="514" y="128" font-size="11.5" font-weight="700" fill="#16a34a" class="t">TO EARTH — PERMANENTLY ON THE HORIZON (0°E)</text>
-  <line x1="660" y1="716" x2="805" y2="716" stroke="#0f172a" stroke-width="3"/>
-  <text x="670" y="732" font-size="10" fill="#0f172a" class="t">20 km</text>
-
-  <!-- right column: what doesn't exist -->
+  <!-- what does not exist -->
   <g>
-    <rect x="990" y="84" width="540" height="300" fill="#fbfcfe" stroke="#94a3b8"/>
-    <text x="1006" y="108" font-size="12.5" font-weight="700" fill="#0e7490" class="t">WHAT DOES NOT EXIST ON THIS SHEET</text>
+    <rect x="450" y="24" width="560" height="382" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="466" y="48" font-size="12.5" font-weight="700" fill="#0e7490" class="t">WHAT DOES NOT EXIST ON THIS SHEET</text>
     <g font-size="11" fill="#334155" class="t">
-      <text x="1006" y="132">NO VACUUM TUBE — THE TRACK IS ALREADY IN HARD VACUUM</text>
-      <text x="1006" y="152">NO PLASMA WINDOW — NO ATMOSPHERE TO KEEP OUT</text>
-      <text x="1006" y="172">NO AERO-SHELL, NO NEEDLE NOSE — NOTHING TO CUT THROUGH</text>
-      <text x="1006" y="192">NO ISOLATION GATES, NO BLAST SHUTTERS — NO TUBE TO BREACH</text>
-      <text x="1006" y="212">NO SONIC BOOM, NO LAUNCH HEATING, NO DRAG — EVER</text>
-      <text x="1006" y="236" fill="#64748b">EVERY HARD SUBSYSTEM ON THE BRONTE SHEET IS DELETED BY ONE</text>
-      <text x="1006" y="250" fill="#64748b">SENTENCE: THE MOON HAS NO ATMOSPHERE. WHAT REMAINS IS THE</text>
-      <text x="1006" y="264" fill="#64748b">RING, THE POWER, THE COLD — AND THE MOON SUPPLIES THE COLD.</text>
-      <text x="1006" y="288" fill="#9f1239">WHAT REPLACES THEM: DUST, 250–390 K THERMAL SWINGS, GW-CLASS</text>
-      <text x="1006" y="302" fill="#9f1239">PULSE STORAGE, AND CATCHING THE CARGO ON THE OTHER END.</text>
-      <text x="1006" y="330" fill="#0e7490">SITE SERVICES: RIDGE SOLAR 80–90% UPTIME · PSR COLD SINK NEXT</text>
-      <text x="1006" y="344" fill="#0e7490">DOOR · REGOLITH ~250 K AT 2 m DEPTH — NATURAL CRYO BUFFER</text>
+      <text x="466" y="76">NO VACUUM TUBE — THE TRACK IS ALREADY IN HARD VACUUM</text>
+      <text x="466" y="98">NO PLASMA WINDOW — NO ATMOSPHERE TO KEEP OUT</text>
+      <text x="466" y="120">NO AERO-SHELL, NO NEEDLE NOSE — NOTHING TO CUT THROUGH</text>
+      <text x="466" y="142">NO ISOLATION GATES, NO BLAST SHUTTERS — NO TUBE TO BREACH</text>
+      <text x="466" y="164">NO SONIC BOOM, NO LAUNCH HEATING, NO DRAG — EVER</text>
+      <text x="466" y="194" fill="#64748b">EVERY HARD SUBSYSTEM ON THE BRONTE SHEET IS DELETED BY ONE</text>
+      <text x="466" y="210" fill="#64748b">SENTENCE: THE MOON HAS NO ATMOSPHERE. WHAT REMAINS IS THE</text>
+      <text x="466" y="226" fill="#64748b">RING, THE POWER, THE COLD — AND THE MOON SUPPLIES THE COLD.</text>
+      <text x="466" y="256" fill="#9f1239">WHAT REPLACES THEM: DUST, 250–390 K THERMAL SWINGS, GW-CLASS</text>
+      <text x="466" y="272" fill="#9f1239">PULSE STORAGE, AND CATCHING THE CARGO ON THE OTHER END.</text>
+      <text x="466" y="302" fill="#0e7490">SITE SERVICES: RIDGE SOLAR 80–90% UPTIME · PSR COLD SINK NEXT</text>
+      <text x="466" y="318" fill="#0e7490">DOOR · REGOLITH ~250 K AT 2 m DEPTH — NATURAL CRYO BUFFER</text>
+      <text x="466" y="348" fill="#64748b">MAP DATA: NASA LRO/LOLA POLAR DEM, 20 m/px (LDEM_875S_20M),</text>
+      <text x="466" y="364" fill="#64748b">POLAR STEREOGRAPHIC, RENDERED AS HILLSHADE — A REAL SURVEY,</text>
+      <text x="466" y="380" fill="#64748b">UNLIKE EVERYTHING ELSE ON THIS CONCEPT SHEET.</text>
     </g>
   </g>
-  <!-- right column 2: two machines -->
+  <!-- two machines -->
   <g>
-    <rect x="990" y="404" width="540" height="336" fill="#fbfcfe" stroke="#94a3b8"/>
-    <text x="1006" y="428" font-size="12.5" font-weight="700" fill="#0e7490" class="t">TWO MACHINES, ONE RIDGE — BUILD SMALL, THEN WIDE</text>
+    <rect x="1030" y="24" width="510" height="382" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="1046" y="48" font-size="12.5" font-weight="700" fill="#0e7490" class="t">TWO MACHINES, ONE RIDGE — BUILD SMALL, THEN WIDE</text>
     <g font-size="10.8" class="t">
-      <text x="1006" y="454" fill="#7c3aed" font-weight="700">EOS-1 — FIRST BUILD · POD Ø1.2 m · BORE Ø1.6 m · GAP 200 mm</text>
-      <text x="1026" y="470" fill="#334155">500 kg GROSS · CARGO RETURN TO EARTH IS MISSION ONE</text>
-      <text x="1026" y="486" fill="#334155">0.39 MWh/SHOT · PEAK 1.17 GW · RECHARGE 2.4 min @ 10 MW</text>
-      <text x="1026" y="502" fill="#334155">~25 SHOTS/HR → ~300 t/DAY THROWN FROM ONE STARTER TRACK</text>
-      <text x="1006" y="530" fill="#b45309" font-weight="700">EOS-2 — SECOND MACHINE · POD Ø2.0 m · BORE Ø2.4 m · GAP 200 mm</text>
-      <text x="1026" y="546" fill="#334155">~2.5 t GROSS · BIGGER UNIT CARGO + SATELLITE DISPENSERS</text>
-      <text x="1026" y="562" fill="#334155">1.96 MWh/SHOT · PEAK 5.8 GW · ~5 SHOTS/HR @ 10 MW</text>
-      <text x="1026" y="578" fill="#64748b">SECOND PAD ON THE SAME RIDGE — BUILT AFTER EOS-1 PROVES THE KIT</text>
-      <text x="1006" y="604" fill="#0e7490" font-weight="700">SAME DAILY TONNAGE EITHER WAY (~300 t) — THROUGHPUT IS SET BY</text>
-      <text x="1006" y="620" fill="#0e7490" font-weight="700">THE SOLAR PLANT, NOT THE POD. EOS-2 BUYS SIZE, NOT MASS.</text>
-      <text x="1006" y="646" fill="#334155">TRACK LADDER: 2.9 km @ 100 g (ESCAPE IN 2.4 s) → 12 km @ 30 g →</text>
-      <text x="1006" y="662" fill="#334155">~50 km @ 3 g PASSENGER LINE (1.72 km/s TO ORBIT IN 58 s)</text>
-      <text x="1006" y="686" fill="#64748b">ENERGY: 0.41 kWh/kg ORBIT · 0.78 ESCAPE · 1.25 MARS TRANSFER</text>
-      <text x="1006" y="702" fill="#64748b">PELLET MODE (SJSU 2023): 25.4 kg EVERY 10 s ON 8.7 MW CONTINUOUS</text>
-      <text x="1006" y="726" fill="#9f1239">FIRST BILL IS A ROCKET BILL: STARTER COILS + PLANT FIT 1–2 HEAVY-LIFT FLIGHTS</text>
+      <text x="1046" y="76" fill="#7c3aed" font-weight="700">EOS-1 — FIRST BUILD · POD Ø1.2 m · BORE Ø1.6 m · GAP 200 mm</text>
+      <text x="1066" y="92" fill="#334155">500 kg GROSS · CARGO RETURN TO EARTH IS MISSION ONE</text>
+      <text x="1066" y="108" fill="#334155">0.39 MWh/SHOT · PEAK 1.17 GW · RECHARGE 2.4 min @ 10 MW</text>
+      <text x="1066" y="124" fill="#334155">~25 SHOTS/HR → ~300 t/DAY THROWN FROM ONE STARTER TRACK</text>
+      <text x="1046" y="152" fill="#b45309" font-weight="700">EOS-2 — SECOND MACHINE · POD Ø2.0 m · BORE Ø2.4 m</text>
+      <text x="1066" y="168" fill="#334155">~2.5 t GROSS · BIGGER UNIT CARGO + SATELLITE DISPENSERS</text>
+      <text x="1066" y="184" fill="#334155">1.96 MWh/SHOT · PEAK 5.8 GW · ~5 SHOTS/HR @ 10 MW</text>
+      <text x="1066" y="200" fill="#64748b">SECOND PAD, SAME RIDGE — BUILT AFTER EOS-1 PROVES THE KIT</text>
+      <text x="1046" y="228" fill="#0e7490" font-weight="700">SAME ~300 t/DAY EITHER WAY — THROUGHPUT IS SET BY THE</text>
+      <text x="1046" y="244" fill="#0e7490" font-weight="700">SOLAR PLANT, NOT THE POD. EOS-2 BUYS SIZE, NOT MASS.</text>
+      <text x="1046" y="272" fill="#334155">LADDER: 2.9 km @ 100 g → 12 km @ 30 g → ~50 km @ 3 g</text>
+      <text x="1046" y="288" fill="#334155">ENERGY: 0.41 ORBIT · 0.78 ESCAPE · 1.25 MARS XFER kWh/kg</text>
+      <text x="1046" y="304" fill="#64748b">PELLET MODE (SJSU 2023): 25.4 kg EVERY 10 s ON 8.7 MW</text>
+      <text x="1046" y="332" fill="#9f1239">FIRST BILL IS A ROCKET BILL: STARTER COILS + PLANT MUST</text>
+      <text x="1046" y="348" fill="#9f1239">FIT 1–2 HEAVY-LIFT FLIGHTS</text>
+      <text x="1046" y="378" fill="#64748b">LAUNCH AZIMUTH ALONG THE RIDGE; ORBIT PLANE PICKED BY</text>
+      <text x="1046" y="394" fill="#64748b">LAUNCH TIME — A POLAR SITE COVERS ALL GEOMETRY MONTHLY</text>
     </g>
   </g>
 </svg>
@@ -249,6 +187,8 @@ All physics figures re-derived June 12, 2026.</p>
     <text x="696" y="190" fill="#a78bfa">EACH IN ITS OWN SEALED 20 K CRYOSTAT</text>
     <text x="616" y="112" fill="#fbbf24">SUN SHIELD — WRAPS ~280° OF THE RING (LUNAR DAY ~390 K);</text>
     <text x="616" y="126" fill="#fbbf24">OPEN ONLY AT THE BERM SIDE + BORE ENDS · RADIATORS ON ITS SHADED BACK</text>
+    <text x="616" y="140" fill="#fbbf24">POLISHED REFLECTIVE FOIL BOTH FACES (MLI) — THE UNDERSIDE REJECTS</text>
+    <text x="616" y="154" fill="#fbbf24">GROUND-BOUNCE TOO: REGOLITH ALBEDO ~0.12 + IR FROM SUNLIT SURFACE</text>
     <text x="92" y="196" fill="#cbd5e1">RADIATOR WINGS — HEAT TO DEEP SPACE,</text>
     <text x="92" y="210" fill="#cbd5e1">ALWAYS BEHIND THE SHIELD</text>
     <text x="92" y="496" fill="#94a3b8">A-FRAME LEGS + TIE BARS ON</text>
@@ -316,6 +256,101 @@ All physics figures re-derived June 12, 2026.</p>
       <text x="1006" y="686">   TRAJECTORY DESIGN, DECIDED BEFORE THE SHOT.</text>
       <text x="1006" y="710" fill="#0e7490">MISSING FROM THIS LIST IS THE POINT: NO WINDOW, NO TUBE, NO BOOM,</text>
       <text x="1006" y="724" fill="#0e7490">NO LAUNCH HEATING, NO WEATHER, NO RESERVE LAWYERS.</text>
+    </g>
+  </g>
+</svg>
+
+<h2 class="panel">DETAILS — SITE &amp; SYSTEM CHARTS</h2>
+<svg viewBox="0 0 1600 340" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="4" y="4" width="1592" height="332" fill="none" stroke="#334155" stroke-width="2"/>
+
+  <!-- N1: track length vs acceleration -->
+  <g>
+    <rect x="80" y="24" width="470" height="300" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="315" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">TRACK LENGTH FOR ESCAPE vs ACCELERATION</text>
+    <g transform="translate(0,30)">
+      <g stroke="#e2e8f0" stroke-width="1">
+        <line x1="100" y1="202.5" x2="440" y2="202.5"/>
+        <line x1="100" y1="155" x2="440" y2="155"/>
+        <line x1="100" y1="107.5" x2="440" y2="107.5"/>
+      </g>
+      <line x1="100" y1="250" x2="440" y2="250" stroke="#64748b" stroke-width="1.2"/>
+      <line x1="100" y1="60" x2="100" y2="250" stroke="#64748b" stroke-width="1.2"/>
+      <g font-size="9" fill="#64748b" class="t" text-anchor="end">
+        <text x="96" y="206.5">25 km</text><text x="96" y="159">50 km</text><text x="96" y="111.5">75 km</text>
+      </g>
+      <g font-size="9" fill="#64748b" class="t" text-anchor="middle">
+        <text x="100" y="264">0</text><text x="185" y="264">25 g</text><text x="270" y="264">50 g</text>
+        <text x="355" y="264">75 g</text><text x="440" y="264">100 g</text>
+      </g>
+      <path d="M 110.2,67.8 L 117,140.7 L 134,195.3 L 168,222.6 L 202,231.8 L 270,239.1 L 372,242.9 L 440,244.5" fill="none" stroke="#7c3aed" stroke-width="2.6"/>
+      <circle cx="440" cy="244.5" r="4.5" fill="#7c3aed" stroke="#0f172a" stroke-width="1"/>
+      <circle cx="110.2" cy="67.8" r="4.5" fill="#0e7490" stroke="#0f172a" stroke-width="1"/>
+      <g font-size="9.5" class="t" fill="#334155">
+        <text x="128" y="72" fill="#0e7490">3 g HUMAN-RATED: 96 km OF TRACK</text>
+        <text x="262" y="232" fill="#7c3aed">100 g CARGO: 2.9 km — A RUNWAY</text>
+        <text x="104" y="290">L = v²/2a AT v = 2.38 km/s. ACCELERATION TOLERANCE IS THE WHOLE</text>
+        <text x="104" y="304">COST MODEL: HARDENED CARGO MAKES THE STARTER TRACK TINY.</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- N2: delta-v destinations -->
+  <g transform="translate(486,0)">
+    <rect x="80" y="24" width="470" height="300" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="315" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">WHERE THE TRACK + KICK GETS YOU (Δv FROM SURFACE)</text>
+    <g transform="translate(0,30)">
+      <line x1="100" y1="250" x2="440" y2="250" stroke="#64748b" stroke-width="1.2"/>
+      <line x1="100" y1="100.1" x2="440" y2="100.1" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="6 5"/>
+      <g>
+        <rect x="118" y="141.6" width="62" height="108.4" fill="#22d3ee"/>
+        <rect x="203" y="100.1" width="62" height="149.9" fill="#7c3aed"/>
+        <rect x="288" y="92.5" width="62" height="157.5" fill="#0e7490"/>
+        <rect x="373" y="61" width="62" height="189" fill="#f59e0b"/>
+      </g>
+      <g font-size="9.5" class="t" text-anchor="middle" fill="#334155">
+        <text x="149" y="134">1.72</text><text x="234" y="93">2.38</text><text x="319" y="85">~2.5</text><text x="404" y="54">~3.0</text>
+      </g>
+      <g font-size="8.6" class="t" text-anchor="middle" fill="#64748b">
+        <text x="149" y="266">LOW LUNAR ORBIT</text>
+        <text x="234" y="266">ESCAPE</text>
+        <text x="319" y="266">EARTH–MOON L1/L2</text>
+        <text x="404" y="266">MARS TRANSFER</text>
+      </g>
+      <g font-size="9.5" class="t" fill="#334155">
+        <text x="106" y="96" fill="#7c3aed">TRACK ALONE: 2.38 km/s (PoC) — 2.66 (CARGO LINE)</text>
+        <text x="104" y="290">THE 0.77 km/s KICK STAGE TOPS UP THE REST: EVERYTHING IN</text>
+        <text x="104" y="304">CISLUNAR SPACE — AND A MARS SHIPMENT — IS IN REACH.</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- N3: illumination timeline -->
+  <g transform="translate(972,0)">
+    <rect x="80" y="24" width="468" height="300" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="314" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">RIDGE ILLUMINATION OVER A YEAR (LITERATURE, SCHEMATIC)</text>
+    <g transform="translate(0,30)">
+      <rect x="100" y="120" width="340" height="30" fill="#fbbf24"/>
+      <g fill="#1e293b">
+        <rect x="146" y="120" width="7" height="30"/>
+        <rect x="219" y="120" width="11" height="30"/>
+        <rect x="298" y="120" width="5" height="30"/>
+        <rect x="382" y="120" width="9" height="30"/>
+      </g>
+      <line x1="100" y1="165" x2="440" y2="165" stroke="#64748b" stroke-width="1"/>
+      <g font-size="8.6" fill="#64748b" class="t" text-anchor="middle">
+        <text x="114" y="178">J</text><text x="142" y="178">F</text><text x="170" y="178">M</text><text x="198" y="178">A</text>
+        <text x="226" y="178">M</text><text x="254" y="178">J</text><text x="282" y="178">J</text><text x="310" y="178">A</text>
+        <text x="338" y="178">S</text><text x="366" y="178">O</text><text x="394" y="178">N</text><text x="422" y="178">D</text>
+      </g>
+      <g font-size="9.5" class="t" fill="#334155">
+        <text x="104" y="106" fill="#b45309">GOLD = SUNLIT (80–90% OF THE YEAR AT THE BEST RIDGE SITES)</text>
+        <text x="104" y="206" fill="#334155">DARK SPELLS RUN HOURS TO A FEW EARTH-DAYS (LONGEST KNOWN</text>
+        <text x="104" y="220" fill="#334155">OUTAGES ~3–5 DAYS) — BRIDGED BY THE SAME FLYWHEEL FARM</text>
+        <text x="104" y="234" fill="#334155">THAT FIRES THE TRACK; LAUNCHES PAUSE, NOTHING FREEZES.</text>
+        <text x="104" y="262" fill="#64748b">PATTERN SCHEMATIC — SITE-SPECIFIC TIMELINE NEEDS THE LOLA</text>
+        <text x="104" y="276" fill="#64748b">HORIZON ANALYSIS THAT A REAL SITING STUDY WOULD RUN.</text>
+      </g>
     </g>
   </g>
 </svg>
@@ -410,7 +445,7 @@ All physics figures re-derived June 12, 2026.</p>
       <text x="92" y="369">PERPETUAL TECHNOLOGIES — KERAUNOS</text>
       <text x="440" y="369">SELENE — SOUTH POLE DESIGN MAP — EOS-1 FIRST BUILD + EOS-2 FUTURE</text>
       <text x="940" y="369" fill="#0e7490">KER-SEL-TRK-002</text>
-      <text x="1085" y="369">REV B</text>
+      <text x="1085" y="369">REV C</text>
       <text x="1160" y="369">SCHEM/SCALE</text>
       <text x="1280" y="369">2026-06-12</text>
       <text x="1380" y="369" fill="#f43f5e" font-size="9.5">EARLY MOCK-UP — NOT FOR CONSTRUCTION</text>
@@ -418,7 +453,7 @@ All physics figures re-derived June 12, 2026.</p>
   </g>
 </svg>
 
-<p class="caption">REV B — geometry regenerated clean (24 even sectors, symmetric A-frames with tie bars; no more
+<p class="caption">REV C — the Moon is now real: Panel A is a hillshade render of NASA LRO/LOLA laser topography (20 m/px polar DEM; projection verified by landing the test markers inside Shackleton itself), and the locator inset uses a real nearside photograph. The sun shield gained its material spec — polished reflective foil on both faces, because the underside sees regolith ground-bounce (albedo ~0.12) and surface IR even though the sun never gets beneath it. A new charts row covers what the old sheet only asserted: track-length-versus-g (why hardened cargo makes the starter track runway-sized), the Δv bars showing track-plus-kick reaching everything cislunar plus a Mars shipment, and the ridge illumination year with its few-day dark spells bridged by the same flywheels that fire the track. Prior note: geometry regenerated clean (24 even sectors, symmetric A-frames with tie bars; no more
 wonk), the sun shield now wraps ~280° of the ring — a gold thermal shell open only toward the berm and the bore
 ends, with the radiator wings mounted on its permanently shaded back — and Panel A opens with a "where on the
 Moon?" locator: this is the very bottom of the Moon, ~89.7°S, the Shackleton–de Gerlache Connecting Ridge. The
