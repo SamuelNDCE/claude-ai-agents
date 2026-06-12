@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GPU VRAM/Price Ratio — Top 10</title>
+<style>
+  body { background: #0a0d18; color: #e2e8f0; font-family: system-ui, sans-serif; margin: 0; padding: 24px; }
+  h1 { color: #22d3ee; font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: #64748b; font-size: 13px; margin: 0 0 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #0f1629; color: #94a3b8; font-weight: 500; padding: 10px 14px; text-align: left; border-bottom: 1px solid #1e2a45; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { padding: 11px 14px; border-bottom: 1px solid #111827; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #0f172a; }
+  .rank { color: #475569; font-weight: 600; font-size: 15px; width: 32px; }
+  .gpu-name { font-weight: 500; color: #f1f5f9; }
+  .brand-amd { color: #ef4444; font-size: 10px; font-weight: 600; background: rgba(239,68,68,0.12); padding: 2px 6px; border-radius: 4px; }
+  .brand-nvidia { color: #22c55e; font-size: 10px; font-weight: 600; background: rgba(34,197,94,0.12); padding: 2px 6px; border-radius: 4px; }
+  .vram { font-size: 15px; font-weight: 600; color: #22d3ee; }
+  .price { color: #94a3b8; }
+  .ratio { font-weight: 700; font-size: 14px; }
+  .bar-cell { width: 140px; }
+  .bar-bg { background: #1e2a45; border-radius: 4px; height: 8px; width: 100%; }
+  .bar-fill { background: linear-gradient(90deg, #7c3aed, #22d3ee); border-radius: 4px; height: 8px; }
+  .tier-best { color: #22d3ee; font-weight: 600; }
+  .tier-good { color: #a78bfa; }
+  .tier-mid { color: #94a3b8; }
+  .note { font-size: 11px; color: #475569; }
+  .top-badge { background: rgba(34,211,238,0.15); color: #22d3ee; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(34,211,238,0.3); margin-left: 6px; }
+  .footer { margin-top: 20px; font-size: 11px; color: #334155; border-top: 1px solid #1e2a45; padding-top: 14px; }
+</style>
+</head>
+<body>
+
+<h1>GPU VRAM-to-Price Ratio — Top 10</h1>
+<p class="subtitle">Ranked by GB per $100 USD &nbsp;·&nbsp; New retail prices, June 2026 &nbsp;·&nbsp; Higher = better value</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>GPU</th>
+      <th>VRAM</th>
+      <th>~Price (USD)</th>
+      <th>GB / $100</th>
+      <th style="width:140px">Ratio bar</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<div class="footer">
+  Prices are approximate street prices (USD). Used/refurb market can shift rankings dramatically — RTX 3090 at ~$400 used hits ~6 GB/$100.
+  Bandwidth and compute matter too: AMD leads on raw VRAM/$, Nvidia leads on CUDA/tensor core software ecosystem.
+</div>
+
+<script>
+const gpus = [
+  { rank:1,  brand:"AMD",    name:"RX 7600 XT",         vram:16, price:319,  ratio:5.0,  note:"Best $/GB budget. 128-bit bus is a tradeoff." },
+  { rank:2,  brand:"AMD",    name:"RX 7800 XT",         vram:16, price:379,  ratio:4.2,  note:"256-bit bus, solid 1080p–1440p+AI." },
+  { rank:3,  brand:"Nvidia", name:"RTX 4060 Ti 16GB",   vram:16, price:399,  ratio:4.0,  note:"128-bit bus but DLSS 3/CUDA ecosystem." },
+  { rank:4,  brand:"AMD",    name:"RX 7700 XT",         vram:12, price:349,  ratio:3.4,  note:"192-bit, good balance of speed + VRAM." },
+  { rank:5,  brand:"AMD",    name:"RX 9070",            vram:16, price:499,  ratio:3.2,  note:"RDNA 4, strong rasterization + AI ops." },
+  { rank:6,  brand:"Nvidia", name:"RTX 5060 Ti 16GB",   vram:16, price:499,  ratio:3.2,  note:"GDDR7, FP4 tensor, but 128-bit bus." },
+  { rank:7,  brand:"AMD",    name:"RX 7900 XTX",        vram:24, price:799,  ratio:3.0,  note:"Best high-end VRAM/$. 384-bit beast." },
+  { rank:8,  brand:"AMD",    name:"RX 9070 XT",         vram:16, price:549,  ratio:2.9,  note:"RDNA 4 flagship mid, great all-rounder." },
+  { rank:9,  brand:"AMD",    name:"RX 7900 XT",         vram:20, price:699,  ratio:2.9,  note:"20GB is rare at this price tier." },
+  { rank:10, brand:"Nvidia", name:"RTX 5070",           vram:12, price:549,  ratio:2.2,  note:"GDDR7 bandwidth is huge; VRAM is limited." },
+];
+
+const maxRatio = 5.0;
+const tbody = document.getElementById('rows');
+
+gpus.forEach(g => {
+  const brandClass = g.brand === "AMD" ? "brand-amd" : "brand-nvidia";
+  const ratioColor = g.ratio >= 4.0 ? "tier-best" : g.ratio >= 3.0 ? "tier-good" : "tier-mid";
+  const topBadge = g.rank === 1 ? '<span class="top-badge">TOP</span>' : '';
+  const barPct = ((g.ratio / maxRatio) * 100).toFixed(1);
+
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="rank">${g.rank}</td>
+    <td>
+      <span class="gpu-name">${g.name}</span>${topBadge}<br>
+      <span class="${brandClass}">${g.brand}</span>
+    </td>
+    <td class="vram">${g.vram} GB</td>
+    <td class="price">$${g.price}</td>
+    <td class="${ratioColor}">${g.ratio.toFixed(1)}</td>
+    <td class="bar-cell">
+      <div class="bar-bg"><div class="bar-fill" style="width:${barPct}%"></div></div>
+    </td>
+    <td class="note">${g.note}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
