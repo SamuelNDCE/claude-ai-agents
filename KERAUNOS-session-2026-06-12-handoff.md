@@ -33,13 +33,20 @@ Naming convention: Greek. BRONTE (thunder) → ASTRAPE (lightning, her sister). 
 
 ## 1. Deliverables produced this session (all in `C:\Users\Futur\Documents\AiWorkspace\Claude\ui\`)
 
-### A. The whitepaper — `KERAUNOS-v2.pdf` (23 pages)
+### A. The whitepaper — `KERAUNOS-v2.pdf` (29 pages) ★ now uniform A4 portrait
 - **Also copied to `C:\Users\Futur\Downloads\KERAUNOS-v2.pdf`**
 - Source HTML: `keraunos-v2a.html` (front matter + Sections 0–4) and `keraunos-v2b.html` (Sections 5–12)
-- The **BRONTE design map is bound in as 8 landscape "Annex A" pages directly after Section 4**.
-- Built via: Chrome headless `--print-to-pdf` on each HTML → merged with `pypdf`. Chrome path:
-  `C:\Program Files\Google\Chrome\Application\chrome.exe`. Annex needs `@media print { @page { size: A4 landscape } }`.
+- **Build is now scripted: `keraunos_pdf_build.py`** (re-run it to regenerate; no more ad-hoc steps).
+  Order: v2a → BRONTE map (Annex A) → SELENE map (Annex B) → v2b. Chrome headless `--print-to-pdf`
+  per HTML, merged with `pypdf`, auto-copied to Downloads. Chrome: `C:\Program Files\Google\Chrome\Application\chrome.exe`.
+- **EVERY page is A4 portrait now** (was: portrait body + landscape annex = jarring shape flip, and the
+  landscape annex pages were mostly empty). The build script transforms a *_print.html copy of each map:
+  the big figure panels (BRONTE A–E; SELENE A,B,C) each go on their own portrait page **rotated 90°** so they
+  stay large; chart/text panels stay upright and are **reordered to pack densely** (no stranded empty pages).
+  Each annex opens with an intentional **Annex cover page** (title + contents + "turn the page" hint).
+  Originals stay browser-viewable; rotation/CSS only lives in the throwaway *_print.html.
 - Rev 2 = fact-checked rewrite. Page 2 is a "What Changed in Rev 2" transparency list.
+- **SELENE is now bound in as Annex B** (was the open TODO).
 
 ### B. BRONTE design map — `2026-06-12-bronte-chimborazo-routemap.html` (REV N) ★ APPROVED
 - The big one. 8 sections: Panel A (route map PNG), B (phase-1 profile), C (full-line profile),
@@ -158,11 +165,15 @@ pressure) · phase numbering fixed · 80 t/day belongs to **full injector** not 
 
 ## 7. TODO / next moves (where to start the new session)
 
-1. **SELENE design map is still iterating** (REV D). Samuel may have more notes. Once approved →
-   bind into KERAUNOS-v2.pdf as **Annex B** under Section 1 (same Chrome-print + pypdf-merge flow as Annex A).
-2. **ARES design map** (Mars) would complete the trilogy — not started.
-3. Regenerate `KERAUNOS-v2.pdf` after SELENE is bound in.
-4. Everything is "EARLY-VERSION TEST MOCK-UP — NOT FOR CONSTRUCTION" (stamp on every sheet). Keep that.
+1. **SELENE design map — DONE for now** (REV D, Panel C muzzle +100 m). Bound into KERAUNOS-v2.pdf as
+   **Annex B**. Samuel may still have more notes; if it changes, just re-run `keraunos_pdf_build.py`.
+2. **ARES design map** (Mars) would complete the trilogy — not started. When built, add it to the
+   `jobs`/cover lists in `keraunos_pdf_build.py` as Annex C (hero-panel indices + a cover dict).
+3. **PDF build is one command now:** `python keraunos_pdf_build.py` (regenerates + copies to Downloads).
+   Per-part test: pass a name, e.g. `python keraunos_pdf_build.py bronte`.
+4. Possible polish: SELENE chart pages still have ~half-page whitespace (A2 + 2 chart strips spread over
+   2 pages); BRONTE packs 3 strips/page cleanly. Could tighten SELENE keep-panel packing if it bugs you.
+5. Everything is "EARLY-VERSION TEST MOCK-UP — NOT FOR CONSTRUCTION" (stamp on every sheet). Keep that.
 
 ---
 
