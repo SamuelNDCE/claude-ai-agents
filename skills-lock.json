@@ -181,6 +181,48 @@
       "skillPath": "skills/carrier-relationship-management/SKILL.md",
       "computedHash": "226d85fa68d20135dea8fad4a52580e4d14e5d19468b42eee82e50170cac6f19"
     },
+    "cavecrew": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "skills/cavecrew/SKILL.md",
+      "computedHash": "326e2f95ddfa1d2aca1c33cbcc2c7352561e4e9a1d26b7c9e84f938590063c9f"
+    },
+    "caveman": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "skills/caveman/SKILL.md",
+      "computedHash": "b0e7741886c0c32270cedc1a2fc21c2879d90964d3ce00f24952de7064613404"
+    },
+    "caveman-commit": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "skills/caveman-commit/SKILL.md",
+      "computedHash": "f028652defd5fdeddcce2994083cb1a7b201ee827bba8e2495546ee159fca3de"
+    },
+    "caveman-compress": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "skills/caveman-compress/SKILL.md",
+      "computedHash": "d48eb2dea71e0be6a5ba68f508350a5356d30648919f7c9da6347be3af68e84c"
+    },
+    "caveman-help": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "skills/caveman-help/SKILL.md",
+      "computedHash": "4dba39eea07a050108d47940b39600bc8f45489201ecff0ccf03627180fd8e50"
+    },
+    "caveman-review": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "skills/caveman-review/SKILL.md",
+      "computedHash": "b9091dbc51de0f3710ea818fd4d638539f8c1784f8fda931eb159c44861e702e"
+    },
+    "caveman-stats": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "skills/caveman-stats/SKILL.md",
+      "computedHash": "331f720e2fa97b68cacdae44384878071e8cac6013479edea68f4c8eca308852"
+    },
     "cisco-ios-patterns": {
       "source": "affaan-m/everything-claude-code",
       "sourceType": "github",
@@ -648,6 +690,12 @@
       "sourceType": "github",
       "skillPath": "skills/google-workspace-ops/SKILL.md",
       "computedHash": "f6a4a6d5a952a01cc2766771dd831a09f74d56b14c88cc1cd733d94f59cc9f2d"
+    },
+    "grill-me": {
+      "source": "RobMitt/grill-me-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "a1b948102babafc8666999294fb42975c190b7113e32dae9054aef31e3044ee6"
     },
     "healthcare-cdss-patterns": {
       "source": "affaan-m/everything-claude-code",
