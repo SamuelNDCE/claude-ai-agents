@@ -90,21 +90,19 @@ def transform_map(src_path, hero_idx, cover=None):
     head, panels = parts[0], parts[1:]
     if cover:
         head += cover_html(cover)
-    out = [head]
-    for i, blk in enumerate(panels):
-        # the last block may carry the trailing </div></body></html>; peel it
-        tail = ""
-        tm = re.search(r'(\s*</div>\s*</body>\s*</html>\s*)$', blk, re.S)
-        if tm:
-            tail = tm.group(1)
-            blk = blk[:tm.start()]
-        if i in hero_idx:
-            out.append(f'<div class="rotpage"><div class="rotbox">{blk}</div></div>')
-        else:
-            out.append(f'<div class="keep">{blk}</div>')
-        if tail:
-            out.append(cap + tail)
-    new = "".join(out)
+    # peel the document tail (</div></body></html>) off the final block
+    tail = ""
+    tm = re.search(r'(\s*</div>\s*</body>\s*</html>\s*)$', panels[-1], re.S)
+    if tm:
+        tail = tm.group(1)
+        panels[-1] = panels[-1][:tm.start()]
+    # big figures (rotated, one per page) first, then the upright panels packed
+    # together so no short panel is stranded alone on a mostly-empty page
+    heroes = [f'<div class="rotpage"><div class="rotbox">{b}</div></div>'
+              for i, b in enumerate(panels) if i in hero_idx]
+    keeps = [f'<div class="keep">{b}</div>'
+             for i, b in enumerate(panels) if i not in hero_idx]
+    new = "".join([head] + heroes + keeps + [cap, tail])
     # inject print CSS just before </head>
     new = new.replace("</head>", MAP_PRINT_CSS + "</head>", 1)
     dst = src_path.replace(".html", "_print.html")
