@@ -1,0 +1,87 @@
+<svg viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: "Segoe UI", system-ui, sans-serif; }
+      .title { font-size: 28px; font-weight: 700; fill: #e6edf6; }
+      .sub { font-size: 14px; font-weight: 400; fill: #8b9bb4; }
+      .theme { font-size: 17px; font-weight: 700; fill: #0a0d18; }
+      .leaf-h { font-size: 14px; font-weight: 700; fill: #e6edf6; }
+      .leaf-handle { font-size: 12px; font-weight: 600; }
+      .leaf-d { font-size: 11px; font-weight: 400; fill: #9fb0c8; }
+      .tag { font-size: 11px; font-weight: 600; fill: #0a0d18; }
+    </style>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="720" fill="#0a0d18"/>
+
+  <!-- Title -->
+  <text x="600" y="48" text-anchor="middle" class="title">7 TikTok Videos &#8594; NeuralVault</text>
+  <text x="600" y="74" text-anchor="middle" class="sub">Ingested 2026-06-12  &#183;  5 captioned, 2 pending your input  &#183;  all notes marked to-verify</text>
+
+  <!-- ===================== COLUMN 1: Claude Tooling (teal) ===================== -->
+  <rect x="60" y="110" width="240" height="50" rx="10" fill="#22d3ee" filter="url(#shadow)"/>
+  <text x="180" y="141" text-anchor="middle" class="theme">Claude Tooling</text>
+
+  <rect x="60" y="180" width="240" height="92" rx="10" fill="#11202b" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="76" y="204" class="leaf-h">MCP Server Stack</text>
+  <text x="76" y="222" class="leaf-handle" fill="#22d3ee">@felixx_crypto_hub</text>
+  <text x="76" y="242" class="leaf-d">Perplexity &#183; Playwright &#183; Firecrawl</text>
+  <text x="76" y="258" class="leaf-d">Glyph &#183; Chrome &#8212; "Claude as an OS"</text>
+
+  <rect x="60" y="292" width="240" height="86" rx="10" fill="#11202b" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="76" y="316" class="leaf-h">380+ Skills Pack</text>
+  <text x="76" y="334" class="leaf-handle" fill="#22d3ee">@sebintel</text>
+  <text x="76" y="354" class="leaf-d">Claude Code skills + agents</text>
+  <text x="76" y="370" class="leaf-d">+ commands to drop into a project</text>
+
+  <!-- ===================== COLUMN 2: Learning (purple) ===================== -->
+  <rect x="340" y="110" width="240" height="50" rx="10" fill="#7c3aed" filter="url(#shadow)"/>
+  <text x="460" y="141" text-anchor="middle" class="theme" fill="#f0eaff">Learning</text>
+
+  <rect x="340" y="180" width="240" height="98" rx="10" fill="#1a1430" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="356" y="204" class="leaf-h">Free Certs &#8594; NotebookLM</text>
+  <text x="356" y="222" class="leaf-handle" fill="#a78bfa">@nocode.joshua</text>
+  <text x="356" y="242" class="leaf-d">Pull all 13 free Claude AI certs</text>
+  <text x="356" y="258" class="leaf-d">into NotebookLM &#183; top 3 prioritized</text>
+  <text x="356" y="274" class="leaf-d">Agents &#8594; Skills mastery</text>
+
+  <!-- ===================== COLUMN 3: Dev Resources (green) ===================== -->
+  <rect x="620" y="110" width="240" height="50" rx="10" fill="#34d399" filter="url(#shadow)"/>
+  <text x="740" y="141" text-anchor="middle" class="theme">Dev Resources</text>
+
+  <rect x="620" y="180" width="240" height="82" rx="10" fill="#10241d" stroke="#34d399" stroke-width="1.5"/>
+  <text x="636" y="204" class="leaf-h">1,500 Free APIs</text>
+  <text x="636" y="222" class="leaf-handle" fill="#34d399">@marcinteodoru</text>
+  <text x="636" y="242" class="leaf-d">Directory of free APIs for apps</text>
+  <text x="636" y="258" class="leaf-d">(exact site = open question)</text>
+
+  <rect x="620" y="282" width="240" height="82" rx="10" fill="#10241d" stroke="#34d399" stroke-width="1.5"/>
+  <text x="636" y="306" class="leaf-h">Open-Source Projects</text>
+  <text x="636" y="324" class="leaf-handle" fill="#34d399">@howtowebdev</text>
+  <text x="636" y="344" class="leaf-d">"Projects you should know"</text>
+  <text x="636" y="360" class="leaf-d">(names shown on screen only)</text>
+
+  <!-- ===================== COLUMN 4: Pending (amber) ===================== -->
+  <rect x="900" y="110" width="240" height="50" rx="10" fill="#f59e0b" filter="url(#shadow)"/>
+  <text x="1020" y="141" text-anchor="middle" class="theme">Pending &#8212; need you</text>
+
+  <rect x="900" y="180" width="240" height="82" rx="10" fill="#2a1f0a" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="916" y="204" class="leaf-h">Photo post</text>
+  <text x="916" y="222" class="leaf-handle" fill="#fbbf24">@nawraskader</text>
+  <text x="916" y="242" class="leaf-d">Carousel &#183; captcha-blocked</text>
+  <text x="916" y="258" class="leaf-d">no caption captured</text>
+
+  <rect x="900" y="282" width="240" height="82" rx="10" fill="#2a1f0a" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="916" y="306" class="leaf-h">Video</text>
+  <text x="916" y="324" class="leaf-handle" fill="#fbbf24">@chase_ai_</text>
+  <text x="916" y="344" class="leaf-d">Empty caption on post</text>
+  <text x="916" y="360" class="leaf-d">topic unknown</text>
+
+  <!-- Footer note -->
+  <rect x="60" y="640" width="1080" height="46" rx="8" fill="#11161f" stroke="#2a3344" stroke-width="1"/>
+  <text x="80" y="660" class="leaf-d" font-size="12">Notes live in:  wiki/resources/tools/  and  wiki/concepts/ai-assistant-knowledge/   &#8212;   logged in  wiki/logs/research-and-ingests.md</text>
+  <text x="80" y="678" class="leaf-d" font-size="12" fill="#fbbf24">Next: answer the questions below so I can fill the gaps + install what's worth installing.</text>
+</svg>
