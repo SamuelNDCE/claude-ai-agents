@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KERAUNOS — Rev 2 (Part A)</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  body { font-family:"Segoe UI",Arial,sans-serif; color:#1e293b; font-size:10.5pt; line-height:1.5; margin:0; }
+  .page { page-break-after: always; }
+  h1 { font-size:26pt; letter-spacing:2px; margin:0 0 4pt; }
+  h2 { font-size:15pt; color:#0f172a; border-bottom:2.5px solid #0e7490; padding-bottom:3pt; margin:0 0 10pt; }
+  h3 { font-size:11.5pt; color:#0e7490; margin:14pt 0 6pt; }
+  .sub { color:#7c3aed; font-size:12pt; margin:0 0 2pt; }
+  .meta { color:#64748b; font-size:9.5pt; }
+  .lede { font-style:italic; color:#7c3aed; margin:0 0 10pt; }
+  table { width:100%; border-collapse:collapse; font-size:9pt; margin:8pt 0 12pt; }
+  th { background:#0f172a; color:#fff; text-align:left; padding:5pt 7pt; font-weight:600; }
+  td { border-bottom:1px solid #e2e8f0; padding:5pt 7pt; vertical-align:top; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  .call { background:#f0f9ff; border-left:3px solid #0e7490; padding:7pt 10pt; margin:8pt 0; font-size:9.5pt; }
+  .warn { background:#fff7ed; border-left:3px solid #d97706; padding:7pt 10pt; margin:8pt 0; font-size:9.5pt; }
+  .fix  { background:#fef2f2; border-left:3px solid #dc2626; padding:7pt 10pt; margin:8pt 0; font-size:9pt; }
+  ul { margin:6pt 0 10pt 16pt; padding:0; } li { margin:0 0 5pt; }
+  b.k { color:#0f172a; }
+  .hdr { display:flex; justify-content:space-between; font-size:8pt; color:#94a3b8; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:4pt; margin-bottom:14pt; }
+  .stamp { border:2px dashed #d97706; color:#92400e; font-weight:700; font-size:9pt; text-align:center; padding:6pt; margin:10pt 0; letter-spacing:1px; }
+  img.map { width:100%; border:1px solid #334155; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page" style="text-align:center; padding-top:160pt;">
+  <h1>KERAUNOS</h1>
+  <p class="sub">Electromagnetic Launch from the Moon, Mars, and Earth</p>
+  <hr style="width:200pt; border:1px solid #7c3aed;">
+  <p class="meta" style="font-size:11pt;">Maglev Space Launch System · SELENE · BRONTE · ARES</p>
+  <div style="margin-top:140pt;">
+    <p style="font-weight:700; margin:0;">Samuel Edwards</p>
+    <p class="meta">Perpetual Technologies · Engineering Whitepaper</p>
+    <p class="meta"><b>Revision 2 — June 12, 2026.</b> Fact-checked edition: every external claim re-verified
+    against sources as of this date; physics re-derived; BRONTE site engineering replaced with the
+    Chimborazo Design Map study (Annex A).</p>
+  </div>
+</div>
+
+<!-- WHAT CHANGED -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>What Changed in Revision 2</h2>
+  <p>Revision 1 (June 2026) was reviewed line-by-line. The physics held: every track length, velocity,
+  energy, and acceleration figure re-derived cleanly. The empirical claims needed surgery. Material
+  corrections, so readers of Rev 1 know what moved:</p>
+  <div class="fix"><b>Corrected facts.</b>
+  SpaceX's lunar mass-driver remarks were made in <b>February 2026</b> (all-hands, Feb 11; reaffirmed Mar 22 on X) — they are Musk statements, not a published program plan ·
+  China's Ziyang EM platform targets "<b>above Mach 1</b>" before ignition, not Mach 1.6 ·
+  Auriga Space's <b>$12.2M is cumulative</b> funding (VC + AFWERX), not one round ·
+  X-59 flew its <b>first supersonic flight June 5, 2026</b> (Mach 1.1) — Rev 1 predated this ·
+  the all-REBCO magnet record is now <b>28.2 T</b> (CHMFL 2025) and the all-superconducting record <b>35.1 T</b> (ASIPP, Sept 2025) ·
+  NIF's best shot is now <b>8.6 MJ</b> (April 2025), not 3.15 MJ ·
+  the plasma window has been <b>demonstrated</b> for non-vacuum e-beam welding, not deployed industrially ·
+  the "600 million tonnes of ice in Shackleton" figure was a misattribution — it belongs to <b>north-pole</b> craters (Mini-SAR, 2010); Shackleton-specific surveys support only bounded estimates (≤5–10 wt% in wall regolith), with Chang'e-7 due to ground-truth the south pole from late 2026 ·
+  Falcon 9's 2026 list price is <b>~$74M (~$3,245/kg expendable)</b> ·
+  a GPS III launch ran <b>$83–97M</b>, not $60M ·
+  ISS spends <b>~$3.1B/yr</b> (~$1.8B on transport) ·
+  helium-3 trades near <b>~$20B/tonne</b>, and D-He3 is <b>low-neutron</b>, not strictly aneutronic ·
+  StarTram Gen-1's published exit is a <b>3–7 km</b> mountain peak ·
+  Chimborazo's exit-level air is <b>~52% of sea-level density</b> (45% is the pressure ratio) ·
+  phase numbering is now consistent throughout (SELENE 1 · Chimborazo 2 · Vacuum fleet 3 · ARES 4 · Full Earth injector 5) ·
+  the 80 t/day orbital cadence belongs to the <b>full Earth injector</b>, not the Chimborazo demonstrator.</div>
+  <div class="warn"><b>Engineering replaced, not just corrected.</b> The Chimborazo section is rebuilt on a
+  terrain-and-geology study: real SRTM 30 m elevation data, an automated route fit, IG-EPN volcanic status,
+  Pallatanga-fault seismicity (~0.4 g design basis), and TBM precedent. The result is a different and better
+  machine than Rev 1 sketched: a single straight-then-bent line through the mountain with a crest exit at
+  6,160 m. Full drawings: <b>Annex A — BRONTE Chimborazo Design Map (KER-BRO-TRK-001 REV N)</b>, bound into
+  this document after Section 4.</div>
+  <div class="stamp">ALL DESIGN CONTENT REMAINS EARLY-VERSION CONCEPT MOCK-UP — ILLUSTRATES THE IDEA AND GOAL ONLY — NOT FOR CONSTRUCTION</div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>0. Executive Summary</h2>
+  <p>Earth, with its thick atmosphere, is the hardest body in the system to launch from electromagnetically.
+  So the program starts on the Moon, where the machine is native, and works outward. The full Earth injector
+  is the long-horizon prize. It is not the opening move.</p>
+  <table>
+    <tr><th>Launcher</th><th>Body</th><th>Phase</th><th>Character</th></tr>
+    <tr><td><b>SELENE</b></td><td>Moon</td><td>1 — Proof of concept</td><td>No atmosphere: no tube, no plasma window, no aero-shell. Starter track 1–3 km; at 100 g, 2.9 km clears lunar escape in 2.4 s. The first segment is a working exporter, not a demo.</td></tr>
+    <tr><td><b>BRONTE</b></td><td>Earth</td><td>2 — The Chimborazo Project</td><td>A 14 km first build on a ~38 km through-mountain line at Chimborazo, Ecuador; crest muzzle at 6,160 m. Proves tube, plasma window, and aero-shell at sub-scale. DoD hypersonic test contracts pay for it.</td></tr>
+    <tr><td><b>Fleet</b></td><td>Airless bodies</td><td>3 — Vacuum-world kits</td><td>SELENE-class launchers stamped onto Phobos, Deimos, Ceres, the Belt. The core bet.</td></tr>
+    <tr><td><b>ARES</b></td><td>Mars</td><td>4 — The port</td><td>Mars atmosphere is 0.6% of Earth's; the tube is featherweight. ARES closes the return-trip problem every settlement plan dies on.</td></tr>
+    <tr><td><b>BRONTE full</b></td><td>Earth</td><td>5 — The endgame</td><td>The ~38 km Mach-12 line, then beyond — built only after Chimborazo Phase 1 validates cost and subsystems.</td></tr>
+  </table>
+
+  <h3>SELENE: Moon (Phase 1)</h3>
+  <table>
+    <tr><th>Parameter</th><th>Value</th><th>Notes</th></tr>
+    <tr><td>Track (PoC)</td><td>1–3 km, 50–100 g</td><td>At 100 g: 1.5 km = orbit speed (1.72 km/s); 2.9 km = escape (2.38 km/s) in 2.4 s</td></tr>
+    <tr><td>Track (cargo)</td><td>10–12 km, 30 g</td><td>2.43–2.66 km/s; escape with margin; ~9 s ride</td></tr>
+    <tr><td>Track (passengers)</td><td>~50 km, 3 g</td><td>1.72 km/s to low lunar orbit in 58 s (escape-rated 3 g line: ~96 km, future)</td></tr>
+    <tr><td>Energy per kg</td><td>0.41 kWh orbit / 0.78 kWh escape</td><td>Orbit ≈ 1/22 of Earth's 8.9 kWh/kg-to-LEO; escape ≈ 1/11</td></tr>
+    <tr><td>Atmosphere</td><td>None</td><td>No tube, no plasma window, no aero-shell. The track is the launcher.</td></tr>
+    <tr><td>Cooling</td><td>20 K closed-loop cryoplant</td><td>Sealed cryostats hold every coil at 20 K; shadowed cold sinks and ~250 K regolith at 2 m depth help — sunlit surfaces swing far hotter, so the cryostat does the real work</td></tr>
+  </table>
+
+  <h3>BRONTE: Earth (Phase 2 — Chimborazo Project)</h3>
+  <table>
+    <tr><th>Parameter</th><th>Value</th><th>Notes</th></tr>
+    <tr><td>Site</td><td>Chimborazo, Ecuador</td><td>Summit 6,263 m; 1.47°S; massif sits on a 4,000 m plateau</td></tr>
+    <tr><td>Phase-1 build</td><td>14 km, portal 4,069 m</td><td>Eastern end of the full line; the only at-grade start the terrain allows</td></tr>
+    <tr><td>Exit</td><td>Crest muzzle 6,160 m, 12.3° east</td><td>Terminal bend R = 100 km over final 11 km; ~100 m below peak elevation</td></tr>
+    <tr><td>Exit air</td><td>ρ ≈ 53% SL (p ≈ 46%)</td><td>Peak drag and heating roughly halved; weaker ground-level boom</td></tr>
+    <tr><td>Equatorial bonus</td><td>+465 m/s free</td><td>Fires east; net launcher requirement to LEO ~7.5 km/s, not ~8</td></tr>
+    <tr><td>Performance</td><td>Mach 8.9 (30 g) / 2.8 (3 g)</td><td>Full 38 km line later: Mach 12.6 cargo / 4.6 at human-rated 3 g</td></tr>
+    <tr><td>Revenue</td><td>$50K–$500K per test run</td><td>Hypersonic test services from day one — the market Auriga Space is already selling into</td></tr>
+  </table>
+
+  <h3>ARES: Mars (Phase 4)</h3>
+  <table>
+    <tr><th>Parameter</th><th>Value</th><th>Notes</th></tr>
+    <tr><td>Atmosphere</td><td>~6 mbar (0.6% of Earth)</td><td>Featherweight tube; the planet does 99.4% of the plasma window's job</td></tr>
+    <tr><td>Track (orbit)</td><td>~180 km, 3.3 g</td><td>Low Mars orbit (~3.4 km/s) in a 105 s run</td></tr>
+    <tr><td>Track (escape)</td><td>~390 km, 3.3 g</td><td>Mars escape (~5.0 km/s) in a 155 s run</td></tr>
+    <tr><td>Energy per kg</td><td>1.6 kWh orbit / 3.5 kWh escape</td><td>Between Moon and Earth in scale; far easier than Earth in engineering</td></tr>
+    <tr><td>Staging</td><td>Phobos and Deimos</td><td>Catch points and depots; SEP tugs fly the interplanetary legs</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 1 SELENE -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>1. SELENE: The Moon Machine</h2>
+  <p class="lede">The Moon has no atmosphere. That sentence deletes every hard engineering problem on the Earth list.</p>
+  <p>On the Moon these things do not exist: the vacuum tube (the track is already in vacuum), the plasma
+  window (no atmosphere to keep out), the aero-shell, the blast shutters, the transpiration cooling. The
+  track lays on regolith, braced and aligned. That is the system.</p>
+  <p>The starter track is <b class="k">1–3 km</b> — airport-runway length. At 100 g, a 1.5 km run reaches
+  lunar orbit speed (1.72 km/s); a 2.9 km run clears escape (2.38 km/s) in 2.4 seconds. Water, regolith, and
+  metal don't mind the g-load. The very first segment isn't a demo. It is a working exporter.</p>
+  <div class="call"><b>0.78 kWh per kg to escape.</b> Lunar escape costs roughly one-eleventh of Earth-to-LEO
+  launch energy (0.78 vs 8.9 kWh/kg at 8 km/s); lunar orbit, about one-twenty-second. From the Moon you are
+  already partway to everywhere: a Mars-transfer trajectory from the lunar surface costs ~3.0 km/s total —
+  about <b>1.25 kWh/kg</b>, roughly one-seventh of Earth-to-LEO energy, and roughly one-fifteenth the energy
+  of flying the same trip up from Earth's surface.</div>
+  <div class="call"><b>The south pole is the right site.</b> Shackleton-rim and Connecting-Ridge sites see
+  sun 80–90% of the time; permanently shadowed cold traps sit next door; Earth hangs permanently on the
+  horizon for communications. Rev 2 honesty on two Rev 1 claims: polar <i>surface</i> temperatures swing
+  widely (shadow cryo-cold to ~200 K+ in sun), so the 20 K coils live in sealed cryostats regardless — the
+  real thermal gift is vacuum, cold sky, and ~250 K regolith two meters down. And the ice: the famous
+  "600 million tonnes" belongs to <i>north-pole</i> crater radar (Mini-SAR 2010). For Shackleton itself the
+  honest statement is bounded — radar and reflectance permit up to ~5–10 wt% ice in wall regolith, with no
+  credible tonnage yet; Chang'e-7 (launch ~Aug 2026) goes to ground-truth exactly this. The architecture
+  survives the uncertainty: regolith, oxygen, and metal exports close the early business even in the lean-ice case.</div>
+  <p><b class="k">The physics has been settled for fifty years.</b> Gerard O'Neill's NASA Ames summer studies
+  (1976–77) developed the lunar mass driver; Mass Driver One was demonstrated in 1977. A San José State
+  University engineering study (E. Miller, 2023) sizes a polar machine launching 25.4 kg pellets at 2.4 km/s
+  every 10 seconds on 8.7 MW of solar power, ~1.0 MA per bucket coil — SELENE's starter track is exactly that
+  class of machine. What killed every previous program was the same thing: all government funding, no revenue
+  until a Moon base already existed. Cislunar freight removes that deadlock.</p>
+  <p><b class="k">The product is propellant — and mass itself.</b> Polar ice (wherever the surveys land),
+  electrolyzed to LOX/LH2 or processed with imported carbon to methalox, becomes propellant for every vehicle
+  in cislunar space, delivered to L1/L2 depots at roughly 10× less than lifting the same kilogram from Earth.
+  Regolith is radiation shielding; sintered metal is structure. The Moon doesn't need factories to matter —
+  it needs to be a source of cheap mass, and it already is.</p>
+  <p><b class="k">SELENE grows by ladder</b> — 1–3 km PoC → 10–12 km / 30 g hardened cargo → ~50 km / 3 g
+  passenger line — each step funded by the previous segment's exports. The SELENE kit is the template for
+  every airless body worth working: Phobos, Deimos, Ceres, the Belt. Design once, stamp copies. The fleet is
+  the real bet. <i>(Companion sheet: SELENE Design Map, KER-SEL-TRK-002 — separate document.)</i></p>
+</div>
+
+<!-- SECTION 2 PHYSICS -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>2. The Physics and the Price</h2>
+  <p class="lede">The electricity cost of orbital velocity is $0.53 per kilogram. Everything above that is hardware amortization, not physics.</p>
+  <table>
+    <tr><th>Relation</th><th>What it means</th></tr>
+    <tr><td><b>E = ½v² = 32 MJ/kg</b></td><td>At 8 km/s and $0.06/kWh: <b>$0.53 of grid electricity per kilogram</b>. Falcon 9 burns ~$200–300K of propellant for ~17–22.8 t to LEO — propellant alone costs ~20–25× KERAUNOS's total electricity spend per kilogram, on a vehicle that is 90% propellant by mass.</td></tr>
+    <tr><td><b>a = v²/2L</b></td><td>Acceleration is set by velocity and length. 1,000 km at 8 km/s is 3.3 g — gentle enough for people. StarTram Gen-1 accepted 30 g on 130 km, cargo-only. On the Moon a 3 g orbital track is ~50 km. <b>Track length is the unlock.</b></td></tr>
+    <tr><td><b>Kick stage: Isp 350 s, 20% mass</b></td><td>Δv = 3,434 × ln(1/0.8) ≈ <b>0.77 km/s</b> for circularization and trim at apogee. That is the only propellant aboard — ~80% of launched mass is payload, vs ~10% for a rocket.</td></tr>
+    <tr><td><b>Bends are forbidden at speed</b></td><td>Curving 20° at 4 km/s needs a ~200 km radius. Every high-speed launcher is a straight line with, at most, a gentle payload-g-limited terminal bend. This single rule shaped the entire Chimborazo route (Section 4).</td></tr>
+  </table>
+  <h3>Comparative launch costs (per kg to LEO)</h3>
+  <table>
+    <tr><th>System</th><th>Cost per kg</th><th>Economic bottleneck</th></tr>
+    <tr><td>Space Shuttle</td><td>$54,500 <span class="meta">(full-program-cost basis)</span></td><td>Hand-built; massive refurbishment every flight</td></tr>
+    <tr><td>Falcon 9 (2026)</td><td>~$3,245 list (expendable basis); ~$630 est. internal</td><td>$74M list price (Feb 2026); reusable flights carry ~17–18 t, so real per-kg runs higher</td></tr>
+    <tr><td>Starship (projected)</td><td>$100–$1,000 — <b>aspirational</b></td><td>V3 flew once (Flight 12, May 22, 2026; payload deploy succeeded, booster mishap, fleet grounded pending FAA review). No reuse-economics data yet; chemical energy density is the hard floor</td></tr>
+    <tr><td>KERAUNOS</td><td>$20–$250 <span class="meta">(target)</span></td><td>$0.53/kg electricity; the rest amortizes track capital — the honest unknown is tunnel+tube cost per km, which Phase 1 exists to measure</td></tr>
+    <tr><td>KERAUNOS + skyhook</td><td>toward $5</td><td>Kick propellant → ~2–5% when a rotating tether catches pods (Section 8)</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 3 WHY NOW -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>3. Why Now: The Signals, as of June 2026</h2>
+  <p class="lede">The field validated itself publicly in the last 24 months. The window to enter at peer level is now.</p>
+  <ul>
+    <li><b class="k">SpaceX wants a lunar mass driver — said out loud, February 2026.</b> Following the
+    company's lunar pivot (Feb 2, 2026), Musk described a mass driver "shooting AI satellites into deep
+    space" at the Feb 11 all-hands, and reaffirmed it March 22 ("Mass drivers on the Moon!"). Honesty
+    requires the caveat: these are founder statements, not a funded program of record — no contracts or
+    milestones have been disclosed. But the largest launch company on Earth pointing at exactly this machine
+    is both validation and a clock. A partner positioned ahead of that build doesn't compete — it supplies
+    the architecture.</li>
+    <li><b class="k">China is building EM launch hardware, targeting 2028.</b> Galactic Energy, CASIC, and
+    the Ziyang municipal government are constructing an electromagnetic launch verification platform to
+    throw a Ceres-2-class rocket to <b>above Mach 1</b> before ignition. Progress is real: a full-system
+    ejection test of a 1.4 m rocket model (April 2025) and a matrix-switched segmented-drive trial at ~90%
+    system efficiency (January 2026). It's launch-assist — the rocket still carries the full propellant
+    penalty — but the supply chain and urgency are real.</li>
+    <li><b class="k">The US military already funds this class of technology.</b> Auriga Space has raised
+    $12.2M cumulatively (VC plus AFWERX, including a $1.25M Direct-to-Phase-II SBIR) for an EM launch-assist
+    track, selling hypersonic test services as Phase-1 revenue — Prometheus (lab) → Thor (outdoor track,
+    2026) → Zeus (orbital). General Atomics EMALS (484 MJ flywheel storage, 45 s recharge) has launched
+    aircraft from USS Gerald R. Ford since 2017 through a combat deployment. A 2023 AFOSR-filed report
+    (Peterkin) explicitly recommends evolving EMALS for lunar launch, and a US SBIR program record describes
+    a magnetically levitated sled driven to 7 km/s. The demand signal is public and funded.</li>
+    <li><b class="k">The boom-shaping toolkit just went supersonic.</b> NASA's X-59 flew Oct 28, 2025
+    (67 min), expanded its envelope through spring 2026, and made its <b>first supersonic flight June 5,
+    2026</b> (Mach 1.1), with Mach 1.4 acoustic-validation points next — flying on a camera-vision cockpit
+    the whole way. The quiet-shock shaping ASTRAPE borrows is being flight-proven right now.</li>
+    <li><b class="k">The gap nobody fills:</b> every competitor is fighting the atmosphere — China's
+    launch-assist, StarTram's paper tube, Auriga's track. Nobody is building the launcher where the
+    atmosphere doesn't exist. KERAUNOS starts there; the vacuum-world fleet is the open lane, and Earth
+    revenue (Chimborazo) funds the climb.</li>
+  </ul>
+</div>
+
+<!-- SECTION 4 CHIMBORAZO -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>4. The Chimborazo Project: BRONTE's Earth Demonstrator</h2>
+  <p class="lede">Rev 2 replaces the sketch with a site study: real terrain, real geology, one straight line through the mountain.</p>
+  <p><b class="k">Chimborazo, Ecuador. Summit 6,263 m, 1.47°S.</b> The case still holds: the equator gives
+  +465 m/s of Earth's rotation free (fire east); high exit altitude halves the air (at 6,160 m, density is
+  ~53% of sea level — Rev 1 quoted 45%, which is the <i>pressure</i> ratio); equatorial launch reaches every
+  inclination. What changed is the engineering, driven by three facts established in the Rev 2 site study:</p>
+  <ul>
+    <li><b>Terrain (SRTM 30 m):</b> the mountain is a gentle 40-km shield with a concave western approach —
+    no straight surface route to a summit-area exit exists. The answer is a <b>through-mountain line</b>:
+    azimuth 095°, passing 0.5 km north of the summit.</li>
+    <li><b>Geology (IG-EPN, Bernard et al., Beauval et al.):</b> the andesite core is TBM-proven rock (Ecuador's
+    own Coca Codo Sinclair bored 24.8 km with 9 m machines); the volcano is dormant-but-potentially-active
+    (last eruption ~550 CE, ~1,000-yr recurrence); the governing hazard is seismic — the Pallatanga fault
+    (1797 Riobamba, M~7.6) sets a ~0.4 g design basis, which drove A-frame piers, radial truss bracing, and
+    re-trimmable track jacks. The route avoids the Riobamba debris-avalanche deposit entirely.</li>
+    <li><b>The straight-line rule:</b> at exit speeds the track cannot bend more than a payload-g-limited
+    R = 100 km terminal arc — which buys the final 11 km a climb from 6.5° to a 12.3° exit and lifts the
+    muzzle ~550 m to the ridge crest.</li>
+  </ul>
+  <h3>The line, in two builds</h3>
+  <table>
+    <tr><th></th><th>Phase 1 — build first</th><th>Full line — the growth target</th></tr>
+    <tr><td>Length</td><td><b>14 km</b> (portal 4,069 m — the only at-grade start the terrain allows)</td><td><b>~38 km</b> (west portal ~1,360 m, Chazojuán valleys)</td></tr>
+    <tr><td>Works</td><td>El Arenal viaduct (A-frame piers 110–590 m) + 1.2 km crest bore + truss muzzle</td><td>adds 24 km of deep tunnel, cover ≤ ~880 m (Gotthard runs 2,300 m)</td></tr>
+    <tr><td>Exit</td><td colspan="2">Same crest muzzle for both: <b>6,160 m</b>, 12.3° east, ~100 m below peak elevation</td></tr>
+    <tr><td>Cargo (30 g)</td><td>2.81 km/s · <b>Mach ~8.9</b> · 10 s in tube</td><td>3.97 km/s · <b>Mach ~12.6</b> · 16 s (16 g bend cap)</td></tr>
+    <tr><td>Human (3 g)</td><td>Mach ~2.8 · 31 s</td><td>Mach ~4.6 · 50 s (2.2 g in the bend)</td></tr>
+    <tr><td>Per shot (15 t gross)</td><td>16.5 MWh · 12.4 GW peak</td><td>32.8 MWh · 17.5 GW peak — trackside storage; grid sees a 30 MW × ~66 min recharge</td></tr>
+  </table>
+  <p>The tube itself: Ø4.0 m flight bore inside a Ø6.0 m ring-stiffened vacuum vessel inside a Ø12 m TBM
+  bore, driven by a <b>360° stator ring</b> (24 REBCO sectors per ring, hoops every 0.6 m, ~63,000 on the
+  full line) that levitates, centers, steers, and propels from all sides — required, not optional, because
+  the bend presses the 15 t vehicle outward at up to 16 g. The payload bay is <b>Ø3.2 m × 8 m</b>
+  (Cygnus-module class) inside the 23 m ASTRAPE fairing-sled. Vacuum isolation gates every 500 m; 20 K/80 K
+  cryo headers full-length with cooler stations every 500 m.</p>
+  <div class="warn"><b>The honest open issues, on the record:</b> El Arenal piers reach ~590 m (Millau's
+  record is 343 m); the plasma window is proven only at centimeter scale and the Ø4 m bore costs 2.8× the
+  baseline window power — it gets the first R&amp;D dollar; the whole massif sits inside the Reserva de
+  Producción de Fauna Chimborazo under Ecuador's rights-of-nature constitution — the legal path may be the
+  hardest engineering on the sheet; and Mach-12 exits are loud regardless of shaping — altitude and the
+  empty eastern corridor are the real mitigations, and test recovery overflies the inter-Andean valley like
+  any sounding-rocket range.</div>
+  <h3>Revenue from day one</h3>
+  <p>DoD hypersonic test services: sounding rockets are single-shot, wind tunnels don't hold real Mach 6+
+  conditions for minutes, and no facility on Earth fires Mach-9-class test articles from 6,160 m on the
+  equator several times a day. At $50K–$500K per run, one run per week covers operations. The demonstrator
+  is not a cost center — it is a product, and every shot also retires risk on the plasma window, the
+  aero-shell, and the cost-per-kilometer number the full injector's economics live or die on.</p>
+  <p class="meta" style="margin-top:14pt;"><b>ANNEX A follows this page:</b> the complete BRONTE Chimborazo
+  Design Map (KER-BRO-TRK-001 REV N) — route map on real terrain, both build profiles at true 1:1 scale,
+  tunnel &amp; tube sections, the 360° drive ring, ASTRAPE in three views, and nine engineering charts. Every
+  figure on it re-derived and audited June 12, 2026.</p>
+</div>
+
+</body>
+</html>

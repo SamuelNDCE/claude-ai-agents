@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KERAUNOS — Rev 2 (Part B)</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  body { font-family:"Segoe UI",Arial,sans-serif; color:#1e293b; font-size:10.5pt; line-height:1.5; margin:0; }
+  .page { page-break-after: always; }
+  h2 { font-size:15pt; color:#0f172a; border-bottom:2.5px solid #0e7490; padding-bottom:3pt; margin:0 0 10pt; }
+  h3 { font-size:11.5pt; color:#0e7490; margin:14pt 0 6pt; }
+  .lede { font-style:italic; color:#7c3aed; margin:0 0 10pt; }
+  .meta { color:#64748b; font-size:9.5pt; }
+  table { width:100%; border-collapse:collapse; font-size:9pt; margin:8pt 0 12pt; }
+  th { background:#0f172a; color:#fff; text-align:left; padding:5pt 7pt; font-weight:600; }
+  td { border-bottom:1px solid #e2e8f0; padding:5pt 7pt; vertical-align:top; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  .call { background:#f0f9ff; border-left:3px solid #0e7490; padding:7pt 10pt; margin:8pt 0; font-size:9.5pt; }
+  .warn { background:#fff7ed; border-left:3px solid #d97706; padding:7pt 10pt; margin:8pt 0; font-size:9.5pt; }
+  ul { margin:6pt 0 10pt 16pt; padding:0; } li { margin:0 0 5pt; }
+  b.k { color:#0f172a; }
+  .hdr { display:flex; justify-content:space-between; font-size:8pt; color:#94a3b8; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:4pt; margin-bottom:14pt; }
+</style>
+</head>
+<body>
+
+<!-- 5 ARES -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>5. ARES: The Mars Port (Phase 4)</h2>
+  <p class="lede">Mars atmosphere is 0.6% of Earth's. The hard parts of the Earth machine are nearly free there.</p>
+  <p>The tube holds back 0.6% of the pressure the Earth tube fights; the plasma window's job is 99.4% done
+  by the planet; exit heating is a fraction of the Earth case. Dust storms, not aerodynamics, are the main
+  environmental design driver.</p>
+  <table>
+    <tr><th>Element</th><th>Figure</th><th>Notes</th></tr>
+    <tr><td>Orbit track</td><td>~3.4 km/s → ~180 km @ 3.3 g</td><td>105-second run to low Mars orbit</td></tr>
+    <tr><td>Escape track</td><td>~5.0 km/s → ~390 km @ 3.3 g</td><td>155-second run; between Moon and Earth in scale, far easier than Earth in engineering</td></tr>
+    <tr><td>Energy</td><td>1.6 / 3.5 kWh per kg</td><td>orbit / escape</td></tr>
+    <tr><td>Staging</td><td>Phobos &amp; Deimos</td><td>Catch points and propellant depots — the warehouse district; SEP tugs fly the cruise</td></tr>
+  </table>
+  <p>Every Mars mission arrives needing return propellant. ISRU solves it on the surface (Sabatier methalox
+  from CO₂ and water ice); ARES solves it in orbit — propellant rides to Phobos at electromagnetic cost and
+  waits in a depot for any departing vehicle. Return cargo, manufactured exports, and samples ride the same
+  track. <b class="k">ARES makes Mars a place you can leave as easily as you arrive.</b></p>
+  <div class="call"><b>The Moon as deep-space launch platform.</b> A Mars-transfer from the lunar surface
+  costs ~3.0 km/s (≈1.25 kWh/kg) — roughly one-fifteenth the energy of the same trip from Earth's surface.
+  Anything Mars-bound that can be built on, or staged through, the Moon ships from the lunar track: relay
+  satellites, sensor networks, pre-positioned supplies. Starship carries crew and cargo that must arrive
+  fresh; the mass drivers send everything else ahead, early and cheap. The Mars supply chain runs through
+  the Moon, not around it. ARES is Phase 4: it inherits a mature vacuum-world kit (SELENE, Phase 1; fleet,
+  Phase 3) and proven atmosphere subsystems (Chimborazo, Phase 2).</div>
+</div>
+
+<!-- 6 BUILD ORDER + 7 NETWORK -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>6. The Build Order</h2>
+  <p class="lede">The lightning flashes before the thunder is heard: SELENE launches silently in vacuum before BRONTE shakes the air on Earth.</p>
+  <table>
+    <tr><th>Phase</th><th>System</th><th>What gets built</th><th>What it proves / earns</th></tr>
+    <tr><td>1</td><td><b>SELENE PoC</b> (Moon)</td><td>1–3 km surface track, 50–100 g, south-pole ridge</td><td>2.9 km @ 100 g clears lunar escape; exports water/regolith/metal to cislunar buyers from day one; grows to 10–12 km (30 g) then ~50 km (3 g)</td></tr>
+    <tr><td>2</td><td><b>Chimborazo</b> (Earth)</td><td>14 km first build of the through-mountain line; evacuated tube, plasma window, aero-shell</td><td>Mach ~8.9 test capability at 6,160 m on the equator; DoD contracts fund operations; produces the real cost-per-km number</td></tr>
+    <tr><td>3</td><td><b>Vacuum-world fleet</b></td><td>SELENE-class kits on Phobos, Deimos, Ceres, the Belt</td><td>The core bet pays out: Mars' moons become freight terminals before ARES exists</td></tr>
+    <tr><td>4</td><td><b>ARES</b> (Mars)</td><td>~180 km track, featherweight tube</td><td>Mars becomes a port; the freight network closes</td></tr>
+    <tr><td>5</td><td><b>BRONTE full</b> (Earth)</td><td>Extend Chimborazo west to ~38 km (Mach 12.6); beyond that, the 1,000 km-class 3 g injector if economics prove out</td><td>The endgame — built only on validated cost data</td></tr>
+  </table>
+  <p class="meta">SELENE is ~300× shorter than any full Earth injector and skips every atmosphere subsystem. Chimborazo Phase 1 is ~70× shorter and proves the hard atmosphere parts before any large commitment. They de-risk in parallel.</p>
+
+  <h2 style="margin-top:18pt;">7. How the Network Moves Mass</h2>
+  <p class="lede">Three launchers, one supply chain. Once they exist, moving mass around the inner system mostly costs what running the launchers costs.</p>
+  <ul>
+    <li><b class="k">Earth sends what only Earth can build</b> — machines, electronics, medicine. The eventual
+    full injector runs 80 t/day (29,000 t/yr); the Chimborazo demonstrator's job is to earn that machine the
+    right to exist. (Rev 1 wrongly pinned the 80 t/day cadence on the demonstrator itself.)</li>
+    <li><b class="k">The Moon sends raw mass</b> — propellant feedstock, shielding regolith, structural metal,
+    fired at 2.4 km/s toward cislunar catch points. At full cadence the cislunar propellant supply stops being
+    constrained by what Earth can lift.</li>
+    <li><b class="k">Mars closes the return trip</b> — ISRU methalox, samples, and exports ride ARES to
+    Phobos/Deimos depots on electricity.</li>
+    <li><b class="k">SEP tugs connect the nodes</b> — weeks per leg, nearly propellant-free; chemical engines
+    do only final descents. The launchers do all the heavy lifting off every surface.</li>
+    <li><b class="k">Each node funds the next.</b> Rockets deliver SELENE's first coils (the last rocket buy
+    the lunar build needs); SELENE exports fund Chimborazo; Chimborazo revenue and data fund the fleet; the
+    fleet builds ARES. Every airless body added makes the whole network richer.</li>
+  </ul>
+</div>
+
+<!-- 8 SKYHOOK + 9 FULL INJECTOR -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>8. The Skyhook: How Cost Falls Toward $5/kg</h2>
+  <p class="lede">A rotating tether catches pods and flings them higher. No propellant. More payload per launch.</p>
+  <p>A long tether rotates in low orbit; its bottom tip sweeps backward, moving slower than orbital velocity.
+  A pod that arrives at the tip gets grabbed; half a rotation later it is released up high, moving faster —
+  to the Moon, GTO, or wherever the mission calls. With a 1.5 km/s tip speed, the launcher needs 6.3 km/s
+  instead of 7.8: ~35% less energy, a slower exit (less heating), and the kick stage shrinks from ~20% of pod
+  mass to 2–5% for trim — the freed 15–18% becomes payload. That shift is where $5/kg comes from.</p>
+  <ul>
+    <li><b class="k">Keeping it up:</b> electrodynamic reboost (current through the tether against Earth's
+    field — demonstrated physics, no propellant) plus momentum returned by catching descending capsules.</li>
+    <li><b class="k">The lunar extension:</b> a cislunar rotovator catches SELENE pellets and redirects them to
+    LLO, L1, or Earth-transfer; an Earth-orbit tether receives. Cargo crosses cislunar space without burning
+    its own propellant at all.</li>
+    <li><b class="k">Provenance:</b> momentum-exchange tethers date to the 1970s; the Boeing/Tethers Unlimited
+    HASTOL study (NASA NIAC, 1999–2001) detailed a 600 km tether with 3.5 km/s tip speed catching Mach-10
+    aircraft-launched payloads. Materials and manufacturing at scale, not new physics.</li>
+  </ul>
+
+  <h2 style="margin-top:18pt;">9. If the Full Earth Injector Gets Built</h2>
+  <p class="lede">Not the plan — the vacuum fleet is the plan. But if the fleet works, this is what becomes possible.</p>
+  <p>A full Earth injector — ultimately the 1,000 km-class, 3 g, 8 km/s human-rated machine — is the most
+  consequential infrastructure ever proposed. The key point: if SELENE works in vacuum and Chimborazo
+  validates the atmosphere subsystems and the cost-per-kilometer, the full injector stops being a physics
+  question and becomes a construction question.</p>
+  <h3>What $5–20/kg to orbit changes</h3>
+  <ul>
+    <li><b class="k">Satellites:</b> launch stops dominating cost — a 2,000 kg satellite rides for ~$20K at
+    $10/kg vs the $83–97M a GPS III mission actually paid. Constellations replace on maintenance schedules.</li>
+    <li><b class="k">Stations:</b> ISS-class logistics (~$3.1B/yr, ~$1.8B of it transport) collapses ~300×;
+    thousand-person stations become economically normal.</li>
+    <li><b class="k">Orbital manufacturing:</b> ZBLAN fiber, crystals, alloys — Flawless Photonics drew ~12 km
+    of ZBLAN on ISS in 2024 (1,141 m in one day vs a 25 m prior record); the candid caveat is that published
+    proof of reproducibly superior fiber is still pending. The queue is real either way, and it is waiting on
+    freight prices.</li>
+    <li><b class="k">Deep space:</b> with cheap Earth-to-orbit plus lunar propellant, Mars missions stop being
+    nation-sized budget exercises; the Belt becomes commercially reachable.</li>
+  </ul>
+  <div class="call"><b>The strategic picture.</b> The operator of an 80 t/day injector controls the access
+  ramp to space — 29,000 t/yr can replenish a damaged constellation in hours. The host nation stops paying
+  for space access and starts charging for it. The vacuum fleet pays for itself; the Earth injector is what
+  the fleet eventually makes possible.</div>
+</div>
+
+<!-- 10 ZERO NEW PHYSICS -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>10. Zero New Physics</h2>
+  <p class="lede">Every subsystem has flown, fired, or been demonstrated. The opportunity is assembly, not invention.</p>
+  <table>
+    <tr><th>Building block</th><th>Status — verified June 12, 2026</th></tr>
+    <tr><td>EMALS (US Navy)</td><td>Operational on USS Gerald R. Ford since 2017 incl. combat deployment; 484 MJ flywheel storage, 45 s recharge. CVN-79 (Kennedy) completed builder's trials Feb 2026, delivery ~Mar 2027. 2023 AFOSR-filed report recommends evolving EMALS for lunar launch.</td></tr>
+    <tr><td>Superconducting maglev</td><td>603 km/h crewed record (JR Central L0, 2015) still stands; Shanghai Transrapid commercial since 2003; Chūō Shinkansen now expected NET ~2034 after the Shizuoka settlement (early 2026).</td></tr>
+    <tr><td>REBCO superconductors</td><td>Tc ≈ 92 K. All-REBCO records: 26.86 T (ASIPP, 2024) → <b>28.2 T</b> (CHMFL, 2025); all-superconducting record <b>35.1 T</b> (ASIPP, Sept 2025); 45.5 T hybrid (NHMFL, 2019). CFS demonstrated 20 T SPARC-class coils (2021); SPARC assembly underway (first TF coil placed Jan 2026), first-plasma targeted 2026, Q&gt;1 targeted 2027; ARC (Virginia) early 2030s. Jc &gt; 1,000 A/mm² at 30 T <i>at 4.2 K</i>. Launch LSM needs only 5–10 T at the gap.</td></tr>
+    <tr><td>MHD plasma window</td><td>Invented by A. Hershcovitch (Brookhaven), patented 1995; holds ~9 atm; <b>demonstrated</b> for non-vacuum e-beam welding at cm-scale apertures. Scaling to the Ø4 m bore (2.8× baseline power) is the program's R&amp;D centerpiece — Phase 1 tests it at full bore.</td></tr>
+    <tr><td>X-59 shock shaping</td><td>First flight Oct 28, 2025; <b>first supersonic flight June 5, 2026</b> (Mach 1.1); Mach 1.4 acoustic points next; XVS camera-vision cockpit flight-proven.</td></tr>
+    <tr><td>High-g electronics</td><td>Gun-launched guidance routinely qualified to 15,000–20,000 g (Excalibur-class). SELENE's 100 g cargo mode is conservative by two orders of magnitude.</td></tr>
+    <tr><td>EM launch-assist market</td><td>Auriga Space: $12.2M cumulative incl. AFWERX D2P2; hypersonic-test-as-revenue model proven in market; outdoor track (Thor) planned 2026.</td></tr>
+    <tr><td>Orbital manufacturing demand</td><td>Flawless Photonics: ~11.9 km ZBLAN drawn on ISS (Feb–Mar 2024; 1,141 m/day vs 25 m prior record); Luxembourg production expansion; published performance characterization still pending — flagged honestly.</td></tr>
+    <tr><td>Lunar mass-driver physics</td><td>O'Neill, NASA Ames studies 1976–77; Mass Driver One demo 1977. SJSU sizing study (2023): 25.4 kg pellets, 2.4 km/s, 10 s cadence, 8.7 MW polar solar, ~1.0 MA per bucket coil.</td></tr>
+    <tr><td>Lunar intent at scale</td><td>SpaceX lunar pivot + mass-driver statements (Feb–Mar 2026). Founder remarks, not a program of record — but the direction of the largest launch company on Earth.</td></tr>
+    <tr><td>Fusion pull (He-3 context)</td><td>NIF ignition Dec 2022 (3.15 MJ); best shot now <b>8.6 MJ, target gain &gt;4</b> (Apr 2025), ignition repeated 9+ times. Commercial He-3 demand is already contracted: Interlune–Bluefors offtake (Sept 2025) for up to 10,000 L/yr from 2028, prospecting mission 2027.</td></tr>
+  </table>
+</div>
+
+<!-- 11 HARD PARTS + 12 UNLOCKS -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>11. The Hard Parts</h2>
+  <p class="lede">A document about a project this large that doesn't name the real problems is salesmanship, not engineering.</p>
+  <ul>
+    <li><b class="k">Plasma window scaling.</b> Centimeter demos → Ø4.0 m bore at 2.8× baseline power. First R&amp;D dollar; if it doesn't scale, the muzzle needs a different answer and we must learn that at demonstrator scale, cheaply.</li>
+    <li><b class="k">Cost per kilometer is unknown.</b> The $20–250/kg projection lives or dies on vacuum-rated superconducting track cost. Nobody has published a credible figure. Chimborazo Phase 1 produces the first real one.</li>
+    <li><b class="k">The El Arenal piers.</b> 110–590 m A-frames in a 0.4 g seismic zone — beyond Millau's 343 m record. Partial trenching, rock-buttressed spans, or accepting a lower exit are the studied outs.</li>
+    <li><b class="k">The reserve.</b> Chimborazo sits inside a protected fauna reserve under a rights-of-nature constitution. The legal path may be harder than the rock. Stated plainly because pretending otherwise would be fatal later.</li>
+    <li><b class="k">SELENE's first bill is a rocket bill.</b> First coils, power, and radiators ride to the Moon at today's prices; the starter track must fit one or two heavy-lift flights.</li>
+    <li><b class="k">Catching is harder than throwing.</b> Until the first cislunar catch happens, export revenue is theoretical. Wide-cone tugs first, tethers later.</li>
+    <li><b class="k">Polar ice uncertainty.</b> Shackleton-specific reserves are unproven (bounded ≤5–10 wt% in surveyed regolith). The early business plan must close on regolith, oxygen, and metal even in the lean-ice case. Chang'e-7 data lands within a year.</li>
+    <li><b class="k">The treaty question.</b> The Outer Space Treaty is silent on commercial mass drivers; a kinetic launcher is inherently dual-use. That ambiguity buys scrutiny on one side and AFWERX funding on the other. EMALS and GPS both walked this road.</li>
+  </ul>
+
+  <h2 style="margin-top:16pt;">12. What KERAUNOS Unlocks</h2>
+  <h3>Orbital manufacturing</h3>
+  <ul>
+    <li><b class="k">ZBLAN fiber</b> — up to 100× lower theoretical loss than silica; ~12 km drawn on ISS in 2024; customers queue on freight prices. KERAUNOS is the freight price. (Performance proof still pending publication — the bet is stated, not oversold.)</li>
+    <li><b class="k">Orbital bioprinting</b> — organs that collapse under their own weight in 1 g; daily return pods turn it from stunt to logistics business.</li>
+    <li><b class="k">Debris salvage</b> — thousands of tonnes of aerospace alloy already in orbit becomes ore when tug-hours are cheap.</li>
+  </ul>
+  <h3>Geopolitical position</h3>
+  <ul>
+    <li><b class="k">The Space Panama Canal</b> — the host nation stops paying for access and starts charging for it.</li>
+    <li><b class="k">Presence as a supply chain</b> — 80 t/day secures orbital slots and lunar territory as a logistics fact, not a flag.</li>
+    <li><b class="k">The deterrence dividend</b> — constellation replenishment in hours, not months.</li>
+  </ul>
+  <h3>Fusion economy</h3>
+  <ul>
+    <li><b class="k">The He-3 supply chain.</b> Lunar regolith holds an estimated (model-based) ~1M tonnes of He-3. D-He3 fusion is <b>low-neutron</b> (D-D side reactions keep it from being strictly aneutronic) — far less activation, direct conversion potential. At today's ~$20M/kg (~$20B/tonne) market price and SELENE's ~$5/kg lunar launch cost, delivery economics are absurdly favorable; Interlune's contracted offtakes (Bluefors, 2028–2037) prove demand precedes the fusion era. SELENE isn't just a launcher — it's the fuel logistics for the energy industry after next.</li>
+    <li><b class="k">The energy loop.</b> Trackside storage doubles as grid-scale battery between launch windows; the same plant powers debris-sweeping lasers over the corridor. Nothing idles.</li>
+  </ul>
+  <p class="meta" style="margin-top:16pt;">Verification note: all external claims in this revision were
+  re-checked against primary reporting and literature on June 12, 2026; all physics re-derived from first
+  principles the same day. Annex A (BRONTE Chimborazo Design Map) is bound after Section 4. The SELENE Design
+  Map (KER-SEL-TRK-002) is issued as a companion sheet.</p>
+</div>
+
+</body>
+</html>
