@@ -1,3 +1,6 @@
+﻿// Copyright (c) 2026 perpetualtechnologies. All rights reserved.
+// Proprietary and confidential. Unauthorised copying, modification,
+// or distribution is strictly prohibited.
 // nv-fs.js — write/search NeuralVault notes directly on the vault filesystem.
 // Replaces the old HTTP API (localhost:8900) that no longer exists: NeuralVault
 // is now a serverless Rust desktop app that reads these files directly.

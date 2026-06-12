@@ -1,3 +1,6 @@
+﻿// Copyright (c) 2026 perpetualtechnologies. All rights reserved.
+// Proprietary and confidential. Unauthorised copying, modification,
+// or distribution is strictly prohibited.
 // nv-web-mcp.js — NeuralVault Web Intelligence MCP server
 // 5 tools: web_search, web_read, web_extract, web_live, web_research
 // Zero npm deps. All results auto-save to NeuralVault.

@@ -1,3 +1,6 @@
+﻿// Copyright (c) 2026 perpetualtechnologies. All rights reserved.
+// Proprietary and confidential. Unauthorised copying, modification,
+// or distribution is strictly prohibited.
 // .claude/helpers/nv-memory-hook.cjs
 "use strict";
 /**

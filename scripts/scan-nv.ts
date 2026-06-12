@@ -1,3 +1,6 @@
+﻿// Copyright (c) 2026 perpetualtechnologies. All rights reserved.
+// Proprietary and confidential. Unauthorised copying, modification,
+// or distribution is strictly prohibited.
 import { VaultStorage, buildGraph } from '../src/storage';
 
 const VAULT = 'C:\\Users\\Futur\\Documents\\AiWorkspace\\NeuralVault\\NV-Obsidian-Vault\\Neural-Vault\\Nv';

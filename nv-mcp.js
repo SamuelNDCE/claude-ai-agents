@@ -1,3 +1,6 @@
+﻿// Copyright (c) 2026 perpetualtechnologies. All rights reserved.
+// Proprietary and confidential. Unauthorised copying, modification,
+// or distribution is strictly prohibited.
 // nv-mcp.js — NeuralVault write-side MCP server (stdio, zero npm deps).
 // 2 tools: nv_log (append session entry to wiki/log.md), nv_save (create a note).
 // Read/search side is handled by the qmd MCP server (vector + BM25 over the vault).
