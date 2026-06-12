@@ -23,7 +23,7 @@ Three launchers, phased Moon → Earth → Mars:
 |---|---|---|---|
 | 1 | **SELENE** | Moon | Open-air maglev ring on the south-pole ridge. No tube needed (Moon = vacuum). Pods = **EOS**. |
 | 2 | **BRONTE** | Earth | Through-mountain evacuated tube at Chimborazo, Ecuador. Pod/fairing-sled = **ASTRAPE**. |
-| 3 | Vacuum fleet | Airless bodies | SELENE-class kits stamped on Phobos/Deimos/Ceres/Belt. The core bet. |
+| 3 | **ASTERIA** | Airless bodies | SELENE-class kits stamped on Phobos/Deimos/Ceres/Belt. The core bet. |
 | 4 | **ARES** | Mars | Featherweight tube (atmo is 0.6% of Earth). Closes the return-trip problem. |
 | 5 | BRONTE full | Earth | Extend Chimborazo to ~38 km (Mach 12.6), then the 1,000 km injector if economics prove out. |
 
