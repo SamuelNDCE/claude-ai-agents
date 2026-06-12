@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KERAUNOS — BRONTE-D Chimborazo Launch Tube — Side Elevation (Concept Mock-up)</title>
+<style>
+  body { background:#e8eaef; margin:0; padding:24px; font-family:"Segoe UI",Arial,sans-serif; color:#1e293b; }
+  .sheet { background:#ffffff; max-width:1640px; margin:0 auto; padding:28px 28px 18px; border:1px solid #cbd5e1; box-shadow:0 2px 14px rgba(15,23,42,.12); }
+  .intro { font-style:italic; color:#8b5cf6; font-size:13.5px; line-height:1.5; max-width:1100px; margin:0 0 14px; }
+  .caption { font-style:italic; color:#475569; font-size:13px; margin-top:12px; line-height:1.5; }
+  svg { width:100%; height:auto; display:block; }
+  .t  { font-family:"Consolas","Segoe UI",monospace; }
+</style>
+</head>
+<body>
+<div class="sheet">
+<p class="intro">VERY EARLY CONCEPT ILLUSTRATION — NOT A DESIGN DOCUMENT. This sheet is a rough first
+mock-up produced solely to give a visual sense of how the BRONTE Chimborazo demonstrator tube might sit on
+the mountain. No dimensions, grades, component counts, or construction details shown here have been
+engineered or validated. Everything will change significantly as real design work begins. This image exists to
+make the Chimborazo concept easier to picture — nothing more.</p>
+
+<svg viewBox="0 0 1600 1180" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <!-- sheet frame -->
+  <rect x="4" y="4" width="1592" height="1172" fill="none" stroke="#334155" stroke-width="2"/>
+  <rect x="10" y="10" width="1580" height="1160" fill="none" stroke="#94a3b8" stroke-width="0.8"/>
+
+  <!-- header -->
+  <text x="800" y="42" text-anchor="middle" font-size="21" font-weight="700" letter-spacing="1.5">SIDE ELEVATION — BRONTE-D — CHIMBORAZO EVACUATED LAUNCH TUBE (NOT TO SCALE)</text>
+  <text x="800" y="66" text-anchor="middle" font-size="13" fill="#0e7490" class="t">10–20 km CLASS DEMONSTRATOR · EXIT 6,470 m ASL · FIRES EAST (PROGRADE) · CHIMBORAZO, ECUADOR — 1.47°S 78.82°W</text>
+  <text x="800" y="88" text-anchor="middle" font-size="13" font-style="italic" fill="#8b5cf6">VERY EARLY CONCEPT MOCK-UP — TEST DESIGN — NOT TO SCALE — VERTICAL EXAGGERATION ~2:1</text>
+
+  <!-- ===================== PROFILE AREA ===================== -->
+  <!-- altitude gridlines (0–7000 m, sea level y=800, 7000 m y=200) -->
+  <g stroke="#dbe3ee" stroke-width="1">
+    <line x1="80" y1="200" x2="1520" y2="200"/>
+    <line x1="80" y1="285.7" x2="1520" y2="285.7"/>
+    <line x1="80" y1="371.4" x2="1520" y2="371.4"/>
+    <line x1="80" y1="457.1" x2="1520" y2="457.1"/>
+    <line x1="80" y1="542.9" x2="1520" y2="542.9"/>
+    <line x1="80" y1="628.6" x2="1520" y2="628.6"/>
+    <line x1="80" y1="714.3" x2="1520" y2="714.3"/>
+  </g>
+  <line x1="80" y1="800" x2="1520" y2="800" stroke="#64748b" stroke-width="1.4"/>
+  <g font-size="10.5" fill="#64748b" class="t" text-anchor="end">
+    <text x="74" y="204">7,000 m</text>
+    <text x="74" y="289.7">6,000 m</text>
+    <text x="74" y="375.4">5,000 m</text>
+    <text x="74" y="461.1">4,000 m</text>
+    <text x="74" y="546.9">3,000 m</text>
+    <text x="74" y="632.6">2,000 m</text>
+    <text x="74" y="718.3">1,000 m</text>
+    <text x="74" y="804">0 m</text>
+  </g>
+  <text x="1516" y="814" text-anchor="end" font-size="10.5" fill="#64748b" class="t">SEA LEVEL DATUM</text>
+
+  <!-- terrain profile -->
+  <path d="M 80,577 L 150,547 L 221,487 L 268,466 L 315,459 L 362,453 L 456,431.5 L 550,406
+           L 644,376 L 738,341.5 L 832,316 L 902,290 L 950,279 L 982,272 L 1001,275.5
+           L 1020,263.3 L 1048,273 L 1090,303 L 1161,354.4 L 1255,414.4 L 1349,474.3 L 1443,517 L 1490,534
+           L 1490,800 L 80,800 Z"
+        fill="#f5f0e6" stroke="#8a7f6a" stroke-width="1.6"/>
+  <!-- glacier cap (≥ ~5,000 m) -->
+  <path d="M 656,371 L 738,341.5 L 832,316 L 902,290 L 950,279 L 982,272 L 1001,275.5 L 1020,263.3
+           L 1048,273 L 1090,303 L 1150,346
+           L 1150,362 L 1090,320 L 1048,291 L 1020,281 L 1001,293 L 982,290 L 950,297 L 902,308
+           L 832,334 L 738,360 L 656,388 Z"
+        fill="#eaf4fb" stroke="#9fc3dd" stroke-width="1"/>
+  <text x="845" y="352" font-size="10.5" fill="#5b87a6" class="t">GLACIER — ABOVE ~5,000 m</text>
+
+  <!-- summit marker -->
+  <path d="M 1020,263.3 l -6,-11 l 12,0 Z" fill="#334155"/>
+  <text x="1026" y="240" font-size="11.5" font-weight="600" fill="#334155" class="t">WHYMPER SUMMIT 6,263 m</text>
+
+  <!-- support pylons -->
+  <g stroke="#94a3b8" stroke-width="4" stroke-linecap="round">
+    <line x1="362" y1="436" x2="362" y2="453"/>
+    <line x1="456" y1="410" x2="456" y2="431.5"/>
+    <line x1="550" y1="384" x2="550" y2="406"/>
+    <line x1="644" y1="358" x2="644" y2="376"/>
+    <line x1="738" y1="331" x2="738" y2="341.5"/>
+    <line x1="832" y1="305" x2="832" y2="316"/>
+    <line x1="926" y1="279" x2="926" y2="288"/>
+  </g>
+  <!-- muzzle truss towers above summit ridge -->
+  <g stroke="#7c3aed" stroke-width="3" fill="none">
+    <line x1="973" y1="266" x2="973" y2="274"/>
+    <line x1="1020" y1="253" x2="1020" y2="263.3"/>
+    <line x1="1043.5" y1="246.5" x2="1036" y2="266"/>
+    <line x1="1043.5" y1="246.5" x2="1050" y2="270"/>
+    <line x1="1036" y1="266" x2="1050" y2="270"/>
+  </g>
+
+  <!-- launch tube (straight chord, entry 3,950 m → muzzle 6,470 m) -->
+  <line x1="268" y1="461.5" x2="1043.5" y2="245.5" stroke="#7c3aed" stroke-width="8" stroke-linecap="round"/>
+  <line x1="268" y1="461.5" x2="1043.5" y2="245.5" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  <!-- stator segment ticks -->
+  <line x1="268" y1="461.5" x2="1043.5" y2="245.5" stroke="#22d3ee" stroke-width="3.2" stroke-dasharray="2 22"/>
+
+  <!-- muzzle -->
+  <g>
+    <circle cx="1043.5" cy="245.5" r="6.5" fill="#f43f5e"/>
+    <circle cx="1043.5" cy="245.5" r="2.6" fill="#ffffff"/>
+  </g>
+
+  <!-- exit trajectory -->
+  <path d="M 1043.5,245.5 C 1150,216 1290,196 1455,186" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-dasharray="8 7"/>
+  <path d="M 1455,186 l -16,-7 l 3,9 l -8,6 Z" fill="#0e7490"/>
+  <text x="1190" y="190" font-size="11.5" fill="#0e7490" class="t">TEST SLED EXIT — MACH 7–10 (CARGO MODE)</text>
+
+  <!-- entry complex -->
+  <g fill="#cbd5e1" stroke="#64748b" stroke-width="1">
+    <rect x="216" y="452" width="26" height="14"/>
+    <rect x="246" y="448" width="20" height="18"/>
+  </g>
+
+  <!-- ============ annotations & leaders ============ -->
+  <g stroke="#64748b" stroke-width="1">
+    <line x1="252" y1="448" x2="200" y2="392"/>
+    <line x1="600" y1="371" x2="640" y2="318"/>
+    <line x1="1043.5" y1="238" x2="1102" y2="148"/>
+    <line x1="1043.5" y1="252" x2="1120" y2="262"/>
+  </g>
+  <g font-size="11.5" fill="#334155" class="t">
+    <text x="96" y="374">ENTRY PORTAL — 3,950 m PÁRAMO BASIN</text>
+    <text x="96" y="389">VACUUM PUMP HALL · FLYWHEEL/SMES FARM</text>
+    <text x="96" y="404" fill="#64748b">PAYLOAD INTEGRATION + SLED LOAD-IN</text>
+    <text x="560" y="306">EVACUATED TUBE — 16.7 km NOMINAL · Ø3.2 m OD · ~10 Pa</text>
+    <text x="560" y="291" fill="#7c3aed">REBCO LSM STATORS @ 20 K — ELEVATED ON PYLONS, GRADE ~8.7°</text>
+    <text x="1066" y="132">MUZZLE 6,470 m — +207 m ABOVE SUMMIT ON TRUSS</text>
+    <text x="1066" y="146" fill="#f43f5e">PLASMA WINDOW Ø2.4 m + FAST BLAST SHUTTER</text>
+    <text x="1126" y="266" fill="#0e7490">EXIT AIR: ρ ≈ 52% SL · p ≈ 45% SL · T ≈ 247 K · a ≈ 315 m/s</text>
+  </g>
+  <!-- velocity note along tube -->
+  <text x="430" y="452" font-size="11.5" fill="#475569" class="t" transform="rotate(-15.6 430 452)">LSM ACCEL — 30 g CARGO: 0 → 3.0 km/s IN 10.2 s · 3 g HUMAN-RATED: 0 → 0.95 km/s (MACH ~3)</text>
+
+  <!-- east / rotation arrows -->
+  <g>
+    <line x1="1180" y1="120" x2="1450" y2="120" stroke="#16a34a" stroke-width="5"/>
+    <path d="M 1462,120 l -22,-9 l 0,18 Z" fill="#16a34a"/>
+    <text x="1182" y="106" font-size="12.5" font-weight="700" fill="#16a34a" class="t">FIRES EAST — PROGRADE · +465 m/s EARTH-ROTATION BONUS (MACH 1.4 FREE)</text>
+  </g>
+  <!-- compass -->
+  <g class="t" font-size="13" fill="#334155">
+    <line x1="120" y1="140" x2="220" y2="140" stroke="#334155" stroke-width="2"/>
+    <path d="M 232,140 l -14,-6 l 0,12 Z" fill="#334155"/>
+    <path d="M 108,140 l 14,-6 l 0,12 Z" fill="#334155"/>
+    <text x="92" y="145">W</text>
+    <text x="240" y="145">E</text>
+  </g>
+
+  <!-- corridor labels -->
+  <text x="84" y="760" font-size="11" fill="#64748b" class="t">← PACIFIC OCEAN ~180 km WEST — OPTIONAL WEST-FIRE TEST MODE (OCEAN RECOVERY; FORFEITS +465 m/s)</text>
+  <text x="1516" y="760" text-anchor="end" font-size="11" fill="#64748b" class="t">DOWNRANGE EAST: ANDES / AMAZON TEST + RECOVERY CORRIDOR →</text>
+  <text x="1400" y="522" font-size="10.5" fill="#8a7f6a" class="t">ALTIPLANO ~3,000 m</text>
+  <text x="120" y="566" font-size="10.5" fill="#8a7f6a" class="t">WESTERN PÁRAMO</text>
+
+  <!-- general notes box -->
+  <g>
+    <rect x="100" y="588" width="560" height="158" fill="#fbfcfe" stroke="#94a3b8" stroke-width="1"/>
+    <text x="114" y="610" font-size="12" font-weight="700" fill="#0e7490" class="t">GENERAL NOTES</text>
+    <g font-size="10.8" fill="#334155" class="t">
+      <text x="114" y="629">1. EARLY CONCEPT ILLUSTRATION — NOT TO SCALE — NOT FOR CONSTRUCTION.</text>
+      <text x="114" y="645">2. PROFILE ALONG TRACK CENTERLINE · VERTICAL EXAGGERATION ~2:1.</text>
+      <text x="114" y="661">3. TRACK 16.7 km NOMINAL (10–20 km CLASS) · STRAIGHT CHORD · GRADE ~8.7°.</text>
+      <text x="114" y="677">4. TUBE EVACUATED TO ~10 Pa · REBCO LSM @ 20 K · FIELD CLASS 20–30 T.</text>
+      <text x="114" y="693">5. EXIT AIR DENSITY ≈ 52% SEA LEVEL (PRESSURE ≈ 45%) AT 6,470 m.</text>
+      <text x="114" y="709">6. FIRES EAST (PROGRADE) FOR +465 m/s. WEST-FIRE TEST MODE OPTIONAL.</text>
+      <text x="114" y="725">7. MODES: 3 g HUMAN-RATED (MACH ~3) / 30 g CARGO (MACH 7–10).</text>
+      <text x="114" y="741">8. MUZZLE TRUSS EXTENDS +207 m ABOVE WHYMPER SUMMIT (6,263 m).</text>
+    </g>
+  </g>
+
+  <!-- ===================== INSETS ===================== -->
+  <!-- Inset 1: tube cross-section -->
+  <g>
+    <rect x="80" y="845" width="450" height="220" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="305" y="866" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">TUBE CROSS-SECTION — ON PYLON</text>
+    <circle cx="220" cy="965" r="62" fill="none" stroke="#475569" stroke-width="3"/>
+    <circle cx="220" cy="965" r="54" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="220" cy="965" r="46" fill="none" stroke="#7c3aed" stroke-width="7" stroke-dasharray="7 6"/>
+    <circle cx="220" cy="965" r="37" fill="#eef6ff" stroke="#0e7490" stroke-width="1.6"/>
+    <rect x="196" y="956" width="48" height="14" rx="3" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+    <line x1="220" y1="1027" x2="220" y2="1052" stroke="#94a3b8" stroke-width="6"/>
+    <g font-size="10.5" fill="#334155" class="t">
+      <text x="300" y="912">VACUUM JACKET Ø3.2 m — 316L</text>
+      <text x="300" y="930">MLI + THERMAL SHIELD</text>
+      <text x="300" y="948" fill="#7c3aed">LSM STATOR RING — REBCO, 20 K</text>
+      <text x="300" y="966" fill="#0e7490">EVACUATED BORE Ø2.4 m — ~10 Pa</text>
+      <text x="300" y="984">SLED ON MAGLEV GUIDEWAY</text>
+      <text x="300" y="1002">PYLON SADDLE + CRYO MANIFOLD</text>
+    </g>
+    <g stroke="#64748b" stroke-width="0.9">
+      <line x1="282" y1="908" x2="270" y2="922"/>
+      <line x1="282" y1="944" x2="262" y2="950"/>
+      <line x1="282" y1="962" x2="257" y2="965"/>
+      <line x1="282" y1="980" x2="244" y2="966"/>
+    </g>
+  </g>
+
+  <!-- Inset 2: muzzle detail -->
+  <g>
+    <rect x="566" y="845" width="450" height="220" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="791" y="866" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">MUZZLE DETAIL — TUBE-TO-ATMOSPHERE TRANSITION</text>
+    <!-- tube body -->
+    <rect x="600" y="930" width="230" height="56" fill="#ffffff" stroke="#7c3aed" stroke-width="5"/>
+    <line x1="600" y1="958" x2="830" y2="958" stroke="#e2e8f0" stroke-width="2"/>
+    <!-- blast shutter -->
+    <rect x="836" y="922" width="14" height="72" fill="#475569"/>
+    <!-- plasma window -->
+    <g stroke="#f43f5e" stroke-width="3.5" fill="none">
+      <path d="M 862,926 q 12,32 0,64"/>
+      <path d="M 874,930 q 10,28 0,56"/>
+      <path d="M 886,934 q 8,24 0,48"/>
+    </g>
+    <!-- exiting sled -->
+    <g transform="translate(906,946)">
+      <path d="M 0,0 h 44 l 22,12 l -22,12 h -44 Z" fill="#cbd5e1" stroke="#334155" stroke-width="1.4"/>
+    </g>
+    <g font-size="10.5" fill="#334155" class="t">
+      <text x="612" y="912" fill="#7c3aed">FINAL LSM STAGE + COAST SECTION</text>
+      <text x="700" y="1012">FAST BLAST SHUTTER (ABORT/STANDBY)</text>
+      <text x="862" y="912" fill="#f43f5e">PLASMA WINDOW ARRAY Ø2.4 m</text>
+      <text x="862" y="1030" fill="#0e7490">EXIT @ 6,470 m — ρ ≈ 52% SL</text>
+      <text x="612" y="1046" fill="#64748b">TRUSS-MOUNTED ABOVE SUMMIT RIDGE — +207 m</text>
+    </g>
+    <g stroke="#64748b" stroke-width="0.9">
+      <line x1="843" y1="996" x2="800" y2="1004"/>
+      <line x1="874" y1="916" x2="874" y2="926"/>
+    </g>
+  </g>
+
+  <!-- Inset 3: test sled -->
+  <g>
+    <rect x="1052" y="845" width="468" height="220" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="1286" y="866" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">BRONTE TEST SLED — CALLSIGN “LAWN CHAIR”</text>
+    <!-- sled side view -->
+    <g transform="translate(1090,930)">
+      <path d="M 0,10 h 200 l 70,28 l -70,28 h -200 Z" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+      <line x1="66" y1="10" x2="66" y2="66" stroke="#94a3b8" stroke-width="1.5"/>
+      <line x1="140" y1="10" x2="140" y2="66" stroke="#94a3b8" stroke-width="1.5"/>
+      <rect x="0" y="70" width="200" height="9" fill="#7c3aed"/>
+      <!-- tiny lawn chair glyph in instrument bay -->
+      <g stroke="#0e7490" stroke-width="2.5" fill="none">
+        <path d="M 96,52 l 10,-14 l 14,0"/>
+        <path d="M 96,52 l 18,0"/>
+        <line x1="100" y1="52" x2="96" y2="62"/>
+        <line x1="112" y1="52" x2="116" y2="62"/>
+      </g>
+    </g>
+    <g font-size="10.5" fill="#334155" class="t">
+      <text x="1090" y="912">RECOVERY BAY — CHUTE + BALLAST</text>
+      <text x="1212" y="912">INSTRUMENT BAY</text>
+      <text x="1330" y="912" fill="#f43f5e">ABLATIVE AERO-SHELL NOSE</text>
+      <text x="1090" y="1032" fill="#7c3aed">MAGLEV SKID — LEVITATION + LSM REACTION PLATE</text>
+      <text x="1090" y="1050" fill="#64748b">FIRST ARTICLE PAYLOAD: 1× LAWN CHAIR (NOTIONAL, 4 kg)</text>
+    </g>
+    <g stroke="#64748b" stroke-width="0.9">
+      <line x1="1120" y1="916" x2="1122" y2="936"/>
+      <line x1="1240" y1="916" x2="1196" y2="940"/>
+      <line x1="1368" y1="916" x2="1340" y2="952"/>
+    </g>
+  </g>
+
+  <!-- ===================== TITLE BLOCK ===================== -->
+  <g class="t">
+    <rect x="80" y="1082" width="1440" height="58" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <g stroke="#94a3b8" stroke-width="1">
+      <line x1="430" y1="1082" x2="430" y2="1140"/>
+      <line x1="880" y1="1082" x2="880" y2="1140"/>
+      <line x1="1030" y1="1082" x2="1030" y2="1140"/>
+      <line x1="1090" y1="1082" x2="1090" y2="1140"/>
+      <line x1="1160" y1="1082" x2="1160" y2="1140"/>
+      <line x1="1230" y1="1082" x2="1230" y2="1140"/>
+      <line x1="1330" y1="1082" x2="1330" y2="1140"/>
+    </g>
+    <g font-size="8.5" fill="#94a3b8">
+      <text x="88" y="1096">COMPANY / PROJECT</text>
+      <text x="438" y="1096">TITLE</text>
+      <text x="888" y="1096">DWG NO</text>
+      <text x="1038" y="1096">REV</text>
+      <text x="1098" y="1096">SCALE</text>
+      <text x="1168" y="1096">UNITS</text>
+      <text x="1238" y="1096">DATE</text>
+      <text x="1338" y="1096">STATUS</text>
+    </g>
+    <g font-size="11.5" fill="#1e293b">
+      <text x="88" y="1122">PERPETUAL TECHNOLOGIES — KERAUNOS</text>
+      <text x="438" y="1122">BRONTE-D — CHIMBORAZO 16.7 km EVACUATED TUBE — SIDE ELEVATION</text>
+      <text x="888" y="1122" fill="#0e7490">KER-BRO-TRK-001</text>
+      <text x="1048" y="1122">A</text>
+      <text x="1098" y="1122">NTS</text>
+      <text x="1168" y="1122">m</text>
+      <text x="1238" y="1122">2026-06-12</text>
+      <text x="1338" y="1122" fill="#f43f5e" font-size="10">EARLY MOCK-UP — NOT FOR CONSTRUCTION</text>
+    </g>
+  </g>
+
+  <text x="800" y="1162" text-anchor="middle" font-size="11" font-style="italic" fill="#8b5cf6">CONCEPT ILLUSTRATION ONLY — KER-BRO-TRK-001 REV A — every dimension, grade, and arrangement shown is speculative and subject to complete change.</text>
+</svg>
+
+<p class="caption">BRONTE-D concept: a 10–20 km class evacuated maglev tube climbing Chimborazo's western flank
+from a ~3,950 m entry portal on the páramo to a truss-mounted muzzle ~207 m above the 6,263 m Whymper summit.
+The sled fires east (prograde) to bank the +465 m/s equatorial rotation bonus; an optional west-fire test mode
+trades that bonus for an open-ocean recovery corridor over the Pacific. Exit air at 6,470 m is roughly 52% of
+sea-level density (45% of sea-level pressure), which is what halves peak drag and stagnation heating versus a
+ground-level exit.</p>
+</div>
+</body>
+</html>
