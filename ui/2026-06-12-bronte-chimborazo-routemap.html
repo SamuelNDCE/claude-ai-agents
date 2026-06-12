@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KERAUNOS — BRONTE Full Line — Through-Mountain Alignment — Map + Profile (REV E)</title>
+<title>KERAUNOS — BRONTE Full Line + Phase 1 — Map, Profiles, Terminal Bend (REV F)</title>
 <style>
   body { background:#e8eaef; margin:0; padding:24px; font-family:"Segoe UI",Arial,sans-serif; color:#1e293b; }
   .sheet { background:#ffffff; max-width:1680px; margin:0 auto; padding:28px 28px 18px; border:1px solid #cbd5e1; box-shadow:0 2px 14px rgba(15,23,42,.12); }
@@ -17,54 +17,47 @@
 </head>
 <body>
 <div class="sheet">
-<p class="intro">VERY EARLY CONCEPT ILLUSTRATION — NOT A DESIGN DOCUMENT. Terrain in both panels is real SRTM
-30 m data (two tiles, stitched). The alignment follows the operator-sketched through-mountain line: a single
-straight track from the western valleys, under El Arenal, through the volcano's upper cone, exiting the east
-face — phase 1 builds the eastern 14 km, phase 2 extends west to the full ~38 km. All dimensions remain
-speculative and unvalidated.</p>
+<p class="intro">VERY EARLY CONCEPT ILLUSTRATION — NOT A DESIGN DOCUMENT. Terrain is real SRTM 30 m data.
+One alignment, two build iterations: the full ~38 km line and a 13 km first build that is simply the eastern
+end of the same line — extend the tunnel west and it becomes the full machine. A terminal up-bend (R = 143 km)
+lifts the exit toward the peak; the bend radius is set by payload g-limits, not by drawing preference.</p>
 
-<h2 class="panel">PANEL A — PLAN VIEW: FULL 38 km THROUGH-MOUNTAIN LINE (SRTM 30 m)</h2>
+<h2 class="panel">PANEL A — PLAN VIEW: ONE LINE, TWO PHASES (SRTM 30 m)</h2>
 <div class="mapbox"><img src="bronte-full-map.png" alt="BRONTE full through-mountain route map"></div>
 
-<h2 class="panel">PANEL B — PROFILE ALONG THE FIRE LINE (TRUE SCALE 1:1 — MOUNTAIN AS IT REALLY IS)</h2>
-<svg viewBox="0 0 1600 1080" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
-  <rect x="4" y="4" width="1592" height="1072" fill="none" stroke="#334155" stroke-width="2"/>
-  <rect x="10" y="10" width="1580" height="1060" fill="none" stroke="#94a3b8" stroke-width="0.8"/>
+<h2 class="panel">PANEL B — ITERATION 1: FULL LINE 38 km @ 6.5° + TERMINAL BEND (TRUE SCALE 1:1)</h2>
+<svg viewBox="0 0 1600 760" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="4" y="4" width="1592" height="752" fill="none" stroke="#334155" stroke-width="2"/>
 
-  <text x="800" y="40" text-anchor="middle" font-size="18" font-weight="700" letter-spacing="1.2">BRONTE FULL LINE — 37.8 km STRAIGHT @ 6.5° — WEST VALLEYS → UNDER EL ARENAL → THROUGH THE CONE → EAST FACE</text>
-  <text x="800" y="62" text-anchor="middle" font-size="12.5" fill="#0e7490" class="t">WEST PORTAL 1.436°S 79.145°W @ 1,330 m · EAST-FACE MUZZLE 1.466°S 78.806°W @ 5,637 m · AZIMUTH 095° · SECTION PASSES 0.5 km N OF SUMMIT</text>
-  <text x="800" y="84" text-anchor="middle" font-size="12" font-style="italic" fill="#8b5cf6">TERRAIN: SRTM 30 m, TRUE 1:1 — NO EXAGGERATION · ALIGNMENT PER OPERATOR SKETCH, FITTED TO THE DEM</text>
-
-  <!-- notes box -->
-  <g>
-    <rect x="90" y="104" width="560" height="226" fill="#fbfcfe" stroke="#94a3b8" stroke-width="1"/>
-    <text x="104" y="126" font-size="12" font-weight="700" fill="#0e7490" class="t">GENERAL NOTES</text>
-    <g font-size="10.6" fill="#334155" class="t">
-      <text x="104" y="145">1. EARLY CONCEPT — NOT FOR CONSTRUCTION. TERRAIN REAL, SCALE 1:1.</text>
-      <text x="104" y="161">2. HIGH-SPEED TRACK MUST BE STRAIGHT: BENDING 20° AT 4 km/s NEEDS</text>
-      <text x="104" y="175">   R ≈ 200 km. THE LINE IS ONE CHORD; ONLY THE FIRST ~2 km MAY CURVE.</text>
-      <text x="104" y="191">3. 6.5° IS WHAT A 38 km LINE THROUGH THIS MOUNTAIN GIVES. GRAVITY</text>
-      <text x="104" y="205">   LOSS sin 6.5° = 0.11 g — NEGLIGIBLE.</text>
-      <text x="104" y="221">4. WESTERN DEEP TUNNEL: 24 km, MAX COVER ~880 m (GOTTHARD BASE</text>
-      <text x="104" y="235">   RUNS 2,300 m — THIS IS ROUTINE). ANDESITE CORE, TBM-PROVEN CLASS.</text>
-      <text x="104" y="251">5. EL ARENAL VIADUCT: ~10 km, TALLEST PIERS ~425 m (MILLAU = 343 m —</text>
-      <text x="104" y="265" fill="#9f1239">   BEYOND PRECEDENT, FLAGGED OPEN ISSUE; PARTIAL TRENCHING TBD).</text>
-      <text x="104" y="281">6. SEISMIC BASIS ~0.4 g (PALLATANGA FAULT). VOLCANO DORMANT (~550 CE).</text>
-      <text x="104" y="297">7. EXIT AIR @ 5,637 m: ρ ≈ 56% SL · p ≈ 49% SL. FIRES EAST: +465 m/s FREE.</text>
-      <text x="104" y="313" fill="#9f1239">8. RESERVA DE FAUNA CHIMBORAZO — PROTECTED AREA. LEGAL PATH OPEN ISSUE.</text>
-    </g>
-  </g>
+  <text x="800" y="36" text-anchor="middle" font-size="17" font-weight="700" letter-spacing="1.1">FULL LINE — 38 km STRAIGHT @ 6.5°, TERMINAL BEND +2.0° (R = 143 km) — MUZZLE 5,754 m NEAR THE PEAK</text>
+  <text x="800" y="57" text-anchor="middle" font-size="12" fill="#0e7490" class="t">WEST PORTAL 1,330 m (CHAZOJUÁN) · ROCK PORTAL 5,694 m EAST FACE · TRUSS MUZZLE 5,754 m · EXIT 8.4° · SECTION 0.5 km N OF SUMMIT</text>
 
   <!-- performance box -->
   <g>
-    <rect x="1100" y="104" width="420" height="150" fill="#fbfcfe" stroke="#94a3b8" stroke-width="1"/>
-    <text x="1114" y="126" font-size="12" font-weight="700" fill="#0e7490" class="t">PERFORMANCE — 37.8 km LIVE TRACK</text>
-    <g font-size="11" fill="#334155" class="t">
-      <text x="1114" y="148">3 g  HUMAN-RATED → 1.49 km/s · MACH ~4.7</text>
-      <text x="1114" y="168">10 g HARDENED   → 2.72 km/s · MACH ~8.6</text>
-      <text x="1114" y="188">30 g CARGO      → 4.72 km/s · MACH ~14.8</text>
-      <text x="1114" y="212" fill="#64748b">PHASE 1 (EAST 14 km ONLY): 30 g → MACH ~9</text>
-      <text x="1114" y="232" fill="#64748b">ENERGY @ 1 t, 30 g FULL LINE: ~11 GJ ≈ 3.1 MWh/SHOT</text>
+    <rect x="1100" y="74" width="420" height="128" fill="#fbfcfe" stroke="#94a3b8" stroke-width="1"/>
+    <text x="1114" y="94" font-size="11.5" font-weight="700" fill="#0e7490" class="t">PERFORMANCE</text>
+    <g font-size="10.8" fill="#334155" class="t">
+      <text x="1114" y="113">FULL 38 km — 30 g CARGO → 4.69 km/s · MACH ~14.8</text>
+      <text x="1114" y="130">FULL 38 km — 3 g HUMAN → 1.48 km/s · MACH ~4.7</text>
+      <text x="1114" y="147">PHASE 1 13 km — 30 g → 2.79 km/s · MACH ~8.8</text>
+      <text x="1114" y="164">PHASE 1 13 km — 3 g → 0.88 km/s · MACH ~2.8</text>
+      <text x="1114" y="186" fill="#64748b">BEND NORMAL LOAD: 15.8 g @ MACH 14.8 (COAST) · 1.6 g @ HUMAN</text>
+    </g>
+  </g>
+
+  <!-- notes box -->
+  <g>
+    <rect x="90" y="74" width="560" height="170" fill="#fbfcfe" stroke="#94a3b8" stroke-width="1"/>
+    <text x="104" y="94" font-size="11.5" font-weight="700" fill="#0e7490" class="t">GENERAL NOTES</text>
+    <g font-size="10.5" fill="#334155" class="t">
+      <text x="104" y="112">1. HIGH-SPEED TRACK CANNOT BEND HARD: TERMINAL BEND LIMITED TO</text>
+      <text x="104" y="126">   R = 143 km → +2.0° OVER THE LAST 5 km. SET BY PAYLOAD g, NOT COST.</text>
+      <text x="104" y="142">2. WESTERN DEEP TUNNEL 24 km, MAX COVER ~880 m (GOTTHARD: 2,300 m).</text>
+      <text x="104" y="158">3. EL ARENAL VIADUCT ~10 km, PIERS 150–425 m (MILLAU 343 m) — OPEN ISSUE.</text>
+      <text x="104" y="174">4. SEISMIC ~0.4 g (PALLATANGA) · VOLCANO DORMANT (~550 CE) · RESERVE</text>
+      <text x="104" y="188">   LEGAL STATUS OPEN. EXIT AIR @5,750 m: ρ ≈ 55% SL. EAST: +465 m/s FREE.</text>
+      <text x="104" y="206" fill="#9f1239">5. TRUE ABOVE-PEAK EXIT NEEDS THE WHOLE LINE +500 m → PIERS ~780 m AND</text>
+      <text x="104" y="220" fill="#9f1239">   NO GROUND-LEVEL PHASE-1 START — SHOWN AS GHOST VARIANT, NOT BASELINE.</text>
     </g>
   </g>
 
@@ -78,33 +71,32 @@ speculative and unvalidated.</p>
     <line x1="70" y1="600" x2="1580" y2="600"/>
   </g>
   <g font-size="10.5" fill="#64748b" class="t" text-anchor="end">
-    <text x="64" y="454">6,000 m</text>
-    <text x="64" y="484">5,000 m</text>
-    <text x="64" y="514">4,000 m</text>
-    <text x="64" y="544">3,000 m</text>
-    <text x="64" y="574">2,000 m</text>
-    <text x="64" y="604">1,000 m</text>
+    <text x="64" y="454">6,000 m</text><text x="64" y="484">5,000 m</text><text x="64" y="514">4,000 m</text>
+    <text x="64" y="544">3,000 m</text><text x="64" y="574">2,000 m</text><text x="64" y="604">1,000 m</text>
   </g>
 
-  <!-- terrain (real SRTM along fire line, 1:1) -->
+  <!-- terrain -->
   <path d="M 80.0,593.5 L 92.0,591.8 L 104.0,590.5 L 116.0,588.2 L 128.0,584.4 L 140.0,588.1 L 152.0,588.2 L 164.0,583.4 L 176.0,580.8 L 188.0,586.4 L 200.0,590.5 L 212.0,589.0 L 224.0,583.3 L 236.0,579.1 L 248.0,577.3 L 260.0,574.8 L 272.0,566.9 L 284.0,567.8 L 296.0,566.1 L 308.0,564.2 L 320.0,563.2 L 332.0,561.7 L 344.0,560.3 L 356.0,561.9 L 368.0,561.1 L 380.0,561.1 L 392.0,564.9 L 404.0,565.1 L 416.0,560.9 L 428.0,558.5 L 440.0,555.9 L 452.0,551.0 L 464.0,545.8 L 476.0,541.4 L 488.0,539.9 L 500.0,533.2 L 512.0,528.1 L 524.0,529.2 L 536.0,531.2 L 548.0,530.1 L 560.0,528.6 L 572.0,527.7 L 584.0,528.4 L 596.0,528.0 L 608.0,524.0 L 620.0,523.4 L 632.0,526.0 L 644.0,527.4 L 656.0,524.1 L 668.0,520.9 L 680.0,520.8 L 692.0,524.3 L 704.0,522.5 L 716.0,522.0 L 728.0,520.3 L 740.0,517.5 L 752.0,515.4 L 764.0,512.8 L 776.0,510.8 L 788.0,512.6 L 800.0,515.0 L 812.0,513.0 L 824.0,509.6 L 836.0,506.1 L 848.0,506.4 L 860.0,509.0 L 872.0,508.9 L 884.0,506.9 L 896.0,505.9 L 908.0,507.2 L 920.0,505.5 L 932.0,507.5 L 944.0,506.8 L 956.0,505.9 L 968.0,505.9 L 980.0,505.5 L 992.0,508.2 L 1004.0,509.1 L 1016.0,509.9 L 1028.0,508.0 L 1040.0,506.4 L 1052.0,504.1 L 1064.0,501.8 L 1076.0,500.4 L 1088.0,499.1 L 1100.0,498.1 L 1112.0,497.8 L 1124.0,496.3 L 1136.0,494.6 L 1148.0,493.0 L 1160.0,492.5 L 1172.0,489.9 L 1184.0,487.7 L 1196.0,484.5 L 1208.0,479.5 L 1220.0,474.5 L 1232.0,473.3 L 1244.0,467.3 L 1256.0,459.6 L 1268.0,451.8 L 1280.0,447.1 L 1292.0,447.2 L 1304.0,445.9 L 1316.0,454.5 L 1328.0,461.2 L 1340.0,466.6 L 1352.0,469.5 L 1364.0,474.1 L 1376.0,479.7 L 1388.0,483.1 L 1400.0,485.2 L 1412.0,489.3 L 1424.0,490.9 L 1436.0,495.5 L 1448.0,497.8 L 1460.0,499.8 L 1472.0,501.5 L 1484.0,503.4 L 1496.0,504.3 L 1508.0,506.7 L 1520.0,509.1 L 1532.0,511.1 L 1544.0,511.5 L 1556.0,513.0 L 1568.0,513.9 L 1574.0,640 L 80.0,640 Z"
         fill="#f0ebdd" stroke="#8a7f6a" stroke-width="1.5"/>
-  <!-- glacier hint near section high point -->
-  <path d="M 1268.0,451.8 L 1280.0,447.1 L 1292.0,447.2 L 1304.0,445.9 L 1316.0,454.5 L 1316.0,458.5 L 1304.0,449.9 L 1292.0,451.2 L 1280.0,451.1 L 1268.0,455.8 Z" fill="#ffffff" stroke="#9fc3dd" stroke-width="0.8"/>
+
+  <!-- ghost above-peak variant -->
+  <line x1="200" y1="575.1" x2="1334" y2="445.9" stroke="#9ca3af" stroke-width="2.5" stroke-dasharray="3 8"/>
+  <text x="640" y="486" font-size="10" fill="#9ca3af" class="t" transform="rotate(-6.5 640 486)">GHOST: ABOVE-PEAK VARIANT (+500 m) — MUZZLE ~6,310 m — REJECTED AS BASELINE (NOTE 5)</text>
 
   <!-- summit reference -->
   <path d="M 1298,444 l -5,-9 l 10,0 Z" fill="#334155"/>
-  <line x1="1298" y1="435" x2="1298" y2="392" stroke="#94a3b8" stroke-width="0.9"/>
-  <text x="1126" y="386" font-size="11" font-weight="600" fill="#334155" class="t">WHYMPER SUMMIT 6,263 m — 0.5 km S OF SECTION PLANE</text>
+  <text x="1132" y="428" font-size="10.5" font-weight="600" fill="#334155" class="t">WHYMPER 6,263 m — 0.5 km S OF SECTION</text>
 
-  <!-- track: tunnel (dashed) / viaduct (solid) / cone bore (dashed) -->
+  <!-- track -->
   <line x1="200" y1="590.1" x2="926" y2="507.4" stroke="#7c3aed" stroke-width="6" stroke-dasharray="8 6" stroke-linecap="round"/>
   <line x1="932" y1="506.7" x2="1232" y2="472.5" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
   <line x1="932" y1="506.7" x2="1232" y2="472.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
-  <line x1="1238" y1="471.8" x2="1328" y2="461.6" stroke="#7c3aed" stroke-width="6" stroke-dasharray="8 6" stroke-linecap="round"/>
+  <path d="M 1238,471.8 Q 1290,464.5 1328,458.6" fill="none" stroke="#7c3aed" stroke-width="6" stroke-dasharray="8 6" stroke-linecap="round"/>
+  <line x1="1328" y1="458.6" x2="1340" y2="456.4" stroke="#7c3aed" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="200" cy="590.1" r="6" fill="#22d3ee" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="1340" cy="456.4" r="6" fill="#f43f5e" stroke="#0f172a" stroke-width="1.5"/>
   <!-- viaduct piers -->
   <g stroke="#94a3b8" stroke-width="3" stroke-linecap="round">
-    <line x1="960" y1="504" x2="960" y2="505.9"/>
     <line x1="1000" y1="499" x2="1000" y2="509.1"/>
     <line x1="1040" y1="494.5" x2="1040" y2="506.4"/>
     <line x1="1080" y1="490" x2="1080" y2="499.8"/>
@@ -112,165 +104,235 @@ speculative and unvalidated.</p>
     <line x1="1160" y1="480.9" x2="1160" y2="492.5"/>
     <line x1="1200" y1="476.3" x2="1200" y2="481.6"/>
   </g>
-  <!-- markers -->
-  <circle cx="200" cy="590.1" r="6" fill="#22d3ee" stroke="#0f172a" stroke-width="1.5"/>
-  <circle cx="1334" cy="460.9" r="6" fill="#f43f5e" stroke="#0f172a" stroke-width="1.5"/>
 
   <!-- exit trajectory -->
-  <path d="M 1334,460.9 L 1560,435" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-dasharray="8 7"/>
-  <path d="M 1572,433.6 l -17,-5 l 2,10 l -9,5 Z" fill="#0e7490"/>
+  <path d="M 1340,456.4 L 1560,424" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-dasharray="8 7"/>
+  <path d="M 1572,422.4 l -17,-5 l 2,10 l -9,5 Z" fill="#0e7490"/>
 
   <!-- phase brackets -->
-  <g stroke="#f59e0b" stroke-width="3" fill="none">
-    <path d="M 914,624 v 8 h 420 v -8"/>
+  <g stroke="#f59e0b" stroke-width="3" fill="none"><path d="M 932,620 v 8 h 408 v -8"/></g>
+  <text x="1136" y="646" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e" class="t">PHASE 1 — 13 km (BUILD FIRST — SEE PANEL C)</text>
+  <g stroke="#64748b" stroke-width="2" fill="none"><path d="M 200,620 v 8 h 726 v -8"/></g>
+  <text x="563" y="646" text-anchor="middle" font-size="11" fill="#475569" class="t">PHASE 2 — WESTERN DEEP-TUNNEL EXTENSION → FULL 38 km</text>
+
+  <!-- annotations -->
+  <g font-size="11.5" fill="#334155" class="t">
+    <text x="150" y="556">WEST PORTAL 1,330 m — CHAZOJUÁN</text>
+    <text x="480" y="566" fill="#7c3aed">DEEP TUNNEL — 24 km @ 6.5°</text>
+    <text x="940" y="540" fill="#7c3aed">EL ARENAL VIADUCT</text>
+    <text x="1356" y="412">ROCK PORTAL 5,694 m → TRUSS MUZZLE 5,754 m</text>
+    <text x="1356" y="426" fill="#f43f5e">EXIT 8.4° EAST · BEND +2° IN FINAL 5 km</text>
   </g>
-  <text x="1124" y="650" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e" class="t">PHASE 1 — 14 km DEMONSTRATOR (VIADUCT + CONE BORE + MUZZLE)</text>
-  <g stroke="#64748b" stroke-width="2" fill="none">
-    <path d="M 200,624 v 8 h 706 v -8"/>
+
+  <!-- axis -->
+  <line x1="70" y1="668" x2="1580" y2="668" stroke="#64748b" stroke-width="1.4"/>
+  <g font-size="10" fill="#64748b" class="t" text-anchor="middle">
+    <text x="200" y="688">0</text><text x="500" y="688">10</text><text x="800" y="688">20</text>
+    <text x="1100" y="688">30</text><text x="1340" y="688">38 km — MUZZLE</text>
   </g>
-  <text x="553" y="650" text-anchor="middle" font-size="11" fill="#475569" class="t">PHASE 2 — WESTERN DEEP-TUNNEL EXTENSION → FULL 37.8 km</text>
+  <text x="800" y="712" text-anchor="middle" font-size="11" font-weight="700" fill="#16a34a" class="t">TRUE SCALE 1:1 — THE +2° TERMINAL BEND IS REAL BUT INVISIBLE AT THIS SCALE (87 m OF LIFT) — SEE BEND DETAIL INSET</text>
+</svg>
+
+<h2 class="panel">PANEL C — ITERATION 2: PHASE-1 FIRST BUILD, 13 km — SAME LINE, EXTENDABLE WEST (TRUE SCALE 1:1)</h2>
+<svg viewBox="0 0 1600 720" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="4" y="4" width="1592" height="712" fill="none" stroke="#334155" stroke-width="2"/>
+  <text x="800" y="36" text-anchor="middle" font-size="17" font-weight="700" letter-spacing="1.1">PHASE 1 — 13 km FIRST BUILD — PORTAL AT GRADE, VIADUCT, CONE BORE, BENT MUZZLE</text>
+  <text x="800" y="57" text-anchor="middle" font-size="12" fill="#0e7490" class="t">PORTAL 4,110 m (ONLY AT-GRADE START POINT ON THE LINE — TERRAIN SETS THE 13 km, NOT CHOICE) · 30 g → MACH ~8.8 · 3 g → MACH ~2.8</text>
+
+  <!-- gridlines -->
+  <g stroke="#dbe3ee" stroke-width="1">
+    <line x1="70" y1="431.8" x2="1580" y2="431.8"/>
+    <line x1="70" y1="470.8" x2="1580" y2="470.8"/>
+    <line x1="70" y1="509.8" x2="1580" y2="509.8"/>
+    <line x1="70" y1="548.8" x2="1580" y2="548.8"/>
+  </g>
+  <g font-size="10.5" fill="#64748b" class="t" text-anchor="end">
+    <text x="64" y="435.8">6,000 m</text><text x="64" y="474.8">5,500 m</text>
+    <text x="64" y="513.8">5,000 m</text><text x="64" y="552.8">4,500 m</text>
+  </g>
+
+  <!-- terrain (zoomed, 1:1) -->
+  <path d="M 80.0,580.4 L 95.6,576.9 L 111.2,576.1 L 126.8,577.3 L 142.4,581.3 L 158.0,582.1 L 173.6,579.5 L 189.2,577.2 L 204.8,577.2 L 220.4,578.7 L 236.0,577.2 L 251.6,575.5 L 267.2,576.1 L 282.8,577.8 L 298.4,583.0 L 314.0,589.2 L 329.6,585.4 L 345.2,588.4 L 360.8,587.5 L 376.4,584.7 L 392.0,582.5 L 407.6,581.1 L 423.2,578.5 L 438.8,575.7 L 454.4,572.5 L 470.0,569.5 L 485.6,566.5 L 501.2,564.2 L 516.8,562.9 L 532.4,561.1 L 548.0,559.4 L 563.6,558.0 L 579.2,556.9 L 594.8,556.6 L 610.4,556.0 L 626.0,554.4 L 641.6,552.2 L 657.2,549.7 L 672.8,547.7 L 688.4,545.7 L 704.0,543.5 L 719.6,542.7 L 735.2,542.3 L 750.8,539.9 L 766.4,535.5 L 782.0,532.9 L 797.6,529.7 L 813.2,526.1 L 828.8,521.4 L 844.4,514.5 L 860.0,508.6 L 875.6,501.5 L 891.2,495.5 L 906.8,497.3 L 922.4,492.5 L 938.0,485.4 L 953.6,476.8 L 969.2,468.1 L 984.8,456.8 L 1000.4,446.9 L 1016.0,436.4 L 1031.6,429.4 L 1047.2,424.2 L 1062.8,424.1 L 1078.4,424.6 L 1094.0,420.6 L 1109.6,421.0 L 1125.2,431.8 L 1140.8,443.5 L 1156.4,454.0 L 1172.0,460.8 L 1187.6,466.0 L 1203.2,474.9 L 1218.8,477.8 L 1234.4,482.4 L 1250.0,490.2 L 1265.6,494.6 L 1281.2,500.5 L 1296.8,508.9 L 1312.4,514.7 L 1328.0,517.9 L 1343.6,517.7 L 1359.2,523.2 L 1374.8,532.0 L 1374.8,640 L 80.0,640 Z"
+        fill="#f0ebdd" stroke="#8a7f6a" stroke-width="1.5"/>
+  <!-- glacier hint near crest -->
+  <path d="M 1031.6,429.4 L 1047.2,424.2 L 1062.8,424.1 L 1078.4,424.6 L 1094.0,420.6 L 1109.6,421.0 L 1125.2,431.8 L 1125.2,436.8 L 1109.6,426.0 L 1094.0,425.6 L 1078.4,429.6 L 1062.8,429.1 L 1047.2,429.2 L 1031.6,434.4 Z" fill="#ffffff" stroke="#9fc3dd" stroke-width="0.8"/>
+
+  <!-- summit reference -->
+  <path d="M 1094,418 l -5,-9 l 10,0 Z" fill="#334155"/>
+  <line x1="1094" y1="409" x2="1094" y2="370" stroke="#94a3b8" stroke-width="0.9"/>
+  <text x="930" y="364" font-size="11" font-weight="600" fill="#334155" class="t">WHYMPER SUMMIT 6,263 m — 0.5 km S OF SECTION PLANE</text>
+
+  <!-- future extension ghost (west) -->
+  <line x1="80" y1="586.3" x2="142.4" y2="579.2" stroke="#c4b5fd" stroke-width="5" stroke-dasharray="3 9"/>
+  <text x="84" y="610" font-size="10.5" fill="#a78bfa" class="t">FUTURE WESTERN EXTENSION — SAME LINE, KEEP BORING → FULL 38 km</text>
+
+  <!-- track: surface straight -->
+  <line x1="142.4" y1="579.2" x2="797.6" y2="504.6" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
+  <line x1="142.4" y1="579.2" x2="797.6" y2="504.6" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+  <!-- bend: viaduct part solid -->
+  <path d="M 797.6,504.6 L 828.8,501.0 L 860.0,497.3 L 891.2,493.5 L 922.4,489.6" fill="none" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
+  <path d="M 797.6,504.6 L 828.8,501.0 L 860.0,497.3 L 891.2,493.5 L 922.4,489.6" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+  <!-- bend: tunnel part dashed -->
+  <path d="M 938.0,487.7 L 953.6,485.7 L 984.8,481.7 L 1016.0,477.5 L 1047.2,473.3 L 1078.4,469.0 L 1109.6,464.7 L 1140.8,460.2 L 1156.4,457.9" fill="none" stroke="#7c3aed" stroke-width="6" stroke-dasharray="8 6" stroke-linecap="round"/>
+  <!-- portal to truss muzzle -->
+  <line x1="1156.4" y1="457.9" x2="1203.2" y2="451.0" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
+  <line x1="1156.4" y1="457.9" x2="1203.2" y2="451.0" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+  <g stroke="#7c3aed" stroke-width="2.4">
+    <line x1="1187" y1="453.5" x2="1184" y2="466.5"/>
+    <line x1="1203.2" y1="451.0" x2="1198" y2="468"/>
+  </g>
+  <!-- piers -->
+  <g stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round">
+    <line x1="236" y1="568.5" x2="236" y2="577.2"/>
+    <line x1="314" y1="559.6" x2="314" y2="589.2"/>
+    <line x1="392" y1="550.8" x2="392" y2="582.5"/>
+    <line x1="470" y1="541.9" x2="470" y2="569.5"/>
+    <line x1="548" y1="533.0" x2="548" y2="559.4"/>
+    <line x1="626" y1="524.1" x2="626" y2="554.4"/>
+    <line x1="704" y1="515.2" x2="704" y2="543.5"/>
+    <line x1="782" y1="506.3" x2="782" y2="532.9"/>
+    <line x1="860" y1="497.3" x2="860" y2="508.6"/>
+  </g>
+  <!-- markers -->
+  <circle cx="142.4" cy="579.2" r="6" fill="#22d3ee" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="1203.2" cy="451.0" r="6" fill="#f43f5e" stroke="#0f172a" stroke-width="1.5"/>
+  <!-- bend start marker -->
+  <circle cx="797.6" cy="504.6" r="4" fill="#f59e0b" stroke="#0f172a" stroke-width="1.2"/>
+
+  <!-- exit trajectory -->
+  <path d="M 1203.2,451.0 L 1420,418" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-dasharray="8 7"/>
+  <path d="M 1432,416.2 l -17,-5 l 2,10 l -9,5 Z" fill="#0e7490"/>
 
   <!-- annotations -->
   <g stroke="#64748b" stroke-width="1">
-    <line x1="200" y1="583" x2="230" y2="406"/>
-    <line x1="560" y1="546" x2="590" y2="430"/>
-    <line x1="1080" y1="488" x2="1010" y2="392"/>
-    <line x1="1283" y1="464" x2="1240" y2="556"/>
-    <line x1="1334" y1="454" x2="1380" y2="372"/>
+    <line x1="142.4" y1="572" x2="170" y2="486"/>
+    <line x1="500" y1="544" x2="530" y2="470"/>
+    <line x1="797.6" y1="498" x2="770" y2="420"/>
+    <line x1="1000" y1="465" x2="960" y2="560"/>
+    <line x1="1203.2" y1="444" x2="1250" y2="396"/>
   </g>
   <g font-size="11.5" fill="#334155" class="t">
-    <text x="160" y="386">WEST PORTAL 1,330 m</text>
-    <text x="160" y="400" fill="#64748b">CHAZOJUÁN VALLEYS — SLED LOAD-IN · VACUUM PLANT</text>
-    <text x="500" y="410" fill="#7c3aed">DEEP TUNNEL — 24 km STRAIGHT @ 6.5°</text>
-    <text x="500" y="424" fill="#64748b">MAX COVER ~880 m · ANDESITE · TBM CLASS</text>
-    <text x="880" y="372" fill="#7c3aed">EL ARENAL VIADUCT — ~10 km</text>
-    <text x="880" y="386" fill="#9f1239">TALLEST PIERS ~425 m (OPEN ISSUE)</text>
-    <text x="1140" y="570" fill="#7c3aed">CONE BORE — 3 km THROUGH UPPER EDIFICE</text>
-    <text x="1140" y="584" fill="#64748b">PASSES ~600 m BELOW THE SUMMIT</text>
-    <text x="1386" y="360">EAST-FACE MUZZLE 5,637 m</text>
-    <text x="1386" y="374" fill="#f43f5e">PLASMA WINDOW + BLAST SHUTTER · EXIT 6.5° EAST</text>
-    <text x="1386" y="388" fill="#0e7490">ρ ≈ 56% SL · CLEARS EAST RIDGE BY &gt;1.5 km</text>
+    <text x="106" y="466">PHASE-1 PORTAL 4,110 m — AT GRADE</text>
+    <text x="106" y="480" fill="#64748b">SLED LOAD-IN · VACUUM PLANT · FLYWHEEL/SMES FARM</text>
+    <text x="440" y="450" fill="#7c3aed">EL ARENAL VIADUCT — PIERS 150–410 m</text>
+    <text x="440" y="464" fill="#9f1239">(BEYOND MILLAU 343 m — OPEN ISSUE)</text>
+    <text x="660" y="402" fill="#92400e">BEND STARTS — R = 143 km, +2.0° OVER 5 km</text>
+    <text x="660" y="416" fill="#64748b">NORMAL LOAD: 5.5 g @ MACH 8.8 · 0.6 g @ 3 g MODE</text>
+    <text x="880" y="586" fill="#7c3aed">CONE BORE — 2.8 km, PASSES ~590 m BELOW SUMMIT</text>
+    <text x="1256" y="384">TRUSS MUZZLE 5,754 m — 0.9 km NE OF PEAK</text>
+    <text x="1256" y="398" fill="#f43f5e">PLASMA WINDOW + BLAST SHUTTER · EXIT 8.4° EAST</text>
+    <text x="1256" y="412" fill="#0e7490">ρ ≈ 55% SL · TERRAIN FALLS AWAY DOWNRANGE</text>
   </g>
 
-  <!-- distance axis (chainage from west portal) -->
-  <line x1="70" y1="668" x2="1580" y2="668" stroke="#64748b" stroke-width="1.4"/>
-  <g stroke="#64748b" stroke-width="1">
-    <line x1="200" y1="668" x2="200" y2="674"/><line x1="350" y1="668" x2="350" y2="674"/>
-    <line x1="500" y1="668" x2="500" y2="674"/><line x1="650" y1="668" x2="650" y2="674"/>
-    <line x1="800" y1="668" x2="800" y2="674"/><line x1="950" y1="668" x2="950" y2="674"/>
-    <line x1="1100" y1="668" x2="1100" y2="674"/><line x1="1250" y1="668" x2="1250" y2="674"/>
-    <line x1="1334" y1="668" x2="1334" y2="674"/>
-  </g>
+  <!-- axis: chainage from phase-1 portal -->
+  <line x1="70" y1="660" x2="1580" y2="660" stroke="#64748b" stroke-width="1.4"/>
   <g font-size="10" fill="#64748b" class="t" text-anchor="middle">
-    <text x="200" y="688">0</text><text x="350" y="688">5</text><text x="500" y="688">10</text>
-    <text x="650" y="688">15</text><text x="800" y="688">20</text><text x="950" y="688">25</text>
-    <text x="1100" y="688">30</text><text x="1250" y="688">35</text><text x="1334" y="688">37.8 km — MUZZLE</text>
+    <text x="142" y="680">0</text><text x="298" y="680">2</text><text x="454" y="680">4</text>
+    <text x="610" y="680">6</text><text x="766" y="680">8</text><text x="922" y="680">10</text>
+    <text x="1078" y="680">12</text><text x="1203" y="680">13.2 km — MUZZLE</text>
   </g>
-  <text x="800" y="712" text-anchor="middle" font-size="11" font-weight="700" fill="#16a34a" class="t">TRUE SCALE 1:1 — 1 px ≈ 33 m BOTH AXES · THE 6.5° LINE AND THE MOUNTAIN ARE SHOWN AS THEY REALLY ARE</text>
+  <text x="800" y="704" text-anchor="middle" font-size="11" font-weight="700" fill="#16a34a" class="t">TRUE SCALE 1:1 — AT THIS ZOOM THE +2° TERMINAL BEND IS JUST VISIBLE IN THE TRACK LINE</text>
+</svg>
 
-  <!-- ===================== INSETS ===================== -->
+<h2 class="panel">DETAILS</h2>
+<svg viewBox="0 0 1600 330" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="4" y="4" width="1592" height="322" fill="none" stroke="#334155" stroke-width="2"/>
+
+  <!-- Inset 1: bend detail x10 -->
   <g>
-    <rect x="80" y="736" width="450" height="200" fill="#fbfcfe" stroke="#94a3b8"/>
-    <text x="305" y="757" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">CROSS-SECTION — DEEP TUNNEL SEGMENT</text>
-    <circle cx="200" cy="850" r="62" fill="#efe9da" stroke="#8a7f6a" stroke-width="2.5" stroke-dasharray="6 4"/>
-    <circle cx="200" cy="850" r="50" fill="#ffffff" stroke="#475569" stroke-width="3"/>
-    <circle cx="200" cy="850" r="40" fill="none" stroke="#7c3aed" stroke-width="6" stroke-dasharray="6 5"/>
-    <circle cx="200" cy="850" r="31" fill="#eef6ff" stroke="#0e7490" stroke-width="1.5"/>
-    <rect x="180" y="843" width="40" height="12" rx="3" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+    <rect x="80" y="24" width="450" height="240" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="305" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">TERMINAL BEND — VERTICAL ×10 EXAGGERATION</text>
+    <line x1="110" y1="190" x2="280" y2="166" stroke="#7c3aed" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 280,166 Q 380,151 470,108" fill="none" stroke="#7c3aed" stroke-width="6" stroke-linecap="round"/>
+    <line x1="110" y1="190" x2="470" y2="139" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="5 5"/>
+    <circle cx="280" cy="166" r="4.5" fill="#f59e0b" stroke="#0f172a" stroke-width="1.2"/>
     <g font-size="10.5" fill="#334155" class="t">
-      <text x="290" y="800" fill="#8a7f6a">ANDESITE BORE Ø~9 m (CCS-CLASS TBM)</text>
-      <text x="290" y="818">VACUUM JACKET Ø3.2 m — 316L</text>
-      <text x="290" y="836" fill="#7c3aed">LSM STATOR — REBCO, 20 K</text>
-      <text x="290" y="854" fill="#0e7490">EVACUATED BORE Ø2.4 m · ~10 Pa</text>
-      <text x="290" y="872">SLED ON MAGLEV GUIDEWAY</text>
-      <text x="290" y="890">INVERT: CRYO + POWER + EGRESS</text>
+      <text x="120" y="216">STRAIGHT @ 6.5°</text>
+      <text x="290" y="200" fill="#92400e">BEND START (5 km TO GO)</text>
+      <text x="306" y="84" fill="#7c3aed">R = 143 km → +2.0° · EXIT 8.4°</text>
+      <text x="120" y="240" fill="#64748b">LIFT GAINED: 87 m · NORMAL g: 15.8 @ M14.8 / 1.6 @ HUMAN</text>
+      <text x="120" y="256" fill="#64748b">DRIVE COASTS THROUGH BEND — NO AXIAL+NORMAL STACKING</text>
     </g>
   </g>
 
+  <!-- Inset 2: X-59-inspired sled -->
   <g>
-    <rect x="566" y="736" width="450" height="200" fill="#fbfcfe" stroke="#94a3b8"/>
-    <text x="791" y="757" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">EAST-FACE MUZZLE — BORE PORTAL @ 5,637 m</text>
-    <path d="M 620,770 L 700,790 L 760,820 L 820,860 L 880,910" fill="none" stroke="#8a7f6a" stroke-width="2.5"/>
-    <rect x="700" y="836" width="180" height="26" fill="#ffffff" stroke="#7c3aed" stroke-width="4" transform="rotate(-6.5 700 849)"/>
-    <g stroke="#f43f5e" stroke-width="3" fill="none">
-      <path d="M 892,822 q 10,16 0,32" transform="rotate(-6.5 892 838)"/>
-      <path d="M 902,825 q 8,13 0,26" transform="rotate(-6.5 902 838)"/>
-    </g>
-    <g font-size="10.5" fill="#334155" class="t">
-      <text x="612" y="906" fill="#8a7f6a">UPPER EAST FACE (~30° SLOPE)</text>
-      <text x="930" y="800">SLED EXITS 6.5° UPWARD,</text>
-      <text x="930" y="814">EAST, ABOVE FALLING TERRAIN</text>
-      <text x="612" y="784" fill="#7c3aed">FINAL LSM + COAST INSIDE ROCK</text>
-      <text x="700" y="922" fill="#f43f5e">PLASMA WINDOW RECESSED IN PORTAL · BLAST DOOR</text>
-    </g>
-  </g>
-
-  <g>
-    <rect x="1052" y="736" width="468" height="200" fill="#fbfcfe" stroke="#94a3b8"/>
-    <text x="1286" y="757" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">BRONTE TEST SLED — CALLSIGN “LAWN CHAIR”</text>
-    <g transform="translate(1090,810)">
-      <path d="M 0,10 h 200 l 70,28 l -70,28 h -200 Z" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
-      <line x1="66" y1="10" x2="66" y2="66" stroke="#94a3b8" stroke-width="1.5"/>
-      <line x1="140" y1="10" x2="140" y2="66" stroke="#94a3b8" stroke-width="1.5"/>
-      <rect x="0" y="70" width="200" height="9" fill="#7c3aed"/>
-      <g stroke="#0e7490" stroke-width="2.5" fill="none">
-        <path d="M 96,52 l 10,-14 l 14,0"/>
-        <path d="M 96,52 l 18,0"/>
-        <line x1="100" y1="52" x2="96" y2="62"/>
-        <line x1="112" y1="52" x2="116" y2="62"/>
+    <rect x="566" y="24" width="500" height="240" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="816" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">BRONTE TEST SLED “LAWN CHAIR” — X-59-INSPIRED NEEDLE FOREBODY</text>
+    <!-- sled side view: long needle nose, chined slender body -->
+    <g transform="translate(600,120)">
+      <path d="M 0,42 L 175,28 L 250,22 L 330,18 L 400,16 L 400,52 L 330,54 L 250,56 L 175,54 Z"
+            fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+      <line x1="175" y1="28" x2="175" y2="54" stroke="#94a3b8" stroke-width="1.2"/>
+      <line x1="250" y1="22" x2="250" y2="56" stroke="#94a3b8" stroke-width="1.2"/>
+      <line x1="330" y1="18" x2="330" y2="54" stroke="#94a3b8" stroke-width="1.2"/>
+      <!-- chine line -->
+      <path d="M 0,42 L 175,40 L 330,36 L 400,34" fill="none" stroke="#64748b" stroke-width="1" stroke-dasharray="3 3"/>
+      <!-- dorsal strake -->
+      <path d="M 330,18 L 372,6 L 400,16 Z" fill="#cbd5e1" stroke="#334155" stroke-width="1.4"/>
+      <!-- maglev skid -->
+      <rect x="180" y="58" width="220" height="9" fill="#7c3aed"/>
+      <!-- lawn chair mascot in bay -->
+      <g stroke="#0e7490" stroke-width="2.2" fill="none" transform="translate(262,30)">
+        <path d="M 0,14 l 7,-10 l 10,0"/>
+        <path d="M 0,14 l 13,0"/>
+        <line x1="3" y1="14" x2="0" y2="21"/>
+        <line x1="11" y1="14" x2="14" y2="21"/>
       </g>
     </g>
     <g font-size="10.5" fill="#334155" class="t">
-      <text x="1090" y="790">RECOVERY BAY · INSTRUMENTS · AERO-SHELL NOSE</text>
-      <text x="1090" y="914" fill="#7c3aed">MAGLEV SKID — LEVITATION + LSM REACTION PLATE</text>
-      <text x="1090" y="928" fill="#64748b">FIRST ARTICLE PAYLOAD: 1× LAWN CHAIR (NOTIONAL, 4 kg)</text>
+      <text x="590" y="100" fill="#f43f5e">NEEDLE NOSE — ~45% OF LENGTH (X-59 QUESST SHOCK-SHAPING)</text>
+      <text x="940" y="130">DORSAL STRAKE</text>
+      <text x="590" y="220" fill="#64748b">CHINED FOREBODY SPREADS SHOCKS · ABLATIVE TPS OVER 316L FRAME</text>
+      <text x="590" y="238" fill="#7c3aed">MAGLEV SKID — LEVITATION + LSM REACTION PLATE (JETTISONED AT EXIT)</text>
+      <text x="590" y="256" fill="#64748b">BAYS: RECOVERY CHUTE · INSTRUMENTS · PAYLOAD (FIRST ARTICLE: 1× LAWN CHAIR, 4 kg)</text>
     </g>
   </g>
 
-  <!-- ===================== TITLE BLOCK ===================== -->
+  <!-- Inset 3: tunnel cross-section -->
+  <g>
+    <rect x="1102" y="24" width="418" height="240" fill="#fbfcfe" stroke="#94a3b8"/>
+    <text x="1311" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" class="t">CROSS-SECTION — DEEP TUNNEL SEGMENT</text>
+    <circle cx="1210" cy="160" r="62" fill="#efe9da" stroke="#8a7f6a" stroke-width="2.5" stroke-dasharray="6 4"/>
+    <circle cx="1210" cy="160" r="50" fill="#ffffff" stroke="#475569" stroke-width="3"/>
+    <circle cx="1210" cy="160" r="40" fill="none" stroke="#7c3aed" stroke-width="6" stroke-dasharray="6 5"/>
+    <circle cx="1210" cy="160" r="31" fill="#eef6ff" stroke="#0e7490" stroke-width="1.5"/>
+    <rect x="1192" y="153" width="36" height="11" rx="3" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+    <g font-size="10" fill="#334155" class="t">
+      <text x="1290" y="110" fill="#8a7f6a">ANDESITE BORE Ø~9 m</text>
+      <text x="1290" y="128">VACUUM JACKET Ø3.2 m</text>
+      <text x="1290" y="146" fill="#7c3aed">LSM STATOR — REBCO 20 K</text>
+      <text x="1290" y="164" fill="#0e7490">BORE Ø2.4 m · ~10 Pa</text>
+      <text x="1290" y="182">SLED ON GUIDEWAY</text>
+      <text x="1290" y="200">INVERT: CRYO/POWER/EGRESS</text>
+    </g>
+  </g>
+
+  <!-- title block -->
   <g class="t">
-    <rect x="80" y="954" width="1440" height="56" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
-    <g stroke="#94a3b8" stroke-width="1">
-      <line x1="430" y1="954" x2="430" y2="1010"/>
-      <line x1="880" y1="954" x2="880" y2="1010"/>
-      <line x1="1030" y1="954" x2="1030" y2="1010"/>
-      <line x1="1090" y1="954" x2="1090" y2="1010"/>
-      <line x1="1160" y1="954" x2="1160" y2="1010"/>
-      <line x1="1230" y1="954" x2="1230" y2="1010"/>
-      <line x1="1330" y1="954" x2="1330" y2="1010"/>
-    </g>
-    <g font-size="8.5" fill="#94a3b8">
-      <text x="88" y="968">COMPANY / PROJECT</text>
-      <text x="438" y="968">TITLE</text>
-      <text x="888" y="968">DWG NO</text>
-      <text x="1038" y="968">REV</text>
-      <text x="1098" y="968">SCALE</text>
-      <text x="1168" y="968">UNITS</text>
-      <text x="1238" y="968">DATE</text>
-      <text x="1338" y="968">STATUS</text>
-    </g>
-    <g font-size="11.5" fill="#1e293b">
-      <text x="88" y="994">PERPETUAL TECHNOLOGIES — KERAUNOS</text>
-      <text x="438" y="994">BRONTE — 37.8 km THROUGH-MOUNTAIN LINE — MAP + PROFILE 1:1</text>
-      <text x="888" y="994" fill="#0e7490">KER-BRO-TRK-001</text>
-      <text x="1048" y="994">E</text>
-      <text x="1098" y="994">1:1</text>
-      <text x="1168" y="994">m</text>
-      <text x="1238" y="994">2026-06-12</text>
-      <text x="1338" y="994" fill="#f43f5e" font-size="10">EARLY MOCK-UP — NOT FOR CONSTRUCTION</text>
+    <rect x="80" y="276" width="1440" height="42" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <g font-size="10.5" fill="#1e293b">
+      <text x="92" y="302">PERPETUAL TECHNOLOGIES — KERAUNOS</text>
+      <text x="440" y="302">BRONTE — FULL LINE + PHASE 1 + TERMINAL BEND — MAP &amp; PROFILES 1:1</text>
+      <text x="940" y="302" fill="#0e7490">KER-BRO-TRK-001</text>
+      <text x="1075" y="302">REV F</text>
+      <text x="1150" y="302">1:1</text>
+      <text x="1210" y="302">2026-06-12</text>
+      <text x="1310" y="302" fill="#f43f5e" font-size="9.5">EARLY MOCK-UP — NOT FOR CONSTRUCTION</text>
     </g>
   </g>
 </svg>
 
-<p class="caption">REV E — the alignment you sketched, fitted to the real terrain: one dead-straight 37.8 km line at
-6.5°, azimuth 095°, passing half a kilometer north of the summit. From the west: portal at 1,330 m in the Chazojuán
-valleys (almost exactly where your 30.43 km Google Earth trace ended), 24 km of deep tunnel under the western
-slopes and El Arenal (max cover ~880 m — Gotthard runs 2.3 km, so routine), a ~10 km viaduct section across the
-upper Arenal (tallest piers ~425 m — beyond Millau's 343 m record, flagged honestly as the design's hardest open
-issue), then 3 km bored through the volcano's upper cone, passing ~600 m beneath the summit, with the muzzle
-breaking out of the east face at 5,637 m. Phase 1 builds only the eastern 14 km (viaduct + cone bore: Mach ~9 at
-30 g); phase 2 extends the tunnel west for the full line: Mach ~15 cargo, or Mach ~4.7 at a human-rated 3 g.
-The profile is drawn at true 1:1 — the mountain you see is the mountain there is.</p>
+<p class="caption">REV F — same alignment, now with the terminal up-bend you asked for and both build iterations
+stacked. The bend is as much as the physics sells: R = 143 km over the final 5 km buys +2.0° (exit 8.4°) and 87 m
+of lift, capped by the 15.8 g normal load on Mach-14.8 cargo (humans at 3 g feel just 1.6 g). The drive coasts
+through the bend so loads don't stack. Rock portal 5,694 m on the east face, truss muzzle at 5,754 m, about 0.9 km
+northeast of the summit. A genuine above-the-peak exit needs the whole line raised ~500 m — shown as the gray
+ghost on Panel B and rejected as baseline because it pushes viaduct piers to ~780 m and leaves phase 1 with no
+ground-level start. Phase 1 is 13 km because that's where the line touches the ground — start there, fire at
+Mach ~8.8, and when it's time to grow, keep boring west on the same line until it's the 38 km Mach-15 machine.
+The sled grew an X-59-style needle nose and chined forebody for shock-shaping at these speeds; the lawn chair
+keeps its seat.</p>
 </div>
 </body>
 </html>
