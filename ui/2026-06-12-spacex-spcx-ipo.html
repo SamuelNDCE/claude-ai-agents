@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceX SPCX IPO Dashboard — June 12, 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --navy: #0a0d18;
+    --teal: #22d3ee;
+    --purple: #7c3aed;
+    --green: #10b981;
+    --red: #ef4444;
+    --card-bg: #111827;
+    --border: rgba(255,255,255,0.08);
+    --muted: rgba(255,255,255,0.45);
+    --text: #f1f5f9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--text); font-family: system-ui, -apple-system, sans-serif; padding: 2rem; }
+  h1 { font-size: 13px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .price-row { display: flex; align-items: baseline; gap: 14px; margin-bottom: 2rem; }
+  .price { font-size: 40px; font-weight: 500; }
+  .gain { font-size: 16px; color: var(--green); font-weight: 500; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+  .metric { background: var(--card-bg); border-radius: 10px; padding: 1rem; border: 1px solid var(--border); }
+  .metric-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .metric-value { font-size: 22px; font-weight: 500; }
+  .section-label { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+  .chart-wrap { position: relative; width: 100%; height: 220px; margin-bottom: 2rem; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 2rem; }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; }
+  .card-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 500; }
+  .row { display: flex; justify-content: space-between; font-size: 13px; line-height: 2.2; border-top: 1px solid var(--border); }
+  .row:first-of-type { border-top: none; }
+  .row-label { color: var(--muted); }
+  .banner { background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.25); border-radius: 8px; padding: 0.75rem 1rem; font-size: 13px; color: var(--teal); }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } body { padding: 1rem; } }
+</style>
+</head>
+<body>
+
+<h1>SPCX &nbsp;·&nbsp; Nasdaq &nbsp;·&nbsp; IPO day: June 12, 2026</h1>
+<div class="price-row">
+  <span class="price">$160.00</span>
+  <span class="gain">+$25.00 &nbsp;+18.5% from IPO price</span>
+</div>
+
+<div class="grid-4">
+  <div class="metric"><div class="metric-label">IPO price</div><div class="metric-value">$135</div></div>
+  <div class="metric"><div class="metric-label">Market cap at $160</div><div class="metric-value">$2.10T</div></div>
+  <div class="metric"><div class="metric-label">Funds raised</div><div class="metric-value">$75B</div></div>
+  <div class="metric"><div class="metric-label">Shares outstanding</div><div class="metric-value">13.1B</div></div>
+</div>
+
+<p class="section-label">FY2025 revenue by segment</p>
+<div class="chart-wrap">
+  <canvas id="revenueChart" role="img" aria-label="Starlink $11.4B, Space launch $7.3B"></canvas>
+</div>
+
+<p class="section-label">FY2025 earnings snapshot</p>
+<div class="chart-wrap" style="height: 180px;">
+  <canvas id="earningsChart" role="img" aria-label="Adjusted EBITDA +$6.6B, GAAP net loss -$4.94B"></canvas>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <p class="card-title">IPO snapshot</p>
+    <div class="row"><span class="row-label">Ticker</span><span>SPCX</span></div>
+    <div class="row"><span class="row-label">Exchange</span><span>Nasdaq</span></div>
+    <div class="row"><span class="row-label">Shares sold</span><span>555.6M</span></div>
+    <div class="row"><span class="row-label">Public float</span><span>~5%</span></div>
+    <div class="row"><span class="row-label">Share structure</span><span>Dual-class</span></div>
+    <div class="row"><span class="row-label">IPO demand</span><span>2x oversubscribed</span></div>
+  </div>
+  <div class="card">
+    <p class="card-title">Key business facts</p>
+    <div class="row"><span class="row-label">Starlink subs (Q1 2026)</span><span>10.3M</span></div>
+    <div class="row"><span class="row-label">Revenue growth YoY</span><span>+42%</span></div>
+    <div class="row"><span class="row-label">Starlink growth YoY</span><span>+49%</span></div>
+    <div class="row"><span class="row-label">xAI operating loss</span><span style="color: #ef4444;">-$6.4B</span></div>
+    <div class="row"><span class="row-label">EBITDA margin</span><span>~35%</span></div>
+    <div class="row"><span class="row-label">Q1 2026 revenue</span><span>$4.7B</span></div>
+  </div>
+</div>
+
+<div class="banner">
+  Largest IPO in history — beats Saudi Aramco's $24.9B (2019). Available retail via Schwab, Fidelity, and Robinhood. MSCI inclusion confirmed. Dual-class structure keeps Musk in control.
+</div>
+
+<script>
+const textColor = 'rgba(255,255,255,0.45)';
+const gridColor = 'rgba(255,255,255,0.07)';
+
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Starlink', 'Space / launch'],
+    datasets: [{ label: 'Revenue', data: [11.4, 7.3], backgroundColor: ['#22d3ee', '#7c3aed'], borderRadius: 8, barThickness: 60 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' $' + ctx.parsed.y.toFixed(1) + 'B' } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: textColor, font: { size: 13 } } },
+      y: { grid: { color: gridColor }, ticks: { color: textColor, callback: v => '$' + v + 'B' }, suggestedMax: 14 }
+    }
+  }
+});
+
+new Chart(document.getElementById('earningsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Adj. EBITDA', 'GAAP net income'],
+    datasets: [{ label: 'Amount', data: [6.6, -4.94], backgroundColor: ['#10b981', '#ef4444'], borderRadius: 8, barThickness: 60 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + (ctx.parsed.y < 0 ? '-$' + Math.abs(ctx.parsed.y).toFixed(2) : '$' + ctx.parsed.y.toFixed(1)) + 'B' } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: textColor, font: { size: 13 } } },
+      y: { grid: { color: gridColor }, ticks: { color: textColor, callback: v => (v < 0 ? '-$' + Math.abs(v) : '$' + v) + 'B' }, min: -7, max: 9 }
+    }
+  }
+});
+</script>
+</body>
+</html>
