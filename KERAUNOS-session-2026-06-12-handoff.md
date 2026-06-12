@@ -104,8 +104,10 @@ under Ecuador's rights-of-nature constitution (maybe the hardest part); Mach-12 
 - **Ring:** same 24-sector 360° REBCO ring as BRONTE but **open to vacuum** (no vessel, no gates, no
   plasma window). Sealed 20 K cryostats. **Sun shield wraps ~280°**, polished reflective foil both faces
   (underside rejects regolith ground-bounce albedo ~0.12 + surface IR). Radiators on shaded back.
-- **Track:** raised on a **regolith embankment**, ~1.5° grade, muzzle +75 m (Panel C side profile, 1:1).
-  Angle is for terrain/dust clearance, NOT physics (vacuum). Legs land on attached berm.
+- **Track:** raised on a **regolith embankment**, ~2.0° grade, muzzle +100 m (Panel C side profile, 1:1).
+  Angle is for terrain/dust clearance, NOT physics (vacuum). Legs land on attached berm. Panel C embankment
+  now drawn as engineered fill: compacted lift layers, original-grade datum, angle-of-repose (~32°) end face
+  (no vertical cliff) ending in a toe.
 - **Track ladder:** 2.9 km @ 100 g (escape 2.38 km/s in 2.4 s) → 12 km @ 30 g → ~50 km @ 3 g passenger.
 - **Energy:** 0.41 kWh/kg orbit, 0.78 escape, 1.25 Mars transfer (vs Earth-to-LEO 8.9).
 
