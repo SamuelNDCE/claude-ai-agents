@@ -149,7 +149,7 @@ def label(lon, lat, txt, dx=0.004, dy=0.004, fs=11, w='bold', c='#0f172a'):
 label(S_LON, S_LAT, 'CHIMBORAZO 6,263 m', -0.020, -0.038, 13)
 label(-78.750, -1.404, 'CARIHUAIRAZO 5,018 m', 0.004, 0.012, 10)
 label(entry_lon, entry_lat, f'WEST PORTAL {entry_alt:.0f} m', -0.010, -0.026, 12, c='#055160')
-label(exit_lon, exit_lat, f'CREST MUZZLE 6,255 m', 0.020, 0.024, 12, c='#9f1239')
+label(exit_lon, exit_lat, f'CREST MUZZLE 6,160 m', 0.020, 0.024, 12, c='#9f1239')
 label(-78.88, -1.50, 'EL ARENAL (E491, pass 4,407 m)', 0, 0, 9.5, 'normal')
 label(-79.02, -1.40, 'SALINAS', 0, 0, 9.5, 'normal')
 label(-79.26, -1.55, 'CHAZOJUAN VALLEYS', 0.0, 0.0, 9.5, 'normal')
@@ -164,7 +164,7 @@ ax.annotate('N', xy=(-78.615,-1.315), xytext=(-78.615,-1.347), fontsize=14, font
             ha='center', color='#0f172a',
             arrowprops=dict(arrowstyle='-|>', color='#0f172a', lw=2.4), zorder=8)
 ax.set_xlabel('Longitude'); ax.set_ylabel('Latitude')
-ax.set_title(f'BRONTE FULL LINE — {L:.0f} km THROUGH-MOUNTAIN ALIGNMENT @ {theta}° · SRTM 30 m · EARLY CONCEPT, NOT FOR CONSTRUCTION',
+ax.set_title(f'BRONTE FULL LINE — {L:.0f} km THROUGH-MOUNTAIN ALIGNMENT — BASE {theta}° · BEND TO 12.3° · SRTM 30 m · EARLY CONCEPT, NOT FOR CONSTRUCTION',
              fontsize=13, fontweight='bold')
 plt.tight_layout()
 out = os.path.join(os.path.dirname(__file__), 'bronte-full-map.png')
