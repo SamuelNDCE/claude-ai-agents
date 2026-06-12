@@ -26,6 +26,20 @@ DOWNLOADS = os.path.join(os.path.expanduser("~"), "Downloads")
 # also fits across the 192 mm page width.
 MAP_PRINT_CSS = """
 <style id="pdfprint">
+.annexcover { padding: 4px 6px 0; }
+.annexcover .ax-letter { font-family:Consolas,monospace; font-size:13px; letter-spacing:3px;
+   color:#0e7490; font-weight:700; margin:26px 0 2px; }
+.annexcover .ax-title { font-size:30px; font-weight:700; letter-spacing:1px; color:#0f172a; margin:0 0 4px; }
+.annexcover .ax-id { font-family:Consolas,monospace; font-size:12px; color:#64748b; margin:0 0 22px;
+   border-bottom:2.5px solid #0e7490; padding-bottom:12px; }
+.annexcover .ax-sub { font-size:12.5px; letter-spacing:2px; color:#7c3aed; font-weight:700;
+   font-family:Consolas,monospace; margin:0 0 8px; }
+.annexcover ul.ax-toc { list-style:none; padding:0; margin:0 0 22px; }
+.annexcover ul.ax-toc li { font-size:13px; color:#1e293b; padding:6px 0 6px 16px;
+   border-bottom:1px solid #e2e8f0; position:relative; }
+.annexcover ul.ax-toc li:before { content:"▸"; color:#0e7490; position:absolute; left:0; }
+.annexcover .ax-note { font-size:12px; font-style:italic; color:#92400e; background:#fffbeb;
+   border-left:3px solid #d97706; padding:9px 12px; margin-top:8px; }
 @media print {
   @page { size: A4 portrait; margin: 9mm; }
   html, body { background:#fff !important; padding:0 !important; margin:0 !important; }
@@ -50,7 +64,17 @@ MAP_PRINT_CSS = """
 </style>
 """
 
-def transform_map(src_path, hero_idx):
+def cover_html(cov):
+    items = "".join(f"<li>{x}</li>" for x in cov["toc"])
+    return (f'<div class="annexcover"><div class="ax-letter">ANNEX {cov["letter"]}</div>'
+            f'<div class="ax-title">{cov["title"]}</div>'
+            f'<div class="ax-id">{cov["id"]}</div>'
+            f'<div class="ax-sub">WHAT IS INSIDE</div>'
+            f'<ul class="ax-toc">{items}</ul>'
+            f'<div class="ax-note">Each large panel is on its own page, rotated to read at full '
+            f'size — turn the page (or your screen) a quarter-turn clockwise.</div></div>')
+
+def transform_map(src_path, hero_idx, cover=None):
     """Wrap hero panels (by 0-based order of <h2 class="panel">) in rotated
     full-page boxes; wrap the rest in .keep. Returns path to the *_print.html."""
     html = open(src_path, encoding="utf-8").read()
@@ -64,6 +88,8 @@ def transform_map(src_path, hero_idx):
     parts = re.split(r'(?=<h2 class="panel">)', html)
     # parts[0] = everything up to first panel (head, body, stamp, intro)
     head, panels = parts[0], parts[1:]
+    if cover:
+        head += cover_html(cover)
     out = [head]
     for i, blk in enumerate(panels):
         # the last block may carry the trailing </div></body></html>; peel it
@@ -99,18 +125,36 @@ def merge(pdfs, out_path):
     with open(out_path, "wb") as f:
         w.write(f)
 
+BRONTE_COVER = {"letter":"A", "title":"BRONTE — Chimborazo Design Map",
+    "id":"KER-BRO-TRK-001 · REV N · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
+    "toc":[
+      "Panel A — Plan view: one line, two phases (real SRTM 30 m terrain)",
+      "Panel B — Phase 1 (build first): 14 km, portal 4,069 m → crest muzzle 6,160 m (true 1:1)",
+      "Panel C — Full line (~38 km growth target): straight + payload-limited terminal bend (true 1:1)",
+      "Panel D — Tunnel &amp; tube typical section: the 360° drive ring, wide bore for Ø3.2 m payload",
+      "Panel E — External bridge section · ASTRAPE front view · ASTRAPE in the tube",
+      "Charts — systems, route engineering, tunnel engineering"]}
+SELENE_COVER = {"letter":"B", "title":"SELENE — South Pole Design Map",
+    "id":"KER-SEL-TRK-002 · REV D · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
+    "toc":[
+      "Panel A — Site: real LRO/LOLA laser topography, Shackleton / Connecting Ridge ~89.7°S",
+      "Panel A2 — Where on the Moon · what does not exist here · two machines (EOS-1 / EOS-2)",
+      "Panel B — EOS-1 open-track section: no tube, the Moon is the vacuum vessel",
+      "Panel C — Side profile: the raised track on its regolith embankment (true 1:1)",
+      "Charts — track-length vs g, Δv destinations, ridge illumination, engineering"]}
+
 def main(only=None):
     jobs = {
-        "v2a":    (os.path.join(HERE, "keraunos-v2a.html"), None),
-        "bronte": (os.path.join(HERE, "2026-06-12-bronte-chimborazo-routemap.html"), [0,1,2,3,4]),
-        "selene": (os.path.join(HERE, "2026-06-12-selene-design-map.html"), [0,2,3]),
-        "v2b":    (os.path.join(HERE, "keraunos-v2b.html"), None),
+        "v2a":    (os.path.join(HERE, "keraunos-v2a.html"), None, None),
+        "bronte": (os.path.join(HERE, "2026-06-12-bronte-chimborazo-routemap.html"), [0,1,2,3,4], BRONTE_COVER),
+        "selene": (os.path.join(HERE, "2026-06-12-selene-design-map.html"), [0,2,3], SELENE_COVER),
+        "v2b":    (os.path.join(HERE, "keraunos-v2b.html"), None, None),
     }
     pdfs = {}
-    for name, (src, hero) in jobs.items():
+    for name, (src, hero, cover) in jobs.items():
         if only and name not in only:
             continue
-        printable = transform_map(src, hero) if hero is not None else src
+        printable = transform_map(src, hero, cover) if hero is not None else src
         pdf = os.path.join(HERE, f"_{name}.pdf")
         chrome_pdf(printable, pdf)
         pdfs[name] = pdf
