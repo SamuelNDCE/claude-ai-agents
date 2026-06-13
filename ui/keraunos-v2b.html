@@ -364,6 +364,45 @@
   are not optional at this scale — a loss-of-control event at the bend is, on a bad day, a large-explosion event.</p>
 </div>
 
+<!-- 10 (cont.) — STORING THE PULSE -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h3>Theoretical G — banking the pulse: how fusion stores its power, and why magnets fit</h3>
+  <p>The peak-power figures above — hundreds of gigawatts for ~13 seconds — are never drawn from the grid.
+  They come from energy banked between shots and released in one burst. That is precisely the problem the
+  fusion and electromagnetic-launch communities have already solved at gigajoule scale, so KERAUNOS would
+  borrow their hardware rather than invent it.</p>
+  <p><b class="k">How fusion already does it.</b> Magnetic fusion faces the identical surge problem — its field
+  coils need a pulse the grid cannot give. JET drives its magnets from two flywheel generator-converters that
+  bank gigajoule-scale energy and deliver up to <b>2,600 MJ per pulse at 100 kA</b>, supplementing a 575 MW
+  grid feed, and have done so reliably for ~85,000 pulses since 1983. Inertial fusion takes the other route:
+  NIF stores ~<b>400 MJ per shot</b> across 3,840 capacitors — the world's most energetic capacitor bank —
+  charging over ~60 seconds and dumping it in a 400-microsecond burst. Two proven templates: spin it up
+  (flywheel) or charge it up (capacitor).</p>
+  <table>
+    <tr><th>How you bank a pulse</th><th>Stores energy as</th><th>Power density</th><th>Discharge</th><th>Proven by</th></tr>
+    <tr><td>Flywheel / compulsator</td><td>rotation (kinetic)</td><td>high</td><td>seconds</td><td>JET; US Navy EMALS (484 MJ)</td></tr>
+    <tr><td>Capacitor bank</td><td>electrostatic field</td><td>very high</td><td>µs–ms</td><td>NIF</td></tr>
+    <tr><td><b>SMES — the magnet route</b></td><td><b>magnetic field</b></td><td><b>extreme (~100 MW/kg)</b></td><td>ms · switch-limited</td><td>grid stabilizers; lab-scale HTS</td></tr>
+  </table>
+  <p><b class="k">The magnet route — and why it fits KERAUNOS best.</b> Superconducting magnetic energy storage
+  (SMES) keeps the energy as current circulating in a short-circuited superconducting coil at near-zero loss;
+  to fire, you open a fast switch and the magnetic field collapses into the load. Its specific power has
+  essentially no ceiling — figures around 100 MW/kg are quoted — which is exactly what a multi-gigawatt pulse
+  wants. And it is uniquely natural here: KERAUNOS is <i>already</i> a giant superconducting machine — a 20 K
+  cryoplant, REBCO coils, and a 360° drive ring that is itself a huge inductor. The same cryogenics and the
+  same REBCO supply chain that run the track can run the store, and the drive ring is already holding magnetic
+  energy on every shot. Banking the <i>next</i> shot the same way simply closes the loop.</p>
+  <p class="meta"><b>The honest catch — the switch.</b> Inductive storage lives or dies on the opening switch:
+  to release the pulse you must interrupt enormous currents — 100 kA and beyond — in milliseconds, and that
+  switch has historically been the hardest component (early systems used explosively-driven switches;
+  fast solid-state and plasma switches are the modern bet). Rotating compulsators — the preferred rapid-fire
+  railgun supply — sidestep the opening switch entirely, at the cost of being heavy spinning machines. The
+  realistic KERAUNOS answer is a hybrid: proven flywheels or compulsators for the bulk energy, with SMES and a
+  fast solid-state switch for the final high-power shaping, all sharing the launcher's cryoplant. It is the
+  storage farm, not the tube, that most needs invention.</p>
+</div>
+
 <!-- 10 (cont.) — THROUGHPUT -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
