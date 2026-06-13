@@ -152,6 +152,42 @@
   every airless body worth working: Phobos, Deimos, Ceres, the Belt. Design once, stamp copies. ASTERIA is
   the real bet. <i>(The SELENE South Pole Design Map, Annex A, follows this section.)</i></p>
 
+  <h3>The dust problem — and why a contactless launcher is the right answer</h3>
+  <p>Lunar regolith is the nastiest material in the inner solar system to run machinery in: jagged, never
+  weathered, electrostatically charged, and it gets into everything. It is a first-order design driver, not a
+  footnote — and the south-pole site makes it worse.</p>
+  <div class="math">Apollo ground truth: dust on radiators overheated Apollo 16 instruments (it kills emissivity);
+  Apollo 12 suit seals leaked 0.25 psi/min vs a 0.30 limit; gauge faces abraded unreadable. NASA's 2005 tally:
+  vision loss · false readings · clogged mechanisms · abrasion · thermal-control loss · seal failure · inhalation.<br>
+  Polar twist: near the terminator, UV / solar-wind charging drives ~<b>300 V</b> sunlit-vs-shadow potentials and
+  <b>electrostatic dust levitation</b>; shadowed ground has <i>no</i> charge-dissipation path — dust clings and
+  will not let go. SELENE's ridge sits in exactly this terminator zone.</div>
+  <p><b class="k">SELENE is unusually well-suited to fight it, because the launcher is contactless.</b> Most
+  Apollo dust failures were mechanical — seals, bearings, sliding contact. SELENE's drive has none in the load path:</p>
+  <ul>
+    <li><b>Maglev = no rolling or sliding contact.</b> The pod rides a 200 mm vacuum gap; there are no wheels,
+    rails, or bearings for dust to abrade or clog — the exact failure mode that wrecked Apollo hardware is simply
+    absent on a contactless track.</li>
+    <li><b>Magnets sealed at 20 K.</b> The REBCO coils live in sealed cryostats; dust never reaches the conductors
+    or the cold mass.</li>
+    <li><b>Electrodynamic Dust Shield (EDS) on the vulnerable surfaces.</b> Radiators and solar arrays are the real
+    victims (dust drops emissivity and power). NASA's EDS — travelling-wave electric fields, no moving parts —
+    cleared dust from glass and thermal radiators on Firefly's Blue Ghost lander in March 2025; SELENE coats its
+    radiators, arrays, and optics with it, mounted vertically and elevated on the embankment.</li>
+    <li><b>Launch dust dome.</b> The EOS-1 pod's front heat shield doubles as a dust dome, containing the regolith
+    lofted at release.</li>
+    <li><b>Charge management.</b> Grounded, conductive surfaces plus EDS bleed off the terminator's static, so dust
+    has a path to leave rather than cling.</li>
+  </ul>
+  <p><b class="k">Built by robots, not boots.</b> Dust is also a health hazard (Apollo "lunar hay fever"; the
+  inhalation risk in the 2005 list), so SELENE is assembled mostly by machines: Optimus-class humanoid robots
+  (Tesla's Optimus, NASA's dust-rated Valkyrie, Apptronik's Apollo) plus excavator and regolith-moving rovers —
+  autonomous and teleoperated, with humans supervising and repairing rather than shovelling regolith by hand. The
+  same EDS and sealed-joint approach protects the robots' own actuators. <b>Honest residuals:</b> radiators, optics,
+  and robot joints still need active dust management for years, and the polar charged-dust environment is not yet
+  flight-characterised — Chang'e and Artemis surface data will tighten it.
+  <span class="ref">(NASA EDS on Blue Ghost, Mar 2025; Apollo dust effects, NASA 2005; terminator charging ~300 V, lunar-surface-charging literature.)</span></p>
+
   <h3>What SELENE earns</h3>
   <div class="math"><b>CAPEX (PoC):</b> no tube, no plasma window, a short surface track — first coils, a ~10 MW
   solar plant, cryo and radiators ride 1–2 heavy-lift flights → <b>~$1–3B</b>, an order of magnitude below
