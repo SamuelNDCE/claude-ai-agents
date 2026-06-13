@@ -301,6 +301,48 @@
   already ~65% payload bay. All dimensions theoretical · © Perpetual Technologies.</p>
 </div>
 
+<!-- 10 (cont.) — POWER, COST, DANGER -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h3>Theoretical E — the price of scale: power, cost, and the bend</h3>
+  <p>Energy per shot is fixed by physics: ½ × launched mass × exit-speed². A heavier pod, or a faster
+  (bulk-mode) exit, costs proportionally more. Track electricity below at $0.06/kWh; cargo mode exits at
+  Mach 12.6 (3.97 km/s) and finishes on a kick stage, bulk mode is driven all the way to orbital speed
+  (7.8 km/s) on the track itself.</p>
+  <table>
+    <tr><th>Variant (max gross)</th><th>Cargo shot — Mach 12.6</th><th>Bulk shot — orbital 7.8 km/s</th></tr>
+    <tr><td>23 m · Ø3.2 m (20 t) <span class="meta">(baseline)</span></td><td>~44 MWh · ~$2,600</td><td>~169 MWh · ~$10,100</td></tr>
+    <tr><td>40 m · Ø3.2 m (35 t)</td><td>~77 MWh · ~$4,600</td><td>~296 MWh · ~$17,700</td></tr>
+    <tr><td>50 m · Ø5 m (106 t)</td><td>~232 MWh · ~$13,900</td><td>~896 MWh · ~$53,700</td></tr>
+    <tr><td>70 m · Ø5 m (149 t)</td><td>~326 MWh · ~$19,600</td><td>~1,259 MWh · ~$75,500</td></tr>
+  </table>
+  <p class="meta">The cost-per-kilogram barely moves with size — ~$0.58–0.59/kg of electricity in cargo mode,
+  ~$0.72–0.74/kg in bulk mode (bulk does all the work electrically instead of offloading it to a kick stage).
+  That flatness is the whole thesis: the launcher's marginal cost is electricity, and electricity scales
+  linearly. What grows is the <i>capital</i> — the storage, the power feed, and the structure.</p>
+  <div class="call"><b>Peak power is the real engineering wall.</b> Peak draw at exit is force × speed, pulled
+  from the trackside flywheel/SMES farm in a fraction of a second — not from the grid, which still only sees a
+  slow tens-of-MW recharge. The baseline shot peaks at ~23 GW. The 70 m cargo shot peaks at ~174 GW; the 70 m
+  <i>bulk</i> shot at roughly ~700 GW — comparable to the entire United States grid, dumped in under two
+  seconds. Building storage that can discharge that cleanly, shot after shot, is harder than building the tube.</div>
+  <div class="warn"><b>The bend is the most dangerous point on the line — and scale makes it worse.</b> At the
+  terminal arc the pod is at full speed <i>and</i> being forced sideways at the same instant. The sideways pull
+  is v²/R, set by exit speed, not mass: ~16 g in cargo mode, ~62 g in bulk mode through the same R = 100 km
+  curve. The 360° ring must supply that as centripetal force (mass × acceleration), and that is where size
+  bites hardest — and where any failure releases the pod's full kinetic energy, pointed downrange.</div>
+  <table>
+    <tr><th>Pod · mode</th><th>Speed in bend</th><th>Sideways load</th><th>Ring force needed</th><th>Energy if uncontained</th></tr>
+    <tr><td>23 m baseline · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~3.1 MN</td><td>~38 t TNT-equiv</td></tr>
+    <tr><td>70 m · Ø5 m · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~24 MN</td><td>~280 t TNT-equiv</td></tr>
+    <tr><td><b>70 m · Ø5 m · bulk</b></td><td>7.8 km/s</td><td><b>62 g</b></td><td><b>~91 MN</b></td><td><b>~1,080 t (~1 kiloton)</b></td></tr>
+  </table>
+  <p class="meta">Restraining the 70 m bulk pod through the bend takes ~91 MN — about 29× the baseline's
+  3.1 MN — carried by the ring, its mounts, and the tunnel lining, with tighter alignment tolerance.
+  Length itself is not the hazard (a 70 m rigid pod bows only ~6 mm in the arc); mass and speed are. The honest
+  consequence: heavier, faster pods demand a proportionally stronger ring and a longer, gentler bend — or a
+  slower exit with less payload. The bend, not the straightaway, caps how big and how fast you can safely throw.</p>
+</div>
+
 <!-- 10 (cont.) — THROUGHPUT -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
