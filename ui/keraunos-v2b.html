@@ -20,6 +20,11 @@
   ul { margin:6pt 0 10pt 16pt; padding:0; } li { margin:0 0 5pt; }
   b.k { color:#0f172a; }
   .hdr { display:flex; justify-content:space-between; font-size:8pt; color:#94a3b8; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:4pt; margin-bottom:14pt; }
+  /* never slice a table or row across a page break — move it whole to the next page */
+  table, tr { break-inside: avoid; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  /* force a continuation page to start fresh (page-break-after is unreliable in chains) */
+  .np { break-before: page; page-break-before: always; }
 </style>
 </head>
 <body>
@@ -169,24 +174,32 @@
   permitting fight) is paid once. It does not escape the power rule: three barrels at full cadence draw three
   times the megawatts.</p>
 
+</div>
+
+<!-- 10 (cont.) — POD LENGTH -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
   <h3>Theoretical C — a longer pod</h3>
   <p>The baseline ASTRAPE is 23 m. The pod can be made far longer before physics objects: with the full-hull
   distributed drive there is no tail to crush (axial buckling only becomes a hard wall past ~140 m of carbon
-  structure), and a rigid one-piece pod stays inside the bore through the terminal bend up to ~280 m. Both 25 m
-  and 50 m sit comfortably below those limits — ordinary rigid structure, no articulation needed. Because the
-  drive force grows with engaged length, a longer pod can be proportionally heavier at the same g, so payload
-  scales roughly with length × bore cross-section.</p>
+  structure at 30 g, ~174 m for the wider Ø5 m hull), and a rigid one-piece pod stays inside the bore through
+  the terminal bend up to ~280 m. Every length below sits well under those limits — ordinary rigid structure,
+  no articulation needed; even at 70 m the binding constraint is <i>handling and loading</i> a single object
+  that long, not strength. Because the drive force grows with engaged length, a longer pod can be
+  proportionally heavier at the same g, so payload scales roughly with length × bore cross-section.</p>
   <table>
     <tr><th>Pod × bore</th><th>Gross mass</th><th>Cargo → orbit (30 g)</th><th>Bulk → orbit (50–77 g)</th><th>Bay volume</th></tr>
     <tr><td>23 m · Ø3.2 m <span class="meta">(baseline)</span></td><td>~20 t</td><td>4.5 t</td><td>14 t</td><td>~64 m³</td></tr>
-    <tr><td>25 m · Ø3.2 m</td><td>~22 t</td><td>~5 t</td><td>~15 t</td><td>~88 m³</td></tr>
-    <tr><td>50 m · Ø3.2 m</td><td>~44 t</td><td>~10 t</td><td>~30 t</td><td>~289 m³</td></tr>
-    <tr><td>25 m · Ø5 m <span class="meta">(theoretical)</span></td><td>~53 t</td><td>~12 t</td><td>~37 t</td><td>~98 m³</td></tr>
-    <tr><td><b>50 m · Ø5 m</b> <span class="meta">(theoretical)</span></td><td>~106 t</td><td>~24 t</td><td><b>~74 t</b></td><td>~588 m³</td></tr>
+    <tr><td>30 m · Ø3.2 m</td><td>~26 t</td><td>~6 t</td><td>~18 t</td><td>~129 m³</td></tr>
+    <tr><td>40 m · Ø3.2 m</td><td>~35 t</td><td>~7.8 t</td><td>~24 t</td><td>~209 m³</td></tr>
+    <tr><td>50 m · Ø5 m <span class="meta">(theoretical)</span></td><td>~106 t</td><td>~24 t</td><td>~74 t</td><td>~589 m³</td></tr>
+    <tr><td><b>70 m · Ø5 m</b> <span class="meta">(theoretical · pushing the limit)</span></td><td>~149 t</td><td>~33 t</td><td><b>~104 t</b></td><td>~982 m³</td></tr>
   </table>
-  <p class="meta">A fat bore only pays off with a long pod: at Ø5 m the nose cone alone is ~20 m, so a 25 m pod
-  is almost all nose (note its bay volume barely beats the skinny 25 m). The 50 m · Ø5 m pod is the sweet
-  spot — a single shot approaching one Starship's per-launch mass and volume (~100 t / ~1,000 m³).</p>
+  <p class="meta">A fat bore only pays off with a long pod — at Ø5 m the nose cone alone is ~20 m — which is why
+  the theoretical Ø5 m variants are drawn long. The 50 m · Ø5 m pod already approaches one Starship's
+  per-launch mass and volume (~100 t / ~1,000 m³); the 70 m · Ø5 m is about the longest single rigid pod worth
+  building — ~104 t of bulk in one shot, ~982 m³ — beyond which you would articulate the pod or accept the
+  handling penalty.</p>
   <div class="warn"><b>"Bulk to orbit" is not fire-and-forget.</b> Even inert bulk cargo (propellant, water,
   metal) still needs <b>a small kick stage</b> to circularize at apogee — the gun raises the apoapsis, but
   something must add the last ~0.85 km/s to turn a ballistic arc into a stable orbit — plus <b>guidance, RCS
@@ -195,6 +208,11 @@
   from gross mass. Nothing reaches a usable orbit on the launcher alone; the launcher just does ~90% of the
   work for ~1% of the propellant.</div>
 
+</div>
+
+<!-- 10 (cont.) — THROUGHPUT -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
   <h3>How the numbers scale (theoretical)</h3>
   <table>
     <tr><th>Configuration</th><th>Payload / shot (cargo · bulk)</th><th>Energy / shot</th><th>Power feed</th><th>Annual / site (cargo · bulk)</th></tr>
