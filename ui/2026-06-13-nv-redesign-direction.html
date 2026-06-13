@@ -17,8 +17,10 @@
     --line:rgba(255,255,255,.06); --line-2:rgba(255,255,255,.10);
     /* text */
     --tx:#f2f3f6; --tx-soft:#c2c7d2; --tx-dim:#838a99; --tx-mute:#5b6173;
-    /* signature accent: "synapse" iris (single confident hue) */
-    --acc:#7c8bff; --acc-soft:#a5afff; --acc-bg:rgba(124,139,255,.14); --acc-line:rgba(124,139,255,.4);
+    /* signature accent: evolved from NV's blue→purple lineage, restrained to one hue */
+    --acc:#5b8cff; --acc-soft:#93b4ff; --acc-bg:rgba(91,140,255,.15); --acc-line:rgba(91,140,255,.42);
+    --acc-2:#9a7cff; /* purple — graph/links only, never chrome */
+    --grad:linear-gradient(150deg,#5b8cff,#7c6cff 55%,#9a7cff);
     /* functional — used ONLY for status, never decoration */
     --ok:#46d19e; --warn:#ffcf6b; --bad:#ff6b81; --info:#5cc8ff;
     --r:12px; --r-sm:9px; --r-lg:16px;
@@ -27,10 +29,19 @@
     --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter","Segoe UI",system-ui,sans-serif;
     --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
   }
+  /* light theme — same tokens, airy near-white surfaces */
+  [data-theme="light"]{
+    --bg:#f5f6f8; --bg-2:#eceef2; --panel:#ffffff; --card:#f6f7fa; --card-2:#eceef2;
+    --line:rgba(15,18,28,.09); --line-2:rgba(15,18,28,.15);
+    --tx:#161a22; --tx-soft:#39414f; --tx-dim:#6b7280; --tx-mute:#9aa1ad;
+    --acc:#3b5bdb; --acc-soft:#3b5bdb; --acc-bg:rgba(59,91,219,.10); --acc-line:rgba(59,91,219,.35);
+    --acc-2:#7c3aed;
+    --shadow:0 1px 2px rgba(15,18,28,.06),0 10px 30px rgba(15,18,28,.10);
+  }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{background:
-      radial-gradient(1200px 700px at 78% -10%, rgba(124,139,255,.10), transparent 60%),
+      radial-gradient(1200px 700px at 78% -10%, var(--acc-bg), transparent 60%),
       var(--bg);
     color:var(--tx);font-family:var(--font);-webkit-font-smoothing:antialiased;
     font-size:13.5px;line-height:1.45;letter-spacing:.1px;overflow:hidden}
@@ -45,7 +56,7 @@
   .rail{background:var(--bg-2);border-right:1px solid var(--line);
     display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:6px}
   .logo{width:34px;height:34px;border-radius:10px;
-    background:linear-gradient(150deg,var(--acc),#5d6cff 60%,#8a5cff);
+    background:linear-gradient(150deg,var(--acc),var(--acc-2) 60%,var(--acc-2));
     display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px;
     box-shadow:0 6px 18px rgba(124,139,255,.45);margin-bottom:10px}
   .ricon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
@@ -94,7 +105,7 @@
   .btn{padding:8px 14px;border-radius:9px;border:1px solid var(--line-2);background:var(--card);
     color:var(--tx-soft);font-weight:500;cursor:pointer;font-size:12.5px;transition:all .14s}
   .btn:hover{background:var(--card-2);color:var(--tx)}
-  .btn.pri{background:linear-gradient(180deg,var(--acc),#5d6cff);border:none;color:#fff;
+  .btn.pri{background:linear-gradient(180deg,var(--acc),var(--acc-2));border:none;color:#fff;
     box-shadow:0 4px 14px rgba(124,139,255,.4)}
   .btn.pri:hover{filter:brightness(1.06)}
 
@@ -150,7 +161,7 @@
   .ctx .h .s{font-size:11px;color:var(--ok)}
   .ctx .msgs{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
   .bub{max-width:88%;font-size:12.5px;line-height:1.5}
-  .bub.u{align-self:flex-end;background:linear-gradient(180deg,var(--acc),#5d6cff);color:#fff;
+  .bub.u{align-self:flex-end;background:linear-gradient(180deg,var(--acc),var(--acc-2));color:#fff;
     padding:9px 12px;border-radius:13px 13px 4px 13px}
   .bub.a .who{color:var(--acc-soft);font-size:10.5px;font-weight:600;margin-bottom:4px}
   .bub.a .c{background:var(--card);border:1px solid var(--line);padding:10px 12px;border-radius:4px 13px 13px 13px;color:var(--tx-soft)}
@@ -164,7 +175,7 @@
   .mic{width:30px;height:30px;border-radius:9px;background:var(--bg-2);display:grid;place-items:center;color:var(--tx-dim);cursor:pointer}
   .modelpick{font-size:11px;color:var(--tx-dim);background:var(--bg-2);border:1px solid var(--line);
     border-radius:8px;padding:5px 9px;cursor:pointer}
-  .send{margin-left:auto;background:linear-gradient(180deg,var(--acc),#5d6cff);color:#fff;border:none;
+  .send{margin-left:auto;background:linear-gradient(180deg,var(--acc),var(--acc-2));color:#fff;border:none;
     border-radius:9px;padding:6px 14px;font-weight:600;cursor:pointer}
 
   /* command palette teaser (progressive disclosure entry) */
@@ -235,6 +246,7 @@
         <div class="tab">Agents</div>
       </div>
       <div class="search">🔍 Search everything <span class="k">⌘K</span></div>
+      <div class="iconbtn" id="themeBtn" title="Toggle light / dark">☾</div>
       <div class="iconbtn">🔔</div>
       <div class="iconbtn">⚙</div>
     </div>
@@ -256,7 +268,7 @@
         <div class="sec-h">Overview <span class="ln"></span></div>
         <div class="stats">
           <div class="stat"><div class="tick" style="background:var(--acc)"></div><div class="v num">944</div><div class="l">neurons (notes)</div></div>
-          <div class="stat"><div class="tick" style="background:#8a5cff"></div><div class="v num">40,258</div><div class="l">synapses (links)</div></div>
+          <div class="stat"><div class="tick" style="background:var(--acc-2)"></div><div class="v num">40,258</div><div class="l">synapses (links)</div></div>
           <div class="stat"><div class="tick" style="background:var(--ok)"></div><div class="v num">85.3</div><div class="l">links / neuron</div></div>
           <div class="stat"><div class="tick" style="background:var(--warn)"></div><div class="v num">24.0<span style="font-size:14px;color:var(--tx-dim)"> MB</span></div><div class="l">vault on disk</div></div>
         </div>
@@ -354,6 +366,9 @@
     if(e.key==='Escape')kbar.style.display='none';
   });
   document.querySelector('.search').onclick=()=>kbar.style.display='grid';
+  const tb=document.getElementById('themeBtn');
+  tb.onclick=()=>{const l=document.documentElement.getAttribute('data-theme')==='light';
+    document.documentElement.setAttribute('data-theme', l?'dark':'light'); tb.textContent=l?'☾':'☀';};
   document.querySelectorAll('.density button').forEach(b=>b.onclick=()=>{
     document.querySelectorAll('.density button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
     document.getElementById('app').classList.toggle('dense', b.textContent==='Dense');

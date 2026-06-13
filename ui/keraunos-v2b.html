@@ -406,6 +406,79 @@
   storage farm, not the tube, that most needs invention.</p>
 </div>
 
+<!-- 10 (cont.) — POWER BANK & CABLES -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h3>Theoretical H — the power bank and the cables that feed it</h3>
+  <p>A sketch of the magnet store from Theoretical G, and the conductors that move the energy. The design is
+  deliberately asymmetric: the bank is charged <i>slowly</i> from a modest feed over minutes, then dumped
+  through a fast switch in milliseconds. Cable sizes below are computed for the current Ø3.2 m line and for the
+  longer 40 m · Ø3.2 m variant; the Ø5 m bore is left for later.</p>
+  <svg viewBox="0 0 1000 430" style="width:100%;height:auto;border:1px solid #cbd5e1;background:#fff;font-family:Consolas,monospace">
+    <defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#475569"/></marker>
+      <marker id="ahb" markerWidth="11" markerHeight="11" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#7c3aed"/></marker></defs>
+    <text x="500" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">SMES POWER BANK — STORE IN THE MAGNET, RELEASE THROUGH A FAST SWITCH</text>
+    <!-- charge path (top-left) -->
+    <rect x="34" y="70" width="126" height="54" rx="4" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+    <text x="97" y="92" text-anchor="middle" font-size="10.5" fill="#334155">PLANT FEED</text>
+    <text x="97" y="108" text-anchor="middle" font-size="10.5" fill="#334155">30–50 MW</text>
+    <line x1="160" y1="97" x2="202" y2="97" stroke="#475569" stroke-width="1.6" marker-end="url(#ah)"/>
+    <rect x="206" y="70" width="150" height="54" rx="4" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+    <text x="281" y="92" text-anchor="middle" font-size="10.5" fill="#334155">CHARGER · AC→DC</text>
+    <text x="281" y="108" text-anchor="middle" font-size="10" fill="#64748b">charge over ~minutes</text>
+    <path d="M 356,97 L 430,97 L 430,150" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#ah)"/>
+    <text x="372" y="64" font-size="10" fill="#0e7490">CHARGE — slow, continuous feed</text>
+    <!-- cryostat -->
+    <rect x="370" y="150" width="300" height="170" rx="6" fill="#eef6ff" stroke="#0e7490" stroke-width="2"/>
+    <rect x="384" y="164" width="272" height="142" rx="4" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="6 5"/>
+    <text x="520" y="182" text-anchor="middle" font-size="11" font-weight="700" fill="#0e7490">CRYOSTAT · 20 K (shares the track cryoplant)</text>
+    <!-- SMES coil: solenoid loops -->
+    <g stroke="#7c3aed" stroke-width="3" fill="none">
+      <ellipse cx="432" cy="240" rx="12" ry="46"/><ellipse cx="456" cy="240" rx="12" ry="46"/>
+      <ellipse cx="480" cy="240" rx="12" ry="46"/><ellipse cx="504" cy="240" rx="12" ry="46"/>
+      <ellipse cx="528" cy="240" rx="12" ry="46"/><ellipse cx="552" cy="240" rx="12" ry="46"/>
+      <ellipse cx="576" cy="240" rx="12" ry="46"/><ellipse cx="600" cy="240" rx="12" ry="46"/>
+    </g>
+    <line x1="420" y1="240" x2="612" y2="240" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="516" y="300" text-anchor="middle" font-size="10.5" fill="#7c3aed">REBCO SMES COIL — persistent current</text>
+    <!-- discharge path (bottom-right) -->
+    <path d="M 670,266 L 712,266" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#ahb)"/>
+    <rect x="716" y="238" width="132" height="56" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="1.6"/>
+    <text x="782" y="260" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400e">FAST OPENING</text>
+    <text x="782" y="276" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400e">SWITCH · ~5 ms</text>
+    <path d="M 848,266 L 890,266" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#ahb)"/>
+    <rect x="894" y="238" width="92" height="56" rx="4" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
+    <text x="940" y="262" text-anchor="middle" font-size="10" font-weight="700" fill="#4c1d95">360°</text>
+    <text x="940" y="278" text-anchor="middle" font-size="10" font-weight="700" fill="#4c1d95">DRIVE RING</text>
+    <text x="724" y="226" font-size="10" fill="#7c3aed">DISCHARGE — ms-class, up to ~700 GW peak</text>
+    <!-- stats strip -->
+    <line x1="34" y1="356" x2="986" y2="356" stroke="#e2e8f0" stroke-width="1"/>
+    <g font-size="10" fill="#475569">
+      <text x="34" y="378">DISCHARGE ~5 ms (switch-limited)</text>
+      <text x="300" y="378">~100 MW/kg specific power</text>
+      <text x="540" y="378">&gt;100,000 charge cycles</text>
+      <text x="760" y="378">near-zero standby loss</text>
+      <text x="34" y="400" fill="#0e7490">Charge slowly from the grid feed · hold in the magnet at 20 K · release the full pulse through one fast solid-state switch.</text>
+    </g>
+  </svg>
+  <table>
+    <tr><th>Conductor · where it runs</th><th>Current version (~20 t)</th><th>Longer 40 m · Ø3.2 m (theoretical)</th></tr>
+    <tr><td><b>HV charging feed</b> — full tunnel length, taps each storage station (34.5 kV, continuous)</td><td>~30 MW → ~530 A → <b>3 × 240 mm² Cu</b></td><td>~50 MW → ~880 A → <b>3 × 400 mm² Cu</b></td></tr>
+    <tr><td><b>Pulse bus</b> — storage station → drive coils (REBCO, 20 K, ~10 kV drive bus)</td><td>~23 GW → ~2.3 MA → <b>~5,800 mm²</b> (≈Ø86 mm); ~240 mm²/sector</td><td>~41 GW → ~4.1 MA → <b>~10,200 mm²</b> (≈Ø114 mm); ~425 mm²/sector</td></tr>
+    <tr><td>…the same pulse bus as plain copper <span class="meta">(why it must be superconducting)</span></td><td>≈Ø19 cm solid busbar</td><td>≈Ø26 cm solid busbar</td></tr>
+  </table>
+  <p class="meta">The striking part: the <b>grid-side feed is small</b> — ordinary medium-voltage power cable (a
+  240 mm² Cu conductor carries ~530 A; reference: an 11 kV 185 mm² XLPE cable is rated ~430 A) — because the
+  storage buffers the pulse and the grid only sees the slow recharge. The <b>pulse bus is enormous in current</b>
+  but compact and lossless as REBCO (engineering current density ~400 A/mm²), and it shares the launcher's
+  cryoplant; as plain copper the same conductor would be a ~20–26 cm bar. Assumes a 34.5 kV feed and a 10 kV
+  drive bus — a higher drive voltage shrinks the pulse bus proportionally. Routing is shown on the tunnel
+  section (Annex A, Panel D): feed and pulse bus ride the invert service ducts alongside the 20 K / 80 K cryo
+  headers. Ø5 m bore deferred.</p>
+</div>
+
 <!-- 10 (cont.) — THROUGHPUT -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
