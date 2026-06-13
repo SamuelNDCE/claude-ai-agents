@@ -126,7 +126,7 @@ def merge(pdfs, out_path):
     with open(out_path, "wb") as f:
         w.write(f)
 
-BRONTE_COVER = {"letter":"A", "title":"BRONTE — Chimborazo Design Map",
+BRONTE_COVER = {"letter":"B", "title":"BRONTE — Chimborazo Design Map",
     "id":"KER-BRO-TRK-001 · REV N · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
     "toc":[
       "Panel A — Plan view: one line, two phases (real SRTM 30 m terrain)",
@@ -135,7 +135,7 @@ BRONTE_COVER = {"letter":"A", "title":"BRONTE — Chimborazo Design Map",
       "Panel D — Tunnel &amp; tube typical section: the 360° drive ring, wide bore for Ø3.2 m payload",
       "Panel E — External bridge section · ASTRAPE front view · ASTRAPE in the tube",
       "Charts — systems, route engineering, tunnel engineering"]}
-SELENE_COVER = {"letter":"B", "title":"SELENE — South Pole Design Map",
+SELENE_COVER = {"letter":"A", "title":"SELENE — South Pole Design Map",
     "id":"KER-SEL-TRK-002 · REV D · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
     "toc":[
       "Panel A — Site: real LRO/LOLA laser topography, Shackleton / Connecting Ridge ~89.7°S",
@@ -144,9 +144,25 @@ SELENE_COVER = {"letter":"B", "title":"SELENE — South Pole Design Map",
       "Panel C — Side profile: the raised track on its regolith embankment (true 1:1)",
       "Charts — track-length vs g, Δv destinations, ridge illumination, engineering"]}
 
+def split_v2a():
+    """Split keraunos-v2a.html at the Section-2 boundary so each design map sits with its
+    project: part A = front + Sec 0 + Sec 1 (SELENE), part B = Sec 2-4 (incl. Chimborazo).
+    Merge order then interleaves: A -> SELENE map -> B -> BRONTE map -> v2b."""
+    html = open(os.path.join(HERE, "keraunos-v2a.html"), encoding="utf-8").read()
+    split = html.index("<!-- SECTION 2 PHYSICS -->")
+    open_end = html.index("</div>", html.index('class="copyright"')) + len("</div>")
+    head_open = html[:open_end]                 # <head>+styles + <body> + copyright div
+    a = head_open + html[open_end:split] + "\n</body>\n</html>\n"
+    b = head_open + html[split:]                # Sec 2-4 + original </body></html>
+    ap = os.path.join(HERE, "keraunos-v2a_a.html"); open(ap, "w", encoding="utf-8").write(a)
+    bp = os.path.join(HERE, "keraunos-v2a_b.html"); open(bp, "w", encoding="utf-8").write(b)
+    return ap, bp
+
 def main(only=None):
+    a_path, b_path = split_v2a()
     jobs = {
-        "v2a":    (os.path.join(HERE, "keraunos-v2a.html"), None, None),
+        "v2a_a":  (a_path, None, None),
+        "v2a_b":  (b_path, None, None),
         "bronte": (os.path.join(HERE, "2026-06-12-bronte-chimborazo-routemap.html"), [0,1,2,3,4], BRONTE_COVER),
         "selene": (os.path.join(HERE, "2026-06-12-selene-design-map.html"), [0,2,3], SELENE_COVER),
         "v2b":    (os.path.join(HERE, "keraunos-v2b.html"), None, None),
@@ -163,7 +179,8 @@ def main(only=None):
     if only:
         return
     out = os.path.join(HERE, "KERAUNOS-v2.pdf")
-    merge([pdfs["v2a"], pdfs["bronte"], pdfs["selene"], pdfs["v2b"]], out)
+    # SELENE map follows Sec 1; BRONTE map follows Sec 4
+    merge([pdfs["v2a_a"], pdfs["selene"], pdfs["v2a_b"], pdfs["bronte"], pdfs["v2b"]], out)
     import shutil
     shutil.copy(out, os.path.join(DOWNLOADS, "KERAUNOS-v2.pdf"))
     print("MERGED ->", out, "and Downloads")
