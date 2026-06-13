@@ -47,6 +47,10 @@
   <p>The tube holds back 0.6% of the pressure the Earth tube fights; the plasma window's job is 99.4% done
   by the planet; exit heating is a fraction of the Earth case. Dust storms, not aerodynamics, are the main
   environmental design driver.</p>
+  <div class="math">Mars tracks from L = v²/2a, human-rated a = 3.3 g = 32.4 m/s²:<br>
+  Low Mars orbit (3.4 km/s):  L = 3,400² / (2 × 32.4) = <b>178 km</b>,  t = v/a = 105 s<br>
+  Mars escape (5.0 km/s):     L = 5,000² / (2 × 32.4) = <b>386 km</b>,  t = 154 s<br>
+  Energy: E = ½v² ⇒ orbit ½ × 3,400² = 5.8 MJ/kg = <b>1.6 kWh/kg</b>; escape ½ × 5,000² = 12.5 MJ/kg = <b>3.5 kWh/kg</b></div>
   <table>
     <tr><th>Element</th><th>Figure</th><th>Notes</th></tr>
     <tr><td>Orbit track</td><td>~3.4 km/s → ~180 km @ 3.3 g</td><td>105-second run to low Mars orbit</td></tr>
@@ -77,7 +81,7 @@
     <tr><td>1</td><td><b>SELENE PoC</b> (Moon)</td><td>1–3 km surface track, 50–100 g, south-pole ridge</td><td>2.9 km @ 100 g clears lunar escape; exports water/regolith/metal to cislunar buyers from day one; grows to 10–12 km (30 g) then ~50 km (3 g)</td></tr>
     <tr><td>2–3</td><td><b>Chimborazo</b> (Earth) + <b>ASTERIA</b></td><td>14 km first build of through-mountain line (tube, plasma window, aero-shell) running in parallel with SELENE-class kits stamped on Phobos, Deimos, Ceres, the Belt</td><td>Chimborazo earns DoD test revenue and proves cost-per-km; ASTERIA deploys proven vacuum-world technology across airless bodies — both run concurrently, the core bet and the Earth demonstrator advance together</td></tr>
     <tr><td>4</td><td><b>ARES</b> (Mars)</td><td>~180 km track, featherweight tube</td><td>Mars becomes a port; the freight network closes</td></tr>
-    <tr><td>5</td><td><b>BRONTE full</b> (Earth)</td><td>Extend Chimborazo west to ~38 km (Mach 12.6); beyond that, the 1,000 km-class 3 g injector if economics prove out</td><td>The endgame — built only on validated cost data</td></tr>
+    <tr><td>5</td><td><b>BRONTE full</b> (Earth)</td><td>Extend Chimborazo west to ~22.5 km straight (Mach 11.5); beyond that, the 1,000 km-class 3 g injector if economics prove out</td><td>The endgame — built only on validated cost data</td></tr>
   </table>
   <p class="meta">SELENE is ~300× shorter than any full Earth injector and skips every atmosphere subsystem. Chimborazo Phase 1 is ~70× shorter and proves the hard atmosphere parts before any large commitment. They de-risk in parallel.</p>
 
@@ -192,8 +196,9 @@
   <h3>Theoretical C — a longer pod</h3>
   <p>The baseline ASTRAPE is 23 m. The pod can be made far longer before physics objects: with the full-hull
   distributed drive there is no tail to crush (axial buckling only becomes a hard wall past ~140 m of carbon
-  structure at 30 g, ~174 m for the wider Ø5 m hull), and a rigid one-piece pod stays inside the bore through
-  the terminal bend up to ~280 m. Every length below sits well under those limits — ordinary rigid structure,
+  structure at 30 g, ~174 m for the wider Ø5 m hull). With BRONTE now a straight line (no terminal bend, §4),
+  the old ~280 m bend-clearance limit is gone — column buckling is the only ceiling. Every length below sits
+  well under it — ordinary rigid structure,
   no articulation needed; even at 70 m the binding constraint is <i>handling and loading</i> a single object
   that long, not strength. Because the drive force grows with engaged length, a longer pod can be
   proportionally heavier at the same g, so payload scales roughly with length × bore cross-section.</p>
@@ -312,14 +317,14 @@
   <h3>Theoretical E — the price of scale: power and cost</h3>
   <p>Energy per shot is fixed by physics: ½ × launched mass × exit-speed². A heavier pod, or a faster
   (bulk-mode) exit, costs proportionally more. Track electricity below at $0.06/kWh; cargo mode exits at
-  Mach 12.6 (3.97 km/s) and finishes on a kick stage, bulk mode is driven all the way to orbital speed
-  (7.8 km/s) on the track itself.</p>
+  Mach 11.5 (3.64 km/s, the straight-line full-line exit) and finishes on a kick stage, bulk mode is driven
+  all the way to orbital speed (7.8 km/s) on the track itself.</p>
   <table>
-    <tr><th>Variant (max gross)</th><th>Cargo shot — Mach 12.6</th><th>Bulk shot — orbital 7.8 km/s</th></tr>
-    <tr><td>23 m · Ø3.2 m (20 t) <span class="meta">(baseline)</span></td><td>~44 MWh · ~$2,600</td><td>~169 MWh · ~$10,100</td></tr>
-    <tr><td>40 m · Ø3.2 m (35 t)</td><td>~77 MWh · ~$4,600</td><td>~296 MWh · ~$17,700</td></tr>
-    <tr><td>50 m · Ø5 m (106 t)</td><td>~232 MWh · ~$13,900</td><td>~896 MWh · ~$53,700</td></tr>
-    <tr><td>70 m · Ø5 m (149 t)</td><td>~326 MWh · ~$19,600</td><td>~1,259 MWh · ~$75,500</td></tr>
+    <tr><th>Variant (max gross)</th><th>Cargo shot — Mach 11.5</th><th>Bulk shot — orbital 7.8 km/s</th></tr>
+    <tr><td>23 m · Ø3.2 m (20 t) <span class="meta">(baseline)</span></td><td>~37 MWh · ~$2,200</td><td>~169 MWh · ~$10,100</td></tr>
+    <tr><td>40 m · Ø3.2 m (35 t)</td><td>~65 MWh · ~$3,900</td><td>~296 MWh · ~$17,700</td></tr>
+    <tr><td>50 m · Ø5 m (106 t)</td><td>~195 MWh · ~$11,700</td><td>~896 MWh · ~$53,700</td></tr>
+    <tr><td>70 m · Ø5 m (149 t)</td><td>~274 MWh · ~$16,500</td><td>~1,259 MWh · ~$75,500</td></tr>
   </table>
   <p class="meta">The cost-per-kilogram barely moves with size — ~$0.58–0.59/kg of electricity in cargo mode,
   ~$0.72–0.74/kg in bulk mode (bulk does all the work electrically instead of offloading it to a kick stage).
@@ -327,8 +332,8 @@
   linearly. What grows is the <i>capital</i> — the storage, the power feed, and the structure.</p>
   <p><b class="k">Where the power comes from.</b> The trick is two stages: a steady generator slowly fills an
   energy store, and the store dumps it in seconds. The grid (or power plant) never sees the peak — only the
-  trackside flywheel/SMES farm does. Peak draw at exit is force × speed: the baseline shot peaks at ~23 GW, the
-  70 m cargo shot at ~174 GW, and the 70 m <i>bulk</i> shot at roughly ~700 GW — on the order of the entire
+  trackside flywheel/SMES farm does. Peak draw at exit is force × speed: the baseline shot peaks at ~21 GW, the
+  70 m cargo shot at ~160 GW, and the 70 m <i>bulk</i> shot at roughly ~700 GW — on the order of the entire
   United States grid, sourced for ~13 seconds from stored energy, then gone. Only pulsed-power kit (flywheels,
   superconducting magnetic storage, compulsators) can deliver that; chemical batteries physically cannot.</p>
   <p>To get a feel for it: one 70 m bulk shot needs ~1,259 MWh in the store — about what a 1 GW power station
@@ -336,7 +341,7 @@
   Landing, discharged far faster than that battery could ever manage). Firing ~8 such shots a day means roughly
   <b>~420 MW of generation feeding that one barrel around the clock</b> — a dedicated mid-size power station: one
   nuclear unit, a ~2 km² solar-plus-storage field, or a major hydro tap (a natural fit for Ecuador's grid). The
-  realistic cargo-mode shot is far gentler: ~326 MWh, ~110 MW of sustained generation, ~174 GW peak. The point
+  realistic cargo-mode shot is far gentler: ~274 MWh, ~95 MW of sustained generation, ~160 GW peak. The point
   stands either way: <b class="k">the launcher is cheap to fire and expensive to power-build</b> — pennies of
   electricity per kilogram, but a serious generation-plus-storage plant behind every barrel.</p>
 </div>
@@ -344,29 +349,30 @@
 <!-- 10 (cont.) — THE BEND -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical F — the danger at the bend</h3>
-  <div class="warn"><b>The bend is the most dangerous point on the line — and scale makes it worse.</b> At the
-  terminal arc the pod is at full speed <i>and</i> being forced sideways at the same instant. The sideways pull
-  is v²/R, set by exit speed, not mass: ~16 g in cargo mode, ~62 g in bulk mode through the same R = 100 km
-  curve. The 360° ring must supply that as centripetal force (mass × acceleration), and that is where size
-  bites hardest.</div>
+  <h3>Theoretical F — removing the bend: the g-force win</h3>
+  <p>Rev 2.1 makes BRONTE a single straight line (§4). That deletes the worst load case the earlier design
+  carried — the centripetal side-load through the terminal arc — and leaves only the axial launch g the pod was
+  always built for.</p>
+  <div class="math">Lateral (centripetal) load in a curve: a_lat = v²/R<br>
+  Old design (R = 100 km bend), cargo 3,970 m/s: a_lat = 3,970² / 100,000 = 158 m/s² = <b>16 g sideways</b><br>
+  Old design, bulk 7,800 m/s: a_lat = 7,800² / 100,000 = 608 m/s² = <b>62 g sideways</b><br>
+  New design (straight track): R → ∞ ⇒ a_lat = v²/R → <b>0 g</b>. The only load is axial: 30 g cargo, 3 g human.</div>
   <table>
-    <tr><th>Pod · mode</th><th>Speed in bend</th><th>Sideways load</th><th>Ring force needed</th></tr>
-    <tr><td>23 m baseline · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~3.1 MN</td></tr>
-    <tr><td>70 m · Ø5 m · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~24 MN</td></tr>
-    <tr><td><b>70 m · Ø5 m · bulk</b></td><td>7.8 km/s</td><td><b>62 g</b></td><td><b>~91 MN</b></td></tr>
+    <tr><th>Load case</th><th>Old (R = 100 km bend)</th><th>New (straight)</th></tr>
+    <tr><td>Lateral g, cargo exit</td><td>~16 g</td><td><b>0 g</b></td></tr>
+    <tr><td>Lateral g, bulk exit</td><td>~62 g</td><td><b>0 g</b></td></tr>
+    <tr><td>Peak ring side-force, 70 m bulk pod</td><td>~91 MN (29× baseline)</td><td><b>~0</b> — levitation/centering only</td></tr>
+    <tr><td>Axial launch g (unchanged)</td><td>30 g cargo / 3 g human</td><td>30 g cargo / 3 g human</td></tr>
   </table>
-  <p class="meta">Restraining the 70 m bulk pod through the bend takes ~91 MN — about 29× the baseline's
-  3.1 MN — carried by the ring, its mounts, and the tunnel lining, with tighter alignment tolerance.
-  Length itself is not the hazard (a 70 m rigid pod bows only ~6 mm in the arc); mass and speed are. Heavier,
-  faster pods demand a proportionally stronger ring and a longer, gentler bend — or a slower exit with less
-  payload. The bend, not the straightaway, caps how big and how fast you can safely throw.</p>
-  <p><b class="k">If the bend ever let go.</b> A moving pod carries ½ × mass × speed² of kinetic energy, and at
-  these speeds that is a great deal. The baseline pod holds the equivalent of ~38 tonnes of TNT; the 70 m cargo
-  pod ~280 tonnes; the 70 m <i>bulk</i> pod ~1,080 tonnes — a genuine <b>~1 kiloton</b> (½ × 149,000 kg ×
-  (7,800 m/s)² = 4.53 × 10¹² J ÷ 4.184 × 10⁹ J per tonne TNT ≈ 1,083 t). That is the same kinetic energy that
-  makes the launcher useful, which is exactly why containment, fast interlocks, and an empty downrange corridor
-  are not optional at this scale — a loss-of-control event at the bend is, on a bad day, a large-explosion event.</p>
+  <p>The wins: the 360° ring no longer restrains tens of meganewtons of side-thrust, alignment tolerance
+  loosens, and — most importantly — there is no point where the track is fighting to <i>turn</i> the pod. A pod
+  still carries enormous kinetic energy (set by mass and speed, not by track shape):</p>
+  <div class="math">E_kinetic = ½mv² — e.g. 70 m bulk pod: ½ × 149,000 kg × (7,800 m/s)² = 4.53 × 10¹² J<br>
+  ÷ 4.184 × 10⁹ J per tonne TNT = <b>~1,080 t TNT (≈ 1 kiloton)</b> — unchanged by removing the bend</div>
+  <p class="meta">But with no curve, a loss of drive simply lets the pod <b>coast straight</b> — the benign
+  failure mode — instead of being flung sideways through the tunnel wall. Containment and an empty downrange
+  corridor still matter, but the redesign trades ~8% of top speed (Mach 12.6 → 11.5 on the full line) to erase
+  every lateral-g hazard. A good trade — and why Rev 2.1 made it.</p>
 </div>
 
 <!-- 10 (cont.) — STORING THE PULSE -->
