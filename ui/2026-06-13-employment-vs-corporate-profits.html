@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Employment vs. Corporate Profits (2000–2024)</title>
+<style>
+  :root{
+    --bg:#0a0d18; --panel:#11162a; --ink:#e7ecf6; --muted:#8b95b2;
+    --teal:#22d3ee; --purple:#7c3aed; --grid:#1d2540; --line:#2a3358;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 28px 48px}
+  h1{font-size:26px;margin:0 0 4px;font-weight:650;letter-spacing:.2px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+  .card{background:var(--panel);border:1px solid var(--line);
+    border-radius:16px;padding:18px 20px 8px;box-shadow:0 8px 40px rgba(0,0,0,.35)}
+  .legend{display:flex;gap:26px;flex-wrap:wrap;margin:6px 4px 14px;font-size:14px}
+  .legend span{display:inline-flex;align-items:center;gap:9px}
+  .dot{width:13px;height:13px;border-radius:4px;display:inline-block}
+  svg{width:100%;height:auto;display:block}
+  .axis{fill:var(--muted);font-size:13px}
+  .axisTitle{fill:var(--ink);font-size:13px;font-weight:600}
+  .gl{stroke:var(--grid);stroke-width:1}
+  .pt circle{transition:r .12s}
+  .pt:hover circle{r:6}
+  .note{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  .stat{background:#0d1224;border:1px solid var(--line);
+    border-radius:12px;padding:14px 16px}
+  .stat b{font-size:22px;display:block}
+  .stat.teal b{color:var(--teal)} .stat.purple b{color:var(--purple)}
+  .stat small{color:var(--muted);font-size:12.5px}
+  .src{color:var(--muted);font-size:12px;margin-top:20px;line-height:1.6}
+  @media(max-width:640px){.note{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The Great Decoupling: Jobs vs. Corporate Profits</h1>
+  <p class="sub">United States, 2000–2024 &middot; employment held flat while corporate profits more than 6×'d</p>
+
+  <div class="card">
+    <div class="legend">
+      <span><i class="dot" style="background:var(--purple)"></i> Corporate profits after tax (left axis, $ billions)</span>
+      <span><i class="dot" style="background:var(--teal)"></i> Employment-to-population ratio (right axis, %)</span>
+    </div>
+    <svg id="chart" viewBox="0 0 1100 600" role="img"
+      aria-label="Dual-axis line chart of US corporate profits and employment ratio"></svg>
+  </div>
+
+  <div class="note">
+    <div class="stat purple">
+      <b id="pGrow">+540%</b>
+      <small>Corporate profits, 2000 → 2024 ($530B → $3.40T)</small>
+    </div>
+    <div class="stat teal">
+      <b id="eGrow">−4.3 pts</b>
+      <small>Employment-to-population ratio, 2000 → 2024 (64.4% → 60.1%)</small>
+    </div>
+  </div>
+
+  <p class="src">
+    Data: approximate annual figures. Corporate profits = BEA / FRED <em>Corporate Profits After Tax (CPATAX)</em>.
+    Employment = BLS <em>Employment-Population Ratio (EMRATIO)</em>, civilian, age 16+, annual average.
+    Values are rounded for readability; exact series available on FRED (fred.stlouisfed.org).
+    Note: 2020 dips reflect the COVID shock; profits recovered far faster than employment.
+  </p>
+</div>
+
+<script>
+const years = [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,
+               2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+// Corporate profits after tax, $ billions (annual)
+const profit = [530,530,600,720,920,1130,1290,1230,1030,1230,1470,1560,1840,
+                1750,1840,1740,1740,1820,2000,2080,2120,2800,3080,3150,3400];
+// Employment-to-population ratio, % (annual average)
+const emp =    [64.4,63.7,62.7,62.3,62.3,62.7,63.1,63.0,62.2,59.3,58.5,58.4,58.6,
+                58.6,59.0,59.3,59.7,60.1,60.4,60.8,56.8,58.4,60.0,60.3,60.1];
+
+const X0=92, X1=1010, Y0=64, Y1=512;            // plot bounds
+const P_MIN=0, P_MAX=3600;                       // profit axis
+const E_MIN=50, E_MAX=66;                         // employment axis
+const sx = y => X0 + (y-2000)/(2024-2000)*(X1-X0);
+const sp = v => Y1 - (v-P_MIN)/(P_MAX-P_MIN)*(Y1-Y0);
+const se = v => Y1 - (v-E_MIN)/(E_MAX-E_MIN)*(Y1-Y0);
+const NS="http://www.w3.org/2000/svg";
+const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const svg=document.getElementById('chart');
+
+// horizontal gridlines + left axis ($)
+for(let v=0; v<=P_MAX; v+=600){
+  const y=sp(v);
+  svg.appendChild(el('line',{class:'gl',x1:X0,y1:y,x2:X1,y2:y}));
+  svg.appendChild(el('text',{class:'axis',x:X0-12,y:y+4,'text-anchor':'end'})).textContent =
+    v===0?'$0':'$'+(v/1000).toFixed(1)+'T';
+}
+// right axis (%)
+for(let v=E_MIN; v<=E_MAX; v+=4){
+  const y=se(v);
+  svg.appendChild(el('text',{class:'axis',x:X1+12,y:y+4,'text-anchor':'start'})).textContent = v+'%';
+}
+// x axis ticks
+years.forEach((yr,i)=>{ if(yr%4!==0 && yr!==2024) return;
+  const x=sx(yr);
+  svg.appendChild(el('text',{class:'axis',x:x,y:Y1+26,'text-anchor':'middle'})).textContent = yr;
+});
+
+// axis titles
+const at1=el('text',{class:'axisTitle',x:24,y:(Y0+Y1)/2,'text-anchor':'middle',
+  transform:`rotate(-90 24 ${(Y0+Y1)/2})`}); at1.textContent='Corporate profits'; svg.appendChild(at1);
+const at2=el('text',{class:'axisTitle',x:1076,y:(Y0+Y1)/2,'text-anchor':'middle',
+  transform:`rotate(90 1076 ${(Y0+Y1)/2})`}); at2.textContent='Employment ratio'; svg.appendChild(at2);
+
+// area fill under profit
+let area=`M ${sx(2000)} ${Y1} `;
+years.forEach((yr,i)=> area+=`L ${sx(yr)} ${sp(profit[i])} `);
+area+=`L ${sx(2024)} ${Y1} Z`;
+const grad=el('linearGradient',{id:'pg',x1:0,y1:0,x2:0,y2:1});
+grad.appendChild(el('stop',{offset:'0%','stop-color':'#7c3aed','stop-opacity':.32}));
+grad.appendChild(el('stop',{offset:'100%','stop-color':'#7c3aed','stop-opacity':0}));
+const defs=el('defs',{}); defs.appendChild(grad); svg.appendChild(defs);
+svg.appendChild(el('path',{d:area,fill:'url(#pg)'}));
+
+// line builder
+const line=(vals,scale,color)=>{
+  let d='';
+  years.forEach((yr,i)=> d+=(i?'L':'M')+` ${sx(yr)} ${scale(vals[i])} `);
+  svg.appendChild(el('path',{d,fill:'none',stroke:color,'stroke-width':3,
+    'stroke-linejoin':'round','stroke-linecap':'round'}));
+  years.forEach((yr,i)=>{
+    const g=el('g',{class:'pt'});
+    g.appendChild(el('circle',{cx:sx(yr),cy:scale(vals[i]),r:3.2,fill:color}));
+    const lbl = scale===sp ? '$'+vals[i]+'B' : vals[i]+'%';
+    g.appendChild(el('title',{})).textContent = yr+'  •  '+lbl;
+    svg.appendChild(g);
+  });
+};
+line(profit, sp, '#7c3aed');
+line(emp, se, '#22d3ee');
+</script>
+</body>
+</html>
