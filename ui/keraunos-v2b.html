@@ -131,10 +131,73 @@
   ASTERIA eventually makes possible.</div>
 </div>
 
-<!-- 10 ZERO NEW PHYSICS -->
+<!-- 10 THEORETICAL SCALING -->
 <div class="page">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h2>10. Zero New Physics</h2>
+  <h2>10. Theoretical Scaling: Wider Bores and Multi-Barrel Batteries</h2>
+  <p class="lede">Pure forward-looking theory. None of this is in the build plan — it is what the architecture
+  could become if the demonstrator succeeds and the enabling technology keeps maturing.</p>
+  <div class="warn"><b>Read this section as speculation, not specification.</b> Everything below assumes the
+  Phase-1 demonstrator has already worked and that several technologies have advanced past where they sit in
+  2026. These are not designs. They are the shape of the ceiling — included because the question "how far does
+  this scale?" deserves an honest, numbered answer rather than hand-waving.</div>
+  <div class="call"><b>The one rule that governs all of it: bore sets the chunk size, power sets the tonnage.</b>
+  The energy to place a kilogram in orbit is fixed by physics — a wider tube does not make a tonne cheaper, it
+  makes each shot bigger and rarer for the same megawatts. More annual tonnage comes only from more installed
+  power. Bigger bores and more barrels change <i>how</i> you deliver the mass; the power plant decides <i>how
+  much.</i></p>
+
+  <h3>Theoretical A — the Ø5 m bore</h3>
+  <p>Payload scales with bore cross-section (diameter²): widening the Ø3.2 m payload bay to Ø5 m is a
+  <b>2.44× larger payload per shot</b>. The same exit velocity is required, so energy per shot scales with it.</p>
+  <p><b class="k">What would have to advance first:</b> the plasma window — already the program's hardest R&amp;D
+  at Ø4 m — would need to hold a still-larger aperture; the drive ring would need more REBCO at a better cost
+  per kiloamp-metre than 2026 production; tunnelling would need bores beyond today's ~17.6 m TBM record; and
+  trackside storage would need to swallow ~80 MWh per shot. Each is an extrapolation of a real 2026 capability,
+  not a new invention — but all four have to arrive together.</p>
+
+  <h3>Theoretical B — the multi-barrel battery</h3>
+  <p>Instead of one fat tube, place several independent barrels side by side on one site — ~20 m apart through
+  the rock (a rock pillar between Ø12 m bores, the way twin- and triple-bore road tunnels are already built),
+  5–10 m apart on open viaduct. They share one tunnel campaign, one substation, one cryoplant, one vacuum
+  plant, one control centre, and — critically — <b>one storage farm fired round-robin:</b> while barrel 1
+  recharges, barrel 2 fires, then 3, so the grid sees a steady draw instead of three spikes and the site fires
+  far more often than any single barrel.</p>
+  <p><b class="k">What this does and does not buy:</b> it is mostly engineering scale-up, not new physics — but
+  it is gated on the demonstrator first proving the per-barrel cost, and on building power to match. Three
+  barrels deliver ~3× the tonnage for under 2× the capital, because the expensive infrastructure (and the
+  permitting fight) is paid once. It does not escape the power rule: three barrels at full cadence draw three
+  times the megawatts.</p>
+
+  <h3>How the numbers scale (theoretical)</h3>
+  <table>
+    <tr><th>Configuration</th><th>Payload / shot (cargo · bulk)</th><th>Energy / shot</th><th>Power feed</th><th>Annual / site (cargo · bulk)</th></tr>
+    <tr><td>Ø3.2 m single barrel <span class="meta">(demonstrator-derived baseline)</span></td><td>4.5 t · 14 t</td><td>~33 MWh</td><td>~30 MW</td><td>~13,000 t · ~40,000 t</td></tr>
+    <tr><td><b>Ø5 m single barrel</b> <span class="meta">(theoretical)</span></td><td>~11 t · ~34 t</td><td>~80 MWh</td><td>~73 MW</td><td>~32,000 t · ~99,000 t</td></tr>
+    <tr><td><b>Triple Ø3.2 m battery</b> <span class="meta">(theoretical)</span></td><td>4.5 t · 14 t <span class="meta">(×3, staggered)</span></td><td>~33 MWh ×3</td><td>~90 MW</td><td>~39,000 t · ~120,000 t</td></tr>
+  </table>
+  <p class="meta">Cargo = 30 g, g-hardened satellites, with a kick stage to orbit. Bulk = 50–77 g inert mass
+  (propellant, water, metal) into a depot. Annual figures assume ~8 effective shots/day per barrel at ~80%
+  availability and that power is scaled to suit.</p>
+
+  <h3>What it would take to reach 100,000 t/yr to LEO</h3>
+  <table>
+    <tr><th>Approach</th><th>Units needed</th><th>Notes</th></tr>
+    <tr><td>SpaceX Starship <span class="meta">(reference)</span></td><td>~40 ships</td><td>at ~25 flights/ship/yr (Falcon-9-class reuse); ~1,000 flights/yr, ~2.7/day; ~4.6 Mt of methalox/yr</td></tr>
+    <tr><td>Ø3.2 m barrels</td><td>~8</td><td>eight sites, or fewer with batteries</td></tr>
+    <tr><td><b>Ø5 m barrels</b> <span class="meta">(theoretical)</span></td><td>~3</td><td>each fed ~73 MW</td></tr>
+    <tr><td><b>Triple Ø3.2 m batteries</b> <span class="meta">(theoretical)</span></td><td>~3 sites <span class="meta">(9 barrels)</span></td><td>three mountains instead of eight</td></tr>
+  </table>
+  <p>For scale: the entire world placed roughly 1,900 t in orbit in 2024. Every figure in this section is two
+  orders of magnitude past that — and bounded, in the end, not by the launchers but by how much power and how
+  many orbital catch-points can be built to absorb the mass.</p>
+  <div class="stamp">PURE THEORETICAL SCALING — REQUIRES TECHNOLOGY MATURATION BEYOND 2026 — NOT A BUILD PLAN, NOT FOR CONSTRUCTION</div>
+</div>
+
+<!-- 11 ZERO NEW PHYSICS -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>11. Zero New Physics</h2>
   <p class="lede">Every subsystem has flown, fired, or been demonstrated. The opportunity is assembly, not invention.</p>
   <table>
     <tr><th>Building block</th><th>Status — verified June 12, 2026</th></tr>
@@ -155,7 +218,7 @@
 <!-- 11 HARD PARTS + 12 UNLOCKS -->
 <div class="page">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h2>11. The Hard Parts</h2>
+  <h2>12. The Hard Parts</h2>
   <p class="lede">A document about a project this large that doesn't name the real problems is salesmanship, not engineering.</p>
   <ul>
     <li><b class="k">Plasma window scaling.</b> Centimeter demos → Ø4.0 m bore at 2.8× baseline power. First R&amp;D dollar; if it doesn't scale, the muzzle needs a different answer and we must learn that at demonstrator scale, cheaply.</li>
@@ -168,7 +231,7 @@
     <li><b class="k">The treaty question.</b> The Outer Space Treaty is silent on commercial mass drivers; a kinetic launcher is inherently dual-use. That ambiguity buys scrutiny on one side and AFWERX funding on the other. EMALS and GPS both walked this road.</li>
   </ul>
 
-  <h2 style="margin-top:16pt;">12. What KERAUNOS Unlocks</h2>
+  <h2 style="margin-top:16pt;">13. What KERAUNOS Unlocks</h2>
   <h3>Orbital manufacturing</h3>
   <ul>
     <li><b class="k">ZBLAN fiber</b> — up to 100× lower theoretical loss than silica; ~12 km drawn on ISS in 2024; customers queue on freight prices. KERAUNOS is the freight price. (Performance proof still pending publication — the bet is stated, not oversold.)</li>
