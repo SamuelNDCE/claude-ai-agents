@@ -14,6 +14,51 @@ Pick-up note for a fresh session. Everything below is the state at end of this s
 
 ---
 
+## ★ 2026-06-13 SESSION UPDATE — CURRENT STATE (READ THIS FIRST; supersedes stale numbers below)
+
+The whitepaper grew and the BRONTE design changed materially on 2026-06-13. Per-step detail is in
+NV `wiki/logs/perpetual-technologies.md` (and the deep-research report, below). Current state:
+
+- **`KERAUNOS-v2.pdf` is now 42 pages**, uniform A4 portrait, **© Perpetual Technologies footer on every page**
+  (print-only `position:fixed`). Rebuild: `python keraunos_pdf_build.py` (auto-copies to Downloads). The old
+  "What Changed in Rev 2" page 2 was **deleted**.
+- **Fleet named ASTERIA** (was "Vacuum fleet"). Naming line: SELENE · BRONTE · ASTRAPE/EOS · **ASTERIA** · ARES.
+  BRONTE + ASTERIA now run as **Phase 2–3 in parallel** (exec table, build order, §7 lede all say "four launchers").
+- **BRONTE REDESIGN (Rev 2.1): the terminal bend is REMOVED.** The track is a **single straight line at 12.3°**.
+  Keeping the muzzle location/angle but lowering it to **5,900 m (just under 6 km, ~363 m below the 6,263 m summit)**:
+  Phase 1 = **8.6 km** (portal 4,069 m), full line = **21.3 km** (west portal 1,360 m). Cargo 30 g → **2.25 km/s
+  (Mach 7.1)** P1 / **3.54 km/s (Mach 11.2)** full; human 3 g → 0.71 / 1.12 km/s. Energy 15 t full ≈ 26.1 MWh,
+  peak ≈ 15.6 GW. **No bend ⇒ zero lateral g** (the old 16–62 g side-load / ~91 MN ring force / ~1-kt bend-failure
+  case are all gone). 360° ring now justified by distributed full-hull thrust (no axial buckling) + centering.
+- **Drawings:** BRONTE Panels B & C redrawn — track is a **dashed bored-tunnel line** (no more floating piers/
+  "levitation"); **power cables shown** = amber dashed HV feed + SC pulse bus running the tunnel length (+ Panel D
+  cable-size callouts: 3× 240 mm² Cu feed, ~240 mm²/sector REBCO pulse bus). Honest open item: a pure straight
+  12.3° line still floats above the gentle lower flank (viaduct there, tunnel up top) — first-pass dashed depiction;
+  a true-scale terrain-intersection redraw is the remaining polish.
+- **Math everywhere:** `.math` derivation boxes added across the doc (velocity v=√(2aL), g=v²/2L, energy ½mv²,
+  re-entry, He-3 mass/energy, etc.). **Standing rule:** every displayed calculation gets a derivation subsection
+  + a primary-source citation.
+- **New whitepaper sections:**
+  - **§4 velocity ladder** — over a 40 km straight track: 4 km/s = 20.4 g/3.0 MN/33 MWh; 6 km/s = 45.9 g/6.8 MN/75 MWh;
+    8 km/s ≈ orbital = 81.5 g/12.0 MN/133 MWh. All possible; payload g-tolerance is the limit.
+  - **§10 Theoretical Scaling A–H** — A: Ø5 m bore (×2.44 payload); B: multi-barrel battery (~3× tonnage <2× capital,
+    round-robin storage); C: pod length (23→70 m, payload table); D: scaled pod illustrations (ogive 3.9:1); E: power
+    & cost per shot + "where the power comes from" (~700 GW peak from storage); F: removing the bend = the g-force win;
+    G: banking the pulse (JET flywheels, NIF caps, SMES ~5 ms via fast switch — Samuel's magnet idea, validated);
+    H: SMES power-bank schematic + cable sizing.
+  - **§13 The Lunar Export Economics, by the Numbers** — math + cited, from the deep-research pass. Headlines:
+    launch is trivial (0.79 kWh/kg); ISRU processing is 30–190× more energy/kg than launch; cislunar use beats
+    Earth-return for everything; **He-3 reframed as a kg/yr quantum-cryogenics luxury commodity, NOT fusion energy**
+    (~10⁵ t regolith/kg, ~5,000 GJ/kg; validated vs NASA M-3). §14 = "What KERAUNOS Unlocks" (renumbered).
+- **Deep-research report:** `C:\Users\Futur\Documents\AiWorkspace\Claude\KERAUNOS-lunar-export-research-2026-06-13.md`
+  (6 parallel agents, ~70 searches, ~30 deep-reads, all FACT/COMPUTED-tagged + cited).
+- **SELENE map is bound in as Annex B** (the §1C "not yet bound" note below is stale).
+
+*Sections 0–7 below predate this update and are partly superseded — trust the block above for BRONTE numbers,
+page count, and fleet naming.*
+
+---
+
 ## 0. What KERAUNOS is
 
 An electromagnetic (maglev) space-launch program by **Samuel Edwards / Perpetual Technologies**.
