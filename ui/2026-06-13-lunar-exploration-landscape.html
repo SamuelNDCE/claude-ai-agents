@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunar Exploration Landscape — mid-2026</title>
+<style>
+  :root{
+    --bg:#0a0d18; --panel:#10142270; --panel-solid:#121730; --border:#23284a;
+    --teal:#22d3ee; --purple:#7c3aed; --ink:#e6e9f5; --muted:#9aa3c7;
+    --green:#34d399; --red:#fb7185; --amber:#fbbf24; --blue:#60a5fa;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+    radial-gradient(1200px 600px at 80% -10%, #1b1140 0%, transparent 55%),
+    radial-gradient(900px 500px at -10% 10%, #06283d 0%, transparent 50%),
+    var(--bg);
+    color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 24px 80px}
+  header{margin-bottom:14px}
+  .kicker{letter-spacing:.28em;text-transform:uppercase;font-size:12px;color:var(--teal);font-weight:700}
+  h1{font-size:40px;line-height:1.1;margin:8px 0 6px;
+    background:linear-gradient(95deg,#fff 10%,var(--teal) 55%,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:15px;max-width:760px}
+  h2{font-size:22px;margin:46px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;gap:10px}
+  h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+  .grid{display:grid;gap:16px}
+  .cards{grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+  .stat-row{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-top:8px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px 20px;
+    backdrop-filter:blur(6px);transition:.2s}
+  .card:hover{border-color:#34407a;transform:translateY(-2px)}
+  .card h3{margin:0 0 4px;font-size:17px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .card .role{color:var(--muted);font-size:12.5px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em}
+  .card ul{margin:0;padding-left:16px}
+  .card li{margin:4px 0;font-size:13.5px}
+  .stat{background:var(--panel-solid);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .stat .n{font-size:26px;font-weight:800;color:var(--teal)}
+  .stat .n.p{color:var(--purple)} .stat .n.g{color:var(--green)} .stat .n.a{color:var(--amber)}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;font-weight:700;white-space:nowrap}
+  .t-usa{background:#1d3a5f;color:#9fd0ff} .t-china{background:#4a1620;color:#ffb3bf}
+  .t-eu{background:#1a2f50;color:#9ec5ff} .t-com{background:#2a1d4d;color:#c9b6ff}
+  .t-go{background:#0f3b2e;color:#86efac} .t-warn{background:#4a3410;color:#fcd34d} .t-bad{background:#4a1620;color:#fda4af}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--panel-solid);
+    border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  th{background:#161b34;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#141937}
+  .blocs{grid-template-columns:1fr 1fr}
+  .bloc{border-radius:14px;padding:20px;border:1px solid var(--border)}
+  .bloc.us{background:linear-gradient(160deg,#0f1f38,#0a0d18)}
+  .bloc.cn{background:linear-gradient(160deg,#33121c,#0a0d18)}
+  .bloc h3{margin:0 0 4px;font-size:19px}
+  .bloc .members{color:var(--muted);font-size:13px;margin-top:8px}
+  .timeline{position:relative;margin-top:10px;padding-left:8px}
+  .tl{display:grid;grid-template-columns:128px 1fr;gap:14px;padding:9px 0;border-bottom:1px solid #1a1f3d}
+  .tl .d{color:var(--teal);font-weight:700;font-size:13px}
+  .tl .e{font-size:13.5px}
+  .tl.big .e{color:#fff;font-weight:600}
+  .note{font-size:12.5px;color:var(--muted);font-style:italic}
+  footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:12.5px}
+  a{color:var(--teal);text-decoration:none}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 0;font-size:12px;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  @media(max-width:720px){.blocs{grid-template-columns:1fr}h1{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">Research Dossier · NeuralVault</div>
+  <h1>Who's Going to the Moon</h1>
+  <div class="sub">Every government agency and company planning to interact with the Moon, as of <strong>mid-June 2026</strong>. Compiled from ~50 sources (NASA, ESA, SpaceNews, Ars Technica, Reuters, NASASpaceflight, company filings). Forward dates are working targets and slip often.</div>
+  <div class="legend">
+    <span><span class="tag t-usa">USA / Artemis</span></span>
+    <span><span class="tag t-china">China / ILRS</span></span>
+    <span><span class="tag t-eu">Intl agency</span></span>
+    <span><span class="tag t-com">Commercial</span></span>
+  </div>
+</header>
+
+<div class="grid stat-row">
+  <div class="stat"><div class="n">2028</div><div class="l">NASA's first crewed landing (Artemis IV — slipped from A-III)</div></div>
+  <div class="stat"><div class="n p">&lt;2030</div><div class="l">China's crewed landing goal (the pressure point)</div></div>
+  <div class="stat"><div class="n g">Mar 2025</div><div class="l">First fully successful commercial landing (Firefly)</div></div>
+  <div class="stat"><div class="n a">$20B</div><div class="l">NASA lunar surface base (replaced Gateway)</div></div>
+</div>
+
+<h2><span class="dot"></span>The headline: Artemis got torn up and rebuilt (early 2026)</h2>
+<div class="grid cards">
+  <div class="card"><h3>SLS upgrades cancelled</h3><p class="role">Feb 27, 2026</p>
+    <ul><li>Block 1B + Exploration Upper Stage scrapped</li><li>Later flights move to a commercial upper stage (reported: ULA Centaur V)</li><li>FY2027 budget calls SLS "grossly expensive and delayed"</li></ul></div>
+  <div class="card"><h3>Gateway cancelled</h3><p class="role">Mar 24, 2026</p>
+    <ul><li>Lunar orbit station dropped "in its current form"</li><li>Redirected to a <strong>$20B surface base</strong></li><li>Leaves ESA / JAXA / Canada / UAE partners in limbo</li></ul></div>
+  <div class="card"><h3>Artemis III redefined</h3><p class="role">No longer the first landing</p>
+    <ul><li>Now a LEO crewed docking test with the landers — <strong>no landing</strong></li><li>Target NET late 2027</li><li>Crew: Bresnik, Parmitano (ESA), Douglas, Rubio</li></ul></div>
+  <div class="card"><h3>Artemis II flew ✓</h3><p class="role">Apr 1–11, 2026</p>
+    <ul><li>First humans beyond LEO since 1972</li><li>Wiseman, Glover, Koch, Hansen (CSA)</li><li>Orion heat-shield issue resolved — "significantly reduced" char loss</li></ul></div>
+</div>
+
+<h2><span class="dot"></span>Two blocs racing for the south pole</h2>
+<div class="grid blocs">
+  <div class="bloc us">
+    <h3>🇺🇸 Artemis Accords</h3>
+    <div class="tag t-usa">USA-led · 52 signatories (2026)</div>
+    <p style="font-size:14px;margin:12px 0 0">Norms for civil lunar activity. Commercial-heavy: NASA buys rides &amp; landers from industry.</p>
+    <div class="members"><strong>Members incl.</strong> ESA states, Japan, India, South Korea, UAE, Canada, Australia, Brazil…</div>
+  </div>
+  <div class="bloc cn">
+    <h3>🇨🇳 ILRS</h3>
+    <div class="tag t-china">China + Russia · ~17 countries</div>
+    <p style="font-size:14px;margin:12px 0 0">International Lunar Research Station — a state-led Moon base. Basic model ~2035, expanded ~2045.</p>
+    <div class="members"><strong>Members incl.</strong> Russia, Pakistan, Venezuela, South Africa, Egypt, Belarus, Thailand, Nicaragua, Serbia, Kazakhstan, Senegal…</div>
+  </div>
+</div>
+
+<h2><span class="dot"></span>Crewed lunar paths compared</h2>
+<table>
+  <tr><th>Program</th><th>Stack</th><th>First crew landing</th><th>Lander</th><th>Status (mid-2026)</th></tr>
+  <tr><td><span class="tag t-usa">NASA Artemis</span></td><td>SLS + Orion + commercial HLS</td><td><strong>Artemis IV · 2028</strong><br><span class="note">A-III = 2027 LEO docking test</span></td><td>Starship HLS / Blue Moon MK2</td><td>A-II flew; both landers behind</td></tr>
+  <tr><td><span class="tag t-china">China CNSA</span></td><td>2× Long March 10 + Mengzhou + Lanyue</td><td><strong>Before 2030</strong></td><td>Lanyue</td><td>All hardware in test; LM-10 hop test Feb 2026</td></tr>
+  <tr><td><span class="tag t-china">Russia (ILRS)</span></td><td>via China</td><td>2030s (base ~2031–36)</td><td>Chinese-led</td><td>Luna robotic program slipping</td></tr>
+  <tr><td><span class="tag t-eu">India ISRO</span></td><td>Long-term</td><td><strong>Indian on Moon by 2040</strong></td><td>TBD</td><td>Chandrayaan-4 sample return ~2028 first</td></tr>
+</table>
+
+<h2><span class="dot"></span>The players</h2>
+<div class="grid cards">
+
+  <div class="card"><h3>NASA <span class="tag t-usa">core</span></h3><p class="role">Artemis · Administrator Jared Isaacman</p>
+    <ul><li>$8.5B Artemis systems in FY2027 (topline cut ~23%, science −47%)</li><li>3-phase $20B base roadmap (2026 → 2032 permanent)</li><li>"MoonFall" hopping drones + simplified LTV</li><li>China framing drives the urgency</li></ul></div>
+
+  <div class="card"><h3>SpaceX <span class="tag t-com">HLS</span></h3><p class="role">Starship HLS · Artemis III & IV</p>
+    <ul><li>$2.89B (2021) + ~$1.15B (2022) HLS contracts</li><li><strong>Critical path:</strong> ~10 tanker launches + orbital refueling (demo NET late 2026, unproven)</li><li>Flight 12 (May 22 2026, first V3): booster crashed, Raptor 3 issues</li><li>OIG: "well behind schedule," elevator/tip-over risks</li></ul></div>
+
+  <div class="card"><h3>Blue Origin <span class="tag t-com">HLS</span></h3><p class="role">Blue Moon MK1 / MK2 · BE-7</p>
+    <ul><li>MK1 cargo (~3t) built; <strong>New Glenn exploded May 28 2026</strong> → MK1 NET late 2026</li><li>MK2 crewed (~$3.4B, Artemis V) needs Cislunar Transporter refueling</li><li>National Team: Lockheed, Draper, Boeing, Astrobotic, Honeybee</li><li>2nd MK1 delivers VIPER (~$190M, late 2027)</li></ul></div>
+
+  <div class="card"><h3>China CNSA <span class="tag t-china">leader</span></h3><p class="role">Chang'e + crewed + ILRS</p>
+    <ul><li>Chang'e 6: first farside sample return (2024)</li><li>Chang'e 7: south-pole water-ice hunt + crater "hopper" (H2 2026)</li><li>Chang'e 8: 3D-print bricks from regolith (~2028)</li><li>Long March 10 hop test + Mengzhou abort test (Feb 2026)</li></ul></div>
+
+  <div class="card"><h3>Firefly Aerospace <span class="tag t-com">CLPS</span> <span class="tag t-go">✓ landed</span></h3><p class="role">Blue Ghost</p>
+    <ul><li><strong>M1 landed Mare Crisium Mar 2 2025</strong> — first full commercial landing (2025 Collier Trophy)</li><li>M2 farside late 2026 (deploys ESA Lunar Pathfinder)</li><li>M3 Gruithuisen Domes 2028; M4 south pole 2029</li></ul></div>
+
+  <div class="card"><h3>Intuitive Machines <span class="tag t-com">CLPS</span> <span class="tag t-warn">tipped</span></h3><p class="role">Nova-C · NSN comms</p>
+    <ul><li>IM-1 (2024) & IM-2 (2025) both reached surface but tipped over</li><li>IM-3 in 2026 (Reiner Gamma, 3 rovers)</li><li>Near Space Network comms: up to $4.82B</li><li><strong>Dropped</strong> from the LTV down-select (May 2026)</li></ul></div>
+
+  <div class="card"><h3>Astrobotic <span class="tag t-com">CLPS</span> <span class="tag t-bad">M1 failed</span></h3><p class="role">Peregrine / Griffin</p>
+    <ul><li>Peregrine failed (Jan 2024, tank rupture)</li><li>Griffin-1 now NET July 2026 (Falcon Heavy) w/ CubeRover</li><li>Lost VIPER delivery when NASA cancelled it</li></ul></div>
+
+  <div class="card"><h3>ispace <span class="tag t-com">Japan/Lux</span> <span class="tag t-bad">0-for-2</span></h3><p class="role">Hakuto-R / APEX / ULTRA</p>
+    <ul><li>M1 (2023) & M2 "Resilience" (Jun 2025) both crashed</li><li>M3 = Draper CP-12 farside (Schrödinger), → 2027</li><li>New "ULTRA" lander consolidates designs (Mar 2026)</li></ul></div>
+
+  <div class="card"><h3>Lunar Outpost + Astrolab <span class="tag t-com">LTV winners</span></h3><p class="role">Crewed rovers · May 2026</p>
+    <ul><li>Lunar Outpost <strong>Pegasus</strong> (~$220M) + Venturi Astrolab <strong>FLEX/FLIP</strong> (~$219M)</li><li>Blue Moon MK1 delivers them (~$234M/mission)</li><li>LTV program up to $4.6B / 15 yrs; Astrolab has a Starship ride booked</li></ul></div>
+
+  <div class="card"><h3>ESA <span class="tag t-eu">Europe</span></h3><p class="role">Argonaut · Moonlight · ESM</p>
+    <ul><li>Argonaut cargo lander (~2030–31, budget pressure)</li><li>Moonlight comms/nav constellation (precursor ops 2026)</li><li>European Service Module powers every Orion</li><li>Parmitano = first ESA astronaut on Artemis</li></ul></div>
+
+  <div class="card"><h3>ISRO / JAXA <span class="tag t-eu">India + Japan</span></h3><p class="role">Chandrayaan · SLIM · LUPEX</p>
+    <ul><li>India: Chandrayaan-3 landed 2023; -4 sample return ~2028; human on Moon by 2040</li><li>Japan: SLIM precision landing (2024); Toyota "Lunar Cruiser" pressurized rover</li><li>Joint LUPEX polar rover (~2027–28)</li></ul></div>
+
+  <div class="card"><h3>Lunar economy <span class="tag t-com">startups</span></h3><p class="role">Mining · comms · data · suits · nuclear</p>
+    <ul><li><strong>Interlune</strong> / Magna Petra: helium-3 mining</li><li><strong>Crescent</strong> (Lockheed) / IM NSN: comms + PNT</li><li><strong>Lonestar</strong>: Moon data centers · Nokia: lunar 4G</li><li><strong>Axiom</strong> AxEMU moonwalk suit (w/ Prada)</li><li>Fission Surface Power: Westinghouse/X-energy/Lockheed (≥100 kW ~2030)</li></ul></div>
+
+</div>
+
+<h2><span class="dot"></span>Timeline · 2023 → 2026</h2>
+<div class="timeline">
+  <div class="tl"><div class="d">Aug 2023</div><div class="e">India Chandrayaan-3 lands near south pole · Russia Luna 25 crashes</div></div>
+  <div class="tl"><div class="d">Jan 2024</div><div class="e">Astrobotic Peregrine fails · JAXA SLIM precision landing · IM-1 tips over</div></div>
+  <div class="tl"><div class="d">June 2024</div><div class="e">China Chang'e 6 returns first farside samples · NASA cancels VIPER · dearMoon cancelled</div></div>
+  <div class="tl big"><div class="d">Mar 2025</div><div class="e">Firefly Blue Ghost M1 — first full commercial landing · IM-2 Athena tips over</div></div>
+  <div class="tl"><div class="d">June 2025</div><div class="e">ispace M2 "Resilience" crashes</div></div>
+  <div class="tl"><div class="d">Sept 2025</div><div class="e">VIPER revived → handed to Blue Origin (~$190M)</div></div>
+  <div class="tl"><div class="d">Dec 17, 2025</div><div class="e">Jared Isaacman confirmed NASA Administrator</div></div>
+  <div class="tl big"><div class="d">Feb 27, 2026</div><div class="e">Artemis overhaul: SLS Block 1B/EUS cancelled · A-III → 2027 LEO test</div></div>
+  <div class="tl big"><div class="d">Mar 24, 2026</div><div class="e">Gateway cancelled · $20B lunar base announced</div></div>
+  <div class="tl big"><div class="d">Apr 1–11, 2026</div><div class="e">Artemis II flies — crewed lunar flyby ✓</div></div>
+  <div class="tl"><div class="d">Apr 19, 2026</div><div class="e">New Glenn NG-3: booster reflight OK, upper-stage failure</div></div>
+  <div class="tl"><div class="d">May 22, 2026</div><div class="e">Starship Flight 12 (first V3): booster crash, mixed result</div></div>
+  <div class="tl"><div class="d">May 26, 2026</div><div class="e">NASA LTV down-select: Lunar Outpost + Astrolab (IM dropped)</div></div>
+  <div class="tl big"><div class="d">May 28, 2026</div><div class="e">New Glenn explosion at LC-36</div></div>
+  <div class="tl"><div class="d">June 9, 2026</div><div class="e">Artemis III crew named (Bresnik / Parmitano / Douglas / Rubio)</div></div>
+</div>
+
+<footer>
+  <strong>Sources:</strong> NASA.gov (Artemis · CLPS · HLS · VIPER · LTV releases) · NASA OIG IG-26-004 · SpaceNews · Ars Technica · Spaceflight Now · NASASpaceflight · Reuters · ESA.int · Science (Chang'e 6) · SCMP · Xinhua · company filings (Firefly, Intuitive Machines IR, Blue Origin, ispace, Lunar Outpost, Astrolab, Interlune).<br><br>
+  Compiled 2026-06-13 · Figures dated mid-2026 · Forward dates are working targets and slip frequently. Saved to NeuralVault: <code>wiki/concepts/space/lunar-exploration-landscape-2026.md</code>
+</footer>
+</div>
+</body>
+</html>
