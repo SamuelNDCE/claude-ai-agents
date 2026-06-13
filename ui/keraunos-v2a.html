@@ -28,9 +28,14 @@
   /* never slice a table or row across a page break — move it whole to the next page */
   table, tr { break-inside: avoid; page-break-inside: avoid; }
   thead { display: table-header-group; }
+  /* copyright footer repeated on every printed page (position:fixed repeats per page in print) */
+  .copyright { display:none; }
+  @media print { .copyright { display:block; position:fixed; left:0; right:0; bottom:6mm;
+     text-align:center; font-size:7pt; letter-spacing:1px; color:#94a3b8; } }
 </style>
 </head>
 <body>
+<div class="copyright">© 2026 Perpetual Technologies. All rights reserved.</div>
 
 <!-- COVER -->
 <div class="page" style="text-align:center; padding-top:160pt;">

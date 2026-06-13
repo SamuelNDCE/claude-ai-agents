@@ -26,6 +26,7 @@ DOWNLOADS = os.path.join(os.path.expanduser("~"), "Downloads")
 # also fits across the 192 mm page width.
 MAP_PRINT_CSS = """
 <style id="pdfprint">
+.copyright { display:none; }
 .annexcover { padding: 4px 6px 0; }
 .annexcover .ax-letter { font-family:Consolas,monospace; font-size:13px; letter-spacing:3px;
    color:#0e7490; font-weight:700; margin:26px 0 2px; }
@@ -42,6 +43,8 @@ MAP_PRINT_CSS = """
    border-left:3px solid #d97706; padding:9px 12px; margin-top:8px; }
 @media print {
   @page { size: A4 portrait; margin: 9mm; }
+  .copyright { display:block; position:fixed; left:0; right:0; bottom:4mm; text-align:center;
+     font-size:8px; letter-spacing:1px; color:#94a3b8; font-family:Consolas,monospace; }
   html, body { background:#fff !important; padding:0 !important; margin:0 !important; }
   .sheet { box-shadow:none !important; border:none !important; max-width:none !important;
            padding:0 !important; margin:0 !important; }

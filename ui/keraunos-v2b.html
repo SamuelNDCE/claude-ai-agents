@@ -25,9 +25,14 @@
   thead { display: table-header-group; }
   /* force a continuation page to start fresh (page-break-after is unreliable in chains) */
   .np { break-before: page; page-break-before: always; }
+  /* copyright footer repeated on every printed page (position:fixed repeats per page in print) */
+  .copyright { display:none; }
+  @media print { .copyright { display:block; position:fixed; left:0; right:0; bottom:6mm;
+     text-align:center; font-size:7pt; letter-spacing:1px; color:#94a3b8; } }
 </style>
 </head>
 <body>
+<div class="copyright">© 2026 Perpetual Technologies. All rights reserved.</div>
 
 <!-- 5 ARES -->
 <div class="page">
@@ -72,7 +77,7 @@
   <p class="meta">SELENE is ~300× shorter than any full Earth injector and skips every atmosphere subsystem. Chimborazo Phase 1 is ~70× shorter and proves the hard atmosphere parts before any large commitment. They de-risk in parallel.</p>
 
   <h2 style="margin-top:18pt;">7. How the Network Moves Mass</h2>
-  <p class="lede">Three launchers, one supply chain. Once they exist, moving mass around the inner system mostly costs what running the launchers costs.</p>
+  <p class="lede">Four launchers, one supply chain. Once they exist, moving mass around the inner system mostly costs what running the launchers costs.</p>
   <ul>
     <li><b class="k">Earth sends what only Earth can build</b> — machines, electronics, medicine. The eventual
     full injector runs 80 t/day (29,000 t/yr); the Chimborazo demonstrator's job is to earn that machine the
@@ -208,6 +213,92 @@
   from gross mass. Nothing reaches a usable orbit on the launcher alone; the launcher just does ~90% of the
   work for ~1% of the propellant.</div>
 
+</div>
+
+<!-- 10 (cont.) — VEHICLE ILLUSTRATIONS -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h3>Theoretical D — what the long pods actually look like</h3>
+  <p>Three theoretical stretched ASTRAPE variants, drawn to one common scale so length and bore compare
+  directly. The ogive nose is fixed by aerodynamics at ~3.9× the diameter, so a fatter bore spends more of the
+  pod on nose cone before any payload bay begins — which is exactly why a wide bore only earns its keep on a
+  long pod.</p>
+  <svg viewBox="0 0 1000 800" style="width:100%;height:auto;border:1px solid #cbd5e1;background:#fff;font-family:Consolas,monospace">
+  <text x="500" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">THEORETICAL STRETCHED ASTRAPE VARIANTS — ONE COMMON SCALE</text>
+  <rect x="250" y="40" width="14" height="11" fill="#e7e0f2" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="269" y="50" font-size="9.5" fill="#475569">OGIVE NOSE</text>
+  <rect x="380" y="40" width="14" height="11" fill="#bfe3ea" stroke="#0e7490" stroke-width="1.2"/>
+  <text x="399" y="50" font-size="9.5" fill="#475569">PAYLOAD BAY</text>
+  <rect x="510" y="40" width="14" height="11" fill="#64748b" stroke="#334155" stroke-width="1.2"/>
+  <text x="529" y="50" font-size="9.5" fill="#475569">TAIL + ENGINE</text>
+  <line x1="640" y1="46" x2="656" y2="46" stroke="#d97706" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <text x="661" y="50" font-size="9.5" fill="#475569">REACTION SLEEVE</text>
+  <line x1="95" y1="165" x2="551.0" y2="165" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6 5"/>
+  <rect x="232.5" y="147.4" width="302.5" height="35.2" fill="#e8edf3" stroke="#334155" stroke-width="1.6"/>
+  <path d="M 232.5,147.4 Q 95,147.4 95,165 Q 95,182.6 232.5,182.6 Z" fill="#e7e0f2" stroke="#7c3aed" stroke-width="1.6"/>
+  <rect x="232.5" y="147.4" width="286.0" height="35.2" fill="#bfe3ea" stroke="#0e7490" stroke-width="1.4"/>
+  <rect x="518.5" y="147.4" width="16.5" height="35.2" fill="#64748b" stroke="#334155" stroke-width="1.2"/>
+  <path d="M 535.0,154.1 L 549.0,148.3 L 549.0,181.7 L 535.0,175.9 Z" fill="#475569" stroke="#334155" stroke-width="1"/>
+  <rect x="232.5" y="150.4" width="302.5" height="29.2" fill="none" stroke="#d97706" stroke-width="1" stroke-dasharray="4 4"/>
+  <path d="M 492.5,147.4 L 514.5,147.4 L 514.5,138.4 Z" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+  <path d="M 492.5,182.6 L 514.5,182.6 L 514.5,191.6 Z" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+  <line x1="95.0" y1="199.6" x2="95.0" y2="209.6" stroke="#64748b" stroke-width="1"/>
+  <line x1="232.5" y1="199.6" x2="232.5" y2="209.6" stroke="#64748b" stroke-width="1"/>
+  <line x1="518.5" y1="199.6" x2="518.5" y2="209.6" stroke="#64748b" stroke-width="1"/>
+  <line x1="535.0" y1="199.6" x2="535.0" y2="209.6" stroke="#64748b" stroke-width="1"/>
+  <line x1="95" y1="204.6" x2="535.0" y2="204.6" stroke="#64748b" stroke-width="1"/>
+  <text x="163.8" y="220.6" text-anchor="middle" font-size="9.5" fill="#7c3aed">NOSE 12.5 m · 31%</text>
+  <text x="375.5" y="220.6" text-anchor="middle" font-size="9.5" fill="#0e7490">PAYLOAD BAY Ø3.2 × 26 m · 65%</text>
+  <text x="539.0" y="220.6" text-anchor="start" font-size="9" fill="#475569">TAIL</text>
+  <text x="95" y="115.4" font-size="15" font-weight="700" fill="#0f172a">40 m · Ø3.2 m</text>
+  <text x="95" y="130.4" font-size="10.5" fill="#475569">7.8 t cargo · 24 t bulk · 209 m³ · nose 31% of length</text>
+  <line x1="95" y1="395" x2="661.0" y2="395" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6 5"/>
+  <rect x="309.5" y="367.5" width="335.5" height="55.0" fill="#e8edf3" stroke="#334155" stroke-width="1.6"/>
+  <path d="M 309.5,367.5 Q 95,367.5 95,395 Q 95,422.5 309.5,422.5 Z" fill="#e7e0f2" stroke="#7c3aed" stroke-width="1.6"/>
+  <rect x="309.5" y="367.5" width="313.5" height="55.0" fill="#bfe3ea" stroke="#0e7490" stroke-width="1.4"/>
+  <rect x="623.0" y="367.5" width="22.0" height="55.0" fill="#64748b" stroke="#334155" stroke-width="1.2"/>
+  <path d="M 645.0,377.9 L 659.0,368.9 L 659.0,421.1 L 645.0,412.1 Z" fill="#475569" stroke="#334155" stroke-width="1"/>
+  <rect x="309.5" y="370.5" width="335.5" height="49.0" fill="none" stroke="#d97706" stroke-width="1" stroke-dasharray="4 4"/>
+  <path d="M 597.0,367.5 L 619.0,367.5 L 619.0,358.5 Z" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+  <path d="M 597.0,422.5 L 619.0,422.5 L 619.0,431.5 Z" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+  <line x1="95.0" y1="439.5" x2="95.0" y2="449.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="309.5" y1="439.5" x2="309.5" y2="449.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="623.0" y1="439.5" x2="623.0" y2="449.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="645.0" y1="439.5" x2="645.0" y2="449.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="95" y1="444.5" x2="645.0" y2="444.5" stroke="#64748b" stroke-width="1"/>
+  <text x="202.2" y="460.5" text-anchor="middle" font-size="9.5" fill="#7c3aed">NOSE 19.5 m · 39%</text>
+  <text x="466.2" y="460.5" text-anchor="middle" font-size="9.5" fill="#0e7490">PAYLOAD BAY Ø5 × 28.5 m · 57%</text>
+  <text x="649.0" y="460.5" text-anchor="start" font-size="9" fill="#475569">TAIL</text>
+  <text x="95" y="335.5" font-size="15" font-weight="700" fill="#0f172a">50 m · Ø5.0 m</text>
+  <text x="95" y="350.5" font-size="10.5" fill="#475569">24 t cargo · 74 t bulk · 589 m³ · nose 39% of length</text>
+  <line x1="95" y1="630" x2="881.0" y2="630" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6 5"/>
+  <rect x="309.5" y="602.5" width="555.5" height="55.0" fill="#e8edf3" stroke="#334155" stroke-width="1.6"/>
+  <path d="M 309.5,602.5 Q 95,602.5 95,630 Q 95,657.5 309.5,657.5 Z" fill="#e7e0f2" stroke="#7c3aed" stroke-width="1.6"/>
+  <rect x="309.5" y="602.5" width="533.5" height="55.0" fill="#bfe3ea" stroke="#0e7490" stroke-width="1.4"/>
+  <rect x="843.0" y="602.5" width="22.0" height="55.0" fill="#64748b" stroke="#334155" stroke-width="1.2"/>
+  <path d="M 865.0,613.0 L 879.0,603.9 L 879.0,656.1 L 865.0,647.0 Z" fill="#475569" stroke="#334155" stroke-width="1"/>
+  <rect x="309.5" y="605.5" width="555.5" height="49.0" fill="none" stroke="#d97706" stroke-width="1" stroke-dasharray="4 4"/>
+  <path d="M 817.0,602.5 L 839.0,602.5 L 839.0,593.5 Z" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+  <path d="M 817.0,657.5 L 839.0,657.5 L 839.0,666.5 Z" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+  <line x1="95.0" y1="674.5" x2="95.0" y2="684.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="309.5" y1="674.5" x2="309.5" y2="684.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="843.0" y1="674.5" x2="843.0" y2="684.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="865.0" y1="674.5" x2="865.0" y2="684.5" stroke="#64748b" stroke-width="1"/>
+  <line x1="95" y1="679.5" x2="865.0" y2="679.5" stroke="#64748b" stroke-width="1"/>
+  <text x="202.2" y="695.5" text-anchor="middle" font-size="9.5" fill="#7c3aed">NOSE 19.5 m · 28%</text>
+  <text x="576.2" y="695.5" text-anchor="middle" font-size="9.5" fill="#0e7490">PAYLOAD BAY Ø5 × 48.5 m · 69%</text>
+  <text x="869.0" y="695.5" text-anchor="start" font-size="9" fill="#475569">TAIL</text>
+  <text x="95" y="570.5" font-size="15" font-weight="700" fill="#0f172a">70 m · Ø5.0 m</text>
+  <text x="95" y="585.5" font-size="10.5" fill="#475569">33 t cargo · 104 t bulk · 982 m³ · nose 28% of length</text>
+  <line x1="95" y1="775" x2="205.0" y2="775" stroke="#0f172a" stroke-width="2"/>
+  <line x1="95" y1="770" x2="95" y2="780" stroke="#0f172a" stroke-width="2"/>
+  <line x1="205.0" y1="770" x2="205.0" y2="780" stroke="#0f172a" stroke-width="2"/>
+  <text x="215.0" y="779" font-size="10" fill="#0f172a">10 m — true scale, all three vehicles</text>
+</svg>
+  <p class="meta">Nose cone is a ~3.9:1 ogive (length ≈ 3.9 × diameter): ~12.5 m at Ø3.2 m, ~19.5 m at Ø5 m —
+  a fixed overhead that a longer body amortizes. At Ø5 m the 50 m pod is ~39% nose; stretch it to 70 m and the
+  nose share drops to ~28% while the payload bay nearly doubles (28.5 m → 48.5 m). The skinny 40 m · Ø3.2 m is
+  already ~65% payload bay. All dimensions theoretical · © Perpetual Technologies.</p>
 </div>
 
 <!-- 10 (cont.) — THROUGHPUT -->
