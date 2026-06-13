@@ -1093,6 +1093,12 @@
       "skillPath": "skills/nodejs-keccak256/SKILL.md",
       "computedHash": "114655e05636cf06d88d10b277b7c8573740ece3ddd34a9489da58227003c8e5"
     },
+    "notebooklm": {
+      "source": "PleasePrompto/notebooklm-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "40877d53667ab1d100695e3b171c305a9c341fa251835af1c6f5d8a910f3ac6f"
+    },
     "nutrient-document-processing": {
       "source": "affaan-m/everything-claude-code",
       "sourceType": "github",
