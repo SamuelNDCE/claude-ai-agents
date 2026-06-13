@@ -26,8 +26,10 @@ NV `wiki/logs/perpetual-technologies.md` (and the deep-research report, below). 
   BRONTE + ASTERIA now run as **Phase 2–3 in parallel** (exec table, build order, §7 lede all say "four launchers").
 - **BRONTE REDESIGN (Rev 2.1): the terminal bend is REMOVED.** The track is a **single straight line at 12.3°**.
   Keeping the muzzle location/angle but lowering it to **5,900 m (just under 6 km, ~363 m below the 6,263 m summit)**:
-  Phase 1 = **8.6 km** (portal 4,069 m), full line = **21.3 km** (west portal 1,360 m). Cargo 30 g → **2.25 km/s
-  (Mach 7.1)** P1 / **3.54 km/s (Mach 11.2)** full; human 3 g → 0.71 / 1.12 km/s. Energy 15 t full ≈ 26.1 MWh,
+  Phase 1 = **14 km** (portal ~2,920 m — the upper 14 km of the full line), full line = **21.3 km** (west portal
+  1,360 m). Cargo 30 g → **2.87 km/s (Mach 9.1)** P1 / **3.54 km/s (Mach 11.2)** full; human 3 g → 0.91 / 1.12 km/s.
+  Panel B drawing: track on **support struts** (viaduct) where exposed → dashed bored tunnel → **muzzle pokes out
+  the east face**; amber = HV feed + SC pulse bus cable runs the length. Energy 15 t full ≈ 26.1 MWh,
   peak ≈ 15.6 GW. **No bend ⇒ zero lateral g** (the old 16–62 g side-load / ~91 MN ring force / ~1-kt bend-failure
   case are all gone). 360° ring now justified by distributed full-hull thrust (no axial buckling) + centering.
 - **Drawings:** BRONTE Panels B & C redrawn — track is a **dashed bored-tunnel line** (no more floating piers/
