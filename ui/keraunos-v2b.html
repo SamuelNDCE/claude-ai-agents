@@ -169,6 +169,32 @@
   permitting fight) is paid once. It does not escape the power rule: three barrels at full cadence draw three
   times the megawatts.</p>
 
+  <h3>Theoretical C — a longer pod</h3>
+  <p>The baseline ASTRAPE is 23 m. The pod can be made far longer before physics objects: with the full-hull
+  distributed drive there is no tail to crush (axial buckling only becomes a hard wall past ~140 m of carbon
+  structure), and a rigid one-piece pod stays inside the bore through the terminal bend up to ~280 m. Both 25 m
+  and 50 m sit comfortably below those limits — ordinary rigid structure, no articulation needed. Because the
+  drive force grows with engaged length, a longer pod can be proportionally heavier at the same g, so payload
+  scales roughly with length × bore cross-section.</p>
+  <table>
+    <tr><th>Pod × bore</th><th>Gross mass</th><th>Cargo → orbit (30 g)</th><th>Bulk → orbit (50–77 g)</th><th>Bay volume</th></tr>
+    <tr><td>23 m · Ø3.2 m <span class="meta">(baseline)</span></td><td>~20 t</td><td>4.5 t</td><td>14 t</td><td>~64 m³</td></tr>
+    <tr><td>25 m · Ø3.2 m</td><td>~22 t</td><td>~5 t</td><td>~15 t</td><td>~88 m³</td></tr>
+    <tr><td>50 m · Ø3.2 m</td><td>~44 t</td><td>~10 t</td><td>~30 t</td><td>~289 m³</td></tr>
+    <tr><td>25 m · Ø5 m <span class="meta">(theoretical)</span></td><td>~53 t</td><td>~12 t</td><td>~37 t</td><td>~98 m³</td></tr>
+    <tr><td><b>50 m · Ø5 m</b> <span class="meta">(theoretical)</span></td><td>~106 t</td><td>~24 t</td><td><b>~74 t</b></td><td>~588 m³</td></tr>
+  </table>
+  <p class="meta">A fat bore only pays off with a long pod: at Ø5 m the nose cone alone is ~20 m, so a 25 m pod
+  is almost all nose (note its bay volume barely beats the skinny 25 m). The 50 m · Ø5 m pod is the sweet
+  spot — a single shot approaching one Starship's per-launch mass and volume (~100 t / ~1,000 m³).</p>
+  <div class="warn"><b>"Bulk to orbit" is not fire-and-forget.</b> Even inert bulk cargo (propellant, water,
+  metal) still needs <b>a small kick stage</b> to circularize at apogee — the gun raises the apoapsis, but
+  something must add the last ~0.85 km/s to turn a ballistic arc into a stable orbit — plus <b>guidance, RCS
+  thrusters, and attitude control</b> to steer, hold orientation, and rendezvous with the orbital catch-point
+  or depot. The bulk-mode payload figures above are <i>after</i> that kick stage and avionics are subtracted
+  from gross mass. Nothing reaches a usable orbit on the launcher alone; the launcher just does ~90% of the
+  work for ~1% of the propellant.</div>
+
   <h3>How the numbers scale (theoretical)</h3>
   <table>
     <tr><th>Configuration</th><th>Payload / shot (cargo · bulk)</th><th>Energy / shot</th><th>Power feed</th><th>Annual / site (cargo · bulk)</th></tr>
