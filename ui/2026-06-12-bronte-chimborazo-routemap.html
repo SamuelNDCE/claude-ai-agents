@@ -29,11 +29,11 @@ and propulsion from all sides — sized for a Ø3.2 m payload. All dimensions sp
 <h2 class="panel">PANEL A — PLAN VIEW: ONE LINE, TWO PHASES (SRTM 30 m)</h2>
 <div class="mapbox"><img src="bronte-full-map.png" alt="BRONTE full through-mountain route map"></div>
 
-<h2 class="panel">PANEL B — PHASE 1 (BUILD FIRST): 9.8 km — PORTAL 4,069 m → CREST MUZZLE 6,160 m, STRAIGHT 12.3° (TRUE 1:1)</h2>
+<h2 class="panel">PANEL B — PHASE 1 (BUILD FIRST): 8.6 km — PORTAL 4,069 m → TUNNEL MUZZLE 5,900 m, STRAIGHT 12.3° (TRUE 1:1)</h2>
 <svg viewBox="0 0 1600 720" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
   <rect x="4" y="4" width="1592" height="712" fill="none" stroke="#334155" stroke-width="2"/>
-  <text x="800" y="36" text-anchor="middle" font-size="17" font-weight="700" letter-spacing="1.1">PHASE 1 — 9.8 km FIRST BUILD — THE EASTERN (UPPER) END OF THE STRAIGHT LINE</text>
-  <text x="800" y="57" text-anchor="middle" font-size="12" fill="#0e7490" class="t">SINGLE STRAIGHT GRADE @ 12.3° FROM PORTAL 4,069 m · 30 g → MACH ~7.6 (2.40 km/s) · 3 g → MACH ~2.4 · v = √(2aL)</text>
+  <text x="800" y="36" text-anchor="middle" font-size="17" font-weight="700" letter-spacing="1.1">PHASE 1 — 8.6 km FIRST BUILD — A STRAIGHT BORED TUNNEL UP THE EASTERN FLANK</text>
+  <text x="800" y="57" text-anchor="middle" font-size="12" fill="#0e7490" class="t">SINGLE STRAIGHT GRADE @ 12.3° FROM PORTAL 4,069 m · 30 g → MACH ~7.1 (2.25 km/s) · 3 g → MACH ~2.2 · v = √(2aL)</text>
 
   <g stroke="#dbe3ee" stroke-width="1">
     <line x1="70" y1="431.8" x2="1580" y2="431.8"/>
@@ -58,32 +58,19 @@ and propulsion from all sides — sized for a Ø3.2 m payload. All dimensions sp
   <line x1="100" y1="586" x2="118" y2="548" stroke="#94a3b8" stroke-width="0.9"/>
   <text x="92" y="540" font-size="10.5" fill="#a78bfa" class="t">FUTURE WESTERN EXTENSION — SAME STRAIGHT LINE → FULL ~22.5 km</text>
 
-  <g stroke="#94a3b8" stroke-width="3" stroke-linecap="round" fill="none">
-    <path d="M 220.4,573.5 L 216.9,587.1 M 220.4,573.5 L 223.9,587.1"/>
-    <path d="M 298.4,564.6 L 293.6,582.2 M 298.4,564.6 L 303.2,582.2"/>
-    <path d="M 376.4,555.7 L 363.7,594.2 M 376.4,555.7 L 389.1,594.2"/>
-    <path d="M 454.4,546.5 L 440.7,587.5 M 454.4,546.5 L 468.1,587.5"/>
-    <path d="M 532.4,536.4 L 519.8,574.5 M 532.4,536.4 L 545.0,574.5"/>
-    <path d="M 610.4,525.6 L 597.6,564.4 M 610.4,525.6 L 623.2,564.4"/>
-    <path d="M 688.4,514.0 L 673.0,559.4 M 688.4,514.0 L 703.8,559.4"/>
-    <path d="M 766.4,501.6 L 750.5,548.5 M 766.4,501.6 L 782.3,548.5"/>
-    <path d="M 844.4,488.4 L 828.4,537.9 M 844.4,488.4 L 860.4,537.9"/>
-    <path d="M 922.4,474.4 L 909.4,513.6 M 922.4,474.4 L 935.4,513.6"/>
-    <path d="M 1000.4,459.7 L 990.6,490.4 M 1000.4,459.7 L 1010.2,490.4"/>
-  </g>
-
-  <line x1="142.4" y1="582.4" x2="1195.4" y2="419.3" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
-  <line x1="142.4" y1="582.4" x2="1195.4" y2="419.3" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+  <!-- bored tunnel through the rock (dashed = inside the massif), straight 12.3°, portal -> lowered muzzle 5,900 m (y=439.6) -->
+  <line x1="142.4" y1="582.4" x2="1180" y2="439.6" stroke="#7c3aed" stroke-width="7" stroke-dasharray="15 8" stroke-linecap="round"/>
+  <!-- HV power feed + SC pulse bus, run the full tunnel length just below the track -->
+  <line x1="142.4" y1="589" x2="1180" y2="446.2" stroke="#f59e0b" stroke-width="2.6" stroke-dasharray="4 5"/>
   <g stroke="#7c3aed" stroke-width="2.2" fill="none">
-    <path d="M 1183,422 L 1179.5,435 M 1183,422 L 1186.5,436"/>
-    <path d="M 1195.4,419.3 L 1189.4,442 M 1195.4,419.3 L 1201.4,446"/>
+    <path d="M 1168,442 L 1164.5,456 M 1168,442 L 1171.5,457"/>
+    <path d="M 1180,439.6 L 1174,463 M 1180,439.6 L 1186,467"/>
   </g>
   <circle cx="142.4" cy="582.4" r="6" fill="#22d3ee" stroke="#0f172a" stroke-width="1.5"/>
-  <circle cx="376.4" cy="555.7" r="4.5" fill="#f59e0b" stroke="#0f172a" stroke-width="1.2"/>
-  <circle cx="1195.4" cy="419.3" r="6" fill="#f43f5e" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="1180" cy="439.6" r="6" fill="#f43f5e" stroke="#0f172a" stroke-width="1.5"/>
 
-  <path d="M 1195.4,419.3 L 1400,374" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-dasharray="8 7"/>
-  <path d="M 1412,371.4 l -17,-4 l 1,10 l -8,6 Z" fill="#0e7490"/>
+  <path d="M 1180,439.6 L 1390,394" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-dasharray="8 7"/>
+  <path d="M 1402,391.4 l -17,-4 l 1,10 l -8,6 Z" fill="#0e7490"/>
 
   <g stroke="#64748b" stroke-width="1">
     <line x1="142.4" y1="575" x2="166" y2="492"/>
@@ -96,12 +83,12 @@ and propulsion from all sides — sized for a Ø3.2 m payload. All dimensions sp
     <text x="100" y="472">PHASE-1 PORTAL 4,069 m — AT GRADE</text>
     <text x="100" y="486" fill="#64748b">LOAD-IN · VACUUM PLANT · FLYWHEEL/SMES FARM</text>
     <text x="216" y="446" fill="#16a34a">SINGLE STRAIGHT GRADE @ 12.3° — NO BEND (REV 2.1)</text>
-    <text x="624" y="426" fill="#7c3aed">EL ARENAL VIADUCT — A-FRAME PIERS 110–590 m</text>
-    <text x="624" y="440" fill="#9f1239">(BEYOND MILLAU 343 m — OPEN ISSUE)</text>
-    <text x="920" y="586" fill="#7c3aed">CREST BORE — 1.2 km UNDER THE RIDGE</text>
-    <text x="1258" y="296">TRUSS MUZZLE 6,160 m — ~100 m BELOW PEAK ELEVATION</text>
+    <text x="624" y="426" fill="#7c3aed">STRAIGHT BORED TUNNEL — DASHED = INSIDE THE ROCK</text>
+    <text x="624" y="440" fill="#f59e0b">AMBER = HV POWER FEED + SC PULSE BUS (RUN FULL LENGTH)</text>
+    <text x="920" y="586" fill="#7c3aed">TBM-BORED THROUGH THE ANDESITE FLANK</text>
+    <text x="1258" y="296">TUNNEL MUZZLE 5,900 m — ~363 m BELOW PEAK ELEVATION</text>
     <text x="1258" y="310" fill="#f43f5e">PLASMA WINDOW + BLAST SHUTTER · EXIT 12.3° EAST</text>
-    <text x="1258" y="324" fill="#0e7490">EXIT AIR ρ ≈ 53% SL — HIGHER = QUIETER BOOM, LESS HEAT</text>
+    <text x="1258" y="324" fill="#0e7490">EXIT AIR ρ ≈ 54% SL — HIGHER = QUIETER BOOM, LESS HEAT</text>
     <text x="1420" y="586" fill="#8a7f6a">EAST RIDGE — TOWARD SAN JUAN</text>
   </g>
 
@@ -109,9 +96,9 @@ and propulsion from all sides — sized for a Ø3.2 m payload. All dimensions sp
   <g font-size="10" fill="#64748b" class="t" text-anchor="middle">
     <text x="142" y="680">0</text><text x="298" y="680">2</text><text x="454" y="680">4</text>
     <text x="610" y="680">6</text><text x="766" y="680">8</text><text x="922" y="680">10</text>
-    <text x="1078" y="680">9.8</text><text x="1195" y="680">km — MUZZLE</text>
+    <text x="1010" y="680">8.6</text><text x="1130" y="680">km — MUZZLE</text>
   </g>
-  <text x="800" y="704" text-anchor="middle" font-size="11" font-weight="700" fill="#16a34a" class="t">TRUE SCALE 1:1 — PORTAL 4,069 m → MUZZLE 6,160 m: +2,091 m OF CLIMB ON A SINGLE STRAIGHT 12.3° GRADE — NO BEND</text>
+  <text x="800" y="704" text-anchor="middle" font-size="11" font-weight="700" fill="#16a34a" class="t">TRUE SCALE 1:1 — PORTAL 4,069 m → MUZZLE 5,900 m: +1,831 m OF CLIMB ON A SINGLE STRAIGHT 12.3° BORED TUNNEL — NO BEND</text>
 </svg>
 
 <h2 class="panel">PANEL C — FULL LINE (THE GROWTH TARGET): ~22.5 km — SINGLE STRAIGHT GRADE @ 12.3°, NO BEND (TRUE 1:1)</h2>
