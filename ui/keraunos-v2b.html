@@ -304,7 +304,7 @@
 <!-- 10 (cont.) — POWER, COST, DANGER -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical E — the price of scale: power, cost, and the bend</h3>
+  <h3>Theoretical E — the price of scale: power and cost</h3>
   <p>Energy per shot is fixed by physics: ½ × launched mass × exit-speed². A heavier pod, or a faster
   (bulk-mode) exit, costs proportionally more. Track electricity below at $0.06/kWh; cargo mode exits at
   Mach 12.6 (3.97 km/s) and finishes on a kick stage, bulk mode is driven all the way to orbital speed
@@ -320,27 +320,48 @@
   ~$0.72–0.74/kg in bulk mode (bulk does all the work electrically instead of offloading it to a kick stage).
   That flatness is the whole thesis: the launcher's marginal cost is electricity, and electricity scales
   linearly. What grows is the <i>capital</i> — the storage, the power feed, and the structure.</p>
-  <div class="call"><b>Peak power is the real engineering wall.</b> Peak draw at exit is force × speed, pulled
-  from the trackside flywheel/SMES farm in a fraction of a second — not from the grid, which still only sees a
-  slow tens-of-MW recharge. The baseline shot peaks at ~23 GW. The 70 m cargo shot peaks at ~174 GW; the 70 m
-  <i>bulk</i> shot at roughly ~700 GW — comparable to the entire United States grid, dumped in under two
-  seconds. Building storage that can discharge that cleanly, shot after shot, is harder than building the tube.</div>
+  <p><b class="k">Where the power comes from.</b> The trick is two stages: a steady generator slowly fills an
+  energy store, and the store dumps it in seconds. The grid (or power plant) never sees the peak — only the
+  trackside flywheel/SMES farm does. Peak draw at exit is force × speed: the baseline shot peaks at ~23 GW, the
+  70 m cargo shot at ~174 GW, and the 70 m <i>bulk</i> shot at roughly ~700 GW — on the order of the entire
+  United States grid, sourced for ~13 seconds from stored energy, then gone. Only pulsed-power kit (flywheels,
+  superconducting magnetic storage, compulsators) can deliver that; chemical batteries physically cannot.</p>
+  <p>To get a feel for it: one 70 m bulk shot needs ~1,259 MWh in the store — about what a 1 GW power station
+  makes in 75 minutes, released in ~13 seconds (≈40% of the energy in the world's largest grid battery, Moss
+  Landing, discharged far faster than that battery could ever manage). Firing ~8 such shots a day means roughly
+  <b>~420 MW of generation feeding that one barrel around the clock</b> — a dedicated mid-size power station: one
+  nuclear unit, a ~2 km² solar-plus-storage field, or a major hydro tap (a natural fit for Ecuador's grid). The
+  realistic cargo-mode shot is far gentler: ~326 MWh, ~110 MW of sustained generation, ~174 GW peak. The point
+  stands either way: <b class="k">the launcher is cheap to fire and expensive to power-build</b> — pennies of
+  electricity per kilogram, but a serious generation-plus-storage plant behind every barrel.</p>
+</div>
+
+<!-- 10 (cont.) — THE BEND -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h3>Theoretical F — the danger at the bend</h3>
   <div class="warn"><b>The bend is the most dangerous point on the line — and scale makes it worse.</b> At the
   terminal arc the pod is at full speed <i>and</i> being forced sideways at the same instant. The sideways pull
   is v²/R, set by exit speed, not mass: ~16 g in cargo mode, ~62 g in bulk mode through the same R = 100 km
   curve. The 360° ring must supply that as centripetal force (mass × acceleration), and that is where size
-  bites hardest — and where any failure releases the pod's full kinetic energy, pointed downrange.</div>
+  bites hardest.</div>
   <table>
-    <tr><th>Pod · mode</th><th>Speed in bend</th><th>Sideways load</th><th>Ring force needed</th><th>Energy if uncontained</th></tr>
-    <tr><td>23 m baseline · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~3.1 MN</td><td>~38 t TNT-equiv</td></tr>
-    <tr><td>70 m · Ø5 m · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~24 MN</td><td>~280 t TNT-equiv</td></tr>
-    <tr><td><b>70 m · Ø5 m · bulk</b></td><td>7.8 km/s</td><td><b>62 g</b></td><td><b>~91 MN</b></td><td><b>~1,080 t (~1 kiloton)</b></td></tr>
+    <tr><th>Pod · mode</th><th>Speed in bend</th><th>Sideways load</th><th>Ring force needed</th></tr>
+    <tr><td>23 m baseline · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~3.1 MN</td></tr>
+    <tr><td>70 m · Ø5 m · cargo</td><td>3.97 km/s</td><td>16 g</td><td>~24 MN</td></tr>
+    <tr><td><b>70 m · Ø5 m · bulk</b></td><td>7.8 km/s</td><td><b>62 g</b></td><td><b>~91 MN</b></td></tr>
   </table>
   <p class="meta">Restraining the 70 m bulk pod through the bend takes ~91 MN — about 29× the baseline's
   3.1 MN — carried by the ring, its mounts, and the tunnel lining, with tighter alignment tolerance.
-  Length itself is not the hazard (a 70 m rigid pod bows only ~6 mm in the arc); mass and speed are. The honest
-  consequence: heavier, faster pods demand a proportionally stronger ring and a longer, gentler bend — or a
-  slower exit with less payload. The bend, not the straightaway, caps how big and how fast you can safely throw.</p>
+  Length itself is not the hazard (a 70 m rigid pod bows only ~6 mm in the arc); mass and speed are. Heavier,
+  faster pods demand a proportionally stronger ring and a longer, gentler bend — or a slower exit with less
+  payload. The bend, not the straightaway, caps how big and how fast you can safely throw.</p>
+  <p><b class="k">If the bend ever let go.</b> A moving pod carries ½ × mass × speed² of kinetic energy, and at
+  these speeds that is a great deal. The baseline pod holds the equivalent of ~38 tonnes of TNT; the 70 m cargo
+  pod ~280 tonnes; the 70 m <i>bulk</i> pod ~1,080 tonnes — a genuine <b>~1 kiloton</b> (½ × 149,000 kg ×
+  (7,800 m/s)² = 4.53 × 10¹² J ÷ 4.184 × 10⁹ J per tonne TNT ≈ 1,083 t). That is the same kinetic energy that
+  makes the launcher useful, which is exactly why containment, fast interlocks, and an empty downrange corridor
+  are not optional at this scale — a loss-of-control event at the bend is, on a bad day, a large-explosion event.</p>
 </div>
 
 <!-- 10 (cont.) — THROUGHPUT -->
