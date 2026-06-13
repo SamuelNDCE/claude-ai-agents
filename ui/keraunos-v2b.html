@@ -25,6 +25,11 @@
   thead { display: table-header-group; }
   /* force a continuation page to start fresh (page-break-after is unreliable in chains) */
   .np { break-before: page; page-break-before: always; }
+  /* derivation / math boxes — make the arithmetic auditable */
+  .math { background:#f8fafc; border-left:3px solid #475569; padding:7pt 11pt; margin:8pt 0;
+     font-family:Consolas,monospace; font-size:8.7pt; line-height:1.55; color:#0f172a; }
+  .math b { color:#0e7490; }
+  .ref { font-size:8.5pt; color:#64748b; }
   /* copyright footer repeated on every printed page (position:fixed repeats per page in print) */
   .copyright { display:none; }
   @media print { .copyright { display:block; position:fixed; left:0; right:0; bottom:6mm;
@@ -524,7 +529,7 @@
     <tr><td>Orbital manufacturing demand</td><td>Flawless Photonics: ~11.9 km ZBLAN drawn on ISS (Feb–Mar 2024; 1,141 m/day vs 25 m prior record); Luxembourg production expansion; published performance characterization still pending — flagged honestly.</td></tr>
     <tr><td>Lunar mass-driver physics</td><td>O'Neill, NASA Ames studies 1976–77; Mass Driver One demo 1977. SJSU sizing study (2023): 25.4 kg pellets, 2.4 km/s, 10 s cadence, 8.7 MW polar solar, ~1.0 MA per bucket coil.</td></tr>
     <tr><td>Lunar intent at scale</td><td>SpaceX lunar pivot + mass-driver statements (Feb–Mar 2026). Founder remarks, not a program of record — but the direction of the largest launch company on Earth.</td></tr>
-    <tr><td>Fusion pull (He-3 context)</td><td>NIF ignition Dec 2022 (3.15 MJ); best shot now <b>8.6 MJ, target gain &gt;4</b> (Apr 2025), ignition repeated 9+ times. Commercial He-3 demand is already contracted: Interlune–Bluefors offtake (Sept 2025) for up to 10,000 L/yr from 2028, prospecting mission 2027.</td></tr>
+    <tr><td>Fusion pull (He-3 context)</td><td>NIF ignition Dec 2022 (3.15 MJ); best shot now <b>8.6 MJ, target gain &gt;4</b> (Apr 2025), ignition repeated 9+ times. He-3 demand is already contracted — but for <b>quantum-cryogenics</b>, not fusion: Interlune–Bluefors offtake (Sept 2025), up to 10,000 L/yr from 2028, prospecting mission 2027. No commercial D-He3 reactor yet exists (see §13.4).</td></tr>
   </table>
 </div>
 
@@ -544,7 +549,126 @@
     <li><b class="k">The treaty question.</b> The Outer Space Treaty is silent on commercial mass drivers; a kinetic launcher is inherently dual-use. That ambiguity buys scrutiny on one side and AFWERX funding on the other. EMALS and GPS both walked this road.</li>
   </ul>
 
-  <h2 style="margin-top:16pt;">13. What KERAUNOS Unlocks</h2>
+</div>
+
+<!-- 13 LUNAR EXPORT ECONOMICS -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>13. The Lunar Export Economics, by the Numbers</h2>
+  <p class="lede">The honest accounting: launching is the cheap part. Making material worth launching, and
+  getting it home, are the walls. Every figure here is derived from first principles and cited.</p>
+  <p>A dedicated deep-research and fact-check pass (June 13, 2026; ~60 primary sources) re-derived SELENE's
+  export case. It survives — but only when stated precisely. The corrections below make the architecture
+  <i>stronger</i>, because they replace a fragile fusion bet with a robust cislunar-logistics business.</p>
+
+  <h3>13.1 Launch energy is trivial — the physics floor</h3>
+  <p>SELENE accelerates a pod to lunar escape velocity, 2.38 km/s. The energy is purely kinetic:</p>
+  <div class="math">E_launch = ½v² = ½ × (2,380 m/s)² = 2.832 × 10⁶ J/kg = <b>0.787 kWh/kg</b>  (ideal)<br>
+  Wall-plug at 84% drive efficiency:  0.787 / 0.84 = <b>0.94 kWh/kg</b><br>
+  Cross-check (SJSU mass-driver design, Miller 2023):  8.7 MW ÷ 2.54 kg/s = 3.42 MJ/kg = <b>0.95 kWh/kg</b>  ✓<br>
+  Electricity cost at $0.06/kWh:  0.94 × $0.06 ≈ <b>$0.06 per kg to escape</b></div>
+  <p>So the launch itself costs pennies per kilogram and is <i>not</i> the economic constraint. This matches the
+  O'Neill/NASA mass-driver heritage and the 2023 San José State sizing study, both built on 1,000 g, ~2.4 km/s.
+  <span class="ref">(O'Neill, NASA SP-428, 1977; Miller, SJSU AE thesis, 2023.)</span></p>
+
+  <h3>13.2 The processing wall — the number that reframes everything</h3>
+  <p>Energy to <i>escape</i> is trivial; energy to <i>refine</i> is not. Run the same 10 MW solar plant three
+  ways:</p>
+  <div class="math">Launch (raw mass):     10,000 kW ÷ 0.80 kWh/kg  = 12,500 kg/h = <b>~300 t/day</b><br>
+  Oxygen (H₂-reduction): 10,000 kW ÷ 24 kWh/kg    =    417 kg/h = <b>~10 t/day</b>   (Lordos, PNAS 2025)<br>
+  Solar-grade silicon:   10,000 kW ÷ 150 kWh/kg   =     67 kg/h = <b>~1.6 t/day</b>  (Siemens-class)<br>
+  ⇒ refining costs <b>30× (O₂) to ~190× (Si)</b> more energy per kg than launching it</div>
+  <div class="call"><b>This is the load-bearing insight.</b> "~300 t/day" is <i>raw or lightly-processed</i>
+  mass throughput. Anything refined is gated by the processing plant, not the launcher — a solar-powered lunar
+  industry is bottlenecked by ISRU energy, not launch energy. SELENE's job is to make the launch free; the
+  power plant decides how much <i>finished</i> product exists. <span class="ref">(Lordos et al., PNAS 122:e2306146122, 2025; Guerrero-Gonzalez &amp; Zabel, Acta Astronautica 203:187, 2023.)</span></div>
+</div>
+
+<!-- 13 (cont.) — WHAT TO EXPORT + HE-3 -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h3>13.3 What is actually worth exporting</h3>
+  <table>
+    <tr><th>Commodity</th><th>Abundance / energy</th><th>Best customer</th><th>Verdict</th></tr>
+    <tr><td>Propellant (LOX/LH₂) from polar ice</td><td>ice ~5.6 wt% (LCROSS); ~tens kWh/kg</td><td><b>Cislunar depots</b></td><td>Robust near-term — sold in space</td></tr>
+    <tr><td>Oxygen from regolith</td><td>40–45 wt% O; ~24 kWh/kg LOX</td><td>Cislunar / life support</td><td>Strong, in-space</td></tr>
+    <tr><td>Structural metals (Fe/Al/Ti)</td><td>Fe 14–17%, Al 10–18%, Ti 5–8%</td><td>Lunar / cislunar build</td><td>In-space only (Moon beats asteroids for Ti, Al)</td></tr>
+    <tr><td>Helium-3</td><td>~4–10 ppb; ~5,000 GJ/kg to extract</td><td>Earth (quantum cryo)</td><td>Luxury commodity, kg/yr (§13.4)</td></tr>
+    <tr><td>Platinum-group metals</td><td>~1–5 g/t, meteoritic, unproven</td><td>Earth</td><td>Speculative — asteroids win</td></tr>
+  </table>
+  <p>The peer-reviewed consensus is blunt: <b>cislunar use beats Earth-return for essentially everything</b>
+  except the very highest value density. This does not weaken SELENE — it sharpens the "exporter from day one"
+  claim to its defensible form: <i>SELENE sells propellant, oxygen and metal into cislunar space</i>, where a
+  lunar kilogram is worth multiples of an Earth-lifted one. Earth-return is reserved for ultra-high-value goods.
+  <span class="ref">(Crawford, arXiv:1410.6865, 2015; Metzger, arXiv:2303.09011, 2023.)</span></p>
+
+  <h3>13.4 Helium-3, honestly</h3>
+  <p>The popular "Moon powers Earth with fusion fuel" story does not survive the arithmetic. The grade is the
+  problem:</p>
+  <div class="math">Grade 10 ppb ⇒ 10 mg He-3 per tonne ⇒ <b>10⁵ tonnes regolith per kg He-3</b> (100% yield)<br>
+  At 80% thermal yield:  ~1.25 × 10⁵ t mined &amp; heated per kg<br>
+  Heat fines to 700 °C:  c_p ≈ 0.8 kJ/kg·K, ΔT = 670 K ⇒ 0.536 GJ per tonne<br>
+  No heat recovery:   1.25×10⁵ t × 0.536 GJ/t ≈ <b>67,000 GJ/kg He-3</b>  (≈ 18.6 GWh/kg)<br>
+  With 85% recovery:  ~<b>10,000 GJ/kg</b>;  at 20 ppb + recovery:  ~<b>5,000 GJ/kg</b><br>
+  Cross-check (NASA M-3 miner):  12.3 MW thermal, 33 kg/yr ⇒ <b>5,289 GJ/kg</b>  ✓ (within 5%)</div>
+  <p>That extraction energy — thousands of GJ per kg — is <b>~10⁴× the launch energy</b>, so the crusher is
+  lunar earth-moving and heat, never SELENE's gun. And the demand is misunderstood: the ~$20M/kg price is a
+  <b>quantum-cryogenics</b> scarcity price (dilution-refrigerator coolant), not a fusion price. No commercial
+  D-He3 reactor exists, D-He3 is harder to ignite than D-T, and the USGS (2022) lists lunar He-3 as "inferred
+  unrecoverable." <b>Verdict: He-3 closes as a kilogram-per-year luxury commodity into quantum/medical markets
+  (Interlune–Bluefors, up to 10,000 L/yr, 2028–2037) — a real, high-margin niche — but it is not, today, fusion
+  energy.</b> <span class="ref">(Olson, NASA ASCEND 2021; Fegley &amp; Swindle 1993; USGS 2022; Interlune–Bluefors, 2025.)</span></p>
+</div>
+
+<!-- 13 (cont.) — MANUFACTURE + RE-ENTRY + SITE -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h3>13.5 Lunar manufacture of hardware — what is real</h3>
+  <p>Oxygen and crude metal are the mature part; finished electronics are not.</p>
+  <table>
+    <tr><th>Process</th><th>Output</th><th>TRL</th><th>Basis</th></tr>
+    <tr><td>Carbothermal reduction (Sierra Space / NASA CaRD)</td><td>O₂</td><td><b>6</b></td><td>Thermal-vacuum, −45→1,800 °C, on simulant</td></tr>
+    <tr><td>H₂ reduction of ilmenite</td><td>O₂ + Fe</td><td>5</td><td>Breadboard; low total O₂ yield</td></tr>
+    <tr><td>Molten regolith electrolysis (MRE)</td><td>O₂ + Fe/Si/Al/Ti</td><td>3–4</td><td>Gram-scale lab, ambient, simulant</td></tr>
+    <tr><td>"Blue Alchemist" MRE → solar cells</td><td>PV chain (99.999% Si, Al wire)</td><td>~3</td><td>Company claim, lab on simulant</td></tr>
+    <tr><td>Vacuum-evaporated solar-grade Si</td><td>thin-film Si</td><td>2–3</td><td>&lt;1 ppm impurities; <i>below</i> chip grade</td></tr>
+  </table>
+  <p>Solar cells and aluminium wiring are plausible; <b>semiconductor (logic-chip) grade silicon is not
+  demonstrated, and copper is essentially absent</b> on the Moon — so aluminium is the lunar conductor. That is
+  not a compromise:</p>
+  <div class="math">σ(Al) ≈ 61% IACS of Cu ⇒ equal-resistance Al needs 1/0.61 = <b>1.64× the cross-section</b><br>
+  but ρ(Al)=2.70, ρ(Cu)=8.96 g/cm³ ⇒ equal-resistance Al mass = 1.64 × (2.70/8.96) = <b>0.49 ×</b> copper<br>
+  ⇒ an aluminium conductor is <b>~half the mass</b> of copper for the same conductance — ideal where Al is abundant</div>
+  <p class="ref">(Blue Origin "Blue Alchemist," 2023; Sierra Space carbothermal, 2024; Ignatiev/NASA vacuum-Si; Azami et al., arXiv:2408.05823, 2024; Lunar Sourcebook Ch.8 for copper scarcity.)</p>
+
+  <h3>13.6 Getting it home — re-entry dominates</h3>
+  <div class="math">A pod at 2.38 km/s leaves the lunar sphere of influence ≈ at rest, then falls down Earth's well.<br>
+  Vis-viva, 384,400 km → 120 km entry interface:  v_entry ≈ <b>10.99 km/s</b>  (reproduces Apollo/Orion ~11.1)<br>
+  E_entry = ½ × (11,000)² = 60.5 MJ/kg = <b>21.4 × the launch energy</b> (2.83 MJ/kg)</div>
+  <p>Re-entry, not launch, is the energy-management problem. Precedent sets the envelope: Stardust entered at
+  12.9 km/s (~1,200 W/cm², ~34 g); Apollo at ~11 km/s (~6–7 g guided); Hayabusa's heat shield was 53% of
+  capsule mass. A ~500 kg cargo pod takes the simplest proven path — <b>ballistic entry + parachute</b>
+  (Genesis/Stardust class): ~30–34 g (fine for hardware), peak ~600–1,000 W/cm², TPS ~15–35% (~100–175 kg).
+  Orbital catch (a rotating skyhook) avoids the heat entirely but needs a facility ~200× the pod mass — worth
+  it only at high cadence. <span class="ref">(NASA NTRS: Stardust 20090004445, Apollo TN D-5399, Hayabusa 20120011648; HASTOL NIAC.)</span></p>
+
+  <h3>13.7 The site checks out</h3>
+  <p>SELENE's near-continuous-solar premise is confirmed by LOLA/LRO topographic illumination modelling: the
+  Shackleton–de Gerlache Connecting Ridge receives <b>92.3% annual sunlight at 2 m height, 95.6% at 10 m</b>,
+  with a longest continuous darkness of only 3–5 days. <span class="ref">(Gläser et al., Icarus 243:78–90, 2014.)</span></p>
+
+  <p class="meta"><b>Key sources (this section):</b> Crawford, <i>Lunar Resources: A Review</i> (arXiv:1410.6865, 2015) ·
+  Metzger, <i>Economics of In-Space Industry</i> (arXiv:2303.09011, 2023) · Lordos et al., <i>PNAS</i> 122:e2306146122 (2025) ·
+  Guerrero-Gonzalez &amp; Zabel, <i>Acta Astronautica</i> 203:187 (2023) · Olson, NASA ASCEND 2021 (He-3 mining) ·
+  Gläser et al., <i>Icarus</i> 243:78 (2014) · Colaprete et al., <i>Science</i> 330:463 (2010, LCROSS) ·
+  Miller, SJSU mass-driver thesis (2023) · Azami et al. (arXiv:2408.05823, 2024) · NASA NTRS entry-physics (Stardust, Apollo, Hayabusa) ·
+  Interlune–Bluefors offtake (2025). Full report: KERAUNOS lunar-export deep research, 2026-06-13.</p>
+</div>
+
+<!-- 14 WHAT KERAUNOS UNLOCKS -->
+<div class="page np">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>14. What KERAUNOS Unlocks</h2>
   <h3>Orbital manufacturing</h3>
   <ul>
     <li><b class="k">ZBLAN fiber</b> — up to 100× lower theoretical loss than silica; ~12 km drawn on ISS in 2024; customers queue on freight prices. KERAUNOS is the freight price. (Performance proof still pending publication — the bet is stated, not oversold.)</li>
@@ -559,7 +683,15 @@
   </ul>
   <h3>Fusion economy</h3>
   <ul>
-    <li><b class="k">The He-3 supply chain.</b> Lunar regolith holds an estimated (model-based) ~1M tonnes of He-3. D-He3 fusion is <b>low-neutron</b> (D-D side reactions keep it from being strictly aneutronic) — far less activation, direct conversion potential. At today's ~$20M/kg (~$20B/tonne) market price and SELENE's ~$5/kg lunar launch cost, delivery economics are absurdly favorable; Interlune's contracted offtakes (Bluefors, 2028–2037) prove demand precedes the fusion era. SELENE isn't just a launcher — it's the fuel logistics for the energy industry after next.</li>
+    <li><b class="k">The He-3 supply chain — as a luxury commodity, not a fusion fantasy.</b> Be honest about
+    what He-3 is and isn't (full derivation in §13.4). The ~$20M/kg price is a <b>quantum-cryogenics</b>
+    scarcity price (dilution-refrigerator coolant — Interlune's actual contracted buyers, e.g. Bluefors,
+    up to 10,000 L/yr 2028–2037), <i>not</i> a fusion-fuel price. There is no commercial D-He3 reactor; D-He3
+    is harder to ignite than D-T, and the USGS (2022) classes lunar He-3 "inferred unrecoverable." At ~4–10 ppb
+    in regolith the extraction is enormous earth-moving (~10⁵ tonnes mined and heated per kg), so the cost
+    driver is lunar energy, not SELENE's launch. <b>The honest business closes at the kilogram-per-year scale
+    into quantum/medical markets</b> — a real, high-margin niche — and only <i>becomes</i> civilization-scale
+    fuel logistics if D-He3 fusion is ever solved. SELENE is positioned for that future without betting on it.</li>
     <li><b class="k">The energy loop.</b> Trackside storage doubles as grid-scale battery between launch windows; the same plant powers debris-sweeping lasers over the corridor. Nothing idles.</li>
   </ul>
   <p class="meta" style="margin-top:16pt;">Verification note: all external claims in this revision were
