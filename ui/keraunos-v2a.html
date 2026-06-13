@@ -89,7 +89,7 @@
     <tr><th>Parameter</th><th>Value</th><th>Notes</th></tr>
     <tr><td>Site</td><td>Chimborazo, Ecuador</td><td>Summit 6,263 m; 1.47°S; massif sits on a 4,000 m plateau</td></tr>
     <tr><td>Phase-1 build</td><td>14 km, portal ~2,920 m</td><td>Eastern (upper) 14 km of the full straight line; lower-flank portal</td></tr>
-    <tr><td>Exit</td><td>Tunnel muzzle 5,900 m, 12.3° east</td><td>Single straight 12.3° grade — no bend (Rev 2.1); ~363 m below peak elevation</td></tr>
+    <tr><td>Exit</td><td>Tunnel muzzle 5,900 m, 12.3° east</td><td>Single straight 12.3° grade — no curve at all; ~363 m below peak elevation</td></tr>
     <tr><td>Exit air</td><td>ρ ≈ 54% SL (p ≈ 47%)</td><td>Peak drag and heating roughly halved; weaker ground-level boom</td></tr>
     <tr><td>Equatorial bonus</td><td>+465 m/s free</td><td>Fires east; net launcher requirement to LEO ~7.5 km/s, not ~8</td></tr>
     <tr><td>Performance</td><td>Mach 9.1 (30 g) / 2.9 (3 g)</td><td>Full ~21.3 km straight line later: Mach 11.2 cargo / 3.5 at human-rated 3 g</td></tr>
@@ -177,7 +177,7 @@
     <tr><td><b>E = ½v² = 32 MJ/kg</b></td><td>At 8 km/s and $0.06/kWh: <b>$0.53 of grid electricity per kilogram</b>. Falcon 9 burns ~$200–300K of propellant for ~17–22.8 t to LEO — propellant alone costs ~20–25× KERAUNOS's total electricity spend per kilogram, on a vehicle that is 90% propellant by mass.</td></tr>
     <tr><td><b>a = v²/2L</b></td><td>Acceleration is set by velocity and length. 1,000 km at 8 km/s is 3.3 g — gentle enough for people. StarTram Gen-1 accepted 30 g on 130 km, cargo-only. On the Moon a 3 g orbital track is ~50 km. <b>Track length is the unlock.</b></td></tr>
     <tr><td><b>Kick stage: Isp 350 s, 20% mass</b></td><td>Δv = 3,434 × ln(1/0.8) ≈ <b>0.77 km/s</b> for circularization and trim at apogee. That is the only propellant aboard — ~80% of launched mass is payload, vs ~10% for a rocket.</td></tr>
-    <tr><td><b>Bends are forbidden at speed</b></td><td>Centripetal load is a = v²/R, so a g-capped turn needs an enormous radius. KERAUNOS takes the rule to its conclusion: <b>every track is a single straight line — no terminal bend</b> (Rev 2.1 removed BRONTE's). Straight means zero lateral g on the payload (Section 4).</td></tr>
+    <tr><td><b>Bends are forbidden at speed</b></td><td>Centripetal load is a = v²/R, so a g-capped turn needs an enormous radius. KERAUNOS takes the rule to its conclusion: <b>every track is a single straight line — no terminal curve at all</b>. Straight means zero lateral g on the payload (Section 4 / Theoretical F).</td></tr>
   </table>
   <div class="math">Worked from the two relations above:<br>
   Energy floor:  E = ½v² = ½ × (8,000 m/s)² = 32 MJ/kg = 8.9 kWh/kg  ⇒  at $0.06/kWh = <b>$0.53/kg</b> to orbital speed<br>
@@ -250,9 +250,9 @@
     (1797 Riobamba, M~7.6) sets a ~0.4 g design basis, which drove A-frame piers, radial truss bracing, and
     re-trimmable track jacks. The route avoids the Riobamba debris-avalanche deposit entirely.</li>
     <li><b>The straight-line rule, taken all the way:</b> at exit speed a track cannot bend without crushing
-    the payload sideways. <b>Rev 2.1 removes the terminal arc entirely</b> — BRONTE is now a <i>single straight
-    line at 12.3°</i> from portal to crest muzzle. No bend means no lateral g, no centripetal "load wall," and
-    no 1-kiloton bend-failure case: the pod feels only its axial launch g. The price is track length — a
+    the payload sideways — so BRONTE is a <i>single straight line at 12.3°</i> from portal to crest muzzle. We add
+    no terminal curve to steepen the exit (Theoretical F shows why); straight means no lateral g, no centripetal
+    "load wall," and no curve-failure case: the pod feels only its axial launch g. The price is track length — a
     steeper, straight grade is shorter for a given exit, which trims top speed. Both the geometry and that
     trade are derived below.</li>
   </ul>
@@ -295,9 +295,8 @@
   a longer track buys the same speed at lower g — the 1,000 km-class injector (§9) reaches 8 km/s at just 3.3 g,
   the human-rated regime.</p>
   <p>The tube itself: Ø4.0 m flight bore inside a Ø6.0 m ring-stiffened vacuum vessel inside a Ø12 m TBM
-  bore, driven by a <b>360° stator ring</b> (24 REBCO sectors per ring, hoops every 0.6 m). With the bend gone
-  the ring no longer fights a 16 g side-load; it stays full-circumference for two reasons that survive the
-  redesign: <b>distributed full-hull thrust</b> (the reaction sleeve is driven along its whole length, so the
+  bore, driven by a <b>360° stator ring</b> (24 REBCO sectors per ring, hoops every 0.6 m). On a straight track
+  the ring carries no curve side-load; it stays full-circumference for two reasons: <b>distributed full-hull thrust</b> (the reaction sleeve is driven along its whole length, so the
   pod never accumulates the axial compression that would buckle a tail-pushed projectile) and <b>precise
   magnetic centering</b> of a Mach-11 vehicle inside a 200 mm vacuum gap. The payload bay is <b>Ø3.2 m × 8 m</b>
   (Cygnus-module class) inside the 23 m ASTRAPE fairing-sled. Vacuum isolation gates every 500 m; 20 K/80 K

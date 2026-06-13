@@ -349,30 +349,32 @@
 <!-- 10 (cont.) — THE BEND -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical F — removing the bend: the g-force win</h3>
-  <p>Rev 2.1 makes BRONTE a single straight line (§4). That deletes the worst load case the earlier design
-  carried — the centripetal side-load through the terminal arc — and leaves only the axial launch g the pod was
-  always built for.</p>
-  <div class="math">Lateral (centripetal) load in a curve: a_lat = v²/R<br>
-  Old design (R = 100 km bend), cargo 3,970 m/s: a_lat = 3,970² / 100,000 = 158 m/s² = <b>16 g sideways</b><br>
-  Old design, bulk 7,800 m/s: a_lat = 7,800² / 100,000 = 608 m/s² = <b>62 g sideways</b><br>
-  New design (straight track): R → ∞ ⇒ a_lat = v²/R → <b>0 g</b>. The only load is axial: 30 g cargo, 3 g human.</div>
+  <h3>Theoretical F — why the track has no curve</h3>
+  <p>BRONTE is a single straight line at 12.3°, and it is worth showing <i>why</i> we never add even a gentle
+  terminal curve to steepen the exit: at these speeds any curve crushes the payload sideways. Centripetal load is
+  a = v²/R, set by speed not mass, so even a very large radius bites hard.</p>
+  <div class="math">If the track curved at radius R = 100 km (a <i>gentle</i> curve at this scale):<br>
+  cargo 3,540 m/s: a_lat = 3,540² / 100,000 = 125 m/s² = <b>~13 g sideways</b><br>
+  bulk 7,800 m/s:  a_lat = 7,800² / 100,000 = 608 m/s² = <b>~62 g sideways</b><br>
+  Straight track (R → ∞): a_lat = v²/R → <b>0 g</b>. The only load is axial — 30 g cargo, 3 g human.</div>
   <table>
-    <tr><th>Load case</th><th>Old (R = 100 km bend)</th><th>New (straight)</th></tr>
-    <tr><td>Lateral g, cargo exit</td><td>~16 g</td><td><b>0 g</b></td></tr>
+    <tr><th>Load case</th><th>If it curved (R = 100 km)</th><th>Straight (the design)</th></tr>
+    <tr><td>Lateral g, cargo exit</td><td>~13 g</td><td><b>0 g</b></td></tr>
     <tr><td>Lateral g, bulk exit</td><td>~62 g</td><td><b>0 g</b></td></tr>
     <tr><td>Peak ring side-force, 70 m bulk pod</td><td>~91 MN (29× baseline)</td><td><b>~0</b> — levitation/centering only</td></tr>
-    <tr><td>Axial launch g (unchanged)</td><td>30 g cargo / 3 g human</td><td>30 g cargo / 3 g human</td></tr>
+    <tr><td>Axial launch g</td><td>30 g cargo / 3 g human</td><td>30 g cargo / 3 g human</td></tr>
   </table>
-  <p>The wins: the 360° ring no longer restrains tens of meganewtons of side-thrust, alignment tolerance
-  loosens, and — most importantly — there is no point where the track is fighting to <i>turn</i> the pod. A pod
-  still carries enormous kinetic energy (set by mass and speed, not by track shape):</p>
+  <p>So the straight line is not a compromise — it is the only geometry that keeps the payload within its g-limit
+  at exit speed. The 360° ring therefore never has to restrain tens of meganewtons of curve side-thrust, and there
+  is no point where the track fights to <i>turn</i> the pod. The pod still carries enormous kinetic energy (set by
+  mass and speed, not by track shape):</p>
   <div class="math">E_kinetic = ½mv² — e.g. 70 m bulk pod: ½ × 149,000 kg × (7,800 m/s)² = 4.53 × 10¹² J<br>
-  ÷ 4.184 × 10⁹ J per tonne TNT = <b>~1,080 t TNT (≈ 1 kiloton)</b> — unchanged by removing the bend</div>
-  <p class="meta">But with no curve, a loss of drive simply lets the pod <b>coast straight</b> — the benign
+  ÷ 4.184 × 10⁹ J per tonne TNT = <b>~1,080 t TNT (≈ 1 kiloton)</b></div>
+  <p class="meta">On a straight track a loss of drive simply lets the pod <b>coast straight</b> — the benign
   failure mode — instead of being flung sideways through the tunnel wall. Containment and an empty downrange
-  corridor still matter, but the redesign trades ~11% of top speed (Mach 12.6 → 11.2 on the full line) to erase
-  every lateral-g hazard. A good trade — and why Rev 2.1 made it.</p>
+  corridor still matter; the straight geometry just removes the lateral-g hazard entirely. The only price is a
+  little top speed — a straight 12.3° grade is shorter than a shallow-grade-plus-curve would be (Mach ~11.2 full
+  line) — a trade well worth making.</p>
 </div>
 
 <!-- 10 (cont.) — STORING THE PULSE -->
