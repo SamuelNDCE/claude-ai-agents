@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeuralVault — System Architecture (C4, layered)</title>
+<style>
+  :root{
+    --bg:#0a0d18; --panel:#0f1424; --panel2:#121a30; --border:#1e2a44;
+    --text:#cdd6f4; --muted:#8b96b4; --teal:#22d3ee; --purple:#7c3aed;
+    --app:#22d3ee; --agent:#a78bfa; --know:#38bdf8; --data:#60a5fa;
+    --sec:#f472b6; --core:#34d399; --ext:#f5b942; --sib:#c084fc; --stub:#64748b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+    font:14px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+  a{color:var(--teal)}
+  header{padding:14px 20px;border-bottom:1px solid var(--border);
+    display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;background:linear-gradient(180deg,#0c1020,#0a0d18)}
+  header h1{margin:0;font-size:18px;font-weight:650;letter-spacing:.2px}
+  header h1 b{color:var(--teal)}
+  header .meta{color:var(--muted);font-size:12px}
+  .wrap{display:flex;height:calc(100vh - 58px)}
+  .left{flex:1;display:flex;flex-direction:column;min-width:0}
+  .tabs{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center}
+  .tab{padding:7px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);
+    color:var(--muted);cursor:pointer;font-weight:600;font-size:13px;transition:.15s}
+  .tab:hover{border-color:#33406a;color:var(--text)}
+  .tab.active{background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(124,58,237,.18));
+    border-color:var(--teal);color:#fff}
+  .tab small{display:block;font-weight:400;font-size:10px;color:var(--muted)}
+  .tab.active small{color:#bfeaf5}
+  .hint{margin-left:auto;color:var(--muted);font-size:11.5px}
+  .viewport{position:relative;flex:1;overflow:hidden;cursor:grab;background:
+    radial-gradient(circle at 30% 20%,rgba(34,211,238,.05),transparent 40%),
+    radial-gradient(circle at 80% 80%,rgba(124,58,237,.06),transparent 45%)}
+  .viewport.grabbing{cursor:grabbing}
+  .stage{position:absolute;top:0;left:0;transform-origin:0 0}
+  .edges{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+  .edges path{fill:none;stroke:#33406a;stroke-width:1.4;opacity:.32;transition:.15s}
+  .edges path.dash{stroke-dasharray:6 5;opacity:.5}
+  .edges path.hot{stroke:var(--teal);opacity:1;stroke-width:2.2}
+  .node{position:absolute;border:1.5px solid var(--border);border-radius:10px;
+    background:var(--panel);padding:9px 11px;cursor:pointer;transition:.12s;
+    box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .node:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.5)}
+  .node.sel{outline:2px solid var(--teal);outline-offset:2px}
+  .node .t{font-weight:680;font-size:13px}
+  .node .s{color:var(--muted);font-size:11px;margin-top:2px;white-space:pre-line}
+  .node .types{margin-top:6px;font-size:10.5px;color:#9aa6c6;white-space:pre-line;line-height:1.45}
+  .node .badge{position:absolute;top:-9px;right:9px;font-size:9px;font-weight:700;
+    padding:1px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.4px}
+  .node.stub{border-style:dashed;opacity:.9}
+  /* group accents (left border + title color) */
+  .g-app{border-left:4px solid var(--app)} .g-app .t{color:var(--app)}
+  .g-agent{border-left:4px solid var(--agent)} .g-agent .t{color:var(--agent)}
+  .g-know{border-left:4px solid var(--know)} .g-know .t{color:var(--know)}
+  .g-data{border-left:4px solid var(--data)} .g-data .t{color:var(--data)}
+  .g-sec{border-left:4px solid var(--sec)} .g-sec .t{color:var(--sec)}
+  .g-core{border-left:4px solid var(--core)} .g-core .t{color:var(--core)}
+  .g-ext{border-left:4px solid var(--ext)} .g-ext .t{color:var(--ext)}
+  .g-sib{border-left:4px solid var(--sib);border-style:dashed} .g-sib .t{color:var(--sib)}
+  .g-user{border-left:4px solid #e2e8f0} .g-user .t{color:#e2e8f0}
+  /* flows */
+  .flows{position:absolute;inset:0;overflow:auto;padding:18px 22px}
+  .flow{border:1px solid var(--border);border-radius:12px;background:var(--panel);
+    margin-bottom:16px;overflow:hidden}
+  .flow h3{margin:0;padding:12px 16px;font-size:14.5px;background:var(--panel2);
+    border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center}
+  .flow h3 .pill{font-size:10px;color:#0a0d18;background:var(--teal);padding:2px 8px;border-radius:999px;font-weight:700}
+  .flow h3 .file{margin-left:auto;color:var(--muted);font:11px ui-monospace,monospace;font-weight:400}
+  .flow ol{margin:0;padding:12px 16px 12px 38px}
+  .flow li{margin:5px 0}
+  .flow .alt{color:var(--ext)}
+  .flow .note{padding:0 16px 14px;color:var(--muted);font-size:12px}
+  .flow.stub h3 .pill{background:var(--stub);color:#fff}
+  /* detail panel */
+  .detail{width:330px;border-left:1px solid var(--border);background:var(--panel);
+    padding:18px;overflow:auto;flex-shrink:0}
+  .detail h2{margin:0 0 2px;font-size:16px}
+  .detail .path{font:11px ui-monospace,monospace;color:var(--muted);word-break:break-all;margin-bottom:12px}
+  .detail .row{margin:12px 0}
+  .detail .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px}
+  .detail .v{font-size:13px}
+  .detail .chip{display:inline-block;background:var(--panel2);border:1px solid var(--border);
+    border-radius:6px;padding:2px 8px;margin:3px 3px 0 0;font-size:11.5px;color:#bcdffc}
+  .detail ul{margin:4px 0 0;padding-left:18px}
+  .detail li{margin:3px 0;font-size:12.5px}
+  .status-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700}
+  .st-wired{background:rgba(52,211,153,.15);color:var(--core);border:1px solid rgba(52,211,153,.4)}
+  .st-stub{background:rgba(100,116,139,.18);color:#9fb0d6;border:1px dashed var(--stub)}
+  .st-external{background:rgba(245,185,66,.13);color:var(--ext);border:1px solid rgba(245,185,66,.4)}
+  .st-sibling{background:rgba(192,132,252,.13);color:var(--sib);border:1px dashed var(--sib)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);padding:8px 16px;border-top:1px solid var(--border)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .zoombar{position:absolute;right:12px;bottom:12px;display:flex;gap:6px}
+  .zoombar button{width:32px;height:32px;border:1px solid var(--border);background:var(--panel);
+    color:var(--text);border-radius:8px;cursor:pointer;font-size:16px}
+  .zoombar button:hover{border-color:var(--teal)}
+</style>
+</head>
+<body>
+<header>
+  <h1><b>NeuralVault</b> — System Architecture <span style="color:var(--muted);font-weight:400">· layered C4</span></h1>
+  <div class="meta">Rust workspace v0.9.0-beta · 11 crates + 2 apps · GitNexus idx 9b61a15 · generated 2026-06-14 · <b style="color:var(--ext)">M1 skeleton</b> (some bodies stubbed)</div>
+</header>
+<div class="wrap">
+  <div class="left">
+    <div class="tabs">
+      <div class="tab active" data-l="L1">L1 · Context<small>system + neighbours</small></div>
+      <div class="tab" data-l="L2">L2 · Containers<small>crate dependency graph</small></div>
+      <div class="tab" data-l="L3">L3 · Components<small>key types per crate</small></div>
+      <div class="tab" data-l="L4">L4 · Flows<small>runtime sequences</small></div>
+      <div class="hint">scroll = zoom · drag = pan · click a box for detail</div>
+    </div>
+    <div class="viewport" id="vp">
+      <div class="stage" id="stage">
+        <svg class="edges" id="edges"></svg>
+      </div>
+      <div class="flows" id="flows" style="display:none"></div>
+      <div class="zoombar">
+        <button id="zin">+</button><button id="zout">−</button><button id="zfit" title="fit">⤢</button>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--core)"></i>foundation</span>
+      <span><i class="sw" style="background:var(--data)"></i>data/IO</span>
+      <span><i class="sw" style="background:var(--know)"></i>knowledge/AI</span>
+      <span><i class="sw" style="background:var(--sec)"></i>security</span>
+      <span><i class="sw" style="background:var(--agent)"></i>agents</span>
+      <span><i class="sw" style="background:var(--app)"></i>app</span>
+      <span><i class="sw" style="background:var(--ext)"></i>external</span>
+      <span><i class="sw" style="background:var(--sib)"></i>sibling project</span>
+      <span>— wired &nbsp; ┄ planned/stub</span>
+    </div>
+  </div>
+  <div class="detail" id="detail">
+    <h2>NeuralVault</h2>
+    <div class="path">local-first knowledge OS · Perpetual Technologies</div>
+    <div class="row"><div class="k">How to read this</div><div class="v">
+      A local-first desktop knowledge app. Notes are plain markdown on disk; an
+      <b>.nv</b> sidecar holds vectors, audit log, conversations and ACLs. Search is
+      hybrid (TF-IDF + embeddings fused by RRF). All AI runs locally via <b>Ollama</b>.
+    </div></div>
+    <div class="row"><div class="k">Pick a layer</div><div class="v">
+      <b>L1</b> who talks to what · <b>L2</b> how the 13 crates depend on each other ·
+      <b>L3</b> the key types inside each crate · <b>L4</b> the real runtime flows.
+    </div></div>
+    <div class="row"><div class="k">Click any box</div><div class="v">for its responsibility, path, key types, dependencies and wired/stub status.</div></div>
+  </div>
+</div>
+<script>
+// ---------- data ----------
+const G={app:"g-app",agent:"g-agent",know:"g-know",data:"g-data",sec:"g-sec",core:"g-core",ext:"g-ext",sib:"g-sib",user:"g-user"};
+const ST={wired:"st-wired",stub:"st-stub",external:"st-external",sibling:"st-sibling"};
+
+const LAYERS={
+ L1:{w:1340,h:640,nodes:[
+   {id:"user",t:"User",s:"knowledge worker",x:560,y:18,w:220,h:54,g:"user",status:"wired",
+     d:{resp:"Drives the desktop app; browses the company site."}},
+   {id:"desktop",t:"NeuralVault Desktop",s:"egui / eframe (wgpu)\nlocal-first knowledge app",x:520,y:170,w:300,h:80,g:"app",status:"wired",path:"apps/desktop",
+     d:{resp:"The product. Renders the vault, hybrid search, chat, agents board, force-directed note map and push-to-talk capture. Owns the whole runtime loop (app.rs).",types:["app.rs orchestrator","update loop: pump_stream / pump_embeddings / pump_voice"],deps:["all 11 nv-* crates","Ollama","whisper.cpp","vault on disk"]}},
+   {id:"site",t:"perpetual-site  ‹Nice›",s:"sibling · company website\nNext.js + TypeScript",x:980,y:30,w:300,h:74,g:"sib",status:"sibling",path:"AiWorkspace/perpetual-site",
+     d:{resp:"Perpetual Technologies public marketing website. Same org as NeuralVault, but no runtime link — included as a sibling project.",types:["Next.js App Router","hand-written CSS","deploy: Vercel"],deps:["(standalone)"]}},
+   {id:"vault",t:"Markdown Vault (disk)",s:".md notes + .nv sidecar\nvectors · audit · memory · acl",x:520,y:360,w:300,h:78,g:"data",status:"wired",path:"<vault root>/.nv",
+     d:{resp:"The source of truth: plain markdown files in folders. The hidden .nv sidecar stores embeddings (vectors.json), the audit log, conversations and ACLs — so everything restores offline.",types:["company folders","my-vault/* personal","my-notes & my-tasks locked"],deps:[]}},
+   {id:"ollama",t:"Ollama",s:"local LLM server\nchat + embeddings",x:1010,y:230,w:270,h:74,g:"ext",status:"external",path:"http://localhost:11434",
+     d:{resp:"Local model runtime. Serves streaming chat completions and nomic-embed-text embeddings over HTTP. No cloud, no API key.",types:["chat / generate","embeddings: nomic-embed-text"],deps:[]}},
+   {id:"whisper",t:"whisper.cpp STT",s:"bundled, in-process\nspeech → text (local)",x:1010,y:380,w:270,h:70,g:"ext",status:"external",path:"whisper-rs 0.14 (vendored)",
+     d:{resp:"Fully-local speech-to-text. Built from whisper.cpp via whisper-rs; the desktop captures mic audio (cpal/hound) and transcribes push-to-talk with no network.",types:["whisper-rs","cpal mic","hound WAV"],deps:[]}},
+   {id:"syncsrv",t:"Sync Server",s:"relay · M1 stub",x:40,y:230,w:240,h:64,g:"app",status:"stub",path:"apps/sync-server",
+     d:{resp:"Intended multi-device CRDT relay. M1: a no-op tokio entrypoint that prints a banner. relay.rs / auth.rs / license.rs land later.",types:["main.rs (banner only)"],deps:["nv-core","nv-sync","nv-auth","nv-audit"]}},
+   {id:"hooks",t:"nv-claude-hooks  ‹Hardup›",s:"sibling · Claude Code ↔ NV bridge",x:40,y:370,w:260,h:74,g:"sib",status:"sibling",path:"AiWorkspace/nv-claude-hooks",
+     d:{resp:"Claude Code hooks that wire NeuralVault into every AI session: inject relevant notes before each prompt and save key outputs back into the vault.",types:["nv-prompt-hook","nv-session-hook","nv-memory-hook","nv-web-hook"],deps:["the vault (read/write)"]}},
+ ],edges:[
+   ["user","desktop","uses",0],["user","site","browses",0],
+   ["desktop","vault","read/write .md",0],
+   ["desktop","ollama","HTTP chat+embed",0],
+   ["desktop","whisper","push-to-talk STT",0],
+   ["desktop","syncsrv","planned CRDT sync",1],
+   ["hooks","vault","inject / save notes",0],
+   ["site","desktop","same org",1],
+ ]},
+
+ L2:{w:1320,h:760,nodes:[
+   {id:"desktop",t:"neuralvault-desktop",s:"binary · pulls all 11 crates",x:430,y:24,w:300,h:64,g:"app",status:"wired",path:"apps/desktop",
+     d:{resp:"Desktop GUI binary. Depends on every nv-* crate plus egui/eframe, whisper-rs, cpal, hound, screenshots, rayon.",deps:["all 11 nv-* crates"]}},
+   {id:"syncserver",t:"neuralvault-sync-server",s:"binary · stub",x:880,y:24,w:280,h:64,g:"app",status:"stub",path:"apps/sync-server",
+     d:{resp:"Sync relay binary (M1 stub).",deps:["nv-core","nv-sync","nv-auth","nv-audit"]}},
+   {id:"agents",t:"nv-agents",s:"agent runtime (apex crate)",x:470,y:175,w:230,h:60,g:"agent",status:"wired",path:"packages/agents",
+     d:{resp:"Agent runtime: manifests, runner, built-in agents, tool sandbox. Apex of the crate graph — depends on 6 crates. tick_all is a no-op in M1.",deps:["core","vault","llm","permissions","audit","memory"]}},
+   {id:"memory",t:"nv-memory",s:"conversations",x:250,y:320,w:200,h:56,g:"know",status:"wired",path:"packages/memory",
+     d:{resp:"Persisted chat/agent conversations as JSON in the sidecar.",deps:["core","vault","llm"]}},
+   {id:"search",t:"nv-search",s:"hybrid index",x:520,y:320,w:200,h:56,g:"know",status:"wired",path:"packages/search",
+     d:{resp:"Lexical (TF-IDF) + vector (cosine) search fused by RRF (k=60).",deps:["core","vault"]}},
+   {id:"llm",t:"nv-llm",s:"LLM boundary",x:790,y:320,w:200,h:56,g:"know",status:"wired",path:"packages/llm",
+     d:{resp:"Chat/completion types, Ollama client, local-vs-cloud router (M1 always Ollama).",deps:["core"]}},
+   {id:"vault",t:"nv-vault",s:"on-disk vault",x:120,y:470,w:180,h:56,g:"data",status:"wired",path:"packages/vault",
+     d:{resp:"Folders, notes, frontmatter, the .nv sidecar.",deps:["core"]}},
+   {id:"sync",t:"nv-sync",s:"sync client · stub",x:330,y:470,w:170,h:56,g:"data",status:"stub",path:"packages/sync",
+     d:{resp:"Multi-device sync client. M1 no-op shell; CRDT (yrs) later.",deps:["core","vault"]}},
+   {id:"audit",t:"nv-audit",s:"append-only log",x:530,y:470,w:175,h:56,g:"sec",status:"wired",path:"packages/audit",
+     d:{resp:"Append-only audit trail in the sidecar.",deps:["core","vault"]}},
+   {id:"import",t:"nv-import",s:"importers · stub",x:735,y:470,w:175,h:56,g:"data",status:"stub",path:"packages/import",
+     d:{resp:"External source importers (Slack/IMAP/CRM/CSV). Contract frozen, bodies later.",deps:["core","vault"]}},
+   {id:"auth",t:"nv-auth",s:"identity + license",x:940,y:470,w:185,h:56,g:"sec",status:"wired",path:"packages/auth",
+     d:{resp:"Identity/session + licensing. Offline stub validates.",deps:["core","permissions"]}},
+   {id:"perms",t:"nv-permissions",s:"folder ACLs",x:1140,y:380,w:160,h:56,g:"sec",status:"wired",path:"packages/permissions",
+     d:{resp:"Folder-scoped role/access control. Default grants write.",deps:["core"]}},
+   {id:"core",t:"nv-core",s:"shared types · errors · palette (zero internal deps)",x:430,y:640,w:320,h:60,g:"core",status:"wired",path:"packages/core",
+     d:{resp:"Dependency-light foundation every crate builds on: NvError/Result, id newtypes, the approved color palette.",deps:[]}},
+ ],edges:[
+   ["vault","core",,0],["perms","core",,0],["llm","core",,0],
+   ["search","core",,0],["search","vault",,0],
+   ["sync","core",,1],["sync","vault",,1],
+   ["audit","core",,0],["audit","vault",,0],
+   ["import","core",,1],["import","vault",,1],
+   ["auth","core",,0],["auth","perms",,0],
+   ["memory","core",,0],["memory","vault",,0],["memory","llm",,0],
+   ["agents","core",,0],["agents","vault",,0],["agents","llm",,0],["agents","perms",,0],["agents","audit",,0],["agents","memory",,0],
+   ["desktop","agents",,0],["desktop","search",,0],["desktop","memory",,0],["desktop","llm",,0],["desktop","vault",,0],
+   ["desktop","auth",,0],["desktop","perms",,0],["desktop","audit",,0],["desktop","sync",,1],["desktop","import",,1],["desktop","core",,0],
+   ["syncserver","core",,0],["syncserver","sync",,1],["syncserver","auth",,0],["syncserver","audit",,0],
+ ]},
+
+ L3:{w:1380,h:760,nodes:[
+   {id:"core",t:"nv-core",g:"core",status:"wired",x:30,y:24,w:310,h:140,
+     types:"NvError / Result\nids: AgentId·FolderId·NoteId·UserId\npalette (approved colors)",
+     d:{resp:"Foundation types shared by all crates.",path:"packages/core",types:["NvError / Result","AgentId, FolderId, NoteId, UserId","palette"]}},
+   {id:"vault",t:"nv-vault",g:"data",status:"wired",x:370,y:24,w:320,h:140,
+     types:"Vault: open·folders·list_notes\n  ·read_note·write_note·sidecar\nNote · FolderInfo · Frontmatter\nNvSidecar (.nv) · render_markdown",
+     d:{resp:"On-disk vault access. Company folders + my-vault personal folders (my-notes/my-tasks locked).",path:"packages/vault",types:["Vault","Note / FolderInfo","Frontmatter (parse/to_markdown)","NvSidecar",".nv","render_markdown_to_text"]}},
+   {id:"search",t:"nv-search",g:"know",status:"wired",x:720,y:24,w:320,h:140,
+     types:"SearchIndex (trait): rebuild·query\nHybridIndex: query_hybrid /\n  query_semantic · RRF k=60\nLexicalIndex (TF-IDF)\nVectorIndex (cosine, .nv/vectors.json)",
+     d:{resp:"Hybrid search. Trait query is sync/lexical; true semantic+hybrid take a pre-computed query vector.",path:"packages/search",types:["SearchIndex trait","HybridIndex (RRF k=60)","LexicalIndex (TF-IDF)","VectorIndex (cosine)","Query/SearchHit/SearchMode"]}},
+   {id:"llm",t:"nv-llm",g:"know",status:"wired",x:1070,y:24,w:280,h:140,
+     types:"LlmRouter: pick_backend·complete\n  ·complete_streaming·embed\nOllamaClient: chat_blocking /\n  chat_streaming · embeddings\nBackend·ChatMessage·StreamEvent",
+     d:{resp:"LLM boundary. Router picks a backend (M1 always Ollama).",path:"packages/llm",types:["LlmRouter","OllamaClient","Backend / ChatMessage / CompletionRequest / Role / StreamEvent"]}},
+   {id:"memory",t:"nv-memory",g:"know",status:"wired",x:30,y:188,w:310,h:96,
+     types:"MemoryStore\nConversation (JSON in sidecar)",
+     d:{resp:"Persisted conversations.",path:"packages/memory",types:["MemoryStore","Conversation"]}},
+   {id:"agents",t:"nv-agents",g:"agent",status:"wired",x:370,y:188,w:320,h:150,
+     types:"AgentRunner: with_builtins·states\n  ·tick_all (no-op, stub)\nAgent (trait) · AgentContext\n  {vault, llm, perms, audit}\nManifest/State/Status/Trigger\nbuiltins: FileKeeper · AiManager\ntools: ToolCall·ToolSpec·sandbox",
+     d:{resp:"Agent runtime. Contracts frozen; tick_all does not execute agents yet (honest Idle status).",path:"packages/agents",types:["AgentRunner","Agent trait","AgentContext","AgentManifest/State/Status/Trigger","FileKeeper / AiManager / AGENT_TEMPLATES","tools + sandbox"]}},
+   {id:"sync",t:"nv-sync  (stub)",g:"data",status:"stub",x:720,y:188,w:280,h:96,
+     types:"SyncClient\n(no-op shell; CRDT/yrs later)",
+     d:{resp:"Sync client — M1 stub.",path:"packages/sync",types:["SyncClient"]}},
+   {id:"import",t:"nv-import  (stub)",g:"data",status:"stub",x:1030,y:188,w:320,h:96,
+     types:"Importer (trait)\nSource: Slack · IMAP · CRM · CSV",
+     d:{resp:"Source importers — contract frozen, bodies later.",path:"packages/import",types:["Importer trait","Source enum"]}},
+   {id:"auth",t:"nv-auth",g:"sec",status:"wired",x:30,y:360,w:310,h:110,
+     types:"LicenseClient\nAuthSession · IdentityProvider\nStubProvider (offline validates)",
+     d:{resp:"Identity + licensing.",path:"packages/auth",types:["LicenseClient","AuthSession","IdentityProvider","StubProvider"]}},
+   {id:"perms",t:"nv-permissions",g:"sec",status:"wired",x:370,y:360,w:300,h:110,
+     types:"PermissionSet · FolderAcl\nAccess · Role\n(default stub grants write)",
+     d:{resp:"Folder-scoped access control.",path:"packages/permissions",types:["PermissionSet","FolderAcl","Access","Role"]}},
+   {id:"audit",t:"nv-audit",g:"sec",status:"wired",x:700,y:360,w:300,h:110,
+     types:"AuditLog (append-only, sidecar)\nAuditEntry",
+     d:{resp:"Append-only audit trail.",path:"packages/audit",types:["AuditLog","AuditEntry"]}},
+   {id:"desktopui",t:"neuralvault-desktop (UI)",g:"app",status:"wired",x:1030,y:360,w:320,h:160,
+     types:"app.rs — orchestrator / update loop\ngraph.rs — force-directed physics\nmap/* — note_map·nodes·particles\nui/* — sidebar·topbar·tabs\n  (chat·board·dashboard·map·agents·admin)\nvoice.rs — mic → whisper STT\nsearch_overlay·capture_overlay·backup",
+     d:{resp:"The desktop binary's own modules: the orchestrator (app.rs), the live note-map physics, the egui tabs and overlays, voice capture and backup.",path:"apps/desktop/src",types:["app.rs","graph.rs","state.rs / world.rs","map/*","ui/* tabs","voice.rs"]}},
+ ],edges:[]},
+};
+
+const FLOWS=[
+ {id:"a",t:"Search / RAG",file:"app.rs:2026 vault_context_for",steps:[
+   "User types a query or chat message.",
+   "Desktop calls Ollama embed(\"nomic-embed-text\", query) with a 600 ms timeout.",
+   "<b>If the vector returns in time</b> → HybridIndex.query_hybrid(q, vec).",
+   "RRF fuses (k=60) the LexicalIndex (TF-IDF) and VectorIndex (cosine) result lists.",
+   "Returns ranked SearchHits, labelled “hybrid lexical+semantic”.",
+   "<span class='alt'>If it times out / errors → degrades to lexical-only (“lexical fallback”).</span>",
+   "Hits are injected as context for the chat answer."],
+   note:"This is the live, fully-wired path — the desktop owns the query embedding; the search crate just fuses pre-computed lists."},
+ {id:"b",t:"Embed-at-launch",file:"app.rs:2474 scheduler_tick + :2724 pump_embeddings",steps:[
+   "First scheduler_tick after launch (embed_rx == None).",
+   "Collect notes not yet embedded (total vs already-done counts).",
+   "Spawn one async Ollama embed job per note on the tokio runtime, results over a channel.",
+   "Each frame, pump_embeddings drains a few finished vectors.",
+   "Insert each into VectorIndex via vector_mut().insert(note_id, vec).",
+   "Persist to .nv/vectors.json every 25 new vectors — so each launch only embeds what's new."],
+   note:"Embedding runs once per launch in the background; nothing fake is stored — a failed embed advances progress but stores no vector."},
+ {id:"c",t:"Re-index on change",file:"app.rs:3053 (10 s poll)",steps:[
+   "Every 10 s the eframe update loop re-reads folders + note counts.",
+   "Computes a folder_signature (ids + counts).",
+   "<b>If the signature changed</b> (notes added/removed) → index.rebuild(vault): lexical rebuild + reload vectors from sidecar.",
+   "<span class='alt'>If unchanged → no-op, so the live force-directed map isn't reset.</span>"],
+   note:"Note: this is a timer poll, not a notify() file-watch — even though nv-vault depends on the notify crate, the live re-index path is the 10 s signature check."},
+ {id:"d",t:"Multi-device sync",file:"nv-sync + apps/sync-server",stub:true,steps:[
+   "Desktop SyncClient ⇢ sync-server relay: CRDT delta push (yrs) — not yet implemented.",
+   "Sync-server ⇢ desktop: merged updates — not yet implemented."],
+   note:"M1 stub on both ends: SyncClient is a no-op shell and the server just prints a banner. CRDT transport (yrs) is a later milestone."},
+];
+
+// ---------- render ----------
+const stage=document.getElementById('stage'),edgesSvg=document.getElementById('edges'),
+ vp=document.getElementById('vp'),flowsEl=document.getElementById('flows'),detail=document.getElementById('detail');
+let cur='L1', tf={x:40,y:20,k:1}, selId=null;
+
+function nodeCenter(n){return {x:n.x+n.w/2,y:n.y+(n.h||60)/2}}
+function edgePath(a,b){
+  const c1={x:a.x,y:a.y+(b.y-a.y)*0.5}, c2={x:b.x,y:a.y+(b.y-a.y)*0.5};
+  return `M${a.x},${a.y} C${c1.x},${c1.y} ${c2.x},${c2.y} ${b.x},${b.y}`;
+}
+function render(layer){
+  cur=layer;
+  const isFlow=layer==='L4';
+  flowsEl.style.display=isFlow?'block':'none';
+  stage.style.display=isFlow?'none':'block';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.l===layer));
+  if(isFlow){renderFlows();return;}
+  const L=LAYERS[layer];
+  stage.querySelectorAll('.node').forEach(n=>n.remove());
+  edgesSvg.innerHTML='<defs><marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5566a0"/></marker></defs>';
+  edgesSvg.setAttribute('width',L.w);edgesSvg.setAttribute('height',L.h);
+  const byId={};L.nodes.forEach(n=>byId[n.id]=n);
+  (L.edges||[]).forEach(([f,t,lbl,dash])=>{
+    const a=byId[f],b=byId[t];if(!a||!b)return;
+    const ca=nodeCenter(a),cb=nodeCenter(b);
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',edgePath(ca,cb));p.setAttribute('marker-end','url(#arr)');
+    if(dash)p.classList.add('dash');
+    p.dataset.f=f;p.dataset.t=t;
+    edgesSvg.appendChild(p);
+  });
+  L.nodes.forEach(n=>{
+    const el=document.createElement('div');
+    el.className='node '+G[n.g]+(n.status==='stub'?' stub':'');
+    el.style.left=n.x+'px';el.style.top=n.y+'px';el.style.width=n.w+'px';if(n.h)el.style.minHeight=n.h+'px';
+    let html=`<div class="t">${n.t}</div>`;
+    if(n.s)html+=`<div class="s">${n.s}</div>`;
+    if(n.types)html+=`<div class="types">${n.types}</div>`;
+    if(n.status==='stub')html+=`<span class="badge st-stub" style="position:absolute;top:-9px;right:9px">stub</span>`;
+    el.innerHTML=html;
+    el.onclick=e=>{e.stopPropagation();select(n.id,layer);};
+    el.onmouseenter=()=>hotEdges(n.id,true);
+    el.onmouseleave=()=>{if(selId!==n.id)hotEdges(n.id,false)};
+    stage.appendChild(el);
+  });
+  applyTf();
+}
+function hotEdges(id,on){
+  edgesSvg.querySelectorAll('path').forEach(p=>{
+    if(p.dataset.f===id||p.dataset.t===id)p.classList.toggle('hot',on);
+  });
+}
+function select(id,layer){
+  selId=id;
+  const n=LAYERS[layer].nodes.find(x=>x.id===id);
+  document.querySelectorAll('.node').forEach(e=>e.classList.remove('sel'));
+  edgesSvg.querySelectorAll('path').forEach(p=>p.classList.remove('hot'));
+  hotEdges(id,true);
+  const idx=LAYERS[layer].nodes.indexOf(n);
+  stage.querySelectorAll('.node')[idx]?.classList.add('sel');
+  const d=n.d||{};
+  let h=`<h2>${n.t}</h2>`;
+  if(d.path||n.path)h+=`<div class="path">${d.path||n.path||''}</div>`;
+  h+=`<div class="row"><span class="status-tag ${ST[n.status]}">${n.status}</span></div>`;
+  if(d.resp)h+=`<div class="row"><div class="k">Responsibility</div><div class="v">${d.resp}</div></div>`;
+  if(d.types&&d.types.length)h+=`<div class="row"><div class="k">Key types / modules</div><div>${d.types.map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>`;
+  if(d.deps&&d.deps.length)h+=`<div class="row"><div class="k">Depends on</div><div>${d.deps.map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>`;
+  detail.innerHTML=h;
+}
+function renderFlows(){
+  flowsEl.innerHTML=FLOWS.map(f=>`
+    <div class="flow${f.stub?' stub':''}">
+      <h3><span class="pill">${f.id.toUpperCase()}</span>${f.t}<span class="file">${f.file}</span></h3>
+      <ol>${f.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <div class="note">${f.note}</div>
+    </div>`).join('');
+}
+// ---------- zoom / pan ----------
+function applyTf(){stage.style.transform=`translate(${tf.x}px,${tf.y}px) scale(${tf.k})`;}
+vp.addEventListener('wheel',e=>{
+  if(cur==='L4')return;e.preventDefault();
+  const r=vp.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  const k2=Math.min(2.4,Math.max(0.35,tf.k*(e.deltaY<0?1.12:0.89)));
+  tf.x=mx-(mx-tf.x)*(k2/tf.k);tf.y=my-(my-tf.y)*(k2/tf.k);tf.k=k2;applyTf();
+},{passive:false});
+let pan=null;
+vp.addEventListener('pointerdown',e=>{if(cur==='L4')return;pan={x:e.clientX,y:e.clientY,tx:tf.x,ty:tf.y};vp.classList.add('grabbing');});
+window.addEventListener('pointermove',e=>{if(!pan)return;tf.x=pan.tx+(e.clientX-pan.x);tf.y=pan.ty+(e.clientY-pan.y);applyTf();});
+window.addEventListener('pointerup',()=>{pan=null;vp.classList.remove('grabbing');});
+vp.addEventListener('click',()=>{/* background click keeps selection */});
+function fit(){
+  if(cur==='L4')return;const L=LAYERS[cur],r=vp.getBoundingClientRect();
+  const k=Math.min((r.width-40)/L.w,(r.height-40)/L.h,1.4);
+  tf.k=k;tf.x=(r.width-L.w*k)/2;tf.y=20;applyTf();
+}
+document.getElementById('zin').onclick=()=>{tf.k=Math.min(2.4,tf.k*1.15);applyTf();};
+document.getElementById('zout').onclick=()=>{tf.k=Math.max(0.35,tf.k*0.87);applyTf();};
+document.getElementById('zfit').onclick=fit;
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{render(t.dataset.l);if(t.dataset.l!=='L4')fit();});
+render('L1');fit();
+</script>
+</body>
+</html>
