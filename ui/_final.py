@@ -108,12 +108,12 @@ bC=panel(0.0, L+4.0, 1600, 790,
   notesC,
   "REAL TERRAIN; STEEPEST FEASIBLE STRAIGHT LINE IN THE 30–50 km RANGE",
   "WEST PORTAL 1,109 m, CHAZOJUÁN","MUZZLE 5,327 m (936 m BELOW PEAK)", True)
-d0B=L-14.0
-bB=panel(d0B-1.0, L+3.0, 1600, 720,
+td0B=(3791-Pz)/(Mz-Pz)*L
+bB=panel(td0B-1.5, L+3.0, 1600, 720,
   "PHASE 1, UPPER 14 km — REAL SRTM 30 m TERRAIN (BUILD FIRST)",
   "PORTAL 3,791 m → MUZZLE 5,327 m OVER 14 km · STRAIGHT 6.3° · 30 g → 2.87 km/s (MACH 9.1)",
   "","REAL TERRAIN; THE UPPER 14 km OF THE FULL LINE, BORED-TUNNEL FIRST BUILD",
-  "PHASE-1 PORTAL 3,791 m","MUZZLE 5,327 m", False)
+  "PHASE-1 PORTAL 3,791 m","MUZZLE 5,327 m", False, track_d0=td0B)
 
 # ---------- number cascade ----------
 SPEC_V2A=[

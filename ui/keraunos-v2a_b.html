@@ -110,7 +110,7 @@
   <h2>4. The Chimborazo Project: BRONTE's Earth Demonstrator</h2>
   <p class="lede">Rev 2 replaces the sketch with a site study: real terrain, real geology, one straight line through the mountain.</p>
   <p><b class="k">Chimborazo, Ecuador. Summit 6,263 m, 1.47°S.</b> The case still holds: the equator gives
-  +465 m/s of Earth's rotation free (fire east); high exit altitude halves the air (at 6,220 m, density is
+  +465 m/s of Earth's rotation free (fire east); high exit altitude halves the air (at 5,327 m, density is
   ~54% of sea level, Rev 1 quoted 45%, which is the <i>pressure</i> ratio); equatorial launch reaches every
   inclination. What changed is the engineering, driven by three facts established in the Rev 2 site study:</p>
   <ul>
@@ -122,47 +122,48 @@
     (1797 Riobamba, M~7.6) sets a ~0.4 g design basis, which drove A-frame piers, radial truss bracing, and
     re-trimmable track jacks. The route avoids the Riobamba debris-avalanche deposit entirely.</li>
     <li><b>The straight-line rule, taken all the way:</b> at exit speed a track cannot bend without crushing
-    the payload sideways, so BRONTE is a <i>single straight line at 7.5°</i> from portal to crest muzzle. We add
+    the payload sideways, so BRONTE is a <i>single straight line at 6.3°</i> from portal to crest muzzle. We add
     no terminal curve to steepen the exit (Theoretical F shows why); straight means no lateral g, no centripetal
     "load wall," and no curve-failure case: the pod feels only its axial launch g. The price is track length, a
     steeper, straight grade is shorter for a given exit, which trims top speed. Both the geometry and that
     trade are derived below.</li>
   </ul>
   <h3>The line, in two builds, now a single straight grade</h3>
-  <p>The muzzle is set at <b>6,220 m</b> (near the summit, ~43 m below the 6,263 m crest) so the exit emerges
-  high on the summit cone as a clean bored-tunnel mouth, just below the crest rather than a mast perched on top.</p>
-  <div class="math">Straight track at fixed exit angle θ = 7.5° (sin 7.5° = 0.1305):  L = Δh / sin θ<br>
-  Phase 1:   L = (6,220 − 4,393) / 0.1305 = 1,827 / 0.1305 = <b>14,000 m ≈ 14.0 km</b><br>
-  Full line: L = (6,220 − 1,000) / 0.1305 = 5,220 / 0.1305 = <b>40,000 m ≈ 40 km</b><br>
+  <p>The muzzle is set at <b>5,327 m</b> on the upper eastern flank, <b>936 m below the 6,263 m summit</b>. This is the highest a
+  straight 38 km line can reach on the real SRTM terrain: a straight line cannot meet the summit without a kilometre-tall viaduct
+  over the lower flank, so the muzzle exits where the line surfaces on the upper cone and fires east over the drop.</p>
+  <div class="math">Straight track at fixed exit angle θ = 6.3° (sin 6.3° = 0.1097):  L = Δh / sin θ<br>
+  Phase 1:   L = (5,327 − 3,791) / 0.1097 = 1,536 / 0.1097 = <b>14,000 m ≈ 14.0 km</b><br>
+  Full line: L = (5,327 − 1,109) / 0.1097 = 4,218 / 0.1097 = <b>38,450 m ≈ 38 km</b><br>
   Exit speed from a = v²/2L ⇒ v = √(2aL), cargo a = 30 g = 294 m/s²  (local sound speed a<sub>s</sub> ≈ 316 m/s):<br>
   Phase 1:   v = √(2 × 294 × 14,000) = 2,869 m/s = <b>2.87 km/s</b>  (Mach 9.1),  t = v/a = 9.8 s<br>
-  Full line: v = √(2 × 294 × 40,000) = 4,850 m/s = <b>4.85 km/s</b>  (Mach 15.3), t = 16.5 s<br>
-  Energy/shot (15 t, full): E = ½mv² = ½ × 15,000 × 4,850² = 1.76 × 10¹¹ J = <b>49.0 MWh</b></div>
+  Full line: v = √(2 × 294 × 38,000) = 4,730 m/s = <b>4.73 km/s</b>  (Mach 15.0), t = 16.1 s<br>
+  Energy/shot (15 t, full): E = ½mv² = ½ × 15,000 × 4,730² = 1.68 × 10¹¹ J = <b>46.6 MWh</b></div>
   <table>
     <tr><th></th><th>Phase 1, build first</th><th>Full line, the growth target</th></tr>
-    <tr><td>Length @ 7.5°</td><td><b>14 km</b> (portal ~4,393 m, lower eastern flank)</td><td><b>~40 km</b> (west portal ~1,000 m, Chazojuán valleys)</td></tr>
-    <tr><td>Works</td><td>bored tunnel through the flank + crest bore + short truss muzzle</td><td>adds ~26 km of deep tunnel down the western slope</td></tr>
-    <tr><td>Exit</td><td colspan="2">Same muzzle for both: <b>6,220 m</b>, <b>7.5° east, straight</b>, ~43 m below peak elevation</td></tr>
-    <tr><td>Cargo (30 g)</td><td>2.87 km/s · <b>Mach ~9.1</b> · 9.8 s in tube</td><td>4.85 km/s · <b>Mach ~15.3</b> · 16.5 s</td></tr>
-    <tr><td>Human (3 g)</td><td>0.91 km/s · Mach ~2.9 · 31 s</td><td>1.53 km/s · Mach ~4.9 · 52 s</td></tr>
-    <tr><td>Per shot (15 t gross)</td><td>17.1 MWh · 12.7 GW peak</td><td>49.0 MWh · 21.4 GW peak, trackside storage; grid sees ~30 MW × ~52 min recharge</td></tr>
+    <tr><td>Length @ 6.3°</td><td><b>14 km</b> (portal ~3,791 m, upper flank)</td><td><b>~38 km</b> (west portal ~1,109 m, Chazojuán valleys)</td></tr>
+    <tr><td>Works</td><td>bored tunnel through the flank + crest bore + short truss muzzle</td><td>adds ~24 km of deep tunnel down the western slope</td></tr>
+    <tr><td>Exit</td><td colspan="2">Same muzzle for both: <b>5,327 m</b>, <b>6.3° east, straight</b>, ~936 m below peak elevation</td></tr>
+    <tr><td>Cargo (30 g)</td><td>2.87 km/s · <b>Mach ~9.1</b> · 9.8 s in tube</td><td>4.73 km/s · <b>Mach ~15.0</b> · 16.1 s</td></tr>
+    <tr><td>Human (3 g)</td><td>0.91 km/s · Mach ~2.9 · 31 s</td><td>1.49 km/s · Mach ~4.7 · 51 s</td></tr>
+    <tr><td>Per shot (15 t gross)</td><td>17.1 MWh · 12.7 GW peak</td><td>46.6 MWh · 20.8 GW peak, trackside storage; grid sees ~30 MW × ~52 min recharge</td></tr>
   </table>
-  <h3>Could the line go faster? The velocity ladder over the 40 km line</h3>
-  <p>The full line runs cargo at 30 g, which over 40 km is 4.85 km/s (Mach 15.3), one rung on this ladder. Exit
-  speed is set by length and g-load (v = √(2aL)); here is what dialing the same 40 km line to 4, 6, and 8 km/s
+  <h3>Could the line go faster? The velocity ladder over the 38 km line</h3>
+  <p>The full line runs cargo at 30 g, which over 38 km is 4.73 km/s (Mach 15.0), one rung on this ladder. Exit
+  speed is set by length and g-load (v = √(2aL)); here is what dialing the same 38 km line to 4, 6, and 8 km/s
   would take, and whether the g-load makes it possible.</p>
-  <div class="math">Over L = 40 km:  a = v²/2L,  g = a/9.81,  t = 2L/v,  F = ma (15 t),  E = ½mv²<br>
-  4 km/s: a = 4,000²/(2·40,000) = 200 m/s² = <b>20.4 g</b> · t = 20 s · F = 3.0 MN · E = 33 MWh<br>
-  6 km/s: a = 6,000²/80,000 = 450 m/s² = <b>45.9 g</b> · t = 13.3 s · F = 6.8 MN · E = 75 MWh<br>
-  8 km/s: a = 8,000²/80,000 = 800 m/s² = <b>81.5 g</b> · t = 10 s · F = 12.0 MN · E = 133 MWh</div>
+  <div class="math">Over L = 38 km:  a = v²/2L,  g = a/9.81,  t = 2L/v,  F = ma (15 t),  E = ½mv²<br>
+  4 km/s: a = 4,000²/(2·38,000) = 211 m/s² = <b>21.5 g</b> · t = 19 s · F = 3.2 MN · E = 33 MWh<br>
+  6 km/s: a = 6,000²/76,000 = 474 m/s² = <b>48.3 g</b> · t = 12.7 s · F = 7.1 MN · E = 75 MWh<br>
+  8 km/s: a = 8,000²/76,000 = 842 m/s² = <b>85.8 g</b> · t = 9.5 s · F = 12.6 MN · E = 133 MWh</div>
   <table>
-    <tr><th>Target exit (over 40 km)</th><th>g-load</th><th>Time in tube</th><th>Force (15 t)</th><th>Energy/shot (15 t · 20 t)</th><th>Possible for</th></tr>
-    <tr><td><b>4 km/s</b></td><td>20.4 g</td><td>20 s</td><td>3.0 MN</td><td>33 · 44 MWh</td><td>most cargo &amp; satellites</td></tr>
-    <tr><td><b>6 km/s</b></td><td>45.9 g</td><td>13.3 s</td><td>6.8 MN</td><td>75 · 100 MWh</td><td>g-hardened / bulk only</td></tr>
-    <tr><td><b>8 km/s ≈ orbital</b></td><td>81.5 g</td><td>10 s</td><td>12.0 MN</td><td>133 · 178 MWh</td><td>inert bulk only (fuel, water, metal)</td></tr>
+    <tr><th>Target exit (over 38 km)</th><th>g-load</th><th>Time in tube</th><th>Force (15 t)</th><th>Energy/shot (15 t · 20 t)</th><th>Possible for</th></tr>
+    <tr><td><b>4 km/s</b></td><td>21.5 g</td><td>19 s</td><td>3.2 MN</td><td>33 · 44 MWh</td><td>most cargo &amp; satellites</td></tr>
+    <tr><td><b>6 km/s</b></td><td>48.3 g</td><td>12.7 s</td><td>7.1 MN</td><td>75 · 100 MWh</td><td>g-hardened / bulk only</td></tr>
+    <tr><td><b>8 km/s ≈ orbital</b></td><td>85.8 g</td><td>9.5 s</td><td>12.6 MN</td><td>133 · 178 MWh</td><td>inert bulk only (fuel, water, metal)</td></tr>
   </table>
   <p>Verdict: <b>all three are physically possible</b>, even 8 km/s, essentially orbital velocity with no kick
-  stage, at 81 g (well inside the ~15,000 g gun-hardened electronics survive). The limit is the payload, not
+  stage, at 86 g (well inside the ~15,000 g gun-hardened electronics survive). The limit is the payload, not
   the track: 4 km/s (20 g) suits most cargo, 6 km/s needs hardening, 8 km/s only inert bulk. Because g ∝ 1/L,
   a longer track buys the same speed at lower g, the 1,000 km-class injector (§9) reaches 8 km/s at just 3.3 g,
   the human-rated regime.</p>
@@ -182,18 +183,18 @@
   any sounding-rocket range.</div>
   <h3>Revenue from day one</h3>
   <p>DoD hypersonic test services: sounding rockets are single-shot, wind tunnels don't hold real Mach 6+
-  conditions for minutes, and no facility on Earth fires Mach-7-class test articles from 6,220 m on the
+  conditions for minutes, and no facility on Earth fires Mach-7-class test articles from 5,327 m on the
   equator several times a day. At $50K–$500K per run, one run per week covers operations. The demonstrator
   is not a cost center, it is a product, and every shot also retires risk on the plasma window, the
   aero-shell, and the cost-per-kilometer number the full injector's economics live or die on.</p>
 
   <h3>The sonic-boom problem, possibly the real showstopper</h3>
-  <p class="lede">A Mach-15 body leaving the muzzle at 6,220 m is loud in a way altitude and shaping cannot fully fix. This may be the constraint that decides the site, or kills a populated one.</p>
+  <p class="lede">A Mach-15 body leaving the muzzle at 5,327 m is loud in a way altitude and shaping cannot fully fix. This may be the constraint that decides the site, or kills a populated one.</p>
   <div class="math">Reference (Concorde): ~<b>1.94 psf</b> (~93 Pa) overpressure, ~105 PNLdB, at Mach 2 and ~16 km altitude.<br>
-  BRONTE exits at <b>Mach 15</b> and only <b>6,220 m (~6.2 km)</b>, ~2.6× closer to the ground and ~7× faster.<br>
+  BRONTE exits at <b>Mach 15</b> and only <b>5,327 m (~5.3 km)</b>, ~3.0× closer to the ground and ~7.5× faster.<br>
   Boom overpressure rises as the exit gets lower and faster (∝ ~altitude<sup>−3/4</sup>, weakly with Mach):<br>
-  &nbsp;&nbsp;altitude factor (16/6.2)<sup>3/4</sup> ≈ 2.1× · Mach factor ((15.3²−1)/(2²−1))<sup>1/8</sup> ≈ 1.7× ⇒ ~<b>3.6× Concorde</b><br>
-  ⇒ order <b>6–12 psf (~300–600 Pa) near the track</b>, window-rattling, not merely audible, repeated several times a day.</div>
+  &nbsp;&nbsp;altitude factor (16/5.3)<sup>3/4</sup> ≈ 2.3× · Mach factor ((15²−1)/(2²−1))<sup>1/8</sup> ≈ 1.7× ⇒ ~<b>4× Concorde</b><br>
+  ⇒ order <b>8–14 psf (~400–700 Pa) near the track</b>, window-rattling, not merely audible, repeated several times a day.</div>
   <div class="warn"><b>Honest verdict.</b> For a populated equatorial site this is a first-order public-acceptance
   risk, not a footnote: Riobamba (~170,000 people, ~30 km SE) and Ambato sit within the acoustic footprint, and a
   launcher firing several times a day would subject them to repeated hypersonic booms. That compounds the

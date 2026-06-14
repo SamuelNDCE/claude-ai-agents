@@ -130,8 +130,8 @@ BRONTE_COVER = {"letter":"B", "title":"BRONTE, Chimborazo Design Map",
     "id":"KER-BRO-TRK-001 · REV N · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
     "toc":[
       "Panel A, Plan view: one line, two phases (real SRTM 30 m terrain)",
-      "Panel B, Phase 1 (build first): 14 km, portal 4,393 m → tunnel muzzle 6,220 m, straight 7.5° (schematic)",
-      "Panel C, Full line (~40 km growth target): single straight bored tunnel @ 7.5°, no bend (schematic)",
+      "Panel B, Phase 1 (build first): 14 km, portal 3,791 m → tunnel muzzle 5,327 m, straight 6.3° (schematic)",
+      "Panel C, Full line (~38 km growth target): single straight bored tunnel @ 6.3°, no bend (schematic)",
       "Panel D, Tunnel &amp; tube typical section: the 360° drive ring, wide bore for Ø3.2 m payload",
       "Panel E, External bridge section · ASTRAPE front view · ASTRAPE in the tube",
       "Charts, systems, route engineering, tunnel engineering"]}
