@@ -152,18 +152,20 @@
 <!-- 10 THEORETICAL SCALING -->
 <div class="page">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h2>10. Theoretical Scaling: Wider Bores and Multi-Barrel Batteries</h2>
+  <h2>10. Theoretical Scaling</h2>
   <p class="lede">Pure forward-looking theory. None of this is in the build plan, it is what the architecture
   could become if the demonstrator succeeds and the enabling technology keeps maturing.</p>
   <div class="warn"><b>Read this section as speculation, not specification.</b> Everything below assumes the
   Phase-1 demonstrator has already worked and that several technologies have advanced past where they sit in
   2026. These are not designs. They are the shape of the ceiling, included because the question "how far does
   this scale?" deserves an honest, numbered answer rather than hand-waving.</div>
-  <div class="call"><b>The one rule that governs all of it: bore sets the chunk size, power sets the tonnage.</b>
-  The energy to place a kilogram in orbit is fixed by physics, a wider tube does not make a tonne cheaper, it
+
+  <h3>10.1 BRONTE (Chimborazo, Earth): bore, pod, and power scaling</h3>
+  <div class="call"><b>The one rule that governs all BRONTE scaling: bore sets the chunk size, power sets the tonnage.</b>
+  The energy to place a kilogram in orbit is fixed by physics; a wider tube does not make a tonne cheaper, it
   makes each shot bigger and rarer for the same megawatts. More annual tonnage comes only from more installed
   power. Bigger bores and more barrels change <i>how</i> you deliver the mass; the power plant decides <i>how
-  much.</i></p>
+  much.</i></div>
 
   <h3>Theoretical A, the Ø5 m bore</h3>
   <p>Payload scales with bore cross-section (diameter²): widening the Ø3.2 m payload bay to Ø5 m is a
@@ -514,7 +516,26 @@
   <p>For scale: the entire world placed roughly 1,900 t in orbit in 2024. Every figure in this section is two
   orders of magnitude past that, and bounded, in the end, not by the launchers but by how much power and how
   many orbital catch-points can be built to absorb the mass.</p>
-  <div class="stamp">PURE THEORETICAL SCALING, REQUIRES TECHNOLOGY MATURATION BEYOND 2026, NOT A BUILD PLAN, NOT FOR CONSTRUCTION</div>
+  <div class="stamp">PURE THEORETICAL BRONTE SCALING, REQUIRES TECHNOLOGY MATURATION BEYOND 2026, NOT A BUILD PLAN, NOT FOR CONSTRUCTION</div>
+
+  <h3>10.2 SELENE (Moon): track length and solar power scaling</h3>
+  <p class="lede">SELENE scales on completely different axes from BRONTE. There is no bore limit, no plasma window, no tunnel, no underground rock mechanics. The track lays on regolith. The scaling dials are (1) track length, which sets exit speed, and (2) installed solar power, which sets annual tonnage.</p>
+  <div class="call"><b>The one rule that governs all SELENE scaling: solar power sets the tonnage; track length sets the destination.</b> Energy per kilogram is fixed by exit speed. More panels = more shots = more mass exported. A longer track at the same g-load delivers the same tonnage per megawatt as a shorter one if the exit speed is the same, but it enables gentler g-loads for crew or fragile cargo.</div>
+  <div class="math"><b>SELENE throughput rule</b> (escape speed, 84% wall-plug efficiency, 90% south-pole illumination):<br>
+  Wall-plug energy: E = ½v² / η = ½ × 2,385² / 0.84 = 3.384 × 10⁶ J/kg = <b>0.940 kWh/kg</b><br>
+  Annual solar energy: P × 8,760 h × 0.90 = P × 7,884 MWh per installed MW<br>
+  Annual throughput: 7,884 MWh/MW ÷ 0.940 kWh/kg = <b>~8,390 t per MW of solar installed per year</b><br>
+  Phase 3 direct cislunar (4.2 km/s): E = ½ × 4,200² / 0.84 = 10.5 MJ/kg = 2.917 kWh/kg ⇒ <b>~2,700 t/MW·yr</b></div>
+  <table>
+    <tr><th>Solar array</th><th>Escape-speed throughput (phases 1b/2/5)</th><th>Direct cislunar, 4.2 km/s (phase 3)</th><th>Context</th></tr>
+    <tr><td>8.7 MW <span class="meta">(SJSU Phase 1 baseline)</span></td><td>~73,000 t/yr</td><td>~24,000 t/yr</td><td>38× global 2024 orbital mass, from a 2.9 km track</td></tr>
+    <tr><td>10 MW</td><td>~84,000 t/yr</td><td>~27,000 t/yr</td><td>comparable to a small photovoltaic farm</td></tr>
+    <tr><td>50 MW</td><td>~420,000 t/yr</td><td>~135,000 t/yr</td><td>supplies a serious cislunar propellant depot</td></tr>
+    <tr><td>100 MW</td><td>~840,000 t/yr</td><td>~270,000 t/yr</td><td>closes the cislunar economy independently</td></tr>
+  </table>
+  <p class="meta">South-pole illumination 90% annual average (Gläser et al. 2014, LRO/LOLA). Wall-plug efficiency 84% (see §13). Escape speed 2.385 km/s. Phase 3 exit 4.2 km/s (30 km, 30 g). Figures are peak capacity; actual throughput depends on payload loading cadence.</p>
+  <p><b class="k">Track length is the exit-speed dial, not the tonnage dial.</b> The five phases (detailed in §1) cover 2.9 km to 96 km. Every phase uses the same REBCO stator ring and cryo circuit, only the track is longer. There is no bore, no plasma window, no tunnelling machine. The SJSU Phase 1b machine at 8.7 MW already outperforms all of 2024 human spaceflight by volume, from a 2.9 km aluminium-on-regolith track. The SELENE scaling story is simply: more solar panels, same track.</p>
+  <div class="stamp">PURE THEORETICAL SELENE SCALING, REQUIRES SOUTH-POLE SITE DEVELOPMENT, NOT A BUILD PLAN</div>
 </div>
 
 <!-- 11 ZERO NEW PHYSICS -->
