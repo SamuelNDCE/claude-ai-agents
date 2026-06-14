@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SELENE — Bore Diameter Cost Analysis</title>
+<style>
+  :root {
+    --navy: #0a0d18;
+    --navy2: #10142a;
+    --navy3: #161b35;
+    --teal: #22d3ee;
+    --teal-dim: #0e9ab0;
+    --teal-faint: #0d3a44;
+    --purple: #7c3aed;
+    --purple-dim: #5b21b6;
+    --purple-faint: #1e1040;
+    --amber: #f59e0b;
+    --amber-faint: #2d1f00;
+    --green: #10b981;
+    --green-faint: #052b1a;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-faint: #475569;
+    --border: #1e293b;
+    --border-bright: #334155;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 40px 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* --- Header --- */
+  .doc-header {
+    border-bottom: 1px solid var(--border-bright);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+  .doc-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #f1f5f9;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .doc-subtitle {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 680px;
+  }
+  .doc-meta {
+    margin-top: 18px;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+  .doc-meta span { color: var(--text-dim); }
+
+  /* --- Section headers --- */
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--teal);
+    margin: 48px 0 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--teal-faint);
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin: 28px 0 12px;
+  }
+
+  /* --- Callout boxes --- */
+  .callout {
+    border-left: 3px solid var(--teal);
+    background: var(--navy2);
+    padding: 16px 20px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.amber { border-left-color: var(--amber); }
+  .callout.purple { border-left-color: var(--purple); }
+  .callout.green { border-left-color: var(--green); }
+  .callout-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout.amber .callout-label { color: var(--amber); }
+  .callout .callout-label { color: var(--teal); }
+  .callout.purple .callout-label { color: var(--purple); }
+  .callout.green .callout-label { color: var(--green); }
+  .callout p { color: var(--text-dim); font-size: 14px; line-height: 1.7; }
+  .callout p + p { margin-top: 8px; }
+
+  /* --- Math block --- */
+  .math-block {
+    background: #080b16;
+    border: 1px solid var(--border-bright);
+    border-radius: 6px;
+    padding: 18px 22px;
+    font-family: 'Cascadia Code', 'Fira Mono', 'Consolas', monospace;
+    font-size: 13px;
+    color: #a5f3fc;
+    margin: 18px 0;
+    line-height: 1.9;
+  }
+  .math-block .comment { color: var(--text-faint); font-style: italic; }
+  .math-block .result { color: var(--teal); font-weight: 600; }
+
+  /* --- Tables --- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 14px;
+  }
+  th {
+    background: var(--navy3);
+    color: var(--text-dim);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-bright);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; font-family: 'Cascadia Code', monospace; font-size: 13px; }
+  .teal { color: var(--teal); }
+  .amber { color: var(--amber); }
+  .purple { color: var(--purple); }
+  .green { color: var(--green); }
+  .dim { color: var(--text-faint); }
+  .bold { font-weight: 600; }
+
+  /* --- Bore comparison cards --- */
+  .bore-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .bore-card {
+    background: var(--navy2);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 22px;
+  }
+  .bore-card.recommended {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 1px var(--teal-faint);
+  }
+  .bore-card.future {
+    border-color: var(--purple);
+  }
+  .bore-badge {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .badge-best { background: var(--teal-faint); color: var(--teal); }
+  .badge-sweet { background: var(--teal-faint); color: var(--teal); }
+  .badge-future { background: var(--purple-faint); color: var(--purple); }
+  .bore-diameter {
+    font-size: 36px;
+    font-weight: 700;
+    color: #f1f5f9;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .bore-label { font-size: 12px; color: var(--text-faint); margin-bottom: 18px; }
+  .bore-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .bore-stat:last-child { border-bottom: none; }
+  .bore-stat-label { color: var(--text-dim); }
+  .bore-stat-value { font-family: 'Cascadia Code', monospace; font-size: 13px; }
+  .bore-total {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-bright);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .bore-total-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+  .bore-total-value { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+
+  /* --- Summary metric row --- */
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .metric-card {
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .metric-card-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .metric-card-value { font-size: 20px; font-weight: 600; color: var(--teal); }
+  .metric-card-unit { font-size: 11px; color: var(--text-faint); margin-top: 3px; }
+
+  /* --- Verdict box --- */
+  .verdict {
+    background: var(--green-faint);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+  .verdict-title { font-size: 13px; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
+  .verdict p { color: var(--text-dim); font-size: 14px; line-height: 1.75; }
+  .verdict p + p { margin-top: 10px; }
+
+  /* --- Footer --- */
+  .doc-footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-faint);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* --- Section divider --- */
+  .section-stamp {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border: 1px solid var(--border-bright);
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+
+  p { margin: 10px 0; color: var(--text-dim); line-height: 1.75; }
+  strong { color: var(--text); font-weight: 600; }
+  ul { margin: 10px 0 10px 24px; color: var(--text-dim); font-size: 14px; line-height: 1.8; }
+  li + li { margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-label">KERAUNOS — SELENE Annex C</div>
+  <h1>SELENE Bore Diameter Cost Analysis</h1>
+  <p class="doc-subtitle">First-principles cost estimate for a Phase 1b (2.9 km, escape speed) lunar electromagnetic launcher at three payload bore sizes: 1 m, 2 m, and 3 m diameter.</p>
+  <div class="doc-meta">
+    <div>Date: <span>2026-06-14</span></div>
+    <div>System: <span>SELENE (Moon, south pole)</span></div>
+    <div>Baseline: <span>SJSU Phase 1b, 8.7 MW solar</span></div>
+    <div>Accuracy: <span>Order-of-magnitude (±50%)</span></div>
+  </div>
+</div>
+
+<!-- ===================== ASSUMPTIONS ===================== -->
+<h2>1. Assumptions and Scope</h2>
+
+<div class="callout amber">
+  <div class="callout-label">Important caveat</div>
+  <p>These are first-principles engineering estimates, not a formal cost study. Uncertainty band is roughly 0.5× to 2× on any individual line item, and 0.6× to 1.8× on the total. No contingency reserve is included. A credible feasibility study would add 30-50% contingency on top of the mid estimates below.</p>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+      <th>Basis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Track length</td><td class="num">2.9 km</td><td>SJSU Phase 1b baseline</td></tr>
+    <tr><td>Exit velocity</td><td class="num">2.385 km/s</td><td>Lunar escape: v = √(2gR) where g = 1.62 m/s²</td></tr>
+    <tr><td>Wall-plug efficiency</td><td class="num">84%</td><td>LSA literature, capacitor-discharge coilgun</td></tr>
+    <tr><td>South-pole solar illumination</td><td class="num">90%</td><td>Shackleton Crater ridgeline, measured by LROC</td></tr>
+    <tr><td>Solar array specific mass</td><td class="num">5 kg/kW</td><td>Near-term thin-film PV (2030s)</td></tr>
+    <tr><td>Starship lunar delivery cost</td><td class="num">$2,000/kg</td><td>Mid-case (range: $500 aggressive, $5,000 conservative)</td></tr>
+    <tr><td>REBCO tape price</td><td class="num">$100/m</td><td>Mid-case (range: $50/m volume order, $200/m today)</td></tr>
+    <tr><td>Stator ring spacing</td><td class="num">0.6 m</td><td>SELENE concept design</td></tr>
+    <tr><td>REBCO turns per ring</td><td class="num">50</td><td>Concept design, adjusted for field requirements</td></tr>
+    <tr><td>Payload pod length</td><td class="num">2 m</td><td>All bore sizes</td></tr>
+    <tr><td>Bulk packing density</td><td class="num">500 kg/m³</td><td>Regolith ice pellets, loose pack</td></tr>
+    <tr><td>Lunar resource fraction</td><td class="num">~30-40%</td><td>Track berms, shielding, structural fill from in-situ regolith</td></tr>
+  </tbody>
+</table>
+
+<!-- ===================== PHYSICS ===================== -->
+<h2>2. Physics Baseline (all bore sizes)</h2>
+
+<p>The Phase 1b system is <strong>power-limited, not bore-limited</strong> when launching bulk mass at escape speed. Annual throughput is set by solar power, not by how wide the tube is. Bore diameter determines shot mass and market reach, not tonnes-per-year for bulk.</p>
+
+<div class="math-block">
+<span class="comment">-- Wall-plug energy per kg at escape speed --</span>
+E = v² / (2 × η)    = 2,385² / (2 × 3.6×10⁶ × 0.84)
+                    = <span class="result">0.941 kWh/kg</span>
+
+<span class="comment">-- Annual energy per installed MW (south-pole site) --</span>
+E_yr = 8,760 h × 0.90 illumination = <span class="result">7,884 MWh/MW/yr</span>
+
+<span class="comment">-- Throughput rule --</span>
+T = E_yr / E_shot   = 7,884,000 kWh ÷ 0.941 kWh/kg
+                    = <span class="result">8,378 t/MW/yr  at escape speed</span>
+                    = <span class="result">2,706 t/MW/yr  at 4.2 km/s (Phase 3)</span>
+
+<span class="comment">-- SJSU Phase 1b: 8.7 MW, 25.4 kg buckets, 10 s cadence --</span>
+shots/yr = 7,884 h × 3,600 s/h × 0.90 / 10 s = 2.84 M shots/yr
+mass/yr  = 2.84 × 10⁶ × 25.4 kg              = <span class="result">~72,000 t/yr  (all bore sizes equal at bulk)</span>
+</div>
+
+<div class="metric-row">
+  <div class="metric-card">
+    <div class="metric-card-label">Throughput rule</div>
+    <div class="metric-card-value">8,378 t</div>
+    <div class="metric-card-unit">per MW per year at escape</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-card-label">Phase 1b annual (8.7 MW)</div>
+    <div class="metric-card-value">~72,000 t</div>
+    <div class="metric-card-unit">bulk mass per year</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-card-label">Stator rings (2.9 km)</div>
+    <div class="metric-card-value">4,833</div>
+    <div class="metric-card-unit">@ 0.6 m spacing</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-card-label">Wall-plug energy</div>
+    <div class="metric-card-value">0.941 kWh</div>
+    <div class="metric-card-unit">per kg to escape speed</div>
+  </div>
+</div>
+
+<!-- ===================== BORE COMPARISON ===================== -->
+<h2>3. Bore Diameter Comparison</h2>
+
+<p>REBCO superconductor mass scales with ring circumference (not area). Payload capacity scales with bore area. The larger the bore, the more REBCO tape per ring, but the dramatically higher payload per shot makes it worthwhile once you need packaged cargo.</p>
+
+<div class="math-block">
+<span class="comment">-- For each bore, outer radius = bore/2 + 0.35 m wall --</span>
+<span class="comment">-- Tape per ring = circumference × 50 turns --</span>
+<span class="comment">-- Total tape = tape/ring × 4,833 rings --</span>
+<span class="comment">-- Payload vol = π × (bore/2)² × 2 m pod length --</span>
+
+Ø1 m:  outer_r = 0.85 m, circ = 5.34 m, tape/ring =  267 m → total  1,291 km, mass 3.1 t
+Ø2 m:  outer_r = 1.35 m, circ = 8.48 m, tape/ring =  424 m → total  2,050 km, mass 4.9 t
+Ø3 m:  outer_r = 1.85 m, circ = 11.62 m, tape/ring = 581 m → total  2,809 km, mass 6.7 t
+
+Payload (500 kg/m³, 2 m pod):
+Ø1 m:  π × 0.5² × 2 × 500  =    <span class="result">785 kg per shot</span>
+Ø2 m:  π × 1.0² × 2 × 500  =  <span class="result">3,142 kg per shot</span>
+Ø3 m:  π × 1.5² × 2 × 500  =  <span class="result">7,069 kg per shot</span>
+</div>
+
+<div class="bore-grid">
+
+  <!-- Ø1 m -->
+  <div class="bore-card">
+    <div class="bore-badge badge-best">Short-term winner</div>
+    <div class="bore-diameter">Ø 1 m</div>
+    <div class="bore-label">Bulk minerals / propellant pellets</div>
+
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO tape</span>
+      <span class="bore-stat-value teal">1,291 km</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO mass</span>
+      <span class="bore-stat-value">3.1 t</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO cost (@$100/m)</span>
+      <span class="bore-stat-value">$129M</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO delivery</span>
+      <span class="bore-stat-value dim">$6M</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Payload per shot</span>
+      <span class="bore-stat-value teal">785 kg</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Cargo type enabled</span>
+      <span class="bore-stat-value">bulk only</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Annual throughput</span>
+      <span class="bore-stat-value teal">~72,000 t/yr</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Variable build cost</span>
+      <span class="bore-stat-value">$235M</span>
+    </div>
+
+    <div class="bore-total">
+      <span class="bore-total-label">Total (mid)</span>
+      <span class="bore-total-value">$2.7B</span>
+    </div>
+  </div>
+
+  <!-- Ø2 m -->
+  <div class="bore-card recommended">
+    <div class="bore-badge badge-sweet">Long-term sweet spot</div>
+    <div class="bore-diameter">Ø 2 m</div>
+    <div class="bore-label">Packaged cargo + bulk</div>
+
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO tape</span>
+      <span class="bore-stat-value teal">2,050 km</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO mass</span>
+      <span class="bore-stat-value">4.9 t</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO cost (@$100/m)</span>
+      <span class="bore-stat-value">$205M</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO delivery</span>
+      <span class="bore-stat-value dim">$10M</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Payload per shot</span>
+      <span class="bore-stat-value teal">3,142 kg</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Cargo type enabled</span>
+      <span class="bore-stat-value">bulk + packaged</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Annual throughput</span>
+      <span class="bore-stat-value teal">~72,000 t/yr</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Variable build cost</span>
+      <span class="bore-stat-value">$375M</span>
+    </div>
+
+    <div class="bore-total">
+      <span class="bore-total-label">Total (mid)</span>
+      <span class="bore-total-value">$2.9B</span>
+    </div>
+  </div>
+
+  <!-- Ø3 m -->
+  <div class="bore-card future">
+    <div class="bore-badge badge-future">Phase 3 upgrade</div>
+    <div class="bore-diameter">Ø 3 m</div>
+    <div class="bore-label">Large cargo + equipment</div>
+
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO tape</span>
+      <span class="bore-stat-value purple">2,809 km</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO mass</span>
+      <span class="bore-stat-value">6.7 t</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO cost (@$100/m)</span>
+      <span class="bore-stat-value">$281M</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">REBCO delivery</span>
+      <span class="bore-stat-value dim">$13M</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Payload per shot</span>
+      <span class="bore-stat-value purple">7,069 kg</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Cargo type enabled</span>
+      <span class="bore-stat-value">bulk + full modules</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Annual throughput</span>
+      <span class="bore-stat-value purple">~72,000 t/yr</span>
+    </div>
+    <div class="bore-stat">
+      <span class="bore-stat-label">Variable build cost</span>
+      <span class="bore-stat-value">$534M</span>
+    </div>
+
+    <div class="bore-total">
+      <span class="bore-total-label">Total (mid)</span>
+      <span class="bore-total-value">$3.0B</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== COST BREAKDOWN ===================== -->
+<h2>4. Full Build Cost Breakdown</h2>
+
+<p>Fixed costs are identical for all three bore sizes. Variable costs differ only in REBCO, track structure, and pod fleet. Solar arrays, cryogenic plant, robots, and electronics are unchanged.</p>
+
+<h3>Fixed costs (all bore sizes)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:38%">Category</th>
+      <th class="num" style="width:12%">Mass (t)</th>
+      <th class="num" style="width:18%">Low ($M)</th>
+      <th class="num" style="width:18%">Mid ($M)</th>
+      <th class="num" style="width:14%">High ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>R&amp;D, design, Earth testing</td>
+      <td class="num dim">—</td>
+      <td class="num">400</td>
+      <td class="num teal">900</td>
+      <td class="num">2,000</td>
+    </tr>
+    <tr>
+      <td>Solar arrays (8.7 MW, thin-film, 43.5 t)<br><span class="dim" style="font-size:12px">manufacture $26M + delivery $87M</span></td>
+      <td class="num">43.5</td>
+      <td class="num">100</td>
+      <td class="num teal">113</td>
+      <td class="num">200</td>
+    </tr>
+    <tr>
+      <td>Cryogenic plant (20 K system, ~15 t)<br><span class="dim" style="font-size:12px">liquid helium production + storage</span></td>
+      <td class="num">15</td>
+      <td class="num">100</td>
+      <td class="num teal">130</td>
+      <td class="num">280</td>
+    </tr>
+    <tr>
+      <td>Construction robots (regolith graders, ~20 t)<br><span class="dim" style="font-size:12px">autonomous track-laying, alignment</span></td>
+      <td class="num">20</td>
+      <td class="num">400</td>
+      <td class="num teal">540</td>
+      <td class="num">1,200</td>
+    </tr>
+    <tr>
+      <td>Power storage (batteries / supercaps, ~30 t)<br><span class="dim" style="font-size:12px">burst delivery for launch pulses</span></td>
+      <td class="num">30</td>
+      <td class="num">100</td>
+      <td class="num teal">160</td>
+      <td class="num">400</td>
+    </tr>
+    <tr>
+      <td>Electronics, sensors, comms</td>
+      <td class="num dim">~10</td>
+      <td class="num">150</td>
+      <td class="num teal">250</td>
+      <td class="num">500</td>
+    </tr>
+    <tr>
+      <td>Earth qualification test (scaled prototype)</td>
+      <td class="num dim">—</td>
+      <td class="num">100</td>
+      <td class="num teal">150</td>
+      <td class="num">300</td>
+    </tr>
+    <tr>
+      <td>Mission operations (10-year runway)</td>
+      <td class="num dim">—</td>
+      <td class="num">150</td>
+      <td class="num teal">250</td>
+      <td class="num">500</td>
+    </tr>
+    <tr style="background: var(--navy3);">
+      <td class="bold">Fixed total</td>
+      <td class="num bold">~118.5 t</td>
+      <td class="num bold">1,500</td>
+      <td class="num bold teal">2,493</td>
+      <td class="num bold">5,380</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Variable costs by bore</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:34%">Category</th>
+      <th class="num" style="width:22%">Ø 1 m ($M)</th>
+      <th class="num" style="width:22%">Ø 2 m ($M)</th>
+      <th class="num" style="width:22%">Ø 3 m ($M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>REBCO tape (@$100/m mid)</td>
+      <td class="num">129</td>
+      <td class="num">205</td>
+      <td class="num">281</td>
+    </tr>
+    <tr>
+      <td>REBCO delivery to Moon (@$2k/kg)</td>
+      <td class="num">6</td>
+      <td class="num">10</td>
+      <td class="num">13</td>
+    </tr>
+    <tr>
+      <td>Track structure, guides, alignment</td>
+      <td class="num">60</td>
+      <td class="num">90</td>
+      <td class="num">130</td>
+    </tr>
+    <tr>
+      <td>Pod / bucket fleet (5-10 units)</td>
+      <td class="num">40</td>
+      <td class="num">70</td>
+      <td class="num">110</td>
+    </tr>
+    <tr style="background: var(--navy3);">
+      <td class="bold">Variable total (mid)</td>
+      <td class="num bold teal">235</td>
+      <td class="num bold teal">375</td>
+      <td class="num bold purple">534</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Total build cost (all scenarios)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th class="num">Ø 1 m</th>
+      <th class="num">Ø 2 m</th>
+      <th class="num">Ø 3 m</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Low (aggressive commercial, bulk REBCO pricing)</td>
+      <td class="num">$1.7B</td>
+      <td class="num">$1.9B</td>
+      <td class="num">$2.0B</td>
+    </tr>
+    <tr>
+      <td class="bold">Mid (realistic 2030s scenario)</td>
+      <td class="num bold teal">$2.7B</td>
+      <td class="num bold teal">$2.9B</td>
+      <td class="num bold purple">$3.0B</td>
+    </tr>
+    <tr>
+      <td>High (government program, no cost competition)</td>
+      <td class="num">$5.6B</td>
+      <td class="num">$5.8B</td>
+      <td class="num">$5.9B</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="callout-label">Key takeaway</div>
+  <p>The three bore options differ by only $200-300M in total build cost. The REBCO premium for going from Ø1 m to Ø3 m is $152M (mid), roughly 5% of total project cost. Bore choice barely moves the budget needle. What changes is what markets you can serve.</p>
+</div>
+
+<!-- ===================== UNIT ECONOMICS ===================== -->
+<h2>5. Unit Economics: Cost per Kilogram Launched</h2>
+
+<p>At 72,000 t/yr and a 10-year operating life, the system launches 720 million kg of bulk material. The amortized cost per kg is the metric that matters for competitiveness against rockets.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cost scenario</th>
+      <th class="num">Ø 1 m</th>
+      <th class="num">Ø 2 m</th>
+      <th class="num">Ø 3 m</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Low ($1.7–2.0B / 720 Mt)</td>
+      <td class="num green">$2.36/kg</td>
+      <td class="num green">$2.64/kg</td>
+      <td class="num green">$2.78/kg</td>
+    </tr>
+    <tr>
+      <td class="bold">Mid ($2.7–3.0B / 720 Mt)</td>
+      <td class="num bold teal">$3.75/kg</td>
+      <td class="num bold teal">$4.03/kg</td>
+      <td class="num bold teal">$4.17/kg</td>
+    </tr>
+    <tr>
+      <td>High ($5.6–5.9B / 720 Mt)</td>
+      <td class="num amber">$7.78/kg</td>
+      <td class="num amber">$8.06/kg</td>
+      <td class="num amber">$8.19/kg</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-top: 12px; border-top: 1px solid var(--border-bright);">
+        <span class="dim" style="font-size: 12px;">Comparison: Starship lunar delivery (2030s optimistic): $200-500/kg. Falcon 9 GTO: ~$3,000/kg. Apollo-era lunar surface: ~$1,000,000/kg (inflation adjusted).</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout green">
+  <div class="callout-label">The number that matters</div>
+  <p>At $3-8/kg amortized, SELENE undercuts Starship by 25x to 100x on bulk mass delivery to cislunar orbit. This advantage is structural, not incremental. The bore size changes this cost by less than 12% across all scenarios.</p>
+  <p>Put differently: the $152M premium to upgrade from Ø1 m to Ø3 m is recovered in less than three days of full-capacity operation at even $10/kg market pricing.</p>
+</div>
+
+<!-- ===================== WHAT BORE SIZE ACTUALLY CHANGES ===================== -->
+<h2>6. What Bore Size Actually Changes</h2>
+
+<p>Since throughput (tonnes/year) and unit cost ($/kg) are nearly identical across bore sizes, the real question is: <strong>what cargo categories does each bore unlock?</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:25%">Bore</th>
+      <th>Max payload per shot</th>
+      <th>Markets enabled</th>
+      <th>Markets excluded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="bold">Ø 1 m</td>
+      <td class="num">785 kg bulk</td>
+      <td style="font-size: 13px;">Regolith, water ice pellets, propellant feedstock, raw minerals, small compressed-gas tanks</td>
+      <td style="font-size: 13px; color: var(--text-faint);">Packaged cargo, electronics, habitat components, vehicles</td>
+    </tr>
+    <tr>
+      <td class="bold teal">Ø 2 m</td>
+      <td class="num teal">3,142 kg</td>
+      <td style="font-size: 13px;">All of above, plus: packaged cargo containers, small satellites, pressurized tanks, modular panels, food/consumables</td>
+      <td style="font-size: 13px; color: var(--text-faint);">Habitat modules &gt;2 m diameter, full rocket stages</td>
+    </tr>
+    <tr>
+      <td class="bold purple">Ø 3 m</td>
+      <td class="num purple">7,069 kg</td>
+      <td style="font-size: 13px;">All of above, plus: habitat end-caps, rover chassis, engine assemblies, structural truss segments</td>
+      <td style="font-size: 13px; color: var(--text-faint);">Items longer than 2 m</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout purple">
+  <div class="callout-label">The pod constraint</div>
+  <p>All bore sizes are limited to 2 m pod length in this baseline. A payload that is 3 m long will not fit in any of these configurations regardless of bore diameter. Track length governs exit speed; pod dimensions govern what fits. Both can be iterated independently.</p>
+</div>
+
+<!-- ===================== LUNAR RESOURCE SAVINGS ===================== -->
+<h2>7. Lunar Resource Utilization</h2>
+
+<p>In-situ resource utilization (ISRU) can reduce Starship delivery costs on a handful of categories, but the savings are smaller than often assumed at Phase 1b scale.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:30%">Component</th>
+      <th style="width:20%">ISRU feasible?</th>
+      <th>Savings potential</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Track berms, radiation shielding</td>
+      <td class="green">Yes, immediately</td>
+      <td>Replace 200-400 t of launched mass. At $2k/kg: <strong class="green">$400-800M saved</strong> vs equivalent Earth-sourced fill</td>
+    </tr>
+    <tr>
+      <td>Structural sintered regolith blocks</td>
+      <td class="green">Yes, near-term</td>
+      <td>10-20 t of track support structures. Saves ~$20-40M</td>
+    </tr>
+    <tr>
+      <td>Solar panel substrates</td>
+      <td class="amber">2040s+</td>
+      <td>Potentially $40-80M if lunar silicon PV matures; high development cost offset</td>
+    </tr>
+    <tr>
+      <td>Liquid oxygen propellant for Starship return</td>
+      <td class="teal">Yes, via electrolysis</td>
+      <td>Reduces Starship cost per flight by 30-50%; multiplier on every kg delivered</td>
+    </tr>
+    <tr>
+      <td>REBCO superconductors</td>
+      <td style="color: var(--red);">No</td>
+      <td>Requires rare-earth elements, precision ceramic coating, Earth manufacturing. Must be launched.</td>
+    </tr>
+    <tr>
+      <td>Electronics, power conversion</td>
+      <td style="color: var(--red);">No</td>
+      <td>Must be launched. Not ISRU-replaceable at Phase 1b.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The most leveraged ISRU investment is enabling Starship to refuel with lunar oxygen, reducing the effective delivery cost from $2,000/kg toward $800-1,200/kg. That multiplies across every launched component and is worth pursuing in parallel with the track build.</p>
+
+<!-- ===================== SENSITIVITY ANALYSIS ===================== -->
+<h2>8. Sensitivity Analysis</h2>
+
+<p>Three variables dominate the total cost. Everything else is noise at this order-of-magnitude stage.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>If optimistic</th>
+      <th>If pessimistic</th>
+      <th>Impact on total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Starship delivery cost</strong></td>
+      <td class="green">$500/kg</td>
+      <td style="color: var(--red);">$5,000/kg</td>
+      <td>Moves total by <strong>±$500M to ±$1.5B</strong> (118.5 t fixed mass)</td>
+    </tr>
+    <tr>
+      <td><strong>R&amp;D and construction robotics</strong></td>
+      <td class="green">$500M (commercial, Starship-era)</td>
+      <td style="color: var(--red);">$3,200M (ISS-era government)</td>
+      <td>Single largest uncertainty, <strong>swings ±$1.4B</strong></td>
+    </tr>
+    <tr>
+      <td><strong>REBCO tape price</strong></td>
+      <td class="green">$30/m (volume order)</td>
+      <td style="color: var(--red);">$200/m (current spot)</td>
+      <td>For Ø2 m: $62M vs $410M, <strong>±$175M swing</strong></td>
+    </tr>
+    <tr>
+      <td>Solar specific mass</td>
+      <td class="dim">3 kg/kW (advanced)</td>
+      <td class="dim">8 kg/kW (conservative)</td>
+      <td>Modest: ±$50-120M on delivery</td>
+    </tr>
+    <tr>
+      <td>Cryogenic plant mass</td>
+      <td class="dim">10 t (mature tech)</td>
+      <td class="dim">25 t (first deployment)</td>
+      <td>Minor: ±$30M on delivery</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================== RECOMMENDATION ===================== -->
+<h2>9. Recommendation</h2>
+
+<div class="verdict">
+  <div class="verdict-title">Verdict: Ø2 m is the right design choice</div>
+  <p><strong>Short-term (Phase 1b construction decision):</strong> build for Ø2 m from day one. The REBCO premium over Ø1 m is $76M (2.6% of total mid-case budget). The upgrade from Ø1 m to Ø2 m multiplies payload per shot by 4× and opens the packaged cargo market, which commands 5-20× higher revenue per tonne than bulk regolith. This premium pays back in hours of operation at market rates, not years.</p>
+  <p><strong>Long-term (Phase 3 upgrade):</strong> Ø3 m makes sense when the Phase 3 track reaches 30 km (4.2 km/s, beyond lunar escape) and the economy justifies moving large assembled units. At that stage the system redesign is substantial regardless of the initial bore choice, so building Ø3 m now provides minimal Phase 3 leverage. Design Ø2 m with structural margins that permit a future Ø3 m upgrade sleeve.</p>
+  <p><strong>Do not build Ø1 m unless budget is severely constrained below $2.0B.</strong> The $140M savings vs Ø2 m are real but the market ceiling is severe. Bulk water ice and regolith are a commodity; packaged cargo and propellant modules are a premium product. The system that gets built first will define the cislunar logistics market for decades. Build it with headroom.</p>
+</div>
+
+<h3>The cost argument in one sentence</h3>
+<p>At $2.9B (mid), a Ø2 m SELENE launches bulk mass to cislunar orbit at <strong>$4/kg amortized</strong> vs Starship's $200-2,000/kg. The bore diameter changes this by 12% at most. Build the right bore for the market, not the cheapest bore for the budget.</p>
+
+<!-- ===================== STARSHIP INTEGRATION ===================== -->
+<h2>10. Starship Delivery Strategy</h2>
+
+<p>A Phase 1b build requires approximately 119 tonnes of payload to the lunar surface (fixed mass only, before bore-specific components). At one Starship lunar lander mission per 100 t useful payload:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mission sequence</th>
+      <th class="num">Mass (t)</th>
+      <th class="num">Starship flights</th>
+      <th class="num">Est. cost (@$2k/kg)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Solar arrays + power storage</td>
+      <td class="num">73.5</td>
+      <td class="num">1</td>
+      <td class="num">$147M</td>
+    </tr>
+    <tr>
+      <td>Cryogenic plant + electronics</td>
+      <td class="num">25</td>
+      <td class="num">1</td>
+      <td class="num">$50M</td>
+    </tr>
+    <tr>
+      <td>Construction robots + tools</td>
+      <td class="num">20</td>
+      <td class="num">1</td>
+      <td class="num">$40M</td>
+    </tr>
+    <tr>
+      <td>REBCO + pods (Ø2 m)</td>
+      <td class="num">4.9 + ~2</td>
+      <td class="num">&lt;1 (co-manifested)</td>
+      <td class="num">$14M</td>
+    </tr>
+    <tr style="background: var(--navy3);">
+      <td class="bold">Total delivery (Ø2 m)</td>
+      <td class="num bold">~125.4 t</td>
+      <td class="num bold teal">~2-3 missions</td>
+      <td class="num bold teal">$251M</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>REBCO is extremely light for its value density (4.9 t for Ø2 m, at $215M in tape cost). It co-manifests easily on any mission and requires no special handling beyond temperature stability during transit. It is <em>not</em> the logistical challenge. The challenge is the cryogenic plant and the construction robots.</p>
+
+<!-- ===================== FOOTER ===================== -->
+<div class="doc-footer">
+  <div>KERAUNOS whitepaper — SELENE Annex C — Cost Analysis</div>
+  <div>Perpetual Technologies / SELENE Program</div>
+  <div>2026-06-14 — all figures ±50%, no formal study</div>
+</div>
+
+</body>
+</html>
