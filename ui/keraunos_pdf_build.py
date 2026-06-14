@@ -136,13 +136,15 @@ BRONTE_COVER = {"letter":"B", "title":"BRONTE, Chimborazo Design Map",
       "Panel E, External bridge section · ASTRAPE front view · ASTRAPE in the tube",
       "Charts, systems, route engineering, tunnel engineering"]}
 SELENE_COVER = {"letter":"A", "title":"SELENE, South Pole Design Map",
-    "id":"KER-SEL-TRK-002 · REV D · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
+    "id":"KER-SEL-TRK-002 · REV E · Ø3 m BORE · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
     "toc":[
       "Panel A, Site: real LRO/LOLA laser topography, Shackleton / Connecting Ridge ~89.7°S",
-      "Panel A2, Where on the Moon · what does not exist here · two machines (EOS-1 / EOS-2)",
-      "Panel B, EOS-1 open-track section: no tube, the Moon is the vacuum vessel",
+      "Panel A2, Where on the Moon · what does not exist here · EOS-3 machine specs (Ø3 m bore)",
+      "Panel B, EOS-3 open-track section: no tube, the Moon is the vacuum vessel (Ø3.0 m bore)",
       "Panel C, Side profile: the raised track on its regolith embankment (true 1:1)",
-      "Charts, track-length vs g, Δv destinations, ridge illumination, engineering"]}
+      "Panel D, Engineering charts: track length vs g, Δv destinations, ridge illumination, energy",
+      "Panel E, Return missions: direct Earth entry, satellite dispenser, cislunar depot supply",
+      "Panel F, Build cost summary (revised Ø3 m estimate, $2.0B–$2.5B mid-case)"]}
 
 def split_v2a():
     """Split keraunos-v2a.html at the Section-2 boundary so each design map sits with its
@@ -164,7 +166,7 @@ def main(only=None):
         "v2a_a":  (a_path, None, None),
         "v2a_b":  (b_path, None, None),
         "bronte": (os.path.join(HERE, "2026-06-12-bronte-chimborazo-routemap.html"), [0,1,2,3,4], BRONTE_COVER),
-        "selene": (os.path.join(HERE, "2026-06-12-selene-design-map.html"), [0,2,3], SELENE_COVER),
+        "selene": (os.path.join(HERE, "2026-06-12-selene-design-map.html"), [0,2,3,5], SELENE_COVER),
         "v2b":    (os.path.join(HERE, "keraunos-v2b.html"), None, None),
     }
     pdfs = {}

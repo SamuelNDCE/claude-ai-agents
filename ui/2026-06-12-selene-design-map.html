@@ -69,7 +69,7 @@
     <text x="936" y="48" font-size="12.5" font-weight="700" fill="#0e7490" class="t">EOS-3 · Ø3 m BORE · THE CHOSEN MACHINE</text>
     <g font-size="10.8" class="t">
       <text x="936" y="76" fill="#7c3aed" font-weight="700">PHASE 1b PoC: 2.9 km · POD Ø2.6 m · BORE Ø3.0 m · GAP 200 mm</text>
-      <text x="956" y="94" fill="#334155">7,069 kg BULK PER SHOT (500 kg/m³, 2 m POD) · 3,000–5,000 kg CARGO</text>
+      <text x="956" y="94" fill="#334155">7,069 kg BULK PER SHOT (14.1 m³ BAY @ 500 kg/m³) · 3,000–5,000 kg CARGO</text>
       <text x="956" y="110" fill="#334155">ENERGY 0.79 MWh/SHOT · PEAK ~2.37 GW · RECHARGE ~5 min @ 8.7 MW</text>
       <text x="956" y="126" fill="#334155">~100 SHOTS/HR BULK OR ~10 LARGE CARGO SHOTS/HR</text>
       <text x="936" y="152" fill="#0e7490" font-weight="700">THROUGHPUT: ~72,000 t/yr AT 8.7 MW (POWER-LIMITED, NOT BORE-LIMITED)</text>
@@ -118,11 +118,11 @@
   <path d="M 376,460 A 172,172 0 1 1 624,460" fill="none" stroke="#f59e0b" stroke-width="9"/>
   <!-- shield standoffs -->
   <g stroke="#64748b" stroke-width="3">
-    <line x1="344,298" x2="323,298"/>
-    <line x1="378,206" x2="363,191"/>
-    <line x1="500,166" x2="500,145"/>
-    <line x1="622,206" x2="637,191"/>
-    <line x1="656,298" x2="677,298"/>
+    <line x1="344" y1="298" x2="323" y2="298"/>
+    <line x1="378" y1="206" x2="363" y2="191"/>
+    <line x1="500" y1="166" x2="500" y2="145"/>
+    <line x1="622" y1="206" x2="637" y2="191"/>
+    <line x1="656" y1="298" x2="677" y2="298"/>
   </g>
   <!-- radiators on shield back -->
   <g fill="#cbd5e1" stroke="#475569" stroke-width="2">
@@ -206,7 +206,8 @@
   <line x1="352" y1="330" x2="312" y2="330" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/>
   <text x="490" y="140" text-anchor="end" font-size="9.5" fill="#94a3b8" class="t">r = 148 px = 1.85 m (RING OUTER)</text>
   <text x="308" y="326" text-anchor="end" font-size="9.5" fill="#94a3b8" class="t">r = 120 px = 1.50 m (BORE)</text>
-  <text x="800" y="710" font-size="10.5" fill="#8a7f6a" class="t">REGOLITH, ~250 K CONSTANT BELOW 2 m: NATURAL COLD BUFFER · RING OUTER DIAMETER: Ø3.70 m (BORE Ø3.0 m + 0.35 m WALL EACH SIDE)</text>
+  <text x="510" y="724" text-anchor="middle" font-size="10.5" fill="#8a7f6a" class="t">REGOLITH ~250 K CONSTANT BELOW 2 m: NATURAL COLD BUFFER</text>
+  <text x="510" y="740" text-anchor="middle" font-size="10.5" fill="#8a7f6a" class="t">RING OUTER Ø3.70 m (BORE Ø3.0 m + 0.35 m WALL EACH SIDE)</text>
 
   <!-- Right column: EOS-3 pod detail -->
   <g>
@@ -242,15 +243,15 @@
       <text x="1340" y="148" fill="#92400e">PICA SHIELD/DUST DOME</text>
       <!-- Config A -->
       <text x="1010" y="278" fill="#7c3aed" font-weight="700">CONFIG A — BULK CARGO:</text>
-      <text x="1010" y="292">PELLETS (REGOLITH/ICE/METAL), 7,069 kg @ 500 kg/m³ IN 2 m POD</text>
+      <text x="1010" y="292">PELLETS (REGOLITH/ICE/METAL): 7,069 kg = 14.1 m³ BAY @ 500 kg/m³</text>
       <!-- Config B -->
       <text x="1010" y="316" fill="#0e7490" font-weight="700">CONFIG B — PACKAGED CARGO:</text>
       <text x="1010" y="330">3 SWAP RACKS · PRESSURE VESSELS · MANUFACTURED GOODS</text>
       <text x="1010" y="344">~3,000–5,000 kg USEFUL LOAD · RCS FOR ORBIT TRIM</text>
       <!-- Config C -->
       <text x="1010" y="368" fill="#b45309" font-weight="700">CONFIG C — SATELLITE DISPENSER:</text>
-      <text x="1010" y="382">SAT STACK IN BAY 1–3 · DISPENSE AT 2.38 km/s AFTER RELEASE</text>
-      <text x="1010" y="396">ONBOARD KICK Δv 200–400 m/s → CISLUNAR ORBIT, L1/L2, GSO, LEO</text>
+      <text x="1010" y="382">~15–20 × 100 kg SMALLSATS IN Ø2.5 m × 2.9 m BAY · DISPENSE AFTER RELEASE</text>
+      <text x="1010" y="396">ONBOARD Δv: ~200 m/s LUNAR ORBIT/L1/L2 · ~800 m/s GEO · LEO NEEDS KICK STAGE</text>
       <text x="1010" y="414" fill="#9f1239">ALL 3 CONFIGS: SAME RING, SAME TRACK, SAME DEPARTURE SPEED</text>
       <text x="1010" y="430" fill="#64748b">HARDENED TO 100 g · ARTILLERY ELECTRONICS: 15,000–20,000 g QUAL</text>
       <text x="1010" y="446" fill="#64748b">PICA HEAT SHIELD: DUST DOME AT LAUNCH, ENTRY SHIELD AT EARTH</text>
@@ -337,8 +338,8 @@
 </svg>
 
 <h2 class="panel">PANEL D, ENGINEERING CHARTS: TRACK LENGTH · DESTINATIONS · ILLUMINATION · ENERGY</h2>
-<svg viewBox="0 0 1600 380" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
-  <rect x="4" y="4" width="1592" height="372" fill="none" stroke="#334155" stroke-width="2"/>
+<svg viewBox="0 0 1640 380" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="4" y="4" width="1632" height="372" fill="none" stroke="#334155" stroke-width="2"/>
 
   <!-- D1: track length vs acceleration -->
   <g>
@@ -435,13 +436,13 @@
       <rect x="185" y="200" width="50" height="48" fill="#7c3aed"/>
       <rect x="255" y="110" width="50" height="138" fill="#0e7490"/>
       <rect x="325" y="58" width="50" height="190" fill="#f59e0b"/>
-      <rect x="395" y="78" width="50" height="170" fill="#f43f5e"/>
+      <rect x="395" y="42" width="50" height="206" fill="#f43f5e"/>
       <g font-size="9" class="t" text-anchor="middle" fill="#e2e8f0">
         <text x="140" y="240">0.41</text>
         <text x="210" y="212">0.78</text>
         <text x="280" y="122">3.5</text>
         <text x="350" y="70">8.9</text>
-        <text x="420" y="90">7.4</text>
+        <text x="420" y="56">~14</text>
       </g>
       <g font-size="8" class="t" text-anchor="middle" fill="#64748b">
         <text x="140" y="264">MOON</text><text x="140" y="274">ORBIT</text>
@@ -531,7 +532,7 @@
     <text x="340" y="290" font-size="9" fill="#7c3aed" class="t">DIRECT TO</text>
     <text x="340" y="303" font-size="9" fill="#7c3aed" class="t">LUNAR ORBIT</text>
     <text x="36" y="340" font-size="9.5" fill="#334155" class="t">PHYSICS:</text>
-    <text x="36" y="356" font-size="9.5" fill="#334155" class="t">· POD CARRIES SAT STACK (3 BAYS, Ø2.5 m × ~4 m EACH)</text>
+    <text x="36" y="356" font-size="9.5" fill="#334155" class="t">· ~15–20 × 100 kg SMALLSATS IN Ø2.5 m × 2.9 m BAY (≤7 t)</text>
     <text x="36" y="372" font-size="9.5" fill="#334155" class="t">· SATS HARDENED TO 100 g (MILITARY ELECTRONICS: 20,000 g)</text>
     <text x="36" y="388" font-size="9.5" fill="#334155" class="t">· POD COAST 3 DAYS → RELEASES SAT STACK</text>
     <text x="36" y="404" font-size="9.5" fill="#334155" class="t">· SAT ONBOARD Δv 200–400 m/s → TARGETS FINAL ORBIT</text>
@@ -539,7 +540,7 @@
     <text x="36" y="436" font-size="9.5" fill="#334155" class="t">· LEO INSERT: ~3,100 m/s (NEEDS LARGER KICK STAGE)</text>
     <text x="36" y="460" font-size="9.5" fill="#0e7490" class="t">BEST FOR: LUNAR RELAY SATS, L1/L2 HALO HUBS,</text>
     <text x="36" y="476" font-size="9.5" fill="#0e7490" class="t">GEO COMMS, CISLUNAR LOGISTICS NODES</text>
-    <text x="36" y="492" font-size="9.5" fill="#9f1239" class="t">KEY: THE MOON BECOMES A SATELLITE LAUNCH PLATFORM AT $4/kg.</text>
+    <text x="36" y="492" font-size="9.5" fill="#9f1239" class="t">KEY: THE MOON BECOMES A SATELLITE LAUNCH PLATFORM AT ~$3.50/kg.</text>
   </g>
 
   <!-- E3: Cislunar propellant delivery -->
@@ -575,7 +576,7 @@
     <text x="36" y="428" font-size="9.5" fill="#334155" class="t">  TARGETS THE DEPOT DIRECTLY</text>
     <text x="36" y="444" font-size="9.5" fill="#334155" class="t">· POD DOCKS OR DEPOT CATCHES WITH BERTHING ARM</text>
     <text x="36" y="460" font-size="9.5" fill="#334155" class="t">· PROPELLANT TRANSFER, POD RETURNED TO MOON</text>
-    <text x="36" y="476" font-size="9.5" fill="#0e7490" class="t">BEST FOR: LOX SUPPLY (~$4/kg), WATER, RADIATION</text>
+    <text x="36" y="476" font-size="9.5" fill="#0e7490" class="t">BEST FOR: LOX SUPPLY (~$3.50/kg), WATER, RADIATION</text>
     <text x="36" y="492" font-size="9.5" fill="#0e7490" class="t">SHIELDING PANELS, STRUCTURAL METAL INGOTS</text>
   </g>
 </svg>
@@ -618,8 +619,8 @@
   </g>
 
   <!-- F2: cost breakdown table + justifications -->
-  <g transform="translate(720,0)">
-    <rect x="20" y="24" width="860" height="320" fill="#fbfcfe" stroke="#94a3b8"/>
+  <g transform="translate(715,0)">
+    <rect x="20" y="24" width="850" height="320" fill="#fbfcfe" stroke="#94a3b8"/>
     <text x="450" y="48" text-anchor="middle" font-size="13" font-weight="700" fill="#0e7490" class="t">COST CATEGORY BREAKDOWN (MID-CASE, Ø3 m)</text>
     <g font-size="10.5" class="t" fill="#334155">
       <text x="40" y="74" font-weight="700" fill="#7c3aed">FIXED (ALL BORE SIZES)</text>
