@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>NeuralVault — Full System Architecture (one page)</title>
+<style>
+  :root{
+    --bg:#0a0d18; --panel:#0f1424; --panel2:#121a30; --card:#0e1322; --border:#1e2a44; --border2:#2b3a5e;
+    --text:#cdd6f4; --muted:#8b96b4; --dim:#6b769a;
+    --teal:#22d3ee; --purple:#7c3aed;
+    --app:#22d3ee; --agent:#a78bfa; --know:#38bdf8; --data:#60a5fa; --sec:#f472b6;
+    --core:#34d399; --ext:#f5b942; --sib:#c084fc; --actor:#e2e8f0; --stubc:#64748b;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:14px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif}
+  a{color:var(--teal);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code{font:12px ui-monospace,"Cascadia Code",monospace;color:#bfe6f5;background:#0c1426;
+    border:1px solid #1b2742;border-radius:4px;padding:0 4px}
+  h1,h2,h3,h4{margin:0}
+  header.top{padding:16px 24px;border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#0c1020,#0a0d18);position:sticky;top:0;z-index:30}
+  header.top h1{font-size:19px;font-weight:680}
+  header.top h1 b{color:var(--teal)}
+  header.top .meta{color:var(--muted);font-size:12px;margin-top:3px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  .tg{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:7px;border:1px solid var(--border);
+    background:var(--panel);color:var(--muted);cursor:pointer;user-select:none;display:inline-flex;gap:6px;align-items:center}
+  .tg .sw{width:18px;height:0;border-top-width:3px;border-top-style:solid;border-radius:2px}
+  .tg.off{opacity:.4}
+  .tg.act{color:#fff;border-color:var(--border2)}
+  .toolbar .spacer{flex:1}
+  .toolbar .note{color:var(--dim);font-size:11px}
+  /* jump nav */
+  .jump{display:flex;flex-wrap:wrap;gap:5px;padding:10px 24px;border-bottom:1px solid var(--border);background:#0b0f1c}
+  .jump a{font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+  .jump a:hover{color:#fff;border-color:var(--teal);text-decoration:none}
+  .jump a .d{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  section.block{padding:22px 24px;border-bottom:1px solid var(--border)}
+  section.block > h2{font-size:16px;margin-bottom:4px}
+  section.block > .sub{color:var(--muted);font-size:12.5px;margin-bottom:14px;max-width:980px}
+  /* graph */
+  .viewport{position:relative;height:660px;overflow:hidden;border:1px solid var(--border);border-radius:12px;
+    background:radial-gradient(circle at 28% 18%,rgba(34,211,238,.05),transparent 42%),
+    radial-gradient(circle at 82% 86%,rgba(124,58,237,.06),transparent 46%),#0b0f1c;cursor:grab}
+  .viewport.grab{cursor:grabbing}
+  .stage{position:absolute;top:0;left:0;transform-origin:0 0}
+  svg.edges{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+  svg.edges path{fill:none;stroke-width:1.4;opacity:.30;transition:opacity .12s,stroke-width .12s}
+  .e-dep{stroke:#38477a}
+  .e-io{stroke:#2f8f9e}
+  .e-stub{stroke:#5b6886;stroke-dasharray:6 5}
+  .e-sibling{stroke:#8b5fcf;stroke-dasharray:3 4;opacity:.5}
+  svg.edges path.hot{opacity:1!important;stroke-width:2.6}
+  svg.edges path.faded{opacity:.05!important}
+  .node{position:absolute;border:1.5px solid var(--border);border-radius:10px;background:var(--card);
+    padding:8px 10px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.4);transition:transform .1s,box-shadow .1s,opacity .12s}
+  .node:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.55)}
+  .node.faded{opacity:.22}
+  .node .t{font-weight:680;font-size:12.5px}
+  .node .s{font-size:10.5px;color:var(--muted);margin-top:1px;white-space:pre-line;line-height:1.35}
+  .node .badge{position:absolute;top:-8px;right:8px;font-size:8.5px;font-weight:800;letter-spacing:.4px;
+    padding:1px 6px;border-radius:999px;text-transform:uppercase}
+  .bg-stub{background:#26314f;color:#9fb0d6;border:1px dashed #46557e}
+  .bg-partial{background:#3a3026;color:#f3c98a;border:1px solid #6a5326}
+  .node.stub{border-style:dashed}
+  .g-actor{border-left:4px solid var(--actor)} .g-actor .t{color:var(--actor)}
+  .g-app{border-left:4px solid var(--app)} .g-app .t{color:var(--app)}
+  .g-agent{border-left:4px solid var(--agent)} .g-agent .t{color:var(--agent)}
+  .g-know{border-left:4px solid var(--know)} .g-know .t{color:var(--know)}
+  .g-data{border-left:4px solid var(--data)} .g-data .t{color:var(--data)}
+  .g-sec{border-left:4px solid var(--sec)} .g-sec .t{color:var(--sec)}
+  .g-core{border-left:4px solid var(--core)} .g-core .t{color:var(--core)}
+  .g-ext{border-left:4px solid var(--ext)} .g-ext .t{color:var(--ext)}
+  .g-sib{border-left:4px solid var(--sib);border-style:dashed} .g-sib .t{color:var(--sib)}
+  .zoombar{position:absolute;right:12px;bottom:12px;display:flex;gap:6px}
+  .zoombar button{width:32px;height:32px;border:1px solid var(--border);background:var(--panel);color:var(--text);
+    border-radius:8px;cursor:pointer;font-size:16px}
+  .zoombar button:hover{border-color:var(--teal)}
+  .hint{position:absolute;left:12px;bottom:12px;color:var(--dim);font-size:11px}
+  /* flows */
+  .flow{border:1px solid var(--border);border-radius:11px;background:var(--card);margin-bottom:14px;overflow:hidden}
+  .flow h3{font-size:13.5px;padding:11px 15px;background:var(--panel2);border-bottom:1px solid var(--border);
+    display:flex;gap:9px;align-items:center}
+  .flow h3 .pill{font-size:10px;color:#0a0d18;background:var(--teal);padding:1px 8px;border-radius:999px;font-weight:800}
+  .flow h3 .file{margin-left:auto;color:var(--dim);font:11px ui-monospace,monospace}
+  .flow.stub h3 .pill{background:var(--stubc);color:#fff}
+  .chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:13px 15px}
+  .step{font-size:11.5px;background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:5px 9px;max-width:260px}
+  .step b{color:var(--teal)}
+  .arrow{color:var(--dim);font-size:14px}
+  .flow .nb{padding:0 15px 13px;color:var(--muted);font-size:11.5px}
+  .flow .nb .alt{color:var(--ext)}
+  /* detail cards */
+  .cards{display:grid;grid-template-columns:1fr;gap:14px}
+  .card{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:0;overflow:hidden;scroll-margin-top:120px}
+  .card.flash{animation:fl 1.2s ease}
+  @keyframes fl{0%{box-shadow:0 0 0 2px var(--teal)}100%{box-shadow:0 0 0 0 transparent}}
+  .card .ch{display:flex;align-items:center;gap:10px;padding:13px 16px;background:var(--panel2);border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .card .ch .dot{width:11px;height:11px;border-radius:3px;flex:none}
+  .card .ch h3{font-size:15px}
+  .card .ch .kind{font-size:10.5px;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:1px 7px}
+  .card .ch .st{font-size:10px;font-weight:800;padding:2px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.4px}
+  .st-wired{background:rgba(52,211,153,.15);color:var(--core);border:1px solid rgba(52,211,153,.4)}
+  .st-partial{background:rgba(245,185,66,.13);color:var(--ext);border:1px solid rgba(245,185,66,.4)}
+  .st-stub{background:rgba(100,116,139,.18);color:#9fb0d6;border:1px dashed var(--stubc)}
+  .st-external{background:rgba(245,185,66,.10);color:var(--ext);border:1px solid rgba(245,185,66,.3)}
+  .st-sibling{background:rgba(192,132,252,.13);color:var(--sib);border:1px dashed var(--sib)}
+  .card .ch .path{font:11px ui-monospace,monospace;color:var(--dim)}
+  .card .ch .path::before{content:"";}
+  .card .bd{padding:14px 16px}
+  .rel{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:12px;font-size:11.5px;color:var(--muted)}
+  .rel .lbl{color:var(--dim);text-transform:uppercase;font-size:10px;letter-spacing:.5px;margin-right:2px}
+  .chip{display:inline-block;background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;color:#bcd8fc}
+  a.chip:hover{border-color:var(--teal);text-decoration:none;color:#fff}
+  .card .bd p{margin:8px 0;color:#c2ccea}
+  .card .bd h4{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--teal);margin:16px 0 6px;border-bottom:1px solid var(--border);padding-bottom:4px}
+  .card .bd h4:first-child{margin-top:0}
+  .card .bd ul{margin:6px 0;padding-left:18px}
+  .card .bd li{margin:4px 0;font-size:12.7px}
+  .card .bd .note{color:var(--muted);font-size:12px}
+  .tbl{width:100%;border-collapse:collapse;margin:8px 0;font-size:11.7px}
+  .tbl th,.tbl td{border:1px solid var(--border);padding:5px 8px;text-align:left;vertical-align:top}
+  .tbl th{background:var(--panel2);color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.3px}
+  .tbl td code{background:none;border:none;padding:0;color:#9fe0c0}
+  .tag{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:5px;text-transform:uppercase;letter-spacing:.3px;vertical-align:middle}
+  .tag.stub{background:#26314f;color:#9fb0d6} .tag.wired{background:rgba(52,211,153,.15);color:var(--core)}
+  .legend2{display:flex;flex-wrap:wrap;gap:13px;font-size:11px;color:var(--muted);margin-top:6px}
+  .legend2 .d{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
+  .twocol{columns:2;column-gap:22px}
+  @media(max-width:900px){.twocol{columns:1}}
+  .fieldgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:5px 14px;font-size:11.6px}
+  .fieldgrid .f code{color:#9fe0c0}
+  footer{padding:20px 24px;color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1><b>NeuralVault</b> — Full System Architecture <span style="color:var(--muted);font-weight:400">· one page · every part linked</span></h1>
+  <div class="meta">Rust workspace v0.9.0-beta · 11 library crates + 2 apps · ~6,300 symbols (GitNexus idx 9b61a15) · generated 2026-06-14. The library layer freezes contracts; the <b style="color:var(--app)">desktop app</b> is where most live logic runs. Stubs are tagged honestly.</div>
+  <div class="toolbar" id="toolbar">
+    <span class="tg act" data-k="dep"><i class="sw" style="border-top-color:#38477a"></i>Dependencies</span>
+    <span class="tg act" data-k="io"><i class="sw" style="border-top-color:#2f8f9e"></i>External I/O</span>
+    <span class="tg act" data-k="stub"><i class="sw" style="border-top-color:#5b6886;border-top-style:dashed"></i>Planned / stub</span>
+    <span class="tg act" data-k="sibling"><i class="sw" style="border-top-color:#8b5fcf;border-top-style:dashed"></i>Sibling</span>
+    <span class="spacer"></span>
+    <span class="note">scroll = zoom · drag = pan · click a box → jump to its full detail below</span>
+  </div>
+</header>
+
+<nav class="jump" id="jump"></nav>
+
+<section class="block">
+  <h2>Master map — everything, and how it connects</h2>
+  <div class="sub">One canvas. Every actor, external system, app, and crate, with all dependency and data-flow links. Click any box to scroll to its exhaustive breakdown. Hover to isolate its connections. Toggle link types above.</div>
+  <div class="viewport" id="vp">
+    <div class="stage" id="stage"><svg class="edges" id="edges"></svg></div>
+    <div class="hint" id="hint">tip: click a node to focus its links</div>
+    <div class="zoombar"><button id="zin">+</button><button id="zout">−</button><button id="zfit">⤢</button></div>
+  </div>
+  <div class="legend2">
+    <span><i class="d" style="background:var(--actor)"></i>actor</span>
+    <span><i class="d" style="background:var(--app)"></i>application</span>
+    <span><i class="d" style="background:var(--agent)"></i>agent runtime</span>
+    <span><i class="d" style="background:var(--know)"></i>knowledge / AI</span>
+    <span><i class="d" style="background:var(--data)"></i>data / IO</span>
+    <span><i class="d" style="background:var(--sec)"></i>security</span>
+    <span><i class="d" style="background:var(--core)"></i>foundation</span>
+    <span><i class="d" style="background:var(--ext)"></i>external system</span>
+    <span><i class="d" style="background:var(--sib)"></i>sibling project</span>
+  </div>
+</section>
+
+<section class="block">
+  <h2>Runtime flows — how work actually moves</h2>
+  <div class="sub">The sequences that run at launch and per message. Each step names the system it touches (verified against <code>app.rs</code>).</div>
+  <div id="flows"></div>
+</section>
+
+<section class="block">
+  <h2>Every part, in full</h2>
+  <div class="sub">One card per system: status, path, what depends on it and what it depends on (all clickable), and the complete public surface, types, enums, traits, functions, fields, and stubs.</div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<footer>
+  NeuralVault architecture — single-page edition. Generated from source at <code>C:\Users\Futur\Documents\AiWorkspace\NeuralVault</code>.
+  Mermaid source for the layered version lives beside this file. Siblings: <b>perpetual-site</b> ("Nice", same-org website) and <b>nv-claude-hooks</b> ("Hardup", vault bridge).
+</footer>
+
+<script>
+/* ============================ NODES ============================ */
+const NODES=[
+ // actors + externals (top band)
+ {id:"user",t:"User",s:"knowledge worker",g:"actor",st:"",x:40,y:24,w:150,h:50},
+ {id:"ollama",t:"Ollama",s:"local LLM\nchat + nomic-embed-text",g:"ext",st:"external",x:350,y:20,w:185,h:58},
+ {id:"cloud",t:"Cloud LLM APIs",s:"Anthropic · OpenAI · Groq\nDeepSeek · Mistral · xAI…",g:"ext",st:"external",x:560,y:20,w:185,h:58},
+ {id:"oacompat",t:"Local OpenAI-compat",s:"LM Studio · llama.cpp\nJan · Kobold · oobabooga",g:"ext",st:"external",x:770,y:20,w:185,h:58},
+ {id:"whisper",t:"whisper.cpp STT",s:"bundled · local\nspeech → text",g:"ext",st:"external",x:980,y:20,w:170,h:58},
+ {id:"screen",t:"Screen capture",s:"Cortex Vision",g:"ext",st:"external",x:1170,y:20,w:150,h:58},
+ {id:"site",t:"perpetual-site",s:"sibling «Nice»\nNext.js website",g:"sib",st:"sibling",x:1355,y:20,w:160,h:58},
+ // apps
+ {id:"desktop",t:"NeuralVault Desktop",s:"egui/eframe orchestrator · all 11 crates\n+ whisper-rs · cpal · screenshots · tokio",g:"app",st:"wired",x:470,y:150,w:430,h:92},
+ {id:"syncserver",t:"Sync Server",s:"relay · M1 stub",g:"app",st:"stub",x:1010,y:165,w:180,h:62},
+ {id:"hooks",t:"nv-claude-hooks",s:"sibling «Hardup»\nClaude Code ↔ vault",g:"sib",st:"sibling",x:1340,y:160,w:175,h:64},
+ // data store (center)
+ {id:"vaultdisk",t:"Vault on disk  +  .nv sidecar",s:".md notes · vectors.json · audit.log · chat/ · agents/ · tasks/board.md · backups/",g:"data",st:"external",x:430,y:330,w:520,h:64},
+ // crates
+ {id:"agents",t:"nv-agents",s:"agent runtime (apex)",g:"agent",st:"wired",x:470,y:455,w:200,h:56},
+ {id:"search",t:"nv-search",s:"hybrid index",g:"know",st:"wired",x:210,y:575,w:180,h:56},
+ {id:"memory",t:"nv-memory",s:"conversations",g:"know",st:"wired",x:470,y:575,w:170,h:56},
+ {id:"llm",t:"nv-llm",s:"LLM boundary",g:"know",st:"wired",x:710,y:575,w:175,h:56},
+ {id:"vault",t:"nv-vault",s:"on-disk vault",g:"data",st:"wired",x:210,y:700,w:170,h:56},
+ {id:"audit",t:"nv-audit",s:"append-only log",g:"sec",st:"wired",x:420,y:700,w:165,h:56},
+ {id:"import",t:"nv-import",s:"importers",g:"data",st:"stub",x:620,y:700,w:165,h:56},
+ {id:"sync",t:"nv-sync",s:"sync client",g:"data",st:"stub",x:820,y:700,w:160,h:56},
+ {id:"perms",t:"nv-permissions",s:"folder ACLs",g:"sec",st:"wired",x:1040,y:620,w:175,h:56},
+ {id:"auth",t:"nv-auth",s:"identity + license",g:"sec",st:"partial",x:1040,y:720,w:175,h:56},
+ {id:"core",t:"nv-core",s:"shared types · errors · palette  (zero internal deps)",g:"core",st:"wired",x:430,y:830,w:280,h:56},
+];
+/* ============================ EDGES ============================ */
+const E=[
+ // crate dependency graph (exact, from each Cargo.toml)
+ ["vault","core","dep"],["perms","core","dep"],["llm","core","dep"],
+ ["search","core","dep"],["search","vault","dep"],
+ ["audit","core","dep"],["audit","vault","dep"],
+ ["auth","core","dep"],["auth","perms","dep"],
+ ["memory","core","dep"],["memory","vault","dep"],["memory","llm","dep"],
+ ["agents","core","dep"],["agents","vault","dep"],["agents","llm","dep"],["agents","perms","dep"],["agents","audit","dep"],["agents","memory","dep"],
+ ["desktop","agents","dep"],["desktop","search","dep"],["desktop","memory","dep"],["desktop","llm","dep"],["desktop","vault","dep"],["desktop","auth","dep"],["desktop","perms","dep"],["desktop","audit","dep"],["desktop","core","dep"],
+ ["desktop","sync","stub"],["desktop","import","stub"],
+ ["syncserver","core","dep"],["syncserver","auth","dep"],["syncserver","audit","dep"],["syncserver","sync","stub"],
+ ["sync","core","stub"],["sync","vault","stub"],
+ ["import","core","stub"],["import","vault","stub"],
+ // external I/O + runtime
+ ["user","desktop","io"],
+ ["desktop","vaultdisk","io"],
+ ["desktop","ollama","io"],["desktop","cloud","io"],["desktop","oacompat","io"],
+ ["desktop","whisper","io"],["desktop","screen","io"],
+ ["hooks","vaultdisk","io"],
+ // stubs / siblings
+ ["desktop","syncserver","stub"],
+ ["user","site","sibling"],["site","desktop","sibling"],
+];
+/* ============================ FLOWS ============================ */
+const FLOWS=[
+ {id:"chat",t:"Chat message → RAG → tool loop",file:"app.rs nv_send / vault_context_for / maybe_run_tool_round",
+  steps:["User sends message","<b>vault_context_for</b>: embed query (Ollama nomic-embed-text, 600ms)","HybridIndex RRF (k=60) → top-5 notes","Prepend context + persona to prompt","Stream from chosen provider","Reply has TOOL{json}? execute ≤3 sandboxed+audited tools","Append TOOL_RESULT, re-ask (≤8 rounds)","Persist conversation to .nv/chat/"],
+  nb:"The flagship loop. <span class='alt'>On embed timeout it degrades to lexical-only and notifies once.</span> Plain NV chat runs as a synthetic all-tools agent (id \"nv\", Cortex, 16k budget)."},
+ {id:"embed",t:"Embed-at-launch (background)",file:"scheduler_tick step 0 + pump_embeddings",
+  steps:["First scheduler_tick (embed_rx == None)","Queue notes with no vector","tokio: embed each via Ollama over a channel","pump_embeddings drains ≤64 / frame","VectorIndex.insert(note_id, vec)","Save .nv/vectors.json every 25"],
+  nb:"Runs once per launch; only embeds what's new. A failed embed advances progress but stores nothing."},
+ {id:"resync",t:"Re-index on change (10s poll)",file:"app.rs update() / auto_sync",
+  steps:["Every 10s read folders + counts","Compute folder_signature","Changed? index.rebuild(vault)","Detect saved notes via mtime → map save-pulses"],
+  nb:"A timer poll, not a notify() file-watch. No-op when the note set is unchanged, so the live physics map isn't disturbed."},
+ {id:"providers",t:"Multi-provider streaming",file:"spawn_stream / spawn_anthropic_stream / spawn_cloud_stream",
+  steps:["Pick provider (ollama | anthropic | openai_compat | cloud)","Translate ChatMessages to provider wire format","Open stream → StreamEvent::Token…","pump_stream drains per frame → bubble","StreamEvent::Done → finalize + audit + trim"],
+  nb:"Beyond the Ollama-only router crate, the desktop streams from Anthropic, local OpenAI-compatible servers, and several clouds (Groq/DeepSeek/Mistral/OpenRouter/xAI/Google-compat)."},
+ {id:"sched",t:"scheduler_tick — 6 steps (≤ every 10s)",file:"app.rs scheduler_tick",
+  steps:["0 · background embedder","1 · board freshness (board.md mtime)","2 · vault backup every 6h","3 · cron wake-timers (per-agent)","4 · autonomous board runner (AI To Do → AI Doing)","5 · OnFileChange triggers (poll watched folders)"],
+  nb:"One heartbeat drives every autonomous behavior. Every job is audited; one LLM stream at a time."},
+ {id:"voice",t:"Voice push-to-talk",file:"voice.rs / start_voice_recording / pump_voice",
+  steps:["Hold key → cpal captures mic","Release → encode WAV / 16k mono","Local whisper.cpp OR OpenAI /audio/transcriptions","Optional AI polish (Ollama/OpenAI)","pump_voice → composer (auto-send)"],
+  nb:"Fully offline path available: whisper.cpp via whisper-rs (downloads a ggml model once) + polish through local Ollama."},
+ {id:"sync",t:"Multi-device sync",file:"nv-sync + apps/sync-server",stub:true,
+  steps:["Desktop SyncClient ⇢ relay","CRDT (yrs) delta exchange","Merge → other devices"],
+  nb:"Both ends are M1 stubs (SyncClient.connect is a no-op; server prints a banner). CRDT transport is a later milestone."},
+];
+/* ============================ DETAIL ============================ */
+const KIND={actor:"actor",app:"application",agent:"agent runtime",know:"knowledge / AI",data:"data / IO",sec:"security",core:"foundation",ext:"external system",sib:"sibling project"};
+const COLOR={actor:"--actor",app:"--app",agent:"--agent",know:"--know",data:"--data",sec:"--sec",core:"--core",ext:"--ext",sib:"--sib"};
+function xref(id,label){const n=NODES.find(x=>x.id===id);return '<a class="chip" href="#sys-'+id+'">'+(label||(n?n.t:id))+'</a>';}
+const D={
+ core:`<p>The dependency-light foundation every other crate builds on. Pure data + errors + the colour palette, no I/O.</p>
+  <h4>ids.rs — identifiers</h4><ul>
+   <li><code>struct NoteId(pub String)</code> — vault-relative path with <code>/</code> separators, includes the extension. <code>.as_str()</code>, <code>.folder() -> Option&lt;FolderId&gt;</code>, <code>Display</code>.</li>
+   <li><code>struct FolderId(pub String)</code> — vault-relative folder path, no trailing slash. <code>.as_str()</code>, <code>Display</code>.</li>
+   <li><code>type UserId = String</code>, <code>type AgentId = String</code>.</li></ul>
+  <h4>error.rs — the one shared error</h4><ul>
+   <li><code>enum NvError</code> (thiserror): <code>Io</code>, <code>Parse(String)</code>, <code>NotFound(String)</code>, <code>Llm(String)</code>, <code>Denied(String)</code>, <code>Other(anyhow::Error)</code>.</li>
+   <li><code>type Result&lt;T&gt; = std::result::Result&lt;T, NvError&gt;</code> — used everywhere.</li></ul>
+  <h4>palette.rs — approved dark theme</h4><ul>
+   <li><code>type Rgb = (u8,u8,u8)</code>; "Continuum" surface/text/accent constants (<code>BG</code>, <code>PANEL</code>, <code>CARD</code>, <code>ACCENT</code>=#60a5fa blue, <code>GREEN</code>, <code>ORANGE</code>, <code>PURPLE</code>, <code>VIOLET</code>, …).</li>
+   <li><code>folder_color_by_index(i)</code> — distinct hue per folder index (16-colour palette, wraps).</li>
+   <li><code>folder_color(name)</code> — keyword buckets (finance→green, tech→blue, health→teal…) then an <b>FNV-1a hash</b> fallback into the palette.</li></ul>`,
+
+ vault:`<p>The on-disk vault: folders, notes, YAML frontmatter, and the hidden <code>.nv</code> sidecar. The source of truth; everything else is derived state in the sidecar.</p>
+  <h4>vault.rs — the Vault handle</h4><ul>
+   <li><code>struct Vault { root: PathBuf }</code> — <code>open(root)</code> (canonicalizes), <code>root()</code>, <code>folders() -> Vec&lt;FolderInfo&gt;</code>, <code>list_notes(folder) -> Vec&lt;NoteId&gt;</code>, <code>read_note(id) -> Note</code>, <code>write_note(note)</code>, <code>sidecar() -> NvSidecar</code>.</li>
+   <li><code>struct Note { id, path, frontmatter: Frontmatter, body_md: String }</code></li>
+   <li><code>struct FolderInfo { id, display, note_count, locked }</code></li>
+   <li>Folder model: top-level dirs = company folders; <code>my-vault/*</code> = personal; <code>my-notes</code> &amp; <code>my-tasks</code> are <b>locked</b>.</li></ul>
+  <h4>frontmatter.rs</h4><ul>
+   <li><code>struct Frontmatter { title: Option&lt;String&gt;, tags: Vec&lt;String&gt;, created, updated, extra: Mapping }</code> — unknown keys preserved (<code>#[serde(flatten)]</code>) so round-trips never drop data.</li>
+   <li><code>parse(raw) -> (Frontmatter, body)</code> (CRLF-tolerant <code>---</code> block), <code>to_markdown(body)</code>.</li></ul>
+  <h4>sidecar.rs &amp; markdown.rs</h4><ul>
+   <li><code>struct NvSidecar { dir }</code> — <code>read_json</code> / <code>write_json</code> under <code>.nv/</code> (None when missing, pretty JSON out).</li>
+   <li><code>render_markdown_to_text(md)</code> — pulldown-cmark → plain text for search snippets and the map.</li></ul>`,
+
+ search:`<p>Search over the vault. Three modes fused into one ranked list. The crate stores and queries; the desktop supplies query embeddings.</p>
+  <h4>Contract</h4><ul>
+   <li><code>trait SearchIndex { rebuild(&amp;vault); query(&amp;Query) -> Vec&lt;SearchHit&gt; }</code></li>
+   <li><code>struct Query { text, folders: Vec&lt;FolderId&gt;, limit, mode: SearchMode }</code></li>
+   <li><code>struct SearchHit { note_id, title, snippet, score: f32 }</code></li>
+   <li><code>enum SearchMode { Lexical, Semantic, Hybrid }</code></li></ul>
+  <h4>LexicalIndex — TF-IDF</h4><ul>
+   <li>In-memory inverted index: <code>postings[term] = Vec&lt;(doc_idx, tf)&gt;</code>, <code>df[term]</code>.</li>
+   <li><code>tokenize</code>: lowercase, split non-alphanumeric, drop tokens &lt;2 chars + ~50 stopwords.</li>
+   <li>Scoring: <code>idf = ln(n / (1 + df))</code>, <code>tf_norm = tf / doc_len</code>, score += tf_norm·idf.</li>
+   <li>Notes split per ATX heading into sub-documents; <code>build_snippet</code> ~160-char window around first hit.</li></ul>
+  <h4>VectorIndex — cosine</h4><ul>
+   <li><code>HashMap&lt;String, Vec&lt;f32&gt;&gt;</code> persisted to <code>.nv/vectors.json</code> (arbitrary dimension — whatever the embedder emits).</li>
+   <li><code>insert</code>, <code>missing_ids(candidates)</code> (drives the incremental embed queue), <code>load/save_from/to_sidecar</code>, <code>query_vec(q_vec, limit)</code> (cosine, score&gt;0, default 20).</li></ul>
+  <h4>HybridIndex — RRF fusion</h4><ul>
+   <li><code>query_hybrid(q, q_vec)</code>: <b>Reciprocal Rank Fusion, k=60</b> over lexical + semantic lists; falls back to lexical if no vectors.</li>
+   <li><code>query_semantic(q_vec, limit)</code>; <code>rebuild</code> reloads vectors from the sidecar (no network).</li></ul>`,
+
+ llm:`<p>The LLM boundary. Frozen chat types + a fully-working Ollama client + a router. <span class="tag wired">wired</span> (the "M2" note in ollama.rs is stale — request bodies are implemented).</p>
+  <h4>types.rs</h4><ul>
+   <li><code>enum Role { System, User, Assistant }</code></li>
+   <li><code>struct ChatMessage { role, content, timestamp_secs, agent_id: Option&lt;String&gt; }</code> (serde — persisted in memory).</li>
+   <li><code>enum Backend { Ollama, Cloud }</code>; <code>struct CompletionRequest { model, messages, temperature }</code>.</li>
+   <li><code>enum StreamEvent { Token(String), Done, Error(String) }</code>.</li></ul>
+  <h4>ollama.rs — OllamaClient</h4><ul>
+   <li><code>{ base, http: reqwest::Client }</code> — connect 10s / request 120s timeouts.</li>
+   <li><code>chat_streaming</code> → <code>POST /api/chat</code> (stream:true, newline-delimited JSON → StreamEvents).</li>
+   <li><code>chat_blocking</code> → <code>/api/chat</code> (stream:false); <code>embeddings(model, text)</code> → <code>/api/embeddings</code>.</li></ul>
+  <h4>router.rs — LlmRouter</h4><ul>
+   <li><code>{ ollama: OllamaClient, default_model }</code> — <code>pick_backend</code> (M1 always Ollama), <code>complete</code>, <code>complete_streaming(tx)</code>, <code>embed(model, text)</code>.</li></ul>`,
+
+ memory:`<p>Persisted chat / agent conversations, stored as JSON in the vault sidecar.</p>
+  <h4>store.rs</h4><ul>
+   <li><code>struct Conversation { id, title, messages: Vec&lt;ChatMessage&gt; }</code></li>
+   <li><code>struct MemoryStore { sidecar: NvSidecar }</code> — <code>save</code> → <code>.nv/chat/&lt;id&gt;.json</code>, <code>load(id)</code> (NotFound if absent), <code>delete(id)</code>, <code>list()</code> (file stems).</li></ul>`,
+
+ agents:`<p>The agent runtime. Manifests, the runner, two built-ins, an 11-template catalogue, and a <b>real 20-tool sandbox</b>. The crate's <code>tick_all</code> is a no-op <span class="tag stub">stub</span> — execution is driven by the desktop's tool loop and scheduler instead.</p>
+  <h4>manifest.rs</h4><ul>
+   <li><code>enum Trigger { Manual, OnFileChange{folder}, Schedule{cron} }</code></li>
+   <li><code>struct AgentManifest { id, name, builtin, allowed_tools: Vec&lt;String&gt;, allowed_folders: Vec&lt;FolderId&gt;, token_budget, trigger, instructions }</code></li>
+   <li><code>enum AgentStatus { Running, Active, Idle, Paused }</code>; <code>struct AgentState { manifest, status, last_activity }</code>.</li></ul>
+  <h4>runner.rs</h4><ul>
+   <li><code>trait Agent { manifest(); tick(ctx) }</code>; <code>struct AgentContext&lt;'a&gt; { vault, llm, perms, audit }</code> — the per-tick capability bundle.</li>
+   <li><code>struct AgentRunner { agents }</code> — <code>with_builtins</code>, <code>load_custom</code>, <code>states()</code> (UI snapshot, honest <code>Idle</code>), <code>tick_all</code> (no-op).</li></ul>
+  <h4>builtins.rs</h4><ul>
+   <li><b>File Keeper</b> (<code>builtin.file-keeper</code>) — "vault graph architect": connection engine (links isolated notes, semantic clusters, bridges), maintenance, duplicate management (conservative / auto-merge / auto-remove), weekly digest.</li>
+   <li><b>Cortex</b> (<code>builtin.ai-manager</code>) — main assistant &amp; coordinator: delegates via agent inbox notes, drives the board pipeline, tracks delegations in memory; never closes cards.</li>
+   <li><code>AGENT_TEMPLATES</code> — 11 one-click recipes (Notes Summarizer, Inbox Triage, Meeting Summarizer, Research Collector, Task Prioritizer, Content Planner, Expense Tracker, Daily Briefing, Code Review Assistant…), each with category business/individual/developer.</li></ul>
+  <h4>tools.rs — the 20-tool registry (all real, sandboxed + audited)</h4>
+  <table class="tbl"><tr><th>Tool</th><th>Does</th></tr>
+   <tr><td><code>nv_vault_search</code></td><td>full-text search across the vault</td></tr>
+   <tr><td><code>nv_note_read / write / append / move / delete</code></td><td>CRUD on notes (paths vault-relative; delete audited)</td></tr>
+   <tr><td><code>nv_folder_list</code></td><td>list a folder's files + subfolders</td></tr>
+   <tr><td><code>nv_log_append</code></td><td>dated entry into a <code>logs/</code> category</td></tr>
+   <tr><td><code>nv_task_add / nv_task_list</code></td><td>checkbox tasks in <code>tasks/agent-tasks.md</code></td></tr>
+   <tr><td><code>nv_calc / nv_now</code></td><td>arithmetic eval / current local time</td></tr>
+   <tr><td><code>nv_web_fetch</code></td><td>HTTP GET (10 KB / 10s cap, treats content as untrusted)</td></tr>
+   <tr><td><code>nv_email_draft</code></td><td>writes a draft to <code>drafts/</code> — never sends</td></tr>
+   <tr><td><code>nv_board_list / add / move</code></td><td>the pipeline board; "done" move is blocked (only Samuel closes cards)</td></tr>
+   <tr><td><code>nv_memory_read / write</code></td><td>the agent's own persistent memory note (injected into its prompt)</td></tr>
+   <tr><td><code>nv_self_rewrite</code></td><td>rewrite the agent's own standing instructions</td></tr></table>
+  <ul><li><code>ToolSpec { name, args, description }</code>, <code>ToolCall { name, args }</code>, <code>parse_tool_calls</code> (extracts <code>TOOL {json}</code> lines), <code>execute</code> (sandbox-check → dispatch → audit), <code>catalog_prompt</code>, <code>reasoning_preamble</code>.</li>
+   <li>Board columns: To Do · AI To Do · AI Doing · Awaiting Review · Done. Agent files in vault: <code>agents/&lt;id&gt;-{memory,instructions,inbox}.md</code>.</li></ul>
+  <h4>sandbox.rs (real, pure)</h4><ul>
+   <li><code>tool_allowed</code> / <code>folder_allowed</code> (empty allowlist on a built-in = all folders) / <code>check</code> → <code>Result&lt;(), SandboxViolation&gt;</code> (<code>Tool</code> | <code>Folder</code>).</li></ul>`,
+
+ perms:`<p>Folder-scoped access control. Real model, permissive <b>default-allow</b> in M1.</p>
+  <h4>acl.rs</h4><ul>
+   <li><code>enum Role { Owner, Admin, Member, Guest }</code>; <code>enum Access { None, Read, Write }</code>.</li>
+   <li><code>struct FolderAcl { folder, role_access: Vec&lt;(Role, Access)&gt; }</code>; <code>struct PermissionSet { acls }</code>.</li>
+   <li><code>can_access(role, folder)</code> — returns the role's entry, or <b><code>Access::Write</code> when no ACL exists</b> (M1 default-allow until ACLs are configured).</li></ul>`,
+
+ auth:`<p>Identity + licensing. Contracts are frozen; the bodies are <span class="tag stub">M1 stubs</span> (M2/M5: SAML/OIDC + seat validation).</p>
+  <h4>provider.rs</h4><ul>
+   <li><code>struct AuthSession { user: UserId, role: Role }</code>; <code>trait IdentityProvider { login(token) -> AuthSession }</code>.</li>
+   <li><code>StubProvider.login</code> → always <code>Err(Denied("SSO not configured in M1"))</code> so call sites can tell SSO is off.</li></ul>
+  <h4>license.rs</h4><ul>
+   <li><code>LicenseClient.phone_home() -> Ok(true)</code> — always licensed offline in M1.</li></ul>`,
+
+ audit:`<p>Append-only audit trail, one JSON line per entry under <code>.nv/audit.log</code>. Every agent tool call writes here.</p>
+  <h4>log.rs</h4><ul>
+   <li><code>struct AuditEntry { ts: DateTime&lt;Utc&gt;, actor, action, target }</code>.</li>
+   <li><code>struct AuditLog { path }</code> — <code>open(sidecar)</code> (creates <code>.nv</code>), <code>append(entry)</code> (JSONL), <code>tail(n)</code>.</li>
+   <li><code>snapshot()</code> — no-op <span class="tag stub">stub</span> (M2: 30-day rolling note snapshots).</li></ul>`,
+
+ import:`<p>External source importers. The contract is frozen; no concrete importers ship yet <span class="tag stub">skeleton</span>.</p>
+  <h4>sources.rs</h4><ul>
+   <li><code>enum Source { Slack, Imap, Crm, Csv }</code>.</li>
+   <li><code>trait Importer { sync(&amp;vault) -> usize }</code> — pull into the vault, return notes written. (No impls yet.)</li></ul>`,
+
+ sync:`<p>Multi-device sync client. An <span class="tag stub">M1 stub</span>: connects successfully and does nothing; CRDT (yrs) transport lands later.</p>
+  <h4>client.rs</h4><ul>
+   <li><code>struct SyncClient</code> — <code>new(url)</code> (url ignored), <code>connect() -> Ok(())</code> (no-op).</li></ul>`,
+
+ syncserver:`<p>The would-be multi-device relay binary. <span class="tag stub">M1 stub</span>: a tokio entrypoint that initializes tracing, prints a banner, and exits. <code>relay.rs</code> / <code>auth.rs</code> / <code>license.rs</code> arrive later.</p>
+  <p>Depends only on `+xref("core")+`, `+xref("sync")+`, `+xref("auth")+`, `+xref("audit")+` — the minimum to become a sync + identity + audit relay.</p>`,
+
+ desktop:`<p>The product, and where most live logic runs: a ~3,260-line orchestrator (<code>app.rs</code>) over egui/eframe (wgpu). It pulls every library crate and adds voice, vision, backups, multi-provider LLMs and the agent tool loop on top.</p>
+  <h4>Boot — main.rs</h4><ul>
+   <li>Single-instance guard: binds <code>127.0.0.1:49677</code>; second launch exits. Self-heals after a crash.</li>
+   <li><code>eframe::run_native</code> — Wgpu renderer, 1280×820 (min 960×640), maximized → builds <code>AppState</code>.</li></ul>
+  <h4>Backend — services that exist once a vault is open</h4>
+  <div class="fieldgrid">
+   <div class="f"><code>vault: Vault</code></div><div class="f"><code>index: HybridIndex</code></div>
+   <div class="f"><code>embed_rx + embed_total/done/dirty</code></div><div class="f"><code>runner: AgentRunner</code></div>
+   <div class="f"><code>agent_states</code></div><div class="f"><code>memory: MemoryStore</code></div>
+   <div class="f"><code>audit: AuditLog</code></div><div class="f"><code>perms: PermissionSet</code></div>
+   <div class="f"><code>router: Arc&lt;LlmRouter&gt;</code></div><div class="f"><code>note_graph: NoteGraph</code></div>
+   <div class="f"><code>map_velocities / map_z / map_vel_z</code></div><div class="f"><code>conversation + agent_threads</code></div>
+   <div class="f"><code>active_stream + streaming</code></div><div class="f"><code>vault_size_kb</code></div>
+  </div>
+  <h4>AppState — the whole UI + session (~150 fields)</h4>
+  <p>Grouped by concern:</p><ul>
+   <li><b>Shell / nav</b>: <code>tab</code> (Dashboard·Chat·Map·Tasks·Agents·Admin), <code>admin_section</code>, <code>selected_folder/agent/note</code>, sidebar open flags, <code>company_name</code>, folder display overrides.</li>
+   <li><b>Chat / streaming</b>: <code>chat_input</code>, <code>chat_provider</code> (ollama·anthropic·openai_compat), <code>cloud_model</code>, conversation cache, <code>tool_rounds</code>, <code>streaming_agent_id</code>, in-conversation search.</li>
+   <li><b>Map physics</b>: <code>map_gravity/link/repel/bloom/synapse_speed</code>, <code>map_zoom/pitch/rot/orbit</code> + targets &amp; inertia, <code>map_activity</code>, <code>folder_activity</code>, <code>note_heat</code>, <code>save_pulses</code>.</li>
+   <li><b>Agents</b>: per-agent overrides (name/status/instructions/budget/trigger/folders/model/role), <code>roles</code>, schedule picker, File-Keeper dup mode/threshold.</li>
+   <li><b>Board</b>: <code>board_cache</code> [6 columns], inputs, <code>auto_runner</code>, <code>sched_last_tick</code>, <code>board_mtime</code>.</li>
+   <li><b>Voice</b>: <code>voice_recording</code>, <code>voice_recorder</code> (mic, UI-thread), <code>voice_rx</code>, <code>voice_config</code>.</li>
+   <li><b>Capture / vision</b>: quick-capture modal, <code>cortex_vision_enabled</code>, <code>cortex_pending/overlay</code>.</li>
+   <li><b>Providers / settings (persisted to disk)</b>: <code>ollama_base/model/models</code>, <code>api_keys</code>, OpenAI-compat settings, <code>provider_enabled</code>, theme/density, dashboard layout, <code>file_watch_mtimes</code>.</li></ul>
+  <h4>Per-frame update() loop</h4>
+  <p>hotkeys (Ctrl+K search, Ctrl+Shift+J vision, Ctrl+Shift+N capture) → <code>pump_stream</code> → <code>pump_embeddings</code> → <code>pump_voice</code> → <code>scheduler_tick</code> → <code>auto_sync</code> (10s) → paint <code>icon_rail · topbar · sidebar · chat · tabs</code> + overlays.</p>
+  <h4>scheduler_tick — 6 autonomous steps (≤ every 10s)</h4><ul>
+   <li><b>0</b> background embedder · <b>1</b> board freshness · <b>2</b> vault backup (6h) · <b>3</b> cron wake-timers · <b>4</b> autonomous board runner · <b>5</b> OnFileChange triggers.</li></ul>
+  <h4>Agent tool loop — maybe_run_tool_round</h4><ul>
+   <li>Parse <code>TOOL {json}</code> from a reply → execute (sandbox + audit) ≤3 per round → append <code>TOOL_RESULT</code> → re-ask. Capped at <b>8 rounds</b>/message. NV chat uses a synthetic all-tools "Cortex" manifest (16k budget).</li></ul>
+  <h4>Retrieval — vault_context_for</h4><ul>
+   <li>Top-5 notes per message; query embedded via Ollama <code>nomic-embed-text</code> (<b>600ms timeout</b>) → <code>query_hybrid</code> RRF; on timeout degrades to lexical + one notification.</li></ul>
+  <h4>Map — graph.rs (NoteGraph)</h4><ul>
+   <li>Nodes = notes; edges from wikilinks + plain mentions + frontmatter tags + word-overlap + label segments; per-folder + root hubs; "sub-neurons" for big notes.</li>
+   <li><b>Fruchterman-Reingold</b> layout, 250 iterations (Fibonacci-sunflower seed, repulsion <code>k²/d</code>, attraction <code>d²/k</code>, radial gravity 0.05, circular clamp r=0.44), then live per-frame physics + optional 3D.</li></ul>
+  <h4>Voice · Vision · Backup</h4><ul>
+   <li><b>voice.rs</b>: cpal mic → WAV/16k → local whisper.cpp (whisper-rs, ggml model auto-download) <i>or</i> OpenAI <code>/audio/transcriptions</code>; AI polish via Ollama/OpenAI; <code>PolishMode</code> Raw/Light/Structured/Formal.</li>
+   <li><b>Cortex Vision</b>: Ctrl+Shift+J screen capture → Claude vision "what's on my screen?".</li>
+   <li><b>backup.rs</b>: full markdown copy every 6h into <code>../backups/</code>, keep 10.</li></ul>
+  <h4>UI surfaces (ui/*)</h4><ul>
+   <li>icon_rail · topbar · sidebar (folder tree) · 6 tab views (dashboard / chat / map / board / agents / admin) · persistent chat panel · Ctrl+K search overlay · quick-capture overlay. Themes: Midnight / Pure Black / Deep Violet / Forest / Light; density Calm/Comfortable/Dense.</li></ul>`,
+
+ vaultdisk:`<p>Not code — the on-disk state every part reads and writes. Plain markdown plus a hidden <code>.nv/</code> sidecar keep the app fully restorable offline.</p>
+  <h4>What lives here</h4><ul>
+   <li><code>&lt;folders&gt;/*.md</code> — the notes (company folders + <code>my-vault/*</code>).</li>
+   <li><code>.nv/vectors.json</code> — embeddings (written by `+xref("search")+` via the desktop embedder).</li>
+   <li><code>.nv/audit.log</code> — JSONL audit trail (`+xref("audit")+`).</li>
+   <li><code>.nv/chat/&lt;id&gt;.json</code> — conversations (`+xref("memory")+`).</li>
+   <li><code>agents/&lt;id&gt;-{memory,instructions,inbox}.md</code> — each agent's brain (`+xref("agents")+` tools).</li>
+   <li><code>tasks/board.md</code> — the pipeline board; <code>drafts/</code>, <code>logs/</code>; <code>../backups/</code>.</li></ul>`,
+
+ ollama:`<p>Local model runtime (default <code>http://localhost:11434</code>). The primary AI backend — no cloud, no key.</p><ul>
+   <li><code>/api/chat</code> — streaming + blocking completions (model e.g. <code>qwen3.5:9b</code>).</li>
+   <li><code>/api/embeddings</code> — <code>nomic-embed-text</code> vectors for search + the launch embedder.</li>
+   <li>Also used to AI-polish voice transcripts, fully offline.</li></ul>
+   <p>Reached through `+xref("llm")+` (router) and directly by the `+xref("desktop")+`.</p>`,
+
+ cloud:`<p>Optional cloud LLMs the desktop can stream from directly (API keys in settings). Not via the Ollama-only router — the app has dedicated streamers.</p><ul>
+   <li><b>Anthropic</b> (Claude) — also powers Cortex Vision.</li>
+   <li>OpenAI-compatible clouds: <b>OpenAI, Groq, DeepSeek, Mistral, OpenRouter, xAI, Google-compat</b>.</li></ul>`,
+
+ oacompat:`<p>Local OpenAI-compatible servers the desktop can stream from as an alternative to Ollama.</p><ul>
+   <li>LM Studio, llama.cpp server, Jan, KoboldCpp, oobabooga — any OpenAI <code>/v1/chat/completions</code> endpoint.</li></ul>`,
+
+ whisper:`<p>Fully-local speech-to-text, bundled via <code>whisper-rs</code> (builds whisper.cpp, CPU). No API key.</p><ul>
+   <li>ggml models downloaded once to <code>~/.neuralvault-whisper/</code> (default <code>base.en</code>).</li>
+   <li>Driven by `+xref("desktop")+` voice.rs; mic capture via cpal, 16kHz mono.</li></ul>`,
+
+ screen:`<p>OS screen capture (the <code>screenshots</code> crate) feeding <b>Cortex Vision</b>.</p><ul>
+   <li>Ctrl+Shift+J grabs the screen; the image is sent to `+xref("cloud")+` (Claude vision) and the answer lands in chat + an overlay.</li></ul>`,
+
+ site:`<p>Sibling «Nice» — the Perpetual Technologies marketing website (Next.js App Router + TypeScript, hand-written CSS, Vercel). Same organisation as NeuralVault but <b>no runtime link</b>; shown for completeness.</p>`,
+
+ hooks:`<p>Sibling «Hardup» — Claude Code hooks that wire NeuralVault into every AI session. The one sibling with a real edge to the vault.</p><ul>
+   <li><code>nv-prompt-hook</code> — searches NV and injects relevant notes before each prompt.</li>
+   <li><code>nv-session-hook</code> — saves a session trace at session end.</li>
+   <li><code>nv-memory-hook</code> — mirrors claude-flow memory / learned patterns into NV.</li>
+   <li><code>nv-web-hook</code> — saves web research outputs as source notes.</li></ul>
+   <p>Writes into the same `+xref("vaultdisk")+` the desktop reads.</p>`,
+};
+/* ============================ RENDER ============================ */
+const stage=document.getElementById('stage'),edgesSvg=document.getElementById('edges'),vp=document.getElementById('vp');
+const CW=1540,CH=920;
+const byId={};NODES.forEach(n=>byId[n.id]=n);
+function ctr(n){return{x:n.x+n.w/2,y:n.y+n.h/2}}
+let active={dep:1,io:1,stub:1,sibling:1};
+let focus=null;
+
+// edges
+function drawEdges(){
+  edgesSvg.innerHTML='<defs>'+
+   '<marker id="a-dep" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#4a5a93"/></marker>'+
+   '<marker id="a-io" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2f8f9e"/></marker>'+
+   '<marker id="a-stub" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5b6886"/></marker>'+
+   '<marker id="a-sibling" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8b5fcf"/></marker></defs>';
+  edgesSvg.setAttribute('width',CW);edgesSvg.setAttribute('height',CH);
+  E.forEach(([f,t,k])=>{
+    const a=byId[f],b=byId[t];if(!a||!b)return;
+    const ca=ctr(a),cb=ctr(b);
+    const my=(ca.y+cb.y)/2;
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d','M'+ca.x+','+ca.y+' C'+ca.x+','+my+' '+cb.x+','+my+' '+cb.x+','+cb.y);
+    p.setAttribute('class','e-'+k);
+    p.setAttribute('marker-end','url(#a-'+k+')');
+    p.dataset.f=f;p.dataset.t=t;p.dataset.k=k;
+    edgesSvg.appendChild(p);
+  });
+  applyFilter();
+}
+function applyFilter(){
+  edgesSvg.querySelectorAll('path').forEach(p=>{
+    const on=active[p.dataset.k];
+    const inFocus=!focus||p.dataset.f===focus||p.dataset.t===focus;
+    p.style.display=on?'':'none';
+    p.classList.toggle('faded',!!focus&&!inFocus);
+    p.classList.toggle('hot',!!focus&&inFocus);
+  });
+  document.querySelectorAll('.node').forEach(el=>{
+    if(!focus){el.classList.remove('faded');return;}
+    const id=el.dataset.id;
+    const linked=id===focus||E.some(([f,t,k])=>active[k]&&((f===focus&&t===id)||(t===focus&&f===id)));
+    el.classList.toggle('faded',!linked);
+  });
+}
+// nodes
+NODES.forEach(n=>{
+  const el=document.createElement('div');
+  el.className='node g-'+n.g+(n.st==='stub'?' stub':'');
+  el.dataset.id=n.id;
+  el.style.cssText='left:'+n.x+'px;top:'+n.y+'px;width:'+n.w+'px;min-height:'+n.h+'px';
+  let h='<div class="t">'+n.t+'</div>'+(n.s?'<div class="s">'+n.s+'</div>':'');
+  if(n.st==='stub')h+='<span class="badge bg-stub">stub</span>';
+  if(n.st==='partial')h+='<span class="badge bg-partial">partial</span>';
+  el.innerHTML=h;
+  el.onclick=()=>{location.hash='sys-'+n.id;flash(n.id);};
+  stage.appendChild(el);
+});
+vp.addEventListener('mouseleave',()=>{focus=null;applyFilter();});
+// hover handling: focus a node's links on enter, clear on leave
+stage.querySelectorAll('.node').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{focus=el.dataset.id;applyFilter();});
+  el.addEventListener('mouseleave',()=>{focus=null;applyFilter();});
+});
+function flash(id){const c=document.getElementById('sys-'+id);if(c){c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash');}}
+
+// toggles
+document.querySelectorAll('#toolbar .tg').forEach(tg=>{
+  tg.onclick=()=>{const k=tg.dataset.k;active[k]=!active[k];tg.classList.toggle('off',!active[k]);tg.classList.toggle('act',active[k]);applyFilter();};
+});
+
+// zoom / pan
+let tf={x:30,y:14,k:1};
+function apply(){stage.style.transform='translate('+tf.x+'px,'+tf.y+'px) scale('+tf.k+')';}
+vp.addEventListener('wheel',e=>{e.preventDefault();const r=vp.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  const k2=Math.min(2.6,Math.max(0.3,tf.k*(e.deltaY<0?1.12:0.89)));tf.x=mx-(mx-tf.x)*(k2/tf.k);tf.y=my-(my-tf.y)*(k2/tf.k);tf.k=k2;apply();},{passive:false});
+let pan=null;
+vp.addEventListener('pointerdown',e=>{if(e.target.closest('.node'))return;pan={x:e.clientX,y:e.clientY,tx:tf.x,ty:tf.y};vp.classList.add('grab');});
+window.addEventListener('pointermove',e=>{if(!pan)return;tf.x=pan.tx+(e.clientX-pan.x);tf.y=pan.ty+(e.clientY-pan.y);apply();});
+window.addEventListener('pointerup',()=>{pan=null;vp.classList.remove('grab');});
+function fit(){const r=vp.getBoundingClientRect();const k=Math.min((r.width-30)/CW,(r.height-24)/CH,1.3);tf.k=k;tf.x=(r.width-CW*k)/2;tf.y=12;apply();}
+document.getElementById('zin').onclick=()=>{tf.k=Math.min(2.6,tf.k*1.15);apply();};
+document.getElementById('zout').onclick=()=>{tf.k=Math.max(0.3,tf.k*0.87);apply();};
+document.getElementById('zfit').onclick=fit;
+
+// jump nav
+const order=["user","desktop","syncserver","agents","search","llm","memory","vault","audit","perms","auth","import","sync","core","vaultdisk","ollama","cloud","oacompat","whisper","screen","site","hooks"];
+document.getElementById('jump').innerHTML=order.map(id=>{const n=byId[id];return '<a href="#sys-'+id+'" onclick="flash(\''+id+'\')"><span class="d" style="background:var('+COLOR[n.g]+')"></span>'+n.t+'</a>';}).join('');
+
+// flows
+document.getElementById('flows').innerHTML=FLOWS.map(f=>{
+  const chain=f.steps.map((s,i)=>'<div class="step">'+s+'</div>'+(i<f.steps.length-1?'<span class="arrow">▸</span>':'')).join('');
+  return '<div class="flow'+(f.stub?' stub':'')+'"><h3><span class="pill">'+f.t+'</span><span class="file">'+f.file+'</span></h3><div class="chain">'+chain+'</div><div class="nb">'+f.nb+'</div></div>';
+}).join('');
+
+// detail cards
+function depsOf(id){return E.filter(([f,t,k])=>f===id&&(k==='dep'||k==='stub')&&byId[t]).map(([f,t])=>t);}
+function usedBy(id){return E.filter(([f,t,k])=>t===id&&(k==='dep'||k==='stub')&&byId[f]).map(([f,t])=>f);}
+document.getElementById('cards').innerHTML=order.map(id=>{
+  const n=byId[id];const stc={wired:'st-wired',partial:'st-partial',stub:'st-stub',external:'st-external',sibling:'st-sibling'}[n.st]||'';
+  const stl={wired:'wired',partial:'partial',stub:'stub',external:'external',sibling:'sibling'}[n.st]||'core';
+  const dd=depsOf(id),ub=usedBy(id);
+  let rel='';
+  if(dd.length)rel+='<span class="lbl">depends on</span>'+dd.map(x=>xref(x)).join('');
+  if(ub.length)rel+='<span class="lbl" style="margin-left:8px">used by</span>'+ub.map(x=>xref(x)).join('');
+  const path=({desktop:'apps/desktop',syncserver:'apps/sync-server',core:'packages/core',vault:'packages/vault',search:'packages/search',llm:'packages/llm',memory:'packages/memory',agents:'packages/agents',perms:'packages/permissions',auth:'packages/auth',audit:'packages/audit',import:'packages/import',sync:'packages/sync'})[id]||'';
+  return '<section class="card" id="sys-'+id+'">'+
+    '<div class="ch"><span class="dot" style="background:var('+COLOR[n.g]+')"></span>'+
+      '<h3>'+n.t+'</h3>'+(stc?'<span class="st '+stc+'">'+stl+'</span>':'')+
+      '<span class="kind">'+KIND[n.g]+'</span>'+(path?'<span class="path">'+path+'</span>':'')+'</div>'+
+    '<div class="bd">'+(rel?'<div class="rel">'+rel+'</div>':'')+(D[id]||'<p>(no detail)</p>')+'</div>'+
+  '</section>';
+}).join('');
+
+drawEdges();fit();
+</script>
+</body>
+</html>
