@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Project Kronos — Orbital Mechanics Reference</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0d18;
+    color: #e2e8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 24px;
+  }
+  h1 { color: #22d3ee; font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
+  h2 { color: #7c3aed; font-size: 1.1rem; font-weight: 600; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+  h3 { color: #22d3ee; font-size: 0.9rem; font-weight: 600; margin: 12px 0 6px; }
+  .subtitle { color: #64748b; font-size: 0.85rem; margin-bottom: 24px; }
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card {
+    background: #0f1629;
+    border: 1px solid #1e2d4a;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .card.highlight { border-color: #7c3aed; }
+  .card.teal { border-color: #22d3ee44; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { background: #131c35; color: #7c3aed; text-align: left; padding: 6px 10px; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  td { padding: 5px 10px; border-bottom: 1px solid #1e2d4a; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #131c35; }
+  .num { color: #22d3ee; font-family: 'Courier New', monospace; font-weight: 600; }
+  .label { color: #94a3b8; }
+  .formula {
+    background: #060910;
+    border: 1px solid #1e2d4a;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    color: #fbbf24;
+    margin: 6px 0;
+  }
+  .tag {
+    display: inline-block;
+    background: #7c3aed22;
+    color: #7c3aed;
+    border: 1px solid #7c3aed44;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .tag.teal { background: #22d3ee11; color: #22d3ee; border-color: #22d3ee33; }
+  .tag.green { background: #10b98111; color: #10b981; border-color: #10b98133; }
+  .tag.red { background: #ef444411; color: #ef4444; border-color: #ef444433; }
+  .dv-map { position: relative; }
+  .dv-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  .dv-node {
+    background: #131c35;
+    border: 1px solid #22d3ee44;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    color: #e2e8f0;
+    white-space: nowrap;
+  }
+  .dv-node.origin { border-color: #10b981; color: #10b981; }
+  .dv-node.dest { border-color: #22d3ee; color: #22d3ee; }
+  .dv-node.kronos { border-color: #7c3aed; color: #c4b5fd; }
+  .dv-arrow { color: #475569; font-size: 0.7rem; flex: 1; text-align: center; position: relative; }
+  .dv-dv { color: #fbbf24; font-size: 0.75rem; font-family: monospace; font-weight: 700; }
+  .dv-time { color: #64748b; font-size: 0.7rem; }
+  .bar-wrap { margin-top: 8px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8; margin-bottom: 2px; }
+  .bar-track { background: #131c35; border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+  .note { color: #64748b; font-size: 0.78rem; margin-top: 6px; }
+  .sep { border: none; border-top: 1px solid #1e2d4a; margin: 20px 0; }
+  .big-num { font-size: 1.8rem; color: #22d3ee; font-weight: 700; font-family: monospace; }
+  .big-label { color: #64748b; font-size: 0.75rem; }
+  .calc-box {
+    background: #060910;
+    border: 1px solid #fbbf2433;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 8px 0;
+  }
+  .calc-title { color: #fbbf24; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
+  .calc-line { display: flex; justify-content: space-between; font-size: 0.8rem; margin: 2px 0; }
+  .calc-result { color: #10b981; font-weight: 700; border-top: 1px solid #1e2d4a; margin-top: 6px; padding-top: 6px; }
+  .two-col { columns: 2; gap: 16px; }
+  @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .two-col { columns: 1; } }
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin: 28px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1e2d4a;
+  }
+  .section-num {
+    background: #7c3aed;
+    color: white;
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>Project Kronos — Orbital Mechanics Reference</h1>
+<p class="subtitle">Rocket science fundamentals + cislunar calculations for a lunar base with Keraunos mass driver. June 2026.</p>
+
+<!-- ======================== SECTION 1: CONSTANTS ======================== -->
+<div class="section-header">
+  <div class="section-num">1</div>
+  <h2 style="margin:0">Universal Constants &amp; Key Numbers</h2>
+</div>
+
+<div class="grid grid-3">
+  <div class="card">
+    <h3>Gravitational Parameters (μ = GM)</h3>
+    <table>
+      <tr><th>Body</th><th>μ (km³/s²)</th></tr>
+      <tr><td>Earth</td><td class="num">398,600</td></tr>
+      <tr><td>Moon</td><td class="num">4,902.8</td></tr>
+      <tr><td>Sun</td><td class="num">1.327 × 10⁸</td></tr>
+    </table>
+    <p class="note">μ = GM; more useful than G×M separately (avoids cancellation errors)</p>
+  </div>
+  <div class="card">
+    <h3>Physical Sizes</h3>
+    <table>
+      <tr><th>Parameter</th><th>Value</th></tr>
+      <tr><td>Earth radius</td><td class="num">6,371 km</td></tr>
+      <tr><td>Moon radius</td><td class="num">1,737.4 km</td></tr>
+      <tr><td>Earth–Moon (mean)</td><td class="num">384,400 km</td></tr>
+      <tr><td>Moon orbital period</td><td class="num">27.322 days</td></tr>
+      <tr><td>Lunar day (solar)</td><td class="num">29.53 days</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Surface Gravity &amp; Escape Velocities</h3>
+    <table>
+      <tr><th>Body</th><th>g (m/s²)</th><th>v_escape</th></tr>
+      <tr><td>Earth</td><td class="num">9.807</td><td class="num">11.19 km/s</td></tr>
+      <tr><td>Moon</td><td class="num">1.622</td><td class="num">2.38 km/s</td></tr>
+    </table>
+    <p class="note">g₀ (standard) = 9.80665 m/s² — used in rocket eq.</p>
+  </div>
+</div>
+
+<!-- ======================== SECTION 2: ROCKET EQUATION ======================== -->
+<div class="section-header">
+  <div class="section-num">2</div>
+  <h2 style="margin:0">The Rocket Equation (Tsiolkovsky)</h2>
+</div>
+
+<div class="grid grid-2">
+  <div class="card highlight">
+    <div class="tag">Core Formula</div>
+    <div class="formula">Δv = Isp × g₀ × ln(m₀ / m_f)</div>
+    <div class="formula">m_ratio = m₀/m_f = e^(Δv / (Isp × g₀))</div>
+    <div class="formula">propellant_fraction = 1 - 1/m_ratio</div>
+    <p class="note">m₀ = wet mass (full). m_f = dry mass (empty). ln = natural log.</p>
+    <p class="note" style="margin-top:6px">Rearranged for mass ratio: how much of the rocket must be propellant.</p>
+  </div>
+  <div class="card">
+    <h3>Common Propellant Isp Values</h3>
+    <table>
+      <tr><th>Propellant</th><th>Isp (vac, s)</th><th>Use</th></tr>
+      <tr><td>RP-1 / LOX</td><td class="num">353</td><td>Falcon 9 2nd stage</td></tr>
+      <tr><td>CH₄ / LOX</td><td class="num">380</td><td>Raptor (Starship)</td></tr>
+      <tr><td>LH₂ / LOX</td><td class="num">450</td><td>RL-10, J-2X, SSME</td></tr>
+      <tr><td>MMH / NTO</td><td class="num">311</td><td>Hypergolic, storable</td></tr>
+      <tr><td>Cold gas (N₂)</td><td class="num">70</td><td>RCS thruster</td></tr>
+      <tr><td>Hall thruster</td><td class="num">1,600</td><td>Ion / SEP</td></tr>
+      <tr><td>LOX / H₂ (ISRU)</td><td class="num">450</td><td>Lunar ISRU target</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="grid grid-3" style="margin-top:14px">
+  <div class="calc-box">
+    <div class="calc-title">Worked: Lunar ascent with CH₄/LOX (Isp 380s)</div>
+    <div class="calc-line"><span>Required Δv</span><span class="num">1,870 m/s</span></div>
+    <div class="calc-line"><span>Isp × g₀</span><span class="num">3,727 m/s</span></div>
+    <div class="calc-line"><span>Mass ratio e^(1870/3727)</span><span class="num">1.659</span></div>
+    <div class="calc-line calc-result"><span>Propellant fraction</span><span>39.7%</span></div>
+    <p class="note">A 10-tonne lander needs ~4 t propellant to ascend. 6 t payload+hardware.</p>
+  </div>
+  <div class="calc-box">
+    <div class="calc-title">Worked: TLI burn from LEO (LH₂/LOX, Isp 450s)</div>
+    <div class="calc-line"><span>Required Δv</span><span class="num">3,130 m/s</span></div>
+    <div class="calc-line"><span>Isp × g₀</span><span class="num">4,414 m/s</span></div>
+    <div class="calc-line"><span>Mass ratio e^(3130/4414)</span><span class="num">2.038</span></div>
+    <div class="calc-line calc-result"><span>Propellant fraction</span><span>50.9%</span></div>
+    <p class="note">Half your wet mass is propellant just for the TLI burn.</p>
+  </div>
+  <div class="calc-box">
+    <div class="calc-title">Worked: Keraunos kick motor (LEO circularize)</div>
+    <div class="calc-line"><span>Required Δv</span><span class="num">~300 m/s</span></div>
+    <div class="calc-line"><span>Isp × g₀ (CH₄)</span><span class="num">3,727 m/s</span></div>
+    <div class="calc-line"><span>Mass ratio</span><span class="num">1.085</span></div>
+    <div class="calc-line calc-result"><span>Propellant fraction</span><span>7.8%</span></div>
+    <p class="note">Tiny kick motor — bulk of mass is cargo. This is why maglev launch works.</p>
+  </div>
+</div>
+
+<!-- ======================== SECTION 3: ORBITAL MECHANICS ======================== -->
+<div class="section-header">
+  <div class="section-num">3</div>
+  <h2 style="margin:0">Orbital Mechanics Fundamentals</h2>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Kepler's Three Laws</h3>
+    <p style="margin-bottom:8px; font-size:0.82rem;"><strong style="color:#22d3ee">1. Ellipses:</strong> Every orbit is an ellipse with the central body at one focus.</p>
+    <p style="margin-bottom:8px; font-size:0.82rem;"><strong style="color:#22d3ee">2. Equal areas:</strong> A line from body to orbiting object sweeps equal areas in equal time. (Angular momentum is conserved — faster at periapsis, slower at apoapsis.)</p>
+    <p style="font-size:0.82rem;"><strong style="color:#22d3ee">3. Period law:</strong> T² ∝ a³</p>
+    <div class="formula">T = 2π × √(a³ / μ)</div>
+    <p class="note">a = semi-major axis (km). μ = gravitational parameter. T in seconds.</p>
+  </div>
+  <div class="card">
+    <h3>Vis-Viva Equation — velocity anywhere in an orbit</h3>
+    <div class="formula">v = √( μ × (2/r − 1/a) )</div>
+    <table style="margin-top:8px">
+      <tr><th>Orbit type</th><th>Condition</th><th>Result</th></tr>
+      <tr><td>Circular</td><td>r = a</td><td class="num">v = √(μ/r)</td></tr>
+      <tr><td>Elliptical</td><td>r varies</td><td>use full eq.</td></tr>
+      <tr><td>Parabolic (escape)</td><td>a → ∞</td><td class="num">v = √(2μ/r)</td></tr>
+      <tr><td>Hyperbolic</td><td>e &gt; 1</td><td>v &gt; escape</td></tr>
+    </table>
+    <p class="note">This one equation gives velocity at ANY point in ANY orbit. Most-used formula in astrodynamics.</p>
+  </div>
+</div>
+
+<div class="grid grid-3" style="margin-top:14px">
+  <div class="card">
+    <h3>Orbital Elements (6 numbers = full orbit)</h3>
+    <table>
+      <tr><th>Element</th><th>What it defines</th></tr>
+      <tr><td><span class="num">a</span></td><td>Semi-major axis — orbit size</td></tr>
+      <tr><td><span class="num">e</span></td><td>Eccentricity — orbit shape (0=circle, &lt;1=ellipse)</td></tr>
+      <tr><td><span class="num">i</span></td><td>Inclination — tilt vs equator</td></tr>
+      <tr><td><span class="num">Ω</span></td><td>RAAN — node rotation in space</td></tr>
+      <tr><td><span class="num">ω</span></td><td>Arg. of periapsis — ellipse orientation</td></tr>
+      <tr><td><span class="num">ν</span></td><td>True anomaly — where in orbit right now</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Key Orbital Altitudes — Earth</h3>
+    <table>
+      <tr><th>Orbit</th><th>Alt (km)</th><th>Velocity</th><th>Period</th></tr>
+      <tr><td>LEO (ISS)</td><td class="num">408</td><td class="num">7.66 km/s</td><td>92.7 min</td></tr>
+      <tr><td>LEO (500 km)</td><td class="num">500</td><td class="num">7.61 km/s</td><td>94.6 min</td></tr>
+      <tr><td>MEO (GPS)</td><td class="num">20,200</td><td class="num">3.87 km/s</td><td>11.97 hr</td></tr>
+      <tr><td>GEO</td><td class="num">35,786</td><td class="num">3.07 km/s</td><td>23.93 hr</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Key Lunar Orbits</h3>
+    <table>
+      <tr><th>Orbit</th><th>Alt (km)</th><th>Velocity</th><th>Period</th></tr>
+      <tr><td>LLO (low)</td><td class="num">100</td><td class="num">1.633 km/s</td><td>118 min</td></tr>
+      <tr><td>NRHO (Gateway)</td><td class="num">~3,000 / 70,000</td><td>varies</td><td>~6.5 d</td></tr>
+      <tr><td>Frozen (polar)</td><td class="num">30–50</td><td class="num">~1.67 km/s</td><td>~112 min</td></tr>
+      <tr><td>Surface velocity</td><td class="num">0</td><td class="num">1.68 km/s</td><td>—</td></tr>
+    </table>
+    <p class="note">Surface orbital velocity ≈ 1.68 km/s — minimum mass driver exit speed for orbital payload.</p>
+  </div>
+</div>
+
+<!-- ======================== SECTION 4: DELTA-V MAP ======================== -->
+<div class="section-header">
+  <div class="section-num">4</div>
+  <h2 style="margin:0">Cislunar Delta-V Map</h2>
+</div>
+
+<div class="grid grid-2">
+  <div class="card teal">
+    <div class="tag teal">Earth → Moon (one way)</div>
+    <div class="dv-map">
+      <div class="dv-row">
+        <div class="dv-node origin">Earth surface</div>
+        <div class="dv-arrow">→ <span class="dv-dv">9.4 km/s</span> →<br><span class="dv-time">~8.5 min</span></div>
+        <div class="dv-node">LEO (400 km)</div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-node">LEO (400 km)</div>
+        <div class="dv-arrow">→ <span class="dv-dv">3.13 km/s</span> →<br><span class="dv-time">~3 days</span></div>
+        <div class="dv-node">Lunar periapsis</div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-node">Lunar periapsis</div>
+        <div class="dv-arrow">→ <span class="dv-dv">0.88 km/s</span> →<br><span class="dv-time">orbital</span></div>
+        <div class="dv-node">LLO (100 km)</div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-node">LLO (100 km)</div>
+        <div class="dv-arrow">→ <span class="dv-dv">1.87 km/s</span> →<br><span class="dv-time">~20 min</span></div>
+        <div class="dv-node dest">Lunar surface</div>
+      </div>
+      <hr style="border-color:#1e2d4a; margin:10px 0">
+      <div class="dv-row">
+        <div class="dv-node origin">Earth surface</div>
+        <div class="dv-arrow">→ <span class="dv-dv" style="color:#10b981">~15.3 km/s TOTAL</span> →</div>
+        <div class="dv-node dest">Lunar surface</div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:10px">Note: 9.4 km/s to LEO includes gravity/drag losses (~1.5 km/s). Gravity losses dominate launch phase.</p>
+  </div>
+
+  <div class="card teal">
+    <div class="tag green">Moon → Earth (one way)</div>
+    <div class="dv-map">
+      <div class="dv-row">
+        <div class="dv-node origin">Lunar surface</div>
+        <div class="dv-arrow">→ <span class="dv-dv">1.87 km/s</span> →</div>
+        <div class="dv-node">LLO (100 km)</div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-node">LLO (100 km)</div>
+        <div class="dv-arrow">→ <span class="dv-dv">0.84 km/s</span> →<br><span class="dv-time">~3 days</span></div>
+        <div class="dv-node">Earth entry (aerobrake)</div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-node">Earth entry</div>
+        <div class="dv-arrow">→ <span class="dv-dv" style="color:#10b981">FREE (aerobrake)</span> →</div>
+        <div class="dv-node dest">Earth surface</div>
+      </div>
+      <hr style="border-color:#1e2d4a; margin:10px 0">
+      <div class="dv-row">
+        <div class="dv-node origin">Lunar surface</div>
+        <div class="dv-arrow">→ <span class="dv-dv" style="color:#10b981">~2.71 km/s TOTAL</span> →</div>
+        <div class="dv-node dest">Earth reentry</div>
+      </div>
+      <div class="dv-row" style="margin-top:6px">
+        <div class="dv-node kronos">Keraunos mass driver</div>
+        <div class="dv-arrow">→ <span class="dv-dv" style="color:#c4b5fd">2.38 km/s</span> →</div>
+        <div class="dv-node dest">Escape / cislunar</div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:10px">Return is asymmetric: Earth atmosphere does ~8 km/s of braking for free via aerobraking. This is why lunar ISRU payloads (launched via Keraunos) are economically viable — Earth entry uses no propellant.</p>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h3>Complete Cislunar Delta-V Reference</h3>
+  <table>
+    <tr>
+      <th>Maneuver</th>
+      <th>Δv (km/s)</th>
+      <th>Notes</th>
+    </tr>
+    <tr><td>Earth surface → LEO</td><td class="num">9.3–9.7</td><td>Includes ~1.5 km/s gravity + drag losses. Starship targets 9.0.</td></tr>
+    <tr><td>LEO → TLI (Trans-Lunar Injection)</td><td class="num">3.13</td><td>Single perigee burn. C3 ≈ 0 at Moon arrival.</td></tr>
+    <tr><td>TLI → Lunar periapsis (free coast)</td><td class="num">0</td><td>3 days ballistic. No burn needed.</td></tr>
+    <tr><td>LOI (Lunar Orbit Insertion, 100 km)</td><td class="num">0.88</td><td>Retrograde burn at lunar periapsis.</td></tr>
+    <tr><td>LLO (100 km) → lunar surface (PDI)</td><td class="num">1.87</td><td>Powered descent. Includes terminal landing.</td></tr>
+    <tr><td><strong>Earth surface → Lunar surface (total)</strong></td><td class="num" style="color:#10b981">~15.3</td><td>Chemical rockets only.</td></tr>
+    <tr><td>Lunar surface → LLO (ascent)</td><td class="num">1.87</td><td>No atmosphere: all gravity loss, no drag.</td></tr>
+    <tr><td>LLO → Trans-Earth Injection (TEI)</td><td class="num">0.84</td><td>Single prograde burn in lunar orbit.</td></tr>
+    <tr><td>Earth reentry (aerobrake)</td><td class="num">~0</td><td>Atmosphere absorbs 8 km/s for free.</td></tr>
+    <tr><td>LLO → L1 Lagrange point</td><td class="num">0.64</td><td>Low-energy transfer hub. Good for Gateway replacement.</td></tr>
+    <tr><td>LLO → L2 (cislunar, far side)</td><td class="num">0.43</td><td>Mass driver on far side can use L2 as staging.</td></tr>
+    <tr><td>Lunar surface → escape (direct)</td><td class="num">2.38</td><td>Keraunos mass driver target exit velocity.</td></tr>
+    <tr><td>Lunar surface → LLO (mass driver)</td><td class="num">1.68</td><td>Minimum for orbital payload, then small circularization burn.</td></tr>
+  </table>
+</div>
+
+<!-- ======================== SECTION 5: TRANSFER ORBITS ======================== -->
+<div class="section-header">
+  <div class="section-num">5</div>
+  <h2 style="margin:0">Transfer Orbits</h2>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Hohmann Transfer (most efficient two-burn)</h3>
+    <div class="formula">Δv₁ = √(μ/r₁) × [√(2r₂/(r₁+r₂)) − 1]</div>
+    <div class="formula">Δv₂ = √(μ/r₂) × [1 − √(2r₁/(r₁+r₂))]</div>
+    <div class="formula">T_transfer = π × √((r₁+r₂)³ / (8μ))</div>
+    <p class="note">r₁ = departure orbit radius (km). r₂ = arrival orbit radius. μ = body's gravitational parameter. Hohmann is optimal only when r₂/r₁ ≤ 11.94.</p>
+    <div class="calc-box" style="margin-top:10px">
+      <div class="calc-title">LEO (408 km) → GTO / TLI semi-major axis</div>
+      <div class="calc-line"><span>r₁ (LEO)</span><span class="num">6,779 km</span></div>
+      <div class="calc-line"><span>r₂ (Moon SMA proxy)</span><span class="num">384,400 km</span></div>
+      <div class="calc-line"><span>a_transfer</span><span class="num">195,590 km</span></div>
+      <div class="calc-line"><span>v_perigee (vis-viva)</span><span class="num">10.90 km/s</span></div>
+      <div class="calc-line"><span>v_LEO circular</span><span class="num">7.67 km/s</span></div>
+      <div class="calc-line calc-result"><span>Δv₁ (TLI burn)</span><span>3.13 km/s</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Bi-Elliptic Transfer</h3>
+    <p style="font-size:0.82rem; margin-bottom:8px">More efficient than Hohmann when r₂/r₁ &gt; 11.94 (very large orbit changes). Uses 3 burns via a high intermediate apoapsis.</p>
+    <div class="formula">Δv_total = Δv₁ + Δv_int + Δv₂</div>
+    <h3 style="margin-top:12px">Gravity Assist (Swingby)</h3>
+    <p style="font-size:0.82rem; margin-bottom:8px">Fly close to a body and steal orbital energy from it. No fuel burned for the speed change.</p>
+    <div class="formula">Δv_gain = 2 v_body × sin(δ/2)</div>
+    <p class="note">δ = deflection angle. v_body = planet velocity. Voyager used Jupiter + Saturn assists.</p>
+    <h3 style="margin-top:12px">Free Return Trajectory</h3>
+    <p style="font-size:0.82rem">A TLI trajectory where if no LOI burn occurs, the spacecraft returns to Earth naturally (Apollo 13). Adds ~5–10 m/s Δv cost vs optimum but is a safety standard.</p>
+  </div>
+</div>
+
+<!-- ======================== SECTION 6: KRONOS MASS DRIVER ======================== -->
+<div class="section-header">
+  <div class="section-num">6</div>
+  <h2 style="margin:0">Keraunos Lunar Mass Driver — Trajectory Calculations</h2>
+</div>
+
+<div class="card" style="border-color:#7c3aed; margin-bottom:14px">
+  <div class="tag">Keraunos on the Moon</div>
+  <p style="font-size:0.82rem; margin-bottom:10px">The lunar mass driver is the Moon-side complement to Keraunos Earth. On the Moon: no atmosphere, 1/6 gravity, 2.38 km/s escape velocity. A mass driver ~1–5 km long can achieve full escape velocity.</p>
+  <div class="grid grid-3">
+    <div>
+      <div class="formula">v_exit = √(2 × a_g × L)</div>
+      <p class="note">v_exit = exit velocity. a_g = acceleration (g). L = track length (m).</p>
+    </div>
+    <div>
+      <div class="formula">L_required = v²_exit / (2 × a_g)</div>
+      <p class="note">Min track length for target velocity at given acceleration.</p>
+    </div>
+    <div>
+      <div class="formula">t_accel = v_exit / a_g = √(2L / a_g)</div>
+      <p class="note">Time pod spends on track. Short = high g-force spike.</p>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-3">
+  <div class="calc-box">
+    <div class="calc-title">Track length for escape velocity (30g)</div>
+    <div class="calc-line"><span>Target v_exit</span><span class="num">2,380 m/s</span></div>
+    <div class="calc-line"><span>Acceleration</span><span class="num">30g = 294 m/s²</span></div>
+    <div class="calc-line"><span>L = v² / (2a)</span><span class="num">9,621 m</span></div>
+    <div class="calc-line"><span>Time on track</span><span class="num">8.1 s</span></div>
+    <div class="calc-line calc-result"><span>Track length needed</span><span>~10 km at 30g</span></div>
+    <p class="note">30g is the StarTram cargo threshold. Cargo only — no humans.</p>
+  </div>
+  <div class="calc-box">
+    <div class="calc-title">Track length for escape velocity (10g)</div>
+    <div class="calc-line"><span>Target v_exit</span><span class="num">2,380 m/s</span></div>
+    <div class="calc-line"><span>Acceleration</span><span class="num">10g = 98 m/s²</span></div>
+    <div class="calc-line"><span>L = v² / (2a)</span><span class="num">28,862 m</span></div>
+    <div class="calc-line"><span>Time on track</span><span class="num">24.3 s</span></div>
+    <div class="calc-line calc-result"><span>Track length needed</span><span>~29 km at 10g</span></div>
+    <p class="note">10g is Keraunos Earth-baseline. Harsh for optics, fine for bulk regolith/ice.</p>
+  </div>
+  <div class="calc-box">
+    <div class="calc-title">Track length for orbital velocity (3g, human-rated)</div>
+    <div class="calc-line"><span>Target v_exit</span><span class="num">1,700 m/s (LLO)</span></div>
+    <div class="calc-line"><span>Acceleration</span><span class="num">3.3g = 32.4 m/s²</span></div>
+    <div class="calc-line"><span>L = v² / (2a)</span><span class="num">44,676 m</span></div>
+    <div class="calc-line"><span>Time on track</span><span class="num">52.5 s</span></div>
+    <div class="calc-line calc-result"><span>Track length needed</span><span>~45 km at 3.3g</span></div>
+    <p class="note">Human-rated lunar track. Requires small circularization burn after exit (~230 m/s).</p>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h3>Mass Driver Exit Trajectories — what happens after launch</h3>
+  <table>
+    <tr><th>Exit velocity</th><th>Trajectory type</th><th>Destination</th><th>Transfer time</th><th>Notes</th></tr>
+    <tr><td class="num">1.68 km/s</td><td>Circular orbit</td><td>LLO (surface altitude)</td><td>grazing orbit</td><td>Minimum viable — needs circularization burn</td></tr>
+    <tr><td class="num">1.7–1.9 km/s</td><td>Elliptical</td><td>Higher lunar orbit (apoapsis varies)</td><td>minutes–hours</td><td>Useful for staging to NRHO or L2</td></tr>
+    <tr><td class="num">2.38 km/s</td><td>Parabolic (escape)</td><td>Cislunar space / L2 / Earth intercept</td><td>3–7 days</td><td>Escape trajectory — no fuel to recapture without burn</td></tr>
+    <tr><td class="num">2.4–2.5 km/s</td><td>Hyperbolic</td><td>Direct Earth-return trajectory</td><td>3–4 days</td><td>Regolith capsules, ISRU products → Earth reentry</td></tr>
+    <tr><td class="num">&gt;2.5 km/s</td><td>Hyperbolic (excess)</td><td>Deep cislunar / Lagrange staging</td><td>varies</td><td>Higher v∞ = more energy, faster arrival, harder capture</td></tr>
+  </table>
+  <p class="note" style="margin-top:8px">For Kronos lunar base exports: a 2.42 km/s exit velocity puts the payload on a trajectory that intersects Earth's atmosphere in ~3 days. Aerobraking + drogue = free Earth delivery.</p>
+</div>
+
+<!-- ======================== SECTION 7: LUNAR BASE SITE MECHANICS ======================== -->
+<div class="section-header">
+  <div class="section-num">7</div>
+  <h2 style="margin:0">South Pole — Site Selection Mechanics</h2>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Why South Pole for Kronos</h3>
+    <table>
+      <tr><th>Factor</th><th>Value / Impact</th></tr>
+      <tr><td>Sunlight (PSRs)</td><td>Permanently shadowed craters → water ice (ISRU feedstock)</td></tr>
+      <tr><td>Sunlight (peaks)</td><td>Near-permanent illumination peaks → near-continuous solar power</td></tr>
+      <tr><td>Shackleton rim illumination</td><td>~89% of time lit — solar array site</td></tr>
+      <tr><td>Ice deposits (confirmed)</td><td>~600 M tonnes estimated in PSRs, 3–30% concentration by mass</td></tr>
+      <tr><td>Thermal stability</td><td>Cold traps maintain ~−200°C → superconductor-friendly</td></tr>
+      <tr><td>Launch azimuth</td><td>Polar launch = access to any orbital inclination (flexible targeting)</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Launch Window Mechanics from Lunar South Pole</h3>
+    <p style="font-size:0.82rem; margin-bottom:8px">The Moon rotates relative to Earth — launch windows for Earth-return trajectories open roughly every <strong style="color:#22d3ee">2 hours</strong> (the Moon's orbital rate gives frequent opportunities).</p>
+    <table>
+      <tr><th>Target</th><th>Window freq.</th><th>Duration</th></tr>
+      <tr><td>Earth reentry corridor</td><td>~2 hr</td><td>~30 min</td></tr>
+      <tr><td>LEO rendezvous</td><td>~2 hr</td><td>~5 min</td></tr>
+      <tr><td>L1/L2 point</td><td>~14 days</td><td>days</td></tr>
+      <tr><td>Earth GEO belt</td><td>~2 hr</td><td>~15 min</td></tr>
+    </table>
+    <p class="note">For bulk cargo (regolith/ice pellets): even low launch-window precision is fine since capsules can home on a broad Earth-reentry corridor. High-precision payloads (satellites) need tighter trajectory control.</p>
+  </div>
+</div>
+
+<!-- ======================== SECTION 8: LAGRANGE POINTS ======================== -->
+<div class="section-header">
+  <div class="section-num">8</div>
+  <h2 style="margin:0">Lagrange Points — Cislunar Infrastructure</h2>
+</div>
+
+<div class="card">
+  <div class="grid grid-2">
+    <div>
+      <h3>Earth-Moon Lagrange Points</h3>
+      <table>
+        <tr><th>Point</th><th>Distance from Moon</th><th>Stability</th><th>Kronos use</th></tr>
+        <tr><td class="num">L1</td><td>~58,000 km (Earth-side)</td><td>Unstable (halo orbit)</td><td>Staging hub, transfer to Earth</td></tr>
+        <tr><td class="num">L2</td><td>~65,000 km (far-side)</td><td>Unstable (halo orbit)</td><td>Far-side comms relay, export staging</td></tr>
+        <tr><td class="num">L3</td><td>~384,400 km (opposite)</td><td>Unstable</td><td>Not useful</td></tr>
+        <tr><td class="num">L4</td><td>~384,400 km (60° ahead)</td><td>Stable</td><td>Debris accumulation; avoid</td></tr>
+        <tr><td class="num">L5</td><td>~384,400 km (60° behind)</td><td>Stable</td><td>O'Neill colony concept site</td></tr>
+      </table>
+    </div>
+    <div>
+      <h3>NRHO — Near-Rectilinear Halo Orbit</h3>
+      <p style="font-size:0.82rem; margin-bottom:8px">NASA's Gateway (now cancelled, but the concept lives) used NRHO around L2. Key properties:</p>
+      <table>
+        <tr><th>Property</th><th>Value</th></tr>
+        <tr><td>Periapsis altitude</td><td class="num">~3,000 km above Moon</td></tr>
+        <tr><td>Apoapsis altitude</td><td class="num">~70,000 km</td></tr>
+        <tr><td>Period</td><td class="num">~6.5 days</td></tr>
+        <tr><td>Station-keeping Δv</td><td class="num">~10 m/s/year</td></tr>
+        <tr><td>ΔV from LLO</td><td class="num">~0.75 km/s</td></tr>
+      </table>
+      <p class="note">Excellent cislunar logistics hub. Kronos exports from mass driver could park here for redistribution.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 9: QUICK CALC REFERENCE ======================== -->
+<div class="section-header">
+  <div class="section-num">9</div>
+  <h2 style="margin:0">Quick Calculation Reference</h2>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Formulas You'll Use Often</h3>
+    <div class="formula">v_circular = √(μ/r)</div>
+    <div class="formula">v_escape = √(2μ/r)</div>
+    <div class="formula">v_escape = √2 × v_circular</div>
+    <div class="formula">T (period) = 2π√(a³/μ)</div>
+    <div class="formula">Δv_Hohmann = √(μ/r₁)[√(2r₂/(r₁+r₂)) − 1]</div>
+    <div class="formula">Δv = Isp × 9.80665 × ln(m_wet/m_dry)</div>
+    <div class="formula">mass_ratio = e^(Δv / (Isp × 9.80665))</div>
+    <div class="formula">prop_fraction = 1 − e^(−Δv / (Isp × g₀))</div>
+    <div class="formula">L_track = v² / (2 × g_accel)</div>
+  </div>
+  <div class="card">
+    <h3>Numbers Worth Memorizing for Kronos</h3>
+    <table>
+      <tr><th>Number</th><th>What it is</th></tr>
+      <tr><td class="num">1.68 km/s</td><td>Lunar surface circular orbital velocity</td></tr>
+      <tr><td class="num">2.38 km/s</td><td>Lunar escape velocity</td></tr>
+      <tr><td class="num">3.13 km/s</td><td>Δv for TLI from LEO (400 km)</td></tr>
+      <tr><td class="num">0.88 km/s</td><td>LOI to enter 100 km lunar orbit</td></tr>
+      <tr><td class="num">1.87 km/s</td><td>Lunar descent / ascent Δv</td></tr>
+      <tr><td class="num">9.4 km/s</td><td>Earth surface to LEO (effective)</td></tr>
+      <tr><td class="num">4,902.8</td><td>Moon's μ (km³/s²)</td></tr>
+      <tr><td class="num">398,600</td><td>Earth's μ (km³/s²)</td></tr>
+      <tr><td class="num">384,400 km</td><td>Earth-Moon mean distance</td></tr>
+      <tr><td class="num">~300 m/s</td><td>Keraunos Earth pod circularization burn</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ======================== SECTION 10: PROPULSION COMPARISON ======================== -->
+<div class="section-header">
+  <div class="section-num">10</div>
+  <h2 style="margin:0">Propulsion Systems for Lunar Operations</h2>
+</div>
+
+<div class="card">
+  <table>
+    <tr>
+      <th>System</th>
+      <th>Isp (s)</th>
+      <th>Thrust level</th>
+      <th>Storability</th>
+      <th>Kronos application</th>
+    </tr>
+    <tr>
+      <td>CH₄/LOX (Raptor)</td>
+      <td class="num">380</td>
+      <td>High (MN)</td>
+      <td>Cryogenic (needs insulation)</td>
+      <td>Starship HLS descent/ascent, Keraunos pod motor</td>
+    </tr>
+    <tr>
+      <td>LH₂/LOX</td>
+      <td class="num">450</td>
+      <td>Medium–High</td>
+      <td>Hard (boil-off in lunar day)</td>
+      <td>Upper stages, depots in shadow</td>
+    </tr>
+    <tr>
+      <td>MMH/NTO (hypergolic)</td>
+      <td class="num">311</td>
+      <td>Low–Medium</td>
+      <td>Storable (room temp)</td>
+      <td>RCS, lander attitude control, legacy systems</td>
+    </tr>
+    <tr>
+      <td>ISRU LOX/H₂ (lunar)</td>
+      <td class="num">~450</td>
+      <td>scalable</td>
+      <td>Produced on-site</td>
+      <td><strong style="color:#10b981">Kronos long-term: mine water → split → fuel ascent vehicles</strong></td>
+    </tr>
+    <tr>
+      <td>ISRU LOX/CH₄ (Sabatier)</td>
+      <td class="num">~370</td>
+      <td>scalable</td>
+      <td>Easier storage than LH₂</td>
+      <td>If CO₂ source available (not lunar). Mars ISRU preferred.</td>
+    </tr>
+    <tr>
+      <td>Solar electric (Hall)</td>
+      <td class="num">1,600–3,000</td>
+      <td>Very low (mN)</td>
+      <td>Xenon/krypton storable</td>
+      <td>Cargo transfer orbits, station-keeping, no time pressure</td>
+    </tr>
+    <tr>
+      <td>Nuclear thermal (NTR)</td>
+      <td class="num">~900</td>
+      <td>Medium</td>
+      <td>LH₂ propellant</td>
+      <td>Future: Earth-Moon fast transit (3.13 km/s with far less propellant mass)</td>
+    </tr>
+  </table>
+</div>
+
+<div style="margin-top: 24px; padding: 14px; background:#060910; border: 1px solid #10b98133; border-radius:8px;">
+  <span style="color:#10b981; font-weight:700">Bottom line for Project Kronos:</span>
+  <span style="color:#94a3b8; font-size:0.85rem;">
+    Earth → Moon costs ~15.3 km/s total Δv. Moon → Earth costs only ~2.7 km/s (aerobrake is free). Every kg of ISRU propellant produced on the Moon eliminates the need to launch that kg from Earth (at $1,000–3,000/kg Starship rates). At 15.3 km/s required and Isp 380s, the mass ratio from Earth surface to lunar surface is e^(15,300/3,727) = 59.5 — meaning 59 kg of propellant to deliver 1 kg to the lunar surface. ISRU + Keraunos inverts this economics entirely.
+  </span>
+</div>
+
+<p style="color:#1e2d4a; font-size:0.7rem; margin-top:20px; text-align:center">Generated 2026-06-14 | Project Kronos Orbital Reference | Claude Code</p>
+</body>
+</html>
