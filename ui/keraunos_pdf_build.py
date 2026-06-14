@@ -141,7 +141,7 @@ SELENE_COVER = {"letter":"A", "title":"SELENE, South Pole Design Map",
       "Panel A, Site: real LRO/LOLA laser topography, Shackleton / Connecting Ridge ~89.7°S",
       "Panel A2, Where on the Moon · what does not exist here · EOS-3 machine specs (Ø3 m bore)",
       "Panel B, EOS-3 open-track section: no tube, the Moon is the vacuum vessel (Ø3.0 m bore)",
-      "Panel C, Side profile: the raised track on its regolith embankment (true 1:1)",
+      "Panel C, Side profile: track on an open strut trestle, steeper exit angle (true 1:1)",
       "Panel D, Engineering charts: track length vs g, Δv destinations, ridge illumination, energy",
       "Panel E, Return &amp; delivery: the Earth–Moon system, Lagrange points, and how orbits actually work",
       "Panel F, Build cost summary (revised Ø3 m estimate, $2.0B–$2.5B mid-case)"]}
