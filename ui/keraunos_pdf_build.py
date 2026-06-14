@@ -75,7 +75,7 @@ def cover_html(cov):
             f'<div class="ax-sub">WHAT IS INSIDE</div>'
             f'<ul class="ax-toc">{items}</ul>'
             f'<div class="ax-note">Each large panel is on its own page, rotated to read at full '
-            f'size — turn the page (or your screen) a quarter-turn clockwise.</div></div>')
+            f'size, turn the page (or your screen) a quarter-turn clockwise.</div></div>')
 
 def transform_map(src_path, hero_idx, cover=None):
     """Wrap hero panels (by 0-based order of <h2 class="panel">) in rotated
@@ -126,23 +126,23 @@ def merge(pdfs, out_path):
     with open(out_path, "wb") as f:
         w.write(f)
 
-BRONTE_COVER = {"letter":"B", "title":"BRONTE — Chimborazo Design Map",
+BRONTE_COVER = {"letter":"B", "title":"BRONTE, Chimborazo Design Map",
     "id":"KER-BRO-TRK-001 · REV N · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
     "toc":[
-      "Panel A — Plan view: one line, two phases (real SRTM 30 m terrain)",
-      "Panel B — Phase 1 (build first): 14 km, portal 2,920 m → tunnel muzzle 5,900 m, straight 12.3° (true 1:1)",
-      "Panel C — Full line (~21.3 km growth target): single straight bored tunnel @ 12.3°, no bend (true 1:1)",
-      "Panel D — Tunnel &amp; tube typical section: the 360° drive ring, wide bore for Ø3.2 m payload",
-      "Panel E — External bridge section · ASTRAPE front view · ASTRAPE in the tube",
-      "Charts — systems, route engineering, tunnel engineering"]}
-SELENE_COVER = {"letter":"A", "title":"SELENE — South Pole Design Map",
+      "Panel A, Plan view: one line, two phases (real SRTM 30 m terrain)",
+      "Panel B, Phase 1 (build first): 14 km, portal 2,920 m → tunnel muzzle 5,900 m, straight 12.3° (true 1:1)",
+      "Panel C, Full line (~21.3 km growth target): single straight bored tunnel @ 12.3°, no bend (true 1:1)",
+      "Panel D, Tunnel &amp; tube typical section: the 360° drive ring, wide bore for Ø3.2 m payload",
+      "Panel E, External bridge section · ASTRAPE front view · ASTRAPE in the tube",
+      "Charts, systems, route engineering, tunnel engineering"]}
+SELENE_COVER = {"letter":"A", "title":"SELENE, South Pole Design Map",
     "id":"KER-SEL-TRK-002 · REV D · EARLY-VERSION TEST MOCK-UP · NOT FOR CONSTRUCTION",
     "toc":[
-      "Panel A — Site: real LRO/LOLA laser topography, Shackleton / Connecting Ridge ~89.7°S",
-      "Panel A2 — Where on the Moon · what does not exist here · two machines (EOS-1 / EOS-2)",
-      "Panel B — EOS-1 open-track section: no tube, the Moon is the vacuum vessel",
-      "Panel C — Side profile: the raised track on its regolith embankment (true 1:1)",
-      "Charts — track-length vs g, Δv destinations, ridge illumination, engineering"]}
+      "Panel A, Site: real LRO/LOLA laser topography, Shackleton / Connecting Ridge ~89.7°S",
+      "Panel A2, Where on the Moon · what does not exist here · two machines (EOS-1 / EOS-2)",
+      "Panel B, EOS-1 open-track section: no tube, the Moon is the vacuum vessel",
+      "Panel C, Side profile: the raised track on its regolith embankment (true 1:1)",
+      "Charts, track-length vs g, Δv destinations, ridge illumination, engineering"]}
 
 def split_v2a():
     """Split keraunos-v2a.html at the Section-2 boundary so each design map sits with its

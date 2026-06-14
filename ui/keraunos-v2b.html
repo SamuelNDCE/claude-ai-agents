@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KERAUNOS — Rev 2 (Part B)</title>
+<title>KERAUNOS, Rev 2 (Part B)</title>
 <style>
   @page { size: A4; margin: 18mm 16mm; }
   body { font-family:"Segoe UI",Arial,sans-serif; color:#1e293b; font-size:10.5pt; line-height:1.5; margin:0; }
@@ -20,12 +20,12 @@
   ul { margin:6pt 0 10pt 16pt; padding:0; } li { margin:0 0 5pt; }
   b.k { color:#0f172a; }
   .hdr { display:flex; justify-content:space-between; font-size:8pt; color:#94a3b8; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:4pt; margin-bottom:14pt; }
-  /* never slice a table or row across a page break — move it whole to the next page */
+  /* never slice a table or row across a page break, move it whole to the next page */
   table, tr { break-inside: avoid; page-break-inside: avoid; }
   thead { display: table-header-group; }
   /* force a continuation page to start fresh (page-break-after is unreliable in chains) */
   .np { break-before: page; page-break-before: always; }
-  /* derivation / math boxes — make the arithmetic auditable */
+  /* derivation / math boxes, make the arithmetic auditable */
   .math { background:#f8fafc; border-left:3px solid #475569; padding:7pt 11pt; margin:8pt 0;
      font-family:Consolas,monospace; font-size:8.7pt; line-height:1.55; color:#0f172a; }
   .math b { color:#0e7490; }
@@ -56,14 +56,14 @@
     <tr><td>Orbit track</td><td>~3.4 km/s → ~180 km @ 3.3 g</td><td>105-second run to low Mars orbit</td></tr>
     <tr><td>Escape track</td><td>~5.0 km/s → ~390 km @ 3.3 g</td><td>155-second run; between Moon and Earth in scale, far easier than Earth in engineering</td></tr>
     <tr><td>Energy</td><td>1.6 / 3.5 kWh per kg</td><td>orbit / escape</td></tr>
-    <tr><td>Staging</td><td>Phobos &amp; Deimos</td><td>Catch points and propellant depots — the warehouse district; SEP tugs fly the cruise</td></tr>
+    <tr><td>Staging</td><td>Phobos &amp; Deimos</td><td>Catch points and propellant depots, the warehouse district; SEP tugs fly the cruise</td></tr>
   </table>
   <p>Every Mars mission arrives needing return propellant. ISRU solves it on the surface (Sabatier methalox
-  from CO₂ and water ice); ARES solves it in orbit — propellant rides to Phobos at electromagnetic cost and
+  from CO₂ and water ice); ARES solves it in orbit, propellant rides to Phobos at electromagnetic cost and
   waits in a depot for any departing vehicle. Return cargo, manufactured exports, and samples ride the same
   track. <b class="k">ARES makes Mars a place you can leave as easily as you arrive.</b></p>
   <div class="call"><b>The Moon as deep-space launch platform.</b> A Mars-transfer from the lunar surface
-  costs ~3.0 km/s (≈1.25 kWh/kg) — roughly one-fifteenth the energy of the same trip from Earth's surface.
+  costs ~3.0 km/s (≈1.25 kWh/kg), roughly one-fifteenth the energy of the same trip from Earth's surface.
   Anything Mars-bound that can be built on, or staged through, the Moon ships from the lunar track: relay
   satellites, sensor networks, pre-positioned supplies. Starship carries crew and cargo that must arrive
   fresh; the mass drivers send everything else ahead, early and cheap. The Mars supply chain runs through
@@ -79,24 +79,24 @@
   <table>
     <tr><th>Phase</th><th>System</th><th>What gets built</th><th>What it proves / earns</th></tr>
     <tr><td>1</td><td><b>SELENE PoC</b> (Moon)</td><td>1–3 km surface track, 50–100 g, south-pole ridge</td><td>2.9 km @ 100 g clears lunar escape; exports water/regolith/metal to cislunar buyers from day one; grows to 10–12 km (30 g) then ~50 km (3 g)</td></tr>
-    <tr><td>2–3</td><td><b>Chimborazo</b> (Earth) + <b>ASTERIA</b></td><td>14 km first build of the straight through-mountain line (tube, plasma window, aero-shell) running in parallel with SELENE-class kits stamped on Phobos, Deimos, Ceres, the Belt</td><td>Chimborazo earns DoD test revenue and proves cost-per-km; ASTERIA deploys proven vacuum-world technology across airless bodies — both run concurrently, the core bet and the Earth demonstrator advance together</td></tr>
+    <tr><td>2–3</td><td><b>Chimborazo</b> (Earth) + <b>ASTERIA</b></td><td>14 km first build of the straight through-mountain line (tube, plasma window, aero-shell) running in parallel with SELENE-class kits stamped on Phobos, Deimos, Ceres, the Belt</td><td>Chimborazo earns DoD test revenue and proves cost-per-km; ASTERIA deploys proven vacuum-world technology across airless bodies, both run concurrently, the core bet and the Earth demonstrator advance together</td></tr>
     <tr><td>4</td><td><b>ARES</b> (Mars)</td><td>~180 km track, featherweight tube</td><td>Mars becomes a port; the freight network closes</td></tr>
-    <tr><td>5</td><td><b>BRONTE full</b> (Earth)</td><td>Extend Chimborazo west to ~21.3 km straight (Mach 11.2); beyond that, the 1,000 km-class 3 g injector if economics prove out</td><td>The endgame — built only on validated cost data</td></tr>
+    <tr><td>5</td><td><b>BRONTE full</b> (Earth)</td><td>Extend Chimborazo west to ~21.3 km straight (Mach 11.2); beyond that, the 1,000 km-class 3 g injector if economics prove out</td><td>The endgame, built only on validated cost data</td></tr>
   </table>
   <p class="meta">SELENE is ~300× shorter than any full Earth injector and skips every atmosphere subsystem. Chimborazo Phase 1 is ~70× shorter and proves the hard atmosphere parts before any large commitment. They de-risk in parallel.</p>
 
   <h2 style="margin-top:18pt;">7. How the Network Moves Mass</h2>
   <p class="lede">Four launchers, one supply chain. Once they exist, moving mass around the inner system mostly costs what running the launchers costs.</p>
   <ul>
-    <li><b class="k">Earth sends what only Earth can build</b> — machines, electronics, medicine. The eventual
+    <li><b class="k">Earth sends what only Earth can build</b>, machines, electronics, medicine. The eventual
     full injector runs 80 t/day (29,000 t/yr); the Chimborazo demonstrator's job is to earn that machine the
     right to exist. (Rev 1 wrongly pinned the 80 t/day cadence on the demonstrator itself.)</li>
-    <li><b class="k">The Moon sends raw mass</b> — propellant feedstock, shielding regolith, structural metal,
+    <li><b class="k">The Moon sends raw mass</b>, propellant feedstock, shielding regolith, structural metal,
     fired at 2.4 km/s toward cislunar catch points. At full cadence the cislunar propellant supply stops being
     constrained by what Earth can lift.</li>
-    <li><b class="k">Mars closes the return trip</b> — ISRU methalox, samples, and exports ride ARES to
+    <li><b class="k">Mars closes the return trip</b>, ISRU methalox, samples, and exports ride ARES to
     Phobos/Deimos depots on electricity.</li>
-    <li><b class="k">SEP tugs connect the nodes</b> — weeks per leg, nearly propellant-free; chemical engines
+    <li><b class="k">SEP tugs connect the nodes</b>, weeks per leg, nearly propellant-free; chemical engines
     do only final descents. The launchers do all the heavy lifting off every surface.</li>
     <li><b class="k">Each node funds the next.</b> Rockets deliver SELENE's first coils (the last rocket buy
     the lunar build needs); SELENE exports fund Chimborazo; Chimborazo revenue and data fund ASTERIA; ASTERIA
@@ -110,13 +110,12 @@
   <h2>8. The Skyhook: How Cost Falls Toward $5/kg</h2>
   <p class="lede">A rotating tether catches pods and flings them higher. No propellant. More payload per launch.</p>
   <p>A long tether rotates in low orbit; its bottom tip sweeps backward, moving slower than orbital velocity.
-  A pod that arrives at the tip gets grabbed; half a rotation later it is released up high, moving faster —
-  to the Moon, GTO, or wherever the mission calls. With a 1.5 km/s tip speed, the launcher needs 6.3 km/s
+  A pod that arrives at the tip gets grabbed; half a rotation later it is released up high, moving faster, to the Moon, GTO, or wherever the mission calls. With a 1.5 km/s tip speed, the launcher needs 6.3 km/s
   instead of 7.8: ~35% less energy, a slower exit (less heating), and the kick stage shrinks from ~20% of pod
-  mass to 2–5% for trim — the freed 15–18% becomes payload. That shift is where $5/kg comes from.</p>
+  mass to 2–5% for trim, the freed 15–18% becomes payload. That shift is where $5/kg comes from.</p>
   <ul>
     <li><b class="k">Keeping it up:</b> electrodynamic reboost (current through the tether against Earth's
-    field — demonstrated physics, no propellant) plus momentum returned by catching descending capsules.</li>
+    field, demonstrated physics, no propellant) plus momentum returned by catching descending capsules.</li>
     <li><b class="k">The lunar extension:</b> a cislunar rotovator catches SELENE pellets and redirects them to
     LLO, L1, or Earth-transfer; an Earth-orbit tether receives. Cargo crosses cislunar space without burning
     its own propellant at all.</li>
@@ -126,18 +125,18 @@
   </ul>
 
   <h2 style="margin-top:18pt;">9. If the Full Earth Injector Gets Built</h2>
-  <p class="lede">Not the plan — ASTERIA is the plan. But if ASTERIA works, this is what becomes possible.</p>
-  <p>A full Earth injector — ultimately the 1,000 km-class, 3 g, 8 km/s human-rated machine — is the most
+  <p class="lede">Not the plan, ASTERIA is the plan. But if ASTERIA works, this is what becomes possible.</p>
+  <p>A full Earth injector, ultimately the 1,000 km-class, 3 g, 8 km/s human-rated machine, is the most
   consequential infrastructure ever proposed. The key point: if SELENE works in vacuum and Chimborazo
   validates the atmosphere subsystems and the cost-per-kilometer, the full injector stops being a physics
   question and becomes a construction question.</p>
   <h3>What $5–20/kg to orbit changes</h3>
   <ul>
-    <li><b class="k">Satellites:</b> launch stops dominating cost — a 2,000 kg satellite rides for ~$20K at
+    <li><b class="k">Satellites:</b> launch stops dominating cost, a 2,000 kg satellite rides for ~$20K at
     $10/kg vs the $83–97M a GPS III mission actually paid. Constellations replace on maintenance schedules.</li>
     <li><b class="k">Stations:</b> ISS-class logistics (~$3.1B/yr, ~$1.8B of it transport) collapses ~300×;
     thousand-person stations become economically normal.</li>
-    <li><b class="k">Orbital manufacturing:</b> ZBLAN fiber, crystals, alloys — Flawless Photonics drew ~12 km
+    <li><b class="k">Orbital manufacturing:</b> ZBLAN fiber, crystals, alloys, Flawless Photonics drew ~12 km
     of ZBLAN on ISS in 2024 (1,141 m in one day vs a 25 m prior record); the candid caveat is that published
     proof of reproducibly superior fiber is still pending. The queue is real either way, and it is waiting on
     freight prices.</li>
@@ -145,7 +144,7 @@
     nation-sized budget exercises; the Belt becomes commercially reachable.</li>
   </ul>
   <div class="call"><b>The strategic picture.</b> The operator of an 80 t/day injector controls the access
-  ramp to space — 29,000 t/yr can replenish a damaged constellation in hours. The host nation stops paying
+  ramp to space, 29,000 t/yr can replenish a damaged constellation in hours. The host nation stops paying
   for space access and starts charging for it. ASTERIA pays for itself; the Earth injector is what
   ASTERIA eventually makes possible.</div>
 </div>
@@ -154,35 +153,35 @@
 <div class="page">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
   <h2>10. Theoretical Scaling: Wider Bores and Multi-Barrel Batteries</h2>
-  <p class="lede">Pure forward-looking theory. None of this is in the build plan — it is what the architecture
+  <p class="lede">Pure forward-looking theory. None of this is in the build plan, it is what the architecture
   could become if the demonstrator succeeds and the enabling technology keeps maturing.</p>
   <div class="warn"><b>Read this section as speculation, not specification.</b> Everything below assumes the
   Phase-1 demonstrator has already worked and that several technologies have advanced past where they sit in
-  2026. These are not designs. They are the shape of the ceiling — included because the question "how far does
+  2026. These are not designs. They are the shape of the ceiling, included because the question "how far does
   this scale?" deserves an honest, numbered answer rather than hand-waving.</div>
   <div class="call"><b>The one rule that governs all of it: bore sets the chunk size, power sets the tonnage.</b>
-  The energy to place a kilogram in orbit is fixed by physics — a wider tube does not make a tonne cheaper, it
+  The energy to place a kilogram in orbit is fixed by physics, a wider tube does not make a tonne cheaper, it
   makes each shot bigger and rarer for the same megawatts. More annual tonnage comes only from more installed
   power. Bigger bores and more barrels change <i>how</i> you deliver the mass; the power plant decides <i>how
   much.</i></p>
 
-  <h3>Theoretical A — the Ø5 m bore</h3>
+  <h3>Theoretical A: the Ø5 m bore</h3>
   <p>Payload scales with bore cross-section (diameter²): widening the Ø3.2 m payload bay to Ø5 m is a
   <b>2.44× larger payload per shot</b>. The same exit velocity is required, so energy per shot scales with it.</p>
-  <p><b class="k">What would have to advance first:</b> the plasma window — already the program's hardest R&amp;D
-  at Ø4 m — would need to hold a still-larger aperture; the drive ring would need more REBCO at a better cost
+  <p><b class="k">What would have to advance first:</b> the plasma window, already the program's hardest R&amp;D
+  at Ø4 m, would need to hold a still-larger aperture; the drive ring would need more REBCO at a better cost
   per kiloamp-metre than 2026 production; tunnelling would need bores beyond today's ~17.6 m TBM record; and
   trackside storage would need to swallow ~80 MWh per shot. Each is an extrapolation of a real 2026 capability,
-  not a new invention — but all four have to arrive together.</p>
+  not a new invention, but all four have to arrive together.</p>
 
-  <h3>Theoretical B — the multi-barrel battery</h3>
-  <p>Instead of one fat tube, place several independent barrels side by side on one site — ~20 m apart through
+  <h3>Theoretical B: the multi-barrel battery</h3>
+  <p>Instead of one fat tube, place several independent barrels side by side on one site, ~20 m apart through
   the rock (a rock pillar between Ø12 m bores, the way twin- and triple-bore road tunnels are already built),
   5–10 m apart on open viaduct. They share one tunnel campaign, one substation, one cryoplant, one vacuum
-  plant, one control centre, and — critically — <b>one storage farm fired round-robin:</b> while barrel 1
+  plant, one control centre, and, critically, <b>one storage farm fired round-robin:</b> while barrel 1
   recharges, barrel 2 fires, then 3, so the grid sees a steady draw instead of three spikes and the site fires
   far more often than any single barrel.</p>
-  <p><b class="k">What this does and does not buy:</b> it is mostly engineering scale-up, not new physics — but
+  <p><b class="k">What this does and does not buy:</b> it is mostly engineering scale-up, not new physics, but
   it is gated on the demonstrator first proving the per-barrel cost, and on building power to match. Three
   barrels deliver ~3× the tonnage for under 2× the capital, because the expensive infrastructure (and the
   permitting fight) is paid once. It does not escape the power rule: three barrels at full cadence draw three
@@ -190,15 +189,15 @@
 
 </div>
 
-<!-- 10 (cont.) — POD LENGTH -->
+<!-- 10 (cont.), POD LENGTH -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical C — a longer pod</h3>
+  <h3>Theoretical C: a longer pod</h3>
   <p>The baseline ASTRAPE is 23 m. The pod can be made far longer before physics objects: with the full-hull
   distributed drive there is no tail to crush (axial buckling only becomes a hard wall past ~140 m of carbon
   structure at 30 g, ~174 m for the wider Ø5 m hull). With BRONTE now a straight line (no terminal bend, §4),
-  the old ~280 m bend-clearance limit is gone — column buckling is the only ceiling. Every length below sits
-  well under it — ordinary rigid structure,
+  the old ~280 m bend-clearance limit is gone, column buckling is the only ceiling. Every length below sits
+  well under it, ordinary rigid structure,
   no articulation needed; even at 70 m the binding constraint is <i>handling and loading</i> a single object
   that long, not strength. Because the drive force grows with engaged length, a longer pod can be
   proportionally heavier at the same g, so payload scales roughly with length × bore cross-section.</p>
@@ -210,14 +209,14 @@
     <tr><td>50 m · Ø5 m <span class="meta">(theoretical)</span></td><td>~106 t</td><td>~24 t</td><td>~74 t</td><td>~589 m³</td></tr>
     <tr><td><b>70 m · Ø5 m</b> <span class="meta">(theoretical · pushing the limit)</span></td><td>~149 t</td><td>~33 t</td><td><b>~104 t</b></td><td>~982 m³</td></tr>
   </table>
-  <p class="meta">A fat bore only pays off with a long pod — at Ø5 m the nose cone alone is ~20 m — which is why
+  <p class="meta">A fat bore only pays off with a long pod, at Ø5 m the nose cone alone is ~20 m, which is why
   the theoretical Ø5 m variants are drawn long. The 50 m · Ø5 m pod already approaches one Starship's
   per-launch mass and volume (~100 t / ~1,000 m³); the 70 m · Ø5 m is about the longest single rigid pod worth
-  building — ~104 t of bulk in one shot, ~982 m³ — beyond which you would articulate the pod or accept the
+  building, ~104 t of bulk in one shot, ~982 m³, beyond which you would articulate the pod or accept the
   handling penalty.</p>
   <div class="warn"><b>"Bulk to orbit" is not fire-and-forget.</b> Even inert bulk cargo (propellant, water,
-  metal) still needs <b>a small kick stage</b> to circularize at apogee — the gun raises the apoapsis, but
-  something must add the last ~0.85 km/s to turn a ballistic arc into a stable orbit — plus <b>guidance, RCS
+  metal) still needs <b>a small kick stage</b> to circularize at apogee, the gun raises the apoapsis, but
+  something must add the last ~0.85 km/s to turn a ballistic arc into a stable orbit, plus <b>guidance, RCS
   thrusters, and attitude control</b> to steer, hold orientation, and rendezvous with the orbital catch-point
   or depot. The bulk-mode payload figures above are <i>after</i> that kick stage and avionics are subtracted
   from gross mass. Nothing reaches a usable orbit on the launcher alone; the launcher just does ~90% of the
@@ -225,16 +224,16 @@
 
 </div>
 
-<!-- 10 (cont.) — VEHICLE ILLUSTRATIONS -->
+<!-- 10 (cont.), VEHICLE ILLUSTRATIONS -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical D — what the long pods actually look like</h3>
+  <h3>Theoretical D: what the long pods actually look like</h3>
   <p>Three theoretical stretched ASTRAPE variants, drawn to one common scale so length and bore compare
   directly. The ogive nose is fixed by aerodynamics at ~3.9× the diameter, so a fatter bore spends more of the
-  pod on nose cone before any payload bay begins — which is exactly why a wide bore only earns its keep on a
+  pod on nose cone before any payload bay begins, which is exactly why a wide bore only earns its keep on a
   long pod.</p>
   <svg viewBox="0 0 1000 800" style="width:100%;height:auto;border:1px solid #cbd5e1;background:#fff;font-family:Consolas,monospace">
-  <text x="500" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">THEORETICAL STRETCHED ASTRAPE VARIANTS — ONE COMMON SCALE</text>
+  <text x="500" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">THEORETICAL STRETCHED ASTRAPE VARIANTS, ONE COMMON SCALE</text>
   <rect x="250" y="40" width="14" height="11" fill="#e7e0f2" stroke="#7c3aed" stroke-width="1.2"/>
   <text x="269" y="50" font-size="9.5" fill="#475569">OGIVE NOSE</text>
   <rect x="380" y="40" width="14" height="11" fill="#bfe3ea" stroke="#0e7490" stroke-width="1.2"/>
@@ -303,127 +302,125 @@
   <line x1="95" y1="775" x2="205.0" y2="775" stroke="#0f172a" stroke-width="2"/>
   <line x1="95" y1="770" x2="95" y2="780" stroke="#0f172a" stroke-width="2"/>
   <line x1="205.0" y1="770" x2="205.0" y2="780" stroke="#0f172a" stroke-width="2"/>
-  <text x="215.0" y="779" font-size="10" fill="#0f172a">10 m — true scale, all three vehicles</text>
+  <text x="215.0" y="779" font-size="10" fill="#0f172a">10 m, true scale, all three vehicles</text>
 </svg>
-  <p class="meta">Nose cone is a ~3.9:1 ogive (length ≈ 3.9 × diameter): ~12.5 m at Ø3.2 m, ~19.5 m at Ø5 m —
-  a fixed overhead that a longer body amortizes. At Ø5 m the 50 m pod is ~39% nose; stretch it to 70 m and the
+  <p class="meta">Nose cone is a ~3.9:1 ogive (length ≈ 3.9 × diameter): ~12.5 m at Ø3.2 m, ~19.5 m at Ø5 m, a fixed overhead that a longer body amortizes. At Ø5 m the 50 m pod is ~39% nose; stretch it to 70 m and the
   nose share drops to ~28% while the payload bay nearly doubles (28.5 m → 48.5 m). The skinny 40 m · Ø3.2 m is
   already ~65% payload bay. All dimensions theoretical · © Perpetual Technologies.</p>
 </div>
 
-<!-- 10 (cont.) — POWER, COST, DANGER -->
+<!-- 10 (cont.), POWER, COST, DANGER -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical E — the price of scale: power and cost</h3>
+  <h3>Theoretical E: the price of scale: power and cost</h3>
   <p>Energy per shot is fixed by physics: ½ × launched mass × exit-speed². A heavier pod, or a faster
   (bulk-mode) exit, costs proportionally more. Track electricity below at $0.06/kWh; cargo mode exits at
   Mach 11.2 (3.54 km/s, the straight-line full-line exit) and finishes on a kick stage, bulk mode is driven
   all the way to orbital speed (7.8 km/s) on the track itself.</p>
   <table>
-    <tr><th>Variant (max gross)</th><th>Cargo shot — Mach 11.2</th><th>Bulk shot — orbital 7.8 km/s</th></tr>
+    <tr><th>Variant (max gross)</th><th>Cargo shot, Mach 11.2</th><th>Bulk shot, orbital 7.8 km/s</th></tr>
     <tr><td>23 m · Ø3.2 m (20 t) <span class="meta">(baseline)</span></td><td>~35 MWh · ~$2,100</td><td>~169 MWh · ~$10,100</td></tr>
     <tr><td>40 m · Ø3.2 m (35 t)</td><td>~62 MWh · ~$3,700</td><td>~296 MWh · ~$17,700</td></tr>
     <tr><td>50 m · Ø5 m (106 t)</td><td>~184 MWh · ~$11,100</td><td>~896 MWh · ~$53,700</td></tr>
     <tr><td>70 m · Ø5 m (149 t)</td><td>~259 MWh · ~$15,500</td><td>~1,259 MWh · ~$75,500</td></tr>
   </table>
-  <p class="meta">The cost-per-kilogram barely moves with size — ~$0.58–0.59/kg of electricity in cargo mode,
+  <p class="meta">The cost-per-kilogram barely moves with size, ~$0.58–0.59/kg of electricity in cargo mode,
   ~$0.72–0.74/kg in bulk mode (bulk does all the work electrically instead of offloading it to a kick stage).
   That flatness is the whole thesis: the launcher's marginal cost is electricity, and electricity scales
-  linearly. What grows is the <i>capital</i> — the storage, the power feed, and the structure.</p>
+  linearly. What grows is the <i>capital</i>, the storage, the power feed, and the structure.</p>
   <p><b class="k">Where the power comes from.</b> The trick is two stages: a steady generator slowly fills an
-  energy store, and the store dumps it in seconds. The grid (or power plant) never sees the peak — only the
+  energy store, and the store dumps it in seconds. The grid (or power plant) never sees the peak, only the
   trackside flywheel/SMES farm does. Peak draw at exit is force × speed: the baseline shot peaks at ~21 GW, the
-  70 m cargo shot at ~160 GW, and the 70 m <i>bulk</i> shot at roughly ~700 GW — on the order of the entire
+  70 m cargo shot at ~160 GW, and the 70 m <i>bulk</i> shot at roughly ~700 GW, on the order of the entire
   United States grid, sourced for ~13 seconds from stored energy, then gone. Only pulsed-power kit (flywheels,
   superconducting magnetic storage, compulsators) can deliver that; chemical batteries physically cannot.</p>
-  <p>To get a feel for it: one 70 m bulk shot needs ~1,259 MWh in the store — about what a 1 GW power station
+  <p>To get a feel for it: one 70 m bulk shot needs ~1,259 MWh in the store, about what a 1 GW power station
   makes in 75 minutes, released in ~13 seconds (≈40% of the energy in the world's largest grid battery, Moss
   Landing, discharged far faster than that battery could ever manage). Firing ~8 such shots a day means roughly
-  <b>~420 MW of generation feeding that one barrel around the clock</b> — a dedicated mid-size power station: one
+  <b>~420 MW of generation feeding that one barrel around the clock</b>, a dedicated mid-size power station: one
   nuclear unit, a ~2 km² solar-plus-storage field, or a major hydro tap (a natural fit for Ecuador's grid). The
   realistic cargo-mode shot is far gentler: ~259 MWh, ~90 MW of sustained generation, ~155 GW peak. The point
-  stands either way: <b class="k">the launcher is cheap to fire and expensive to power-build</b> — pennies of
+  stands either way: <b class="k">the launcher is cheap to fire and expensive to power-build</b>, pennies of
   electricity per kilogram, but a serious generation-plus-storage plant behind every barrel.</p>
 </div>
 
-<!-- 10 (cont.) — THE BEND -->
+<!-- 10 (cont.), THE BEND -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical F — why the track has no curve</h3>
+  <h3>Theoretical F: why the track has no curve</h3>
   <p>BRONTE is a single straight line at 12.3°, and it is worth showing <i>why</i> we never add even a gentle
   terminal curve to steepen the exit: at these speeds any curve crushes the payload sideways. Centripetal load is
   a = v²/R, set by speed not mass, so even a very large radius bites hard.</p>
   <div class="math">If the track curved at radius R = 100 km (a <i>gentle</i> curve at this scale):<br>
   cargo 3,540 m/s: a_lat = 3,540² / 100,000 = 125 m/s² = <b>~13 g sideways</b><br>
   bulk 7,800 m/s:  a_lat = 7,800² / 100,000 = 608 m/s² = <b>~62 g sideways</b><br>
-  Straight track (R → ∞): a_lat = v²/R → <b>0 g</b>. The only load is axial — 30 g cargo, 3 g human.</div>
+  Straight track (R → ∞): a_lat = v²/R → <b>0 g</b>. The only load is axial, 30 g cargo, 3 g human.</div>
   <table>
     <tr><th>Load case</th><th>If it curved (R = 100 km)</th><th>Straight (the design)</th></tr>
     <tr><td>Lateral g, cargo exit</td><td>~13 g</td><td><b>0 g</b></td></tr>
     <tr><td>Lateral g, bulk exit</td><td>~62 g</td><td><b>0 g</b></td></tr>
-    <tr><td>Peak ring side-force, 70 m bulk pod</td><td>~91 MN (29× baseline)</td><td><b>~0</b> — levitation/centering only</td></tr>
+    <tr><td>Peak ring side-force, 70 m bulk pod</td><td>~91 MN (29× baseline)</td><td><b>~0</b>, levitation/centering only</td></tr>
     <tr><td>Axial launch g</td><td>30 g cargo / 3 g human</td><td>30 g cargo / 3 g human</td></tr>
   </table>
-  <p>So the straight line is not a compromise — it is the only geometry that keeps the payload within its g-limit
+  <p>So the straight line is not a compromise, it is the only geometry that keeps the payload within its g-limit
   at exit speed. The 360° ring therefore never has to restrain tens of meganewtons of curve side-thrust, and there
   is no point where the track fights to <i>turn</i> the pod. The pod still carries enormous kinetic energy (set by
   mass and speed, not by track shape):</p>
-  <div class="math">E_kinetic = ½mv² — e.g. 70 m bulk pod: ½ × 149,000 kg × (7,800 m/s)² = 4.53 × 10¹² J<br>
+  <div class="math">E_kinetic = ½mv², e.g. 70 m bulk pod: ½ × 149,000 kg × (7,800 m/s)² = 4.53 × 10¹² J<br>
   ÷ 4.184 × 10⁹ J per tonne TNT = <b>~1,080 t TNT (≈ 1 kiloton)</b></div>
-  <p class="meta">On a straight track a loss of drive simply lets the pod <b>coast straight</b> — the benign
-  failure mode — instead of being flung sideways through the tunnel wall. Containment and an empty downrange
+  <p class="meta">On a straight track a loss of drive simply lets the pod <b>coast straight</b>, the benign
+  failure mode, instead of being flung sideways through the tunnel wall. Containment and an empty downrange
   corridor still matter; the straight geometry just removes the lateral-g hazard entirely. The only price is a
-  little top speed — a straight 12.3° grade is shorter than a shallow-grade-plus-curve would be (Mach ~11.2 full
-  line) — a trade well worth making.</p>
+  little top speed, a straight 12.3° grade is shorter than a shallow-grade-plus-curve would be (Mach ~11.2 full
+  line), a trade well worth making.</p>
 </div>
 
-<!-- 10 (cont.) — STORING THE PULSE -->
+<!-- 10 (cont.), STORING THE PULSE -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical G — banking the pulse: how fusion stores its power, and why magnets fit</h3>
-  <p>The peak-power figures above — hundreds of gigawatts for ~13 seconds — are never drawn from the grid.
+  <h3>Theoretical G: banking the pulse: how fusion stores its power, and why magnets fit</h3>
+  <p>The peak-power figures above, hundreds of gigawatts for ~13 seconds, are never drawn from the grid.
   They come from energy banked between shots and released in one burst. That is precisely the problem the
   fusion and electromagnetic-launch communities have already solved at gigajoule scale, so KERAUNOS would
   borrow their hardware rather than invent it.</p>
-  <p><b class="k">How fusion already does it.</b> Magnetic fusion faces the identical surge problem — its field
+  <p><b class="k">How fusion already does it.</b> Magnetic fusion faces the identical surge problem, its field
   coils need a pulse the grid cannot give. JET drives its magnets from two flywheel generator-converters that
   bank gigajoule-scale energy and deliver up to <b>2,600 MJ per pulse at 100 kA</b>, supplementing a 575 MW
   grid feed, and have done so reliably for ~85,000 pulses since 1983. Inertial fusion takes the other route:
-  NIF stores ~<b>400 MJ per shot</b> across 3,840 capacitors — the world's most energetic capacitor bank —
-  charging over ~60 seconds and dumping it in a 400-microsecond burst. Two proven templates: spin it up
+  NIF stores ~<b>400 MJ per shot</b> across 3,840 capacitors, the world's most energetic capacitor bank, charging over ~60 seconds and dumping it in a 400-microsecond burst. Two proven templates: spin it up
   (flywheel) or charge it up (capacitor).</p>
   <table>
     <tr><th>How you bank a pulse</th><th>Stores energy as</th><th>Power density</th><th>Discharge</th><th>Proven by</th></tr>
     <tr><td>Flywheel / compulsator</td><td>rotation (kinetic)</td><td>high</td><td>seconds</td><td>JET; US Navy EMALS (484 MJ)</td></tr>
     <tr><td>Capacitor bank</td><td>electrostatic field</td><td>very high</td><td>µs–ms</td><td>NIF</td></tr>
-    <tr><td><b>SMES — the magnet route</b></td><td><b>magnetic field</b></td><td><b>extreme (~100 MW/kg)</b></td><td>ms · switch-limited</td><td>grid stabilizers; lab-scale HTS</td></tr>
+    <tr><td><b>SMES, the magnet route</b></td><td><b>magnetic field</b></td><td><b>extreme (~100 MW/kg)</b></td><td>ms · switch-limited</td><td>grid stabilizers; lab-scale HTS</td></tr>
   </table>
-  <p><b class="k">The magnet route — and why it fits KERAUNOS best.</b> Superconducting magnetic energy storage
+  <p><b class="k">The magnet route, and why it fits KERAUNOS best.</b> Superconducting magnetic energy storage
   (SMES) keeps the energy as current circulating in a short-circuited superconducting coil at near-zero loss;
   to fire, you open a fast switch and the magnetic field collapses into the load. Its specific power has
-  essentially no ceiling — figures around 100 MW/kg are quoted — which is exactly what a multi-gigawatt pulse
+  essentially no ceiling, figures around 100 MW/kg are quoted, which is exactly what a multi-gigawatt pulse
   wants. It is also fast: a SMES coil goes from full charge to full discharge in roughly <b>5 milliseconds</b>,
-  set by the switch rather than the magnet — squarely in the millisecond-to-second band between capacitors
+  set by the switch rather than the magnet, squarely in the millisecond-to-second band between capacitors
   (sub-millisecond) and batteries (minutes). And it is uniquely natural here: KERAUNOS is <i>already</i> a
-  giant superconducting machine — a 20 K
+  giant superconducting machine, a 20 K
   cryoplant, REBCO coils, and a 360° drive ring that is itself a huge inductor. The same cryogenics and the
   same REBCO supply chain that run the track can run the store, and the drive ring is already holding magnetic
   energy on every shot. Banking the <i>next</i> shot the same way simply closes the loop.</p>
-  <p class="meta"><b>The honest catch — the switch.</b> Inductive storage lives or dies on the opening switch:
-  to release the pulse you must interrupt enormous currents — 100 kA and beyond — in milliseconds, and that
+  <p class="meta"><b>The honest catch, the switch.</b> Inductive storage lives or dies on the opening switch:
+  to release the pulse you must interrupt enormous currents, 100 kA and beyond, in milliseconds, and that
   switch has historically been the hardest component (early systems used explosively-driven switches;
-  fast solid-state and plasma switches are the modern bet). Rotating compulsators — the preferred rapid-fire
-  railgun supply — sidestep the opening switch entirely, at the cost of being heavy spinning machines. The
+  fast solid-state and plasma switches are the modern bet). Rotating compulsators, the preferred rapid-fire
+  railgun supply, sidestep the opening switch entirely, at the cost of being heavy spinning machines. The
   realistic KERAUNOS answer is a hybrid: proven flywheels or compulsators for the bulk energy, with SMES and a
   fast solid-state switch for the final high-power shaping, all sharing the launcher's cryoplant. It is the
   storage farm, not the tube, that most needs invention.</p>
 </div>
 
-<!-- 10 (cont.) — POWER BANK & CABLES -->
+<!-- 10 (cont.), POWER BANK & CABLES -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>Theoretical H — the power bank and the cables that feed it</h3>
-  <p>A sketch of the magnet store from Theoretical G, and the conductors that move the energy. The design is
+  <h3>Theoretical H: the power bank and the cables that feed it</h3>
+  <p>A sketch of the magnet store from Theoretical G: and the conductors that move the energy. The design is
   deliberately asymmetric: the bank is charged <i>slowly</i> from a modest feed over minutes, then dumped
   through a fast switch in milliseconds. Cable sizes below are computed for the current Ø3.2 m line and for the
   longer 40 m · Ø3.2 m variant; the Ø5 m bore is left for later.</p>
@@ -432,7 +429,7 @@
       <path d="M0,0 L7,3 L0,6 Z" fill="#475569"/></marker>
       <marker id="ahb" markerWidth="11" markerHeight="11" refX="8" refY="3.5" orient="auto">
       <path d="M0,0 L8,3.5 L0,7 Z" fill="#7c3aed"/></marker></defs>
-    <text x="500" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">SMES POWER BANK — STORE IN THE MAGNET, RELEASE THROUGH A FAST SWITCH</text>
+    <text x="500" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">SMES POWER BANK, STORE IN THE MAGNET, RELEASE THROUGH A FAST SWITCH</text>
     <!-- charge path (top-left) -->
     <rect x="34" y="70" width="126" height="54" rx="4" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
     <text x="97" y="92" text-anchor="middle" font-size="10.5" fill="#334155">PLANT FEED</text>
@@ -442,7 +439,7 @@
     <text x="281" y="92" text-anchor="middle" font-size="10.5" fill="#334155">CHARGER · AC→DC</text>
     <text x="281" y="108" text-anchor="middle" font-size="10" fill="#64748b">charge over ~minutes</text>
     <path d="M 356,97 L 430,97 L 430,150" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#ah)"/>
-    <text x="372" y="64" font-size="10" fill="#0e7490">CHARGE — slow, continuous feed</text>
+    <text x="372" y="64" font-size="10" fill="#0e7490">CHARGE, slow, continuous feed</text>
     <!-- cryostat -->
     <rect x="370" y="150" width="300" height="170" rx="6" fill="#eef6ff" stroke="#0e7490" stroke-width="2"/>
     <rect x="384" y="164" width="272" height="142" rx="4" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="6 5"/>
@@ -455,7 +452,7 @@
       <ellipse cx="576" cy="240" rx="12" ry="46"/><ellipse cx="600" cy="240" rx="12" ry="46"/>
     </g>
     <line x1="420" y1="240" x2="612" y2="240" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3 3"/>
-    <text x="516" y="300" text-anchor="middle" font-size="10.5" fill="#7c3aed">REBCO SMES COIL — persistent current</text>
+    <text x="516" y="300" text-anchor="middle" font-size="10.5" fill="#7c3aed">REBCO SMES COIL, persistent current</text>
     <!-- discharge path (bottom-right) -->
     <path d="M 670,266 L 712,266" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#ahb)"/>
     <rect x="716" y="238" width="132" height="56" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="1.6"/>
@@ -465,7 +462,7 @@
     <rect x="894" y="238" width="92" height="56" rx="4" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
     <text x="940" y="262" text-anchor="middle" font-size="10" font-weight="700" fill="#4c1d95">360°</text>
     <text x="940" y="278" text-anchor="middle" font-size="10" font-weight="700" fill="#4c1d95">DRIVE RING</text>
-    <text x="724" y="226" font-size="10" fill="#7c3aed">DISCHARGE — ms-class, up to ~700 GW peak</text>
+    <text x="724" y="226" font-size="10" fill="#7c3aed">DISCHARGE, ms-class, up to ~700 GW peak</text>
     <!-- stats strip -->
     <line x1="34" y1="356" x2="986" y2="356" stroke="#e2e8f0" stroke-width="1"/>
     <g font-size="10" fill="#475569">
@@ -478,21 +475,21 @@
   </svg>
   <table>
     <tr><th>Conductor · where it runs</th><th>Current version (~20 t)</th><th>Longer 40 m · Ø3.2 m (theoretical)</th></tr>
-    <tr><td><b>HV charging feed</b> — full tunnel length, taps each storage station (34.5 kV, continuous)</td><td>~30 MW → ~530 A → <b>3 × 240 mm² Cu</b></td><td>~50 MW → ~880 A → <b>3 × 400 mm² Cu</b></td></tr>
-    <tr><td><b>Pulse bus</b> — storage station → drive coils (REBCO, 20 K, ~10 kV drive bus)</td><td>~23 GW → ~2.3 MA → <b>~5,800 mm²</b> (≈Ø86 mm); ~240 mm²/sector</td><td>~41 GW → ~4.1 MA → <b>~10,200 mm²</b> (≈Ø114 mm); ~425 mm²/sector</td></tr>
+    <tr><td><b>HV charging feed</b>, full tunnel length, taps each storage station (34.5 kV, continuous)</td><td>~30 MW → ~530 A → <b>3 × 240 mm² Cu</b></td><td>~50 MW → ~880 A → <b>3 × 400 mm² Cu</b></td></tr>
+    <tr><td><b>Pulse bus</b>, storage station → drive coils (REBCO, 20 K, ~10 kV drive bus)</td><td>~23 GW → ~2.3 MA → <b>~5,800 mm²</b> (≈Ø86 mm); ~240 mm²/sector</td><td>~41 GW → ~4.1 MA → <b>~10,200 mm²</b> (≈Ø114 mm); ~425 mm²/sector</td></tr>
     <tr><td>…the same pulse bus as plain copper <span class="meta">(why it must be superconducting)</span></td><td>≈Ø19 cm solid busbar</td><td>≈Ø26 cm solid busbar</td></tr>
   </table>
-  <p class="meta">The striking part: the <b>grid-side feed is small</b> — ordinary medium-voltage power cable (a
-  240 mm² Cu conductor carries ~530 A; reference: an 11 kV 185 mm² XLPE cable is rated ~430 A) — because the
+  <p class="meta">The striking part: the <b>grid-side feed is small</b>, ordinary medium-voltage power cable (a
+  240 mm² Cu conductor carries ~530 A; reference: an 11 kV 185 mm² XLPE cable is rated ~430 A), because the
   storage buffers the pulse and the grid only sees the slow recharge. The <b>pulse bus is enormous in current</b>
   but compact and lossless as REBCO (engineering current density ~400 A/mm²), and it shares the launcher's
   cryoplant; as plain copper the same conductor would be a ~20–26 cm bar. Assumes a 34.5 kV feed and a 10 kV
-  drive bus — a higher drive voltage shrinks the pulse bus proportionally. Routing is shown on the tunnel
-  section (Annex A, Panel D): feed and pulse bus ride the invert service ducts alongside the 20 K / 80 K cryo
+  drive bus, a higher drive voltage shrinks the pulse bus proportionally. Routing is shown on the tunnel
+  section (Annex B, Panel D): feed and pulse bus ride the invert service ducts alongside the 20 K / 80 K cryo
   headers. Ø5 m bore deferred.</p>
 </div>
 
-<!-- 10 (cont.) — THROUGHPUT -->
+<!-- 10 (cont.), THROUGHPUT -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
   <h3>How the numbers scale (theoretical)</h3>
@@ -515,9 +512,9 @@
     <tr><td><b>Triple Ø3.2 m batteries</b> <span class="meta">(theoretical)</span></td><td>~3 sites <span class="meta">(9 barrels)</span></td><td>three mountains instead of eight</td></tr>
   </table>
   <p>For scale: the entire world placed roughly 1,900 t in orbit in 2024. Every figure in this section is two
-  orders of magnitude past that — and bounded, in the end, not by the launchers but by how much power and how
+  orders of magnitude past that, and bounded, in the end, not by the launchers but by how much power and how
   many orbital catch-points can be built to absorb the mass.</p>
-  <div class="stamp">PURE THEORETICAL SCALING — REQUIRES TECHNOLOGY MATURATION BEYOND 2026 — NOT A BUILD PLAN, NOT FOR CONSTRUCTION</div>
+  <div class="stamp">PURE THEORETICAL SCALING, REQUIRES TECHNOLOGY MATURATION BEYOND 2026, NOT A BUILD PLAN, NOT FOR CONSTRUCTION</div>
 </div>
 
 <!-- 11 ZERO NEW PHYSICS -->
@@ -526,18 +523,18 @@
   <h2>11. Zero New Physics</h2>
   <p class="lede">Every subsystem has flown, fired, or been demonstrated. The opportunity is assembly, not invention.</p>
   <table>
-    <tr><th>Building block</th><th>Status — verified June 12, 2026</th></tr>
+    <tr><th>Building block</th><th>Status, verified June 12, 2026</th></tr>
     <tr><td>EMALS (US Navy)</td><td>Operational on USS Gerald R. Ford since 2017 incl. combat deployment; 484 MJ flywheel storage, 45 s recharge. CVN-79 (Kennedy) completed builder's trials Feb 2026, delivery ~Mar 2027. 2023 AFOSR-filed report recommends evolving EMALS for lunar launch.</td></tr>
     <tr><td>Superconducting maglev</td><td>603 km/h crewed record (JR Central L0, 2015) still stands; Shanghai Transrapid commercial since 2003; Chūō Shinkansen now expected NET ~2034 after the Shizuoka settlement (early 2026).</td></tr>
     <tr><td>REBCO superconductors</td><td>Tc ≈ 92 K. All-REBCO records: 26.86 T (ASIPP, 2024) → <b>28.2 T</b> (CHMFL, 2025); all-superconducting record <b>35.1 T</b> (ASIPP, Sept 2025); 45.5 T hybrid (NHMFL, 2019). CFS demonstrated 20 T SPARC-class coils (2021); SPARC assembly underway (first TF coil placed Jan 2026), first-plasma targeted 2026, Q&gt;1 targeted 2027; ARC (Virginia) early 2030s. Jc &gt; 1,000 A/mm² at 30 T <i>at 4.2 K</i>. Launch LSM needs only 5–10 T at the gap.</td></tr>
-    <tr><td>MHD plasma window</td><td>Invented by A. Hershcovitch (Brookhaven), patented 1995; holds ~9 atm; <b>demonstrated</b> for non-vacuum e-beam welding at cm-scale apertures. Scaling to the Ø4 m bore (2.8× baseline power) is the program's R&amp;D centerpiece — Phase 1 tests it at full bore.</td></tr>
+    <tr><td>MHD plasma window</td><td>Invented by A. Hershcovitch (Brookhaven), patented 1995; holds ~9 atm; <b>demonstrated</b> for non-vacuum e-beam welding at cm-scale apertures. Scaling to the Ø4 m bore (2.8× baseline power) is the program's R&amp;D centerpiece, Phase 1 tests it at full bore.</td></tr>
     <tr><td>X-59 shock shaping</td><td>First flight Oct 28, 2025; <b>first supersonic flight June 5, 2026</b> (Mach 1.1); Mach 1.4 acoustic points next; XVS camera-vision cockpit flight-proven.</td></tr>
     <tr><td>High-g electronics</td><td>Gun-launched guidance routinely qualified to 15,000–20,000 g (Excalibur-class). SELENE's 100 g cargo mode is conservative by two orders of magnitude.</td></tr>
     <tr><td>EM launch-assist market</td><td>Auriga Space: $12.2M cumulative incl. AFWERX D2P2; hypersonic-test-as-revenue model proven in market; outdoor track (Thor) planned 2026.</td></tr>
-    <tr><td>Orbital manufacturing demand</td><td>Flawless Photonics: ~11.9 km ZBLAN drawn on ISS (Feb–Mar 2024; 1,141 m/day vs 25 m prior record); Luxembourg production expansion; published performance characterization still pending — flagged honestly.</td></tr>
+    <tr><td>Orbital manufacturing demand</td><td>Flawless Photonics: ~11.9 km ZBLAN drawn on ISS (Feb–Mar 2024; 1,141 m/day vs 25 m prior record); Luxembourg production expansion; published performance characterization still pending, flagged honestly.</td></tr>
     <tr><td>Lunar mass-driver physics</td><td>O'Neill, NASA Ames studies 1976–77; Mass Driver One demo 1977. SJSU sizing study (2023): 25.4 kg pellets, 2.4 km/s, 10 s cadence, 8.7 MW polar solar, ~1.0 MA per bucket coil.</td></tr>
-    <tr><td>Lunar intent at scale</td><td>SpaceX lunar pivot + mass-driver statements (Feb–Mar 2026). Founder remarks, not a program of record — but the direction of the largest launch company on Earth.</td></tr>
-    <tr><td>Fusion pull (He-3 context)</td><td>NIF ignition Dec 2022 (3.15 MJ); best shot now <b>8.6 MJ, target gain &gt;4</b> (Apr 2025), ignition repeated 9+ times. He-3 demand is already contracted — but for <b>quantum-cryogenics</b>, not fusion: Interlune–Bluefors offtake (Sept 2025), up to 10,000 L/yr from 2028, prospecting mission 2027. No commercial D-He3 reactor yet exists (see §13.4).</td></tr>
+    <tr><td>Lunar intent at scale</td><td>SpaceX lunar pivot + mass-driver statements (Feb–Mar 2026). Founder remarks, not a program of record, but the direction of the largest launch company on Earth.</td></tr>
+    <tr><td>Fusion pull (He-3 context)</td><td>NIF ignition Dec 2022 (3.15 MJ); best shot now <b>8.6 MJ, target gain &gt;4</b> (Apr 2025), ignition repeated 9+ times. He-3 demand is already contracted, but for <b>quantum-cryogenics</b>, not fusion: Interlune–Bluefors offtake (Sept 2025), up to 10,000 L/yr from 2028, prospecting mission 2027. No commercial D-He3 reactor yet exists (see §13.4).</td></tr>
   </table>
 </div>
 
@@ -549,7 +546,7 @@
   <ul>
     <li><b class="k">Plasma window scaling.</b> Centimeter demos → Ø4.0 m bore at 2.8× baseline power. First R&amp;D dollar; if it doesn't scale, the muzzle needs a different answer and we must learn that at demonstrator scale, cheaply.</li>
     <li><b class="k">Cost per kilometer is unknown.</b> The $20–250/kg projection lives or dies on vacuum-rated superconducting track cost. Nobody has published a credible figure. Chimborazo Phase 1 produces the first real one.</li>
-    <li><b class="k">The El Arenal piers.</b> 110–590 m A-frames in a 0.4 g seismic zone — beyond Millau's 343 m record. Partial trenching, rock-buttressed spans, or accepting a lower exit are the studied outs.</li>
+    <li><b class="k">The El Arenal piers.</b> 110–590 m A-frames in a 0.4 g seismic zone, beyond Millau's 343 m record. Partial trenching, rock-buttressed spans, or accepting a lower exit are the studied outs.</li>
     <li><b class="k">The reserve.</b> Chimborazo sits inside a protected fauna reserve under a rights-of-nature constitution. The legal path may be harder than the rock. Stated plainly because pretending otherwise would be fatal later.</li>
     <li><b class="k">SELENE's first bill is a rocket bill.</b> First coils, power, and radiators ride to the Moon at today's prices; the starter track must fit one or two heavy-lift flights.</li>
     <li><b class="k">Catching is harder than throwing.</b> Until the first cislunar catch happens, export revenue is theoretical. Wide-cone tugs first, tethers later.</li>
@@ -566,10 +563,10 @@
   <p class="lede">The honest accounting: launching is the cheap part. Making material worth launching, and
   getting it home, are the walls. Every figure here is derived from first principles and cited.</p>
   <p>A dedicated deep-research and fact-check pass (June 13, 2026; ~60 primary sources) re-derived SELENE's
-  export case. It survives — but only when stated precisely. The corrections below make the architecture
+  export case. It survives, but only when stated precisely. The corrections below make the architecture
   <i>stronger</i>, because they replace a fragile fusion bet with a robust cislunar-logistics business.</p>
 
-  <h3>13.1 Launch energy is trivial — the physics floor</h3>
+  <h3>13.1 Launch energy is trivial, the physics floor</h3>
   <p>SELENE accelerates a pod to lunar escape velocity, 2.38 km/s. The energy is purely kinetic:</p>
   <div class="math">E_launch = ½v² = ½ × (2,380 m/s)² = 2.832 × 10⁶ J/kg = <b>0.787 kWh/kg</b>  (ideal)<br>
   Wall-plug at 84% drive efficiency:  0.787 / 0.84 = <b>0.94 kWh/kg</b><br>
@@ -579,7 +576,7 @@
   O'Neill/NASA mass-driver heritage and the 2023 San José State sizing study, both built on 1,000 g, ~2.4 km/s.
   <span class="ref">(O'Neill, NASA SP-428, 1977; Miller, SJSU AE thesis, 2023.)</span></p>
 
-  <h3>13.2 The processing wall — the number that reframes everything</h3>
+  <h3>13.2 The processing wall, the number that reframes everything</h3>
   <p>Energy to <i>escape</i> is trivial; energy to <i>refine</i> is not. Run the same 10 MW solar plant three
   ways:</p>
   <div class="math">Launch (raw mass):     10,000 kW ÷ 0.80 kWh/kg  = 12,500 kg/h = <b>~300 t/day</b><br>
@@ -587,25 +584,25 @@
   Solar-grade silicon:   10,000 kW ÷ 150 kWh/kg   =     67 kg/h = <b>~1.6 t/day</b>  (Siemens-class)<br>
   ⇒ refining costs <b>30× (O₂) to ~190× (Si)</b> more energy per kg than launching it</div>
   <div class="call"><b>This is the load-bearing insight.</b> "~300 t/day" is <i>raw or lightly-processed</i>
-  mass throughput. Anything refined is gated by the processing plant, not the launcher — a solar-powered lunar
+  mass throughput. Anything refined is gated by the processing plant, not the launcher, a solar-powered lunar
   industry is bottlenecked by ISRU energy, not launch energy. SELENE's job is to make the launch free; the
   power plant decides how much <i>finished</i> product exists. <span class="ref">(Lordos et al., PNAS 122:e2306146122, 2025; Guerrero-Gonzalez &amp; Zabel, Acta Astronautica 203:187, 2023.)</span></div>
 </div>
 
-<!-- 13 (cont.) — WHAT TO EXPORT + HE-3 -->
+<!-- 13 (cont.), WHAT TO EXPORT + HE-3 -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
   <h3>13.3 What is actually worth exporting</h3>
   <table>
     <tr><th>Commodity</th><th>Abundance / energy</th><th>Best customer</th><th>Verdict</th></tr>
-    <tr><td>Propellant (LOX/LH₂) from polar ice</td><td>ice ~5.6 wt% (LCROSS); ~tens kWh/kg</td><td><b>Cislunar depots</b></td><td>Robust near-term — sold in space</td></tr>
+    <tr><td>Propellant (LOX/LH₂) from polar ice</td><td>ice ~5.6 wt% (LCROSS); ~tens kWh/kg</td><td><b>Cislunar depots</b></td><td>Robust near-term, sold in space</td></tr>
     <tr><td>Oxygen from regolith</td><td>40–45 wt% O; ~24 kWh/kg LOX</td><td>Cislunar / life support</td><td>Strong, in-space</td></tr>
     <tr><td>Structural metals (Fe/Al/Ti)</td><td>Fe 14–17%, Al 10–18%, Ti 5–8%</td><td>Lunar / cislunar build</td><td>In-space only (Moon beats asteroids for Ti, Al)</td></tr>
     <tr><td>Helium-3</td><td>~4–10 ppb; ~5,000 GJ/kg to extract</td><td>Earth (quantum cryo)</td><td>Luxury commodity, kg/yr (§13.4)</td></tr>
-    <tr><td>Platinum-group metals</td><td>~1–5 g/t, meteoritic, unproven</td><td>Earth</td><td>Speculative — asteroids win</td></tr>
+    <tr><td>Platinum-group metals</td><td>~1–5 g/t, meteoritic, unproven</td><td>Earth</td><td>Speculative, asteroids win</td></tr>
   </table>
   <p>The peer-reviewed consensus is blunt: <b>cislunar use beats Earth-return for essentially everything</b>
-  except the very highest value density. This does not weaken SELENE — it sharpens the "exporter from day one"
+  except the very highest value density. This does not weaken SELENE, it sharpens the "exporter from day one"
   claim to its defensible form: <i>SELENE sells propellant, oxygen and metal into cislunar space</i>, where a
   lunar kilogram is worth multiples of an Earth-lifted one. Earth-return is reserved for ultra-high-value goods.
   <span class="ref">(Crawford, arXiv:1410.6865, 2015; Metzger, arXiv:2303.09011, 2023.)</span></p>
@@ -619,19 +616,19 @@
   No heat recovery:   1.25×10⁵ t × 0.536 GJ/t ≈ <b>67,000 GJ/kg He-3</b>  (≈ 18.6 GWh/kg)<br>
   With 85% recovery:  ~<b>10,000 GJ/kg</b>;  at 20 ppb + recovery:  ~<b>5,000 GJ/kg</b><br>
   Cross-check (NASA M-3 miner):  12.3 MW thermal, 33 kg/yr ⇒ <b>5,289 GJ/kg</b>  ✓ (within 5%)</div>
-  <p>That extraction energy — thousands of GJ per kg — is <b>~10⁴× the launch energy</b>, so the crusher is
+  <p>That extraction energy, thousands of GJ per kg, is <b>~10⁴× the launch energy</b>, so the crusher is
   lunar earth-moving and heat, never SELENE's gun. And the demand is misunderstood: the ~$20M/kg price is a
   <b>quantum-cryogenics</b> scarcity price (dilution-refrigerator coolant), not a fusion price. No commercial
   D-He3 reactor exists, D-He3 is harder to ignite than D-T, and the USGS (2022) lists lunar He-3 as "inferred
   unrecoverable." <b>Verdict: He-3 closes as a kilogram-per-year luxury commodity into quantum/medical markets
-  (Interlune–Bluefors, up to 10,000 L/yr, 2028–2037) — a real, high-margin niche — but it is not, today, fusion
+  (Interlune–Bluefors, up to 10,000 L/yr, 2028–2037), a real, high-margin niche, but it is not, today, fusion
   energy.</b> <span class="ref">(Olson, NASA ASCEND 2021; Fegley &amp; Swindle 1993; USGS 2022; Interlune–Bluefors, 2025.)</span></p>
 </div>
 
-<!-- 13 (cont.) — MANUFACTURE + RE-ENTRY + SITE -->
+<!-- 13 (cont.), MANUFACTURE + RE-ENTRY + SITE -->
 <div class="page np">
   <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
-  <h3>13.5 Lunar manufacture of hardware — what is real</h3>
+  <h3>13.5 Lunar manufacture of hardware, what is real</h3>
   <p>Oxygen and crude metal are the mature part; finished electronics are not.</p>
   <table>
     <tr><th>Process</th><th>Output</th><th>TRL</th><th>Basis</th></tr>
@@ -642,22 +639,22 @@
     <tr><td>Vacuum-evaporated solar-grade Si</td><td>thin-film Si</td><td>2–3</td><td>&lt;1 ppm impurities; <i>below</i> chip grade</td></tr>
   </table>
   <p>Solar cells and aluminium wiring are plausible; <b>semiconductor (logic-chip) grade silicon is not
-  demonstrated, and copper is essentially absent</b> on the Moon — so aluminium is the lunar conductor. That is
+  demonstrated, and copper is essentially absent</b> on the Moon, so aluminium is the lunar conductor. That is
   not a compromise:</p>
   <div class="math">σ(Al) ≈ 61% IACS of Cu ⇒ equal-resistance Al needs 1/0.61 = <b>1.64× the cross-section</b><br>
   but ρ(Al)=2.70, ρ(Cu)=8.96 g/cm³ ⇒ equal-resistance Al mass = 1.64 × (2.70/8.96) = <b>0.49 ×</b> copper<br>
-  ⇒ an aluminium conductor is <b>~half the mass</b> of copper for the same conductance — ideal where Al is abundant</div>
+  ⇒ an aluminium conductor is <b>~half the mass</b> of copper for the same conductance, ideal where Al is abundant</div>
   <p class="ref">(Blue Origin "Blue Alchemist," 2023; Sierra Space carbothermal, 2024; Ignatiev/NASA vacuum-Si; Azami et al., arXiv:2408.05823, 2024; Lunar Sourcebook Ch.8 for copper scarcity.)</p>
 
-  <h3>13.6 Getting it home — re-entry dominates</h3>
+  <h3>13.6 Getting it home, re-entry dominates</h3>
   <div class="math">A pod at 2.38 km/s leaves the lunar sphere of influence ≈ at rest, then falls down Earth's well.<br>
   Vis-viva, 384,400 km → 120 km entry interface:  v_entry ≈ <b>10.99 km/s</b>  (reproduces Apollo/Orion ~11.1)<br>
   E_entry = ½ × (11,000)² = 60.5 MJ/kg = <b>21.4 × the launch energy</b> (2.83 MJ/kg)</div>
   <p>Re-entry, not launch, is the energy-management problem. Precedent sets the envelope: Stardust entered at
   12.9 km/s (~1,200 W/cm², ~34 g); Apollo at ~11 km/s (~6–7 g guided); Hayabusa's heat shield was 53% of
-  capsule mass. A ~500 kg cargo pod takes the simplest proven path — <b>ballistic entry + parachute</b>
+  capsule mass. A ~500 kg cargo pod takes the simplest proven path, <b>ballistic entry + parachute</b>
   (Genesis/Stardust class): ~30–34 g (fine for hardware), peak ~600–1,000 W/cm², TPS ~15–35% (~100–175 kg).
-  Orbital catch (a rotating skyhook) avoids the heat entirely but needs a facility ~200× the pod mass — worth
+  Orbital catch (a rotating skyhook) avoids the heat entirely but needs a facility ~200× the pod mass, worth
   it only at high cadence. <span class="ref">(NASA NTRS: Stardust 20090004445, Apollo TN D-5399, Hayabusa 20120011648; HASTOL NIAC.)</span></p>
 
   <h3>13.7 The site checks out</h3>
@@ -679,33 +676,33 @@
   <h2>14. What KERAUNOS Unlocks</h2>
   <h3>Orbital manufacturing</h3>
   <ul>
-    <li><b class="k">ZBLAN fiber</b> — up to 100× lower theoretical loss than silica; ~12 km drawn on ISS in 2024; customers queue on freight prices. KERAUNOS is the freight price. (Performance proof still pending publication — the bet is stated, not oversold.)</li>
-    <li><b class="k">Orbital bioprinting</b> — organs that collapse under their own weight in 1 g; daily return pods turn it from stunt to logistics business.</li>
-    <li><b class="k">Debris salvage</b> — thousands of tonnes of aerospace alloy already in orbit becomes ore when tug-hours are cheap.</li>
+    <li><b class="k">ZBLAN fiber</b>, up to 100× lower theoretical loss than silica; ~12 km drawn on ISS in 2024; customers queue on freight prices. KERAUNOS is the freight price. (Performance proof still pending publication, the bet is stated, not oversold.)</li>
+    <li><b class="k">Orbital bioprinting</b>, organs that collapse under their own weight in 1 g; daily return pods turn it from stunt to logistics business.</li>
+    <li><b class="k">Debris salvage</b>, thousands of tonnes of aerospace alloy already in orbit becomes ore when tug-hours are cheap.</li>
   </ul>
   <h3>Geopolitical position</h3>
   <ul>
-    <li><b class="k">The Space Panama Canal</b> — the host nation stops paying for access and starts charging for it.</li>
-    <li><b class="k">Presence as a supply chain</b> — 80 t/day secures orbital slots and lunar territory as a logistics fact, not a flag.</li>
-    <li><b class="k">The deterrence dividend</b> — constellation replenishment in hours, not months.</li>
+    <li><b class="k">The Space Panama Canal</b>, the host nation stops paying for access and starts charging for it.</li>
+    <li><b class="k">Presence as a supply chain</b>, 80 t/day secures orbital slots and lunar territory as a logistics fact, not a flag.</li>
+    <li><b class="k">The deterrence dividend</b>, constellation replenishment in hours, not months.</li>
   </ul>
   <h3>Fusion economy</h3>
   <ul>
-    <li><b class="k">The He-3 supply chain — as a luxury commodity, not a fusion fantasy.</b> Be honest about
+    <li><b class="k">The He-3 supply chain, as a luxury commodity, not a fusion fantasy.</b> Be honest about
     what He-3 is and isn't (full derivation in §13.4). The ~$20M/kg price is a <b>quantum-cryogenics</b>
-    scarcity price (dilution-refrigerator coolant — Interlune's actual contracted buyers, e.g. Bluefors,
+    scarcity price (dilution-refrigerator coolant, Interlune's actual contracted buyers, e.g. Bluefors,
     up to 10,000 L/yr 2028–2037), <i>not</i> a fusion-fuel price. There is no commercial D-He3 reactor; D-He3
     is harder to ignite than D-T, and the USGS (2022) classes lunar He-3 "inferred unrecoverable." At ~4–10 ppb
     in regolith the extraction is enormous earth-moving (~10⁵ tonnes mined and heated per kg), so the cost
     driver is lunar energy, not SELENE's launch. <b>The honest business closes at the kilogram-per-year scale
-    into quantum/medical markets</b> — a real, high-margin niche — and only <i>becomes</i> civilization-scale
+    into quantum/medical markets</b>, a real, high-margin niche, and only <i>becomes</i> civilization-scale
     fuel logistics if D-He3 fusion is ever solved. SELENE is positioned for that future without betting on it.</li>
     <li><b class="k">The energy loop.</b> Trackside storage doubles as grid-scale battery between launch windows; the same plant powers debris-sweeping lasers over the corridor. Nothing idles.</li>
   </ul>
   <p class="meta" style="margin-top:16pt;">Verification note: all external claims in this revision were
   re-checked against primary reporting and literature on June 12, 2026; all physics re-derived from first
-  principles the same day. Annex A (BRONTE Chimborazo Design Map) is bound after Section 4. The SELENE Design
-  Map (KER-SEL-TRK-002) is issued as a companion sheet.</p>
+  principles the same day. Annex B (BRONTE Chimborazo Design Map) follows Section 4. The SELENE Design
+  Map (Annex A, KER-SEL-TRK-002) follows Section 1.</p>
 </div>
 
 </body>
