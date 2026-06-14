@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KERAUNOS, Rev 2 (Part A)</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  body { font-family:"Segoe UI",Arial,sans-serif; color:#1e293b; font-size:10.5pt; line-height:1.5; margin:0; }
+  .page { page-break-after: always; }
+  h1 { font-size:26pt; letter-spacing:2px; margin:0 0 4pt; }
+  h2 { font-size:15pt; color:#0f172a; border-bottom:2.5px solid #0e7490; padding-bottom:3pt; margin:0 0 10pt; }
+  h3 { font-size:11.5pt; color:#0e7490; margin:14pt 0 6pt; }
+  .sub { color:#7c3aed; font-size:12pt; margin:0 0 2pt; }
+  .meta { color:#64748b; font-size:9.5pt; }
+  .lede { font-style:italic; color:#7c3aed; margin:0 0 10pt; }
+  table { width:100%; border-collapse:collapse; font-size:9pt; margin:8pt 0 12pt; }
+  th { background:#0f172a; color:#fff; text-align:left; padding:5pt 7pt; font-weight:600; }
+  td { border-bottom:1px solid #e2e8f0; padding:5pt 7pt; vertical-align:top; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  .call { background:#f0f9ff; border-left:3px solid #0e7490; padding:7pt 10pt; margin:8pt 0; font-size:9.5pt; }
+  .warn { background:#fff7ed; border-left:3px solid #d97706; padding:7pt 10pt; margin:8pt 0; font-size:9.5pt; }
+  .fix  { background:#fef2f2; border-left:3px solid #dc2626; padding:7pt 10pt; margin:8pt 0; font-size:9pt; }
+  ul { margin:6pt 0 10pt 16pt; padding:0; } li { margin:0 0 5pt; }
+  b.k { color:#0f172a; }
+  .hdr { display:flex; justify-content:space-between; font-size:8pt; color:#94a3b8; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:4pt; margin-bottom:14pt; }
+  .stamp { border:2px dashed #d97706; color:#92400e; font-weight:700; font-size:9pt; text-align:center; padding:6pt; margin:10pt 0; letter-spacing:1px; }
+  img.map { width:100%; border:1px solid #334155; }
+  /* never slice a table or row across a page break, move it whole to the next page */
+  table, tr { break-inside: avoid; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  /* derivation / math boxes, make the arithmetic auditable */
+  .math { background:#f8fafc; border-left:3px solid #475569; padding:7pt 11pt; margin:8pt 0;
+     font-family:Consolas,monospace; font-size:8.7pt; line-height:1.55; color:#0f172a; }
+  .math b { color:#0e7490; }
+  .ref { font-size:8.5pt; color:#64748b; }
+  /* copyright footer repeated on every printed page (position:fixed repeats per page in print) */
+  .copyright { display:none; }
+  @media print { .copyright { display:block; position:fixed; left:0; right:0; bottom:6mm;
+     text-align:center; font-size:7pt; letter-spacing:1px; color:#94a3b8; } }
+</style>
+</head>
+<body>
+<div class="copyright">© 2026 Perpetual Technologies. All rights reserved.</div><!-- SECTION 2 PHYSICS -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>2. The Physics and the Price</h2>
+  <p class="lede">The electricity cost of orbital velocity is $0.53 per kilogram. Everything above that is hardware amortization, not physics.</p>
+  <table>
+    <tr><th>Relation</th><th>What it means</th></tr>
+    <tr><td><b>E = ½v² = 32 MJ/kg</b></td><td>At 8 km/s and $0.06/kWh: <b>$0.53 of grid electricity per kilogram</b>. Falcon 9 burns ~$200–300K of propellant for ~17–22.8 t to LEO, propellant alone costs ~20–25× KERAUNOS's total electricity spend per kilogram, on a vehicle that is 90% propellant by mass.</td></tr>
+    <tr><td><b>a = v²/2L</b></td><td>Acceleration is set by velocity and length. 1,000 km at 8 km/s is 3.3 g, gentle enough for people. StarTram Gen-1 accepted 30 g on 130 km, cargo-only. On the Moon a 3 g orbital track is ~50 km. <b>Track length is the unlock.</b></td></tr>
+    <tr><td><b>Kick stage: Isp 350 s, 20% mass</b></td><td>Δv = 3,434 × ln(1/0.8) ≈ <b>0.77 km/s</b> for circularization and trim at apogee. That is the only propellant aboard, ~80% of launched mass is payload, vs ~10% for a rocket.</td></tr>
+    <tr><td><b>Bends are forbidden at speed</b></td><td>Centripetal load is a = v²/R, so a g-capped turn needs an enormous radius. KERAUNOS takes the rule to its conclusion: <b>every track is a single straight line, no terminal curve at all</b>. Straight means zero lateral g on the payload (Section 4 / Theoretical F).</td></tr>
+  </table>
+  <div class="math">Worked from the two relations above:<br>
+  Energy floor:  E = ½v² = ½ × (8,000 m/s)² = 32 MJ/kg = 8.9 kWh/kg  ⇒  at $0.06/kWh = <b>$0.53/kg</b> to orbital speed<br>
+  Track g-load:  a = v²/2L, a 1,000 km track at 8 km/s ⇒ a = 8,000² / (2 × 10⁶) = 32 m/s² = <b>3.3 g</b> (human-rated)<br>
+  Why no bends:  R = v²/a, turning at 4 km/s under an 8 g cap needs R = 4,000² / 78.5 = <b>204 km</b>; so the track stays straight</div>
+  <h3>Comparative launch costs (per kg to LEO)</h3>
+  <table>
+    <tr><th>System</th><th>Cost per kg</th><th>Economic bottleneck</th></tr>
+    <tr><td>Space Shuttle</td><td>$54,500 <span class="meta">(full-program-cost basis)</span></td><td>Hand-built; massive refurbishment every flight</td></tr>
+    <tr><td>Falcon 9 (2026)</td><td>~$3,245 list (expendable basis); ~$630 est. internal</td><td>$74M list price (Feb 2026); reusable flights carry ~17–18 t, so real per-kg runs higher</td></tr>
+    <tr><td>Starship (projected)</td><td>$100–$1,000, <b>aspirational</b></td><td>V3 flew once (Flight 12, May 22, 2026; payload deploy succeeded, booster mishap, fleet grounded pending FAA review). No reuse-economics data yet; chemical energy density is the hard floor</td></tr>
+    <tr><td>KERAUNOS</td><td>$20–$250 <span class="meta">(target)</span></td><td>$0.53/kg electricity; the rest amortizes track capital, the honest unknown is tunnel+tube cost per km, which Phase 1 exists to measure</td></tr>
+    <tr><td>KERAUNOS + skyhook</td><td>toward $5</td><td>Kick propellant → ~2–5% when a rotating tether catches pods (Section 8)</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 3 WHY NOW -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>3. Why Now: The Signals, as of June 2026</h2>
+  <p class="lede">The field validated itself publicly in the last 24 months. The window to enter at peer level is now.</p>
+  <ul>
+    <li><b class="k">SpaceX wants a lunar mass driver, said out loud, February 2026.</b> Following the
+    company's lunar pivot (Feb 2, 2026), Musk described a mass driver "shooting AI satellites into deep
+    space" at the Feb 11 all-hands, and reaffirmed it March 22 ("Mass drivers on the Moon!"). Honesty
+    requires the caveat: these are founder statements, not a funded program of record, no contracts or
+    milestones have been disclosed. But the largest launch company on Earth pointing at exactly this machine
+    is both validation and a clock. A partner positioned ahead of that build doesn't compete, it supplies
+    the architecture.</li>
+    <li><b class="k">China is building EM launch hardware, targeting 2028.</b> Galactic Energy, CASIC, and
+    the Ziyang municipal government are constructing an electromagnetic launch verification platform to
+    throw a Ceres-2-class rocket to <b>above Mach 1</b> before ignition. Progress is real: a full-system
+    ejection test of a 1.4 m rocket model (April 2025) and a matrix-switched segmented-drive trial at ~90%
+    system efficiency (January 2026). It's launch-assist, the rocket still carries the full propellant
+    penalty, but the supply chain and urgency are real.</li>
+    <li><b class="k">The US military already funds this class of technology.</b> Auriga Space has raised
+    $12.2M cumulatively (VC plus AFWERX, including a $1.25M Direct-to-Phase-II SBIR) for an EM launch-assist
+    track, selling hypersonic test services as Phase-1 revenue, Prometheus (lab) → Thor (outdoor track,
+    2026) → Zeus (orbital). General Atomics EMALS (484 MJ flywheel storage, 45 s recharge) has launched
+    aircraft from USS Gerald R. Ford since 2017 through a combat deployment. A 2023 AFOSR-filed report
+    (Peterkin) explicitly recommends evolving EMALS for lunar launch, and a US SBIR program record describes
+    a magnetically levitated sled driven to 7 km/s. The demand signal is public and funded.</li>
+    <li><b class="k">The boom-shaping toolkit just went supersonic.</b> NASA's X-59 flew Oct 28, 2025
+    (67 min), expanded its envelope through spring 2026, and made its <b>first supersonic flight June 5,
+    2026</b> (Mach 1.1), with Mach 1.4 acoustic-validation points next, flying on a camera-vision cockpit
+    the whole way. The quiet-shock shaping ASTRAPE borrows is being flight-proven right now.</li>
+    <li><b class="k">The gap nobody fills:</b> every competitor is fighting the atmosphere, China's
+    launch-assist, StarTram's paper tube, Auriga's track. Nobody is building the launcher where the
+    atmosphere doesn't exist. KERAUNOS starts there; ASTERIA is the open lane, and Earth
+    revenue (Chimborazo) funds the climb.</li>
+  </ul>
+</div>
+
+<!-- SECTION 4 CHIMBORAZO -->
+<div class="page">
+  <div class="hdr"><span>KERAUNOS · MAGLEV SPACE LAUNCH SYSTEM · REV 2</span><span>SAMUEL EDWARDS</span></div>
+  <h2>4. The Chimborazo Project: BRONTE's Earth Demonstrator</h2>
+  <p class="lede">Rev 2 replaces the sketch with a site study: real terrain, real geology, one straight line through the mountain.</p>
+  <p><b class="k">Chimborazo, Ecuador. Summit 6,263 m, 1.47°S.</b> The case still holds: the equator gives
+  +465 m/s of Earth's rotation free (fire east); high exit altitude halves the air (at 6,220 m, density is
+  ~54% of sea level, Rev 1 quoted 45%, which is the <i>pressure</i> ratio); equatorial launch reaches every
+  inclination. What changed is the engineering, driven by three facts established in the Rev 2 site study:</p>
+  <ul>
+    <li><b>Terrain (SRTM 30 m):</b> the mountain is a gentle 40-km shield with a concave western approach, no straight surface route to a summit-area exit exists. The answer is a <b>through-mountain line</b>:
+    azimuth 095°, passing 0.5 km north of the summit.</li>
+    <li><b>Geology (IG-EPN, Bernard et al., Beauval et al.):</b> the andesite core is TBM-proven rock (Ecuador's
+    own Coca Codo Sinclair bored 24.8 km with 9 m machines); the volcano is dormant-but-potentially-active
+    (last eruption ~550 CE, ~1,000-yr recurrence); the governing hazard is seismic, the Pallatanga fault
+    (1797 Riobamba, M~7.6) sets a ~0.4 g design basis, which drove A-frame piers, radial truss bracing, and
+    re-trimmable track jacks. The route avoids the Riobamba debris-avalanche deposit entirely.</li>
+    <li><b>The straight-line rule, taken all the way:</b> at exit speed a track cannot bend without crushing
+    the payload sideways, so BRONTE is a <i>single straight line at 7.5°</i> from portal to crest muzzle. We add
+    no terminal curve to steepen the exit (Theoretical F shows why); straight means no lateral g, no centripetal
+    "load wall," and no curve-failure case: the pod feels only its axial launch g. The price is track length, a
+    steeper, straight grade is shorter for a given exit, which trims top speed. Both the geometry and that
+    trade are derived below.</li>
+  </ul>
+  <h3>The line, in two builds, now a single straight grade</h3>
+  <p>The muzzle is set at <b>6,220 m</b> (near the summit, ~43 m below the 6,263 m crest) so the exit emerges
+  high on the summit cone as a clean bored-tunnel mouth, just below the crest rather than a mast perched on top.</p>
+  <div class="math">Straight track at fixed exit angle θ = 7.5° (sin 7.5° = 0.1305):  L = Δh / sin θ<br>
+  Phase 1:   L = (6,220 − 4,393) / 0.1305 = 1,827 / 0.1305 = <b>14,000 m ≈ 14.0 km</b><br>
+  Full line: L = (6,220 − 1,000) / 0.1305 = 5,220 / 0.1305 = <b>40,000 m ≈ 40 km</b><br>
+  Exit speed from a = v²/2L ⇒ v = √(2aL), cargo a = 30 g = 294 m/s²  (local sound speed a<sub>s</sub> ≈ 316 m/s):<br>
+  Phase 1:   v = √(2 × 294 × 14,000) = 2,869 m/s = <b>2.87 km/s</b>  (Mach 9.1),  t = v/a = 9.8 s<br>
+  Full line: v = √(2 × 294 × 40,000) = 4,850 m/s = <b>4.85 km/s</b>  (Mach 15.3), t = 16.5 s<br>
+  Energy/shot (15 t, full): E = ½mv² = ½ × 15,000 × 4,850² = 1.76 × 10¹¹ J = <b>49.0 MWh</b></div>
+  <table>
+    <tr><th></th><th>Phase 1, build first</th><th>Full line, the growth target</th></tr>
+    <tr><td>Length @ 7.5°</td><td><b>14 km</b> (portal ~4,393 m, lower eastern flank)</td><td><b>~40 km</b> (west portal ~1,000 m, Chazojuán valleys)</td></tr>
+    <tr><td>Works</td><td>bored tunnel through the flank + crest bore + short truss muzzle</td><td>adds ~26 km of deep tunnel down the western slope</td></tr>
+    <tr><td>Exit</td><td colspan="2">Same muzzle for both: <b>6,220 m</b>, <b>7.5° east, straight</b>, ~43 m below peak elevation</td></tr>
+    <tr><td>Cargo (30 g)</td><td>2.87 km/s · <b>Mach ~9.1</b> · 9.8 s in tube</td><td>4.85 km/s · <b>Mach ~15.3</b> · 16.5 s</td></tr>
+    <tr><td>Human (3 g)</td><td>0.91 km/s · Mach ~2.9 · 31 s</td><td>1.53 km/s · Mach ~4.9 · 52 s</td></tr>
+    <tr><td>Per shot (15 t gross)</td><td>17.1 MWh · 12.7 GW peak</td><td>49.0 MWh · 21.4 GW peak, trackside storage; grid sees ~30 MW × ~52 min recharge</td></tr>
+  </table>
+  <h3>Could the line go faster? The velocity ladder over the 40 km line</h3>
+  <p>The full line runs cargo at 30 g, which over 40 km is 4.85 km/s (Mach 15.3), one rung on this ladder. Exit
+  speed is set by length and g-load (v = √(2aL)); here is what dialing the same 40 km line to 4, 6, and 8 km/s
+  would take, and whether the g-load makes it possible.</p>
+  <div class="math">Over L = 40 km:  a = v²/2L,  g = a/9.81,  t = 2L/v,  F = ma (15 t),  E = ½mv²<br>
+  4 km/s: a = 4,000²/(2·40,000) = 200 m/s² = <b>20.4 g</b> · t = 20 s · F = 3.0 MN · E = 33 MWh<br>
+  6 km/s: a = 6,000²/80,000 = 450 m/s² = <b>45.9 g</b> · t = 13.3 s · F = 6.8 MN · E = 75 MWh<br>
+  8 km/s: a = 8,000²/80,000 = 800 m/s² = <b>81.5 g</b> · t = 10 s · F = 12.0 MN · E = 133 MWh</div>
+  <table>
+    <tr><th>Target exit (over 40 km)</th><th>g-load</th><th>Time in tube</th><th>Force (15 t)</th><th>Energy/shot (15 t · 20 t)</th><th>Possible for</th></tr>
+    <tr><td><b>4 km/s</b></td><td>20.4 g</td><td>20 s</td><td>3.0 MN</td><td>33 · 44 MWh</td><td>most cargo &amp; satellites</td></tr>
+    <tr><td><b>6 km/s</b></td><td>45.9 g</td><td>13.3 s</td><td>6.8 MN</td><td>75 · 100 MWh</td><td>g-hardened / bulk only</td></tr>
+    <tr><td><b>8 km/s ≈ orbital</b></td><td>81.5 g</td><td>10 s</td><td>12.0 MN</td><td>133 · 178 MWh</td><td>inert bulk only (fuel, water, metal)</td></tr>
+  </table>
+  <p>Verdict: <b>all three are physically possible</b>, even 8 km/s, essentially orbital velocity with no kick
+  stage, at 81 g (well inside the ~15,000 g gun-hardened electronics survive). The limit is the payload, not
+  the track: 4 km/s (20 g) suits most cargo, 6 km/s needs hardening, 8 km/s only inert bulk. Because g ∝ 1/L,
+  a longer track buys the same speed at lower g, the 1,000 km-class injector (§9) reaches 8 km/s at just 3.3 g,
+  the human-rated regime.</p>
+  <p>The tube itself: Ø4.0 m flight bore inside a Ø6.0 m ring-stiffened vacuum vessel inside a Ø12 m TBM
+  bore, driven by a <b>360° stator ring</b> (24 REBCO sectors per ring, hoops every 0.6 m). On a straight track
+  the ring carries no curve side-load; it stays full-circumference for two reasons: <b>distributed full-hull thrust</b> (the reaction sleeve is driven along its whole length, so the
+  pod never accumulates the axial compression that would buckle a tail-pushed projectile) and <b>precise
+  magnetic centering</b> of a Mach-15 vehicle inside a 200 mm vacuum gap. The payload bay is <b>Ø3.2 m × 8 m</b>
+  (Cygnus-module class) inside the 23 m ASTRAPE fairing-sled. Vacuum isolation gates every 500 m; 20 K/80 K
+  cryo headers full-length with cooler stations every 500 m.</p>
+  <div class="warn"><b>The honest open issues, on the record:</b> El Arenal piers reach ~590 m (Millau's
+  record is 343 m); the plasma window is proven only at centimeter scale and the Ø4 m bore costs 2.8× the
+  baseline window power, it gets the first R&amp;D dollar; the whole massif sits inside the Reserva de
+  Producción de Fauna Chimborazo under Ecuador's rights-of-nature constitution, the legal path may be the
+  hardest engineering on the sheet; and Mach-15 exits are loud regardless of shaping, altitude and the
+  empty eastern corridor are the real mitigations, and test recovery overflies the inter-Andean valley like
+  any sounding-rocket range.</div>
+  <h3>Revenue from day one</h3>
+  <p>DoD hypersonic test services: sounding rockets are single-shot, wind tunnels don't hold real Mach 6+
+  conditions for minutes, and no facility on Earth fires Mach-7-class test articles from 6,220 m on the
+  equator several times a day. At $50K–$500K per run, one run per week covers operations. The demonstrator
+  is not a cost center, it is a product, and every shot also retires risk on the plasma window, the
+  aero-shell, and the cost-per-kilometer number the full injector's economics live or die on.</p>
+
+  <h3>The sonic-boom problem, possibly the real showstopper</h3>
+  <p class="lede">A Mach-15 body leaving the muzzle at 6,220 m is loud in a way altitude and shaping cannot fully fix. This may be the constraint that decides the site, or kills a populated one.</p>
+  <div class="math">Reference (Concorde): ~<b>1.94 psf</b> (~93 Pa) overpressure, ~105 PNLdB, at Mach 2 and ~16 km altitude.<br>
+  BRONTE exits at <b>Mach 15</b> and only <b>6,220 m (~6.2 km)</b>, ~2.6× closer to the ground and ~7× faster.<br>
+  Boom overpressure rises as the exit gets lower and faster (∝ ~altitude<sup>−3/4</sup>, weakly with Mach):<br>
+  &nbsp;&nbsp;altitude factor (16/6.2)<sup>3/4</sup> ≈ 2.1× · Mach factor ((15.3²−1)/(2²−1))<sup>1/8</sup> ≈ 1.7× ⇒ ~<b>3.6× Concorde</b><br>
+  ⇒ order <b>6–12 psf (~300–600 Pa) near the track</b>, window-rattling, not merely audible, repeated several times a day.</div>
+  <div class="warn"><b>Honest verdict.</b> For a populated equatorial site this is a first-order public-acceptance
+  risk, not a footnote: Riobamba (~170,000 people, ~30 km SE) and Ambato sit within the acoustic footprint, and a
+  launcher firing several times a day would subject them to repeated hypersonic booms. That compounds the
+  rights-of-nature reserve problem, together they may make a Chimborazo build politically impossible regardless
+  of the physics. Mitigations help but do not eliminate it: fire <i>east</i> over the empty Amazon-facing
+  corridor, exploit the altitude, shape the exit body, cap the firing cadence and hours, and, the real lever, be willing to relocate the muzzle/corridor away from inhabited valleys. The boom, more than the rock, may
+  choose where (or whether) this gets built. <span class="ref">(Concorde figures: NASA sonic-boom data; overpressure scaling is first-order estimate.)</span></div>
+
+  <h3>What it costs, and what it could earn</h3>
+  <p>Order-of-magnitude only, the whole point of Phase 1 is to <i>measure</i> the cost-per-kilometer nobody has.</p>
+  <div class="math"><b>CAPEX, Phase 1 (14 km demonstrator):</b><br>
+  Tunnel: ~14 km of Ø12 m bore at ~$200–400M/km (large-bore TBM; cf. Gotthard $10.2B / ~$90M/km over 57 km of
+  mostly smaller works; modern large urban TBM ≈ €500M/km) → <b>~$3–6B</b><br>
+  Launcher: 360° REBCO ring (~23,000 hoop-rings on 14 km), 20 K cryoplant, vacuum vessel, plasma window,
+  pulsed-power storage for a ~13 GW peak, a fusion-magnet-class program → <b>~$6–14B</b><br>
+  Power plant + storage farm + site/seismic works → <b>~$1–3B</b><br>
+  <b>Phase-1 total ≈ $10–20B</b>  (cf. Gotthard tunnel $10.2B · ITER &gt;$22B · one SLS launch $4.1B · Artemis ~$100B to date)</div>
+  <div class="math"><b>REVENUE:</b><br>
+  Phase 1 (Mach 9, <i>sub-orbital</i> test platform): DoD hypersonic test services $50K–$500K/run × ~1–5 runs/day
+  → <b>~$70–350M/yr</b>, covers operations, <b>does not repay the build alone</b>. Phase 1 is a risk-retirement bet.<br>
+  Full line / injector (orbital): launch cost ~$20–250/kg vs market ~$3,000/kg. At the full injector's 29,000 t/yr,
+  even selling at <b>$200/kg ⇒ ~$5.8B/yr</b> gross, a fraction of that repays the build in years <i>if</i> orbital
+  demand and the per-km cost hold.</div>
+  <p>The honest bottom line: Phase 1 is a <b>$10–20B bet</b> whose return is the <i>data</i> and the orbital
+  business it unlocks, not test fees. It pencils out only if (a) the per-km tunnel+tube cost lands near the low
+  end, (b) orbital launch demand is real, and (c) the sonic-boom and legal constraints permit operation at all.
+  <span class="ref">(Tunnel costs: Gotthard Base Tunnel financials; large-bore TBM unit costs. Market launch price: Falcon 9 2026 ~$3,245/kg.)</span></p>
+  <p class="meta" style="margin-top:14pt;"><b>The BRONTE Chimborazo Design Map (Annex B) follows this page</b>, grouped here with the Chimborazo project: route map on real terrain, both build profiles at true 1:1 scale,
+  tunnel &amp; tube sections, the 360° drive ring, ASTRAPE in three views, the cable runs, and the engineering
+  charts. Every figure on it re-derived and audited June 2026. (The SELENE South Pole Design Map, Annex A, is
+  grouped earlier with Section 1.) Each large panel is laid out on its own page and rotated to read at full size.</p>
+</div>
+
+</body>
+</html>
