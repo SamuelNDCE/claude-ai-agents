@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>NeuralVault — Search Techniques for Cortex</title>
+<style>
+  :root{
+    --bg:#0a0d18; --panel:#101526; --card:#141b2e; --card2:#1a2238;
+    --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+    --tx:#e9ecf5; --soft:#aeb6cc; --dim:#7b85a0; --mute:#586079;
+    --teal:#22d3ee; --purple:#7c3aed; --violet:#a78bfa; --blue:#60a5fa;
+    --good:#34d399; --bad:#fb7185; --warn:#fbbf24;
+    --mono:"SF Mono","JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font:-apple-system,"Segoe UI",Inter,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:
+      radial-gradient(900px 500px at 85% -5%, rgba(124,58,237,.16), transparent 60%),
+      radial-gradient(800px 500px at 0% 0%, rgba(34,211,238,.10), transparent 55%),
+      var(--bg);
+    color:var(--tx);font-family:var(--font);line-height:1.5;padding:32px 26px 80px;font-size:14px}
+  .wrap{max-width:1180px;margin:0 auto}
+  h1{font-size:26px;font-weight:700;letter-spacing:-.3px;margin-bottom:4px}
+  h1 .g{background:linear-gradient(90deg,var(--teal),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:26px}
+  h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:34px 0 14px;font-weight:700}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* master table */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;min-width:920px;font-size:12.5px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  thead th{background:var(--card2);color:var(--soft);font-weight:600;letter-spacing:.03em;position:sticky;top:0}
+  tbody tr:hover{background:rgba(255,255,255,.025)}
+  td.tech{font-weight:600;color:var(--tx)}
+  td.tech small{display:block;color:var(--mute);font-weight:400;font-size:11px}
+  .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+  .y{background:rgba(52,211,153,.14);color:var(--good)}
+  .n{background:rgba(251,113,133,.14);color:var(--bad)}
+  .m{background:rgba(251,191,36,.14);color:var(--warn)}
+  .rank{font:700 13px/1 var(--mono);color:var(--teal);width:26px}
+
+  /* detail cards */
+  .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:6px}
+  .tcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .tcard .h{display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--card2),transparent)}
+  .badge{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font:700 14px var(--mono);color:#fff;flex:none}
+  .tcard .h b{font-size:15.5px}
+  .tcard .h .tag{margin-left:auto;font-size:11px;color:var(--dim);text-align:right}
+  .tcard .body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .col{padding:14px 18px}
+  .col.good{border-right:1px solid var(--line)}
+  .col h4{font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;font-weight:700}
+  .col.good h4{color:var(--good)} .col.bad h4{color:var(--bad)}
+  ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  li{position:relative;padding-left:18px;color:var(--soft);font-size:12.7px}
+  li::before{position:absolute;left:0;top:0}
+  .col.good li::before{content:"+";color:var(--good);font-weight:700}
+  .col.bad li::before{content:"−";color:var(--bad);font-weight:700}
+  li b{color:var(--tx)}
+  .foot{padding:11px 18px;border-top:1px solid var(--line);background:var(--card);font-size:12px;color:var(--dim);display:flex;flex-wrap:wrap;gap:18px}
+  .foot b{color:var(--soft)}
+  .foot .nv{color:var(--violet)}
+
+  .reco{margin-top:30px;background:linear-gradient(180deg,rgba(124,58,237,.10),var(--panel));border:1px solid var(--line2);border-radius:16px;padding:20px 22px}
+  .reco h3{font-size:15px;margin-bottom:10px;color:var(--tx)}
+  .steps{display:flex;flex-direction:column;gap:8px}
+  .step{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:var(--soft)}
+  .step .k{width:22px;height:22px;border-radius:7px;background:var(--card2);color:var(--teal);display:grid;place-items:center;font:700 11px var(--mono);flex:none;margin-top:1px}
+  .legend{margin-top:12px;color:var(--mute);font-size:11.5px}
+  @media(max-width:720px){.tcard .body{grid-template-columns:1fr}.col.good{border-right:none;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>NeuralVault search techniques for <span class="g">Cortex</span></h1>
+  <div class="sub">Use case: ask in plain English ("which client did I talk to yesterday?") → instant grounded answer · scaling tens → hundreds-of-thousands → millions of notes. Benchmarks measured 2026-06-13 on this machine.</div>
+
+  <h2>Master comparison (speed-ranked)</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr>
+      <th class="rank">#</th><th>Technique</th><th>Query speed</th>
+      <th>10k</th><th>100k</th><th>1M+</th>
+      <th>Ranks results</th><th>Semantic</th><th>Typo&nbsp;tol.</th><th>Offline</th><th>Memory</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="rank">1</td><td class="tech">Metadata / field filter<small>date · entity · folder · tags</small></td><td><span class="pill y">sub-ms</span></td>
+        <td><span class="pill y">✓</span></td><td><span class="pill y">✓</span></td><td><span class="pill y">✓✓</span></td>
+        <td><span class="pill n">no</span></td><td><span class="pill n">no</span></td><td><span class="pill n">no</span></td><td><span class="pill y">yes</span></td><td><span class="pill y">tiny</span></td></tr>
+      <tr><td class="rank">2</td><td class="tech">Lexical / BM25<small>TF-IDF inverted index</small></td><td><span class="pill y">µs–ms</span></td>
+        <td><span class="pill y">✓</span></td><td><span class="pill y">✓</span></td><td><span class="pill y">✓</span></td>
+        <td><span class="pill y">yes</span></td><td><span class="pill n">no</span></td><td><span class="pill n">no</span></td><td><span class="pill y">yes</span></td><td><span class="pill y">small</span></td></tr>
+      <tr><td class="rank">3</td><td class="tech">Trigram / n-gram<small>fuzzy substring</small></td><td><span class="pill y">low ms</span></td>
+        <td><span class="pill y">✓</span></td><td><span class="pill y">✓</span></td><td><span class="pill m">⚠ RAM</span></td>
+        <td><span class="pill m">weak</span></td><td><span class="pill n">no</span></td><td><span class="pill y">yes</span></td><td><span class="pill y">yes</span></td><td><span class="pill m">high</span></td></tr>
+      <tr><td class="rank">4</td><td class="tech">Vector ANN<small>HNSW / LanceDB</small></td><td><span class="pill m">~1ms + embed&nbsp;~1.2s</span></td>
+        <td><span class="pill y">✓</span></td><td><span class="pill y">✓</span></td><td><span class="pill y">✓ (ANN)</span></td>
+        <td><span class="pill y">yes</span></td><td><span class="pill y">yes</span></td><td><span class="pill m">~ partial</span></td><td><span class="pill m">if local</span></td><td><span class="pill n">heavy</span></td></tr>
+      <tr><td class="rank">5</td><td class="tech">Hybrid + reranker<small>RRF + cross-encoder</small></td><td><span class="pill n">embed + rerank</span></td>
+        <td><span class="pill y">✓</span></td><td><span class="pill y">✓</span></td><td><span class="pill y">✓</span></td>
+        <td><span class="pill y">best</span></td><td><span class="pill y">yes</span></td><td><span class="pill y">yes</span></td><td><span class="pill m">if local</span></td><td><span class="pill n">heaviest</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="legend">✓✓ scales effortlessly · ✓ scales with the right index · ⚠ scales but watch the resource noted · embed≈1.2s (Ollama nomic-embed-text, measured) is the dominant per-query cost for anything semantic.</div>
+
+  <h2>Every upside &amp; every downside</h2>
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="tcard">
+      <div class="h"><div class="badge" style="background:linear-gradient(135deg,#22d3ee,#0e7490)">1</div><b>Metadata / field filter</b><div class="tag">date · entity · folder · tags · status<br>the secret weapon for "yesterday"</div></div>
+      <div class="body">
+        <div class="col good"><h4>Upsides</h4><ul>
+          <li><b>Sub-millisecond</b> — indexed field lookup (B-tree/hash), not a scan.</li>
+          <li><b>Scales to billions</b> — this is exactly what databases do.</li>
+          <li><b>Exact &amp; deterministic</b> — "yesterday", date ranges, a specific client, a folder.</li>
+          <li><b>Collapses the corpus first</b> — narrows 1M notes to ~3 before any heavy search runs.</li>
+          <li>No model, no network, fully offline, trivial compute.</li>
+          <li>Composable — AND/OR across fields (date AND folder AND entity).</li>
+          <li>Always-current if fields are indexed on write.</li>
+          <li>Fully explainable — you know exactly why a note matched.</li>
+        </ul></div>
+        <div class="col bad"><h4>Problems</h4><ul>
+          <li><b>Only as good as your metadata</b> — needs date/entity/tag fields to exist and be accurate; missing/garbage fields = useless.</li>
+          <li><b>It's a filter, not a search</b> — can't find anything by free-text content, and doesn't rank by relevance on its own.</li>
+          <li>Needs an extraction/tagging pipeline (or entity detection) to populate fields reliably.</li>
+          <li><b>"Yesterday" ambiguity</b> — created vs modified vs event date; needs a clear timestamp convention.</li>
+          <li>Schema rigidity — a new filter dimension means a new indexed field + reindex.</li>
+          <li>Can't interpret nuance ("the difficult client") unless it's literally a field.</li>
+          <li>Index maintenance on every write/update/delete.</li>
+        </ul></div>
+      </div>
+      <div class="foot"><span><b>Best for:</b> time/entity/category queries — the front filter of the pipeline.</span><span class="nv">NV today: folder filter exists; date/entity fields not yet indexed.</span></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="tcard">
+      <div class="h"><div class="badge" style="background:linear-gradient(135deg,#60a5fa,#2b52d9)">2</div><b>Lexical / BM25 (TF-IDF)</b><div class="tag">tokenized inverted index<br>NV's current default + fallback</div></div>
+      <div class="body">
+        <div class="col good"><h4>Upsides</h4><ul>
+          <li><b>Fastest ranked content search</b> — µs–ms hash lookup, <b>no embed step</b>.</li>
+          <li><b>Relevance-ranked</b> (TF-IDF/BM25) — best-first, with snippets.</li>
+          <li><b>Scales to billions</b> — Lucene/Elasticsearch territory.</li>
+          <li>No model/network — works offline; the reliable cold-start fallback.</li>
+          <li>Tiny memory vs vectors; cheap, fast index build.</li>
+          <li>Strong exact term/name/ID match (client names, codes).</li>
+          <li>Deterministic &amp; explainable (you see the matched terms).</li>
+          <li>Multi-word scoring; phrase/proximity possible with a positional index.</li>
+        </ul></div>
+        <div class="col bad"><h4>Problems</h4><ul>
+          <li><b>Whole-token only</b> — misses typos &amp; partials (<span style="font-family:var(--mono)">auth ≠ authentication</span>) unless stemmed.</li>
+          <li><b>No semantics</b> — misses synonyms/paraphrase (car ≠ automobile); the core weakness for conversational questions.</li>
+          <li><b>Vocabulary mismatch</b> — query words must overlap the note's words.</li>
+          <li>Stopword/short-token dropping can lose meaning (NV drops &lt;2-char + stopwords).</li>
+          <li>Bag-of-words — ignores word order/meaning unless positional.</li>
+          <li>Index can go <b>stale</b> — needs rebuild/sync (NV rebuilds at launch).</li>
+          <li><b>NV-specific:</b> current impl allocates an O(N) score array per query — fine now, must become postings-only for millions.</li>
+          <li>Stemming/lemmatization is language-specific and adds complexity.</li>
+        </ul></div>
+      </div>
+      <div class="foot"><span><b>Best for:</b> exact keywords/names, ranked — the everyday workhorse.</span><span class="nv">NV today: implemented (TF-IDF). qmd uses BM25.</span></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="tcard">
+      <div class="h"><div class="badge" style="background:linear-gradient(135deg,#34d399,#0e7490)">3</div><b>Trigram / n-gram</b><div class="tag">character 3-grams · fuzzy substring<br>pg_trgm / ripgrep / Zoekt</div></div>
+      <div class="body">
+        <div class="col good"><h4>Upsides</h4><ul>
+          <li><b>Typo-tolerant &amp; partial</b> — <span style="font-family:var(--mono)">Jonh→John</span>, <span style="font-family:var(--mono)">auth→authentication</span>, half-remembered names.</li>
+          <li><b>Substring &amp; mid-token</b> matches anywhere in the text.</li>
+          <li><b>Language/script-agnostic</b> — great for code, IDs, non-English, autocomplete.</li>
+          <li>Fast — in-memory set intersection of trigram lists; no model/network, offline.</li>
+          <li>Fills the exact gap grep (no typos) and BM25 (whole-token) both miss.</li>
+        </ul></div>
+        <div class="col bad"><h4>Problems</h4><ul>
+          <li><b>Big index, high memory</b> — every 3-gram is a key (~3–5× the inverted index); needs disk-backing past ~100k.</li>
+          <li><b>False-positive candidates</b> — needs a verify/rank pass; weak native relevance ranking.</li>
+          <li><b>Not semantic</b> — no synonyms/meaning.</li>
+          <li>Queries &lt;3 chars are awkward/ineffective.</li>
+          <li>Higher build &amp; update cost than a plain inverted index.</li>
+          <li>Common trigrams (the/ing) get noisy — needs tuning/weighting.</li>
+          <li>Lower precision than exact/BM25 on already-clean queries.</li>
+        </ul></div>
+      </div>
+      <div class="foot"><span><b>Best for:</b> misspelled / partial names, code &amp; identifier search.</span><span class="nv">NV today: not implemented — the recommended add for fuzzy name matching.</span></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="tcard">
+      <div class="h"><div class="badge" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">4</div><b>Vector / Semantic (ANN)</b><div class="tag">embeddings + HNSW / LanceDB<br>the only "understands meaning" tier</div></div>
+      <div class="body">
+        <div class="col good"><h4>Upsides</h4><ul>
+          <li><b>Semantic</b> — matches meaning, synonyms, paraphrase, cross-lingual; answers conversational queries with no shared keywords.</li>
+          <li><b>ANN retrieval ≈ O(log N)</b> — sub-ms even at millions/billions (HNSW/FAISS/LanceDB).</li>
+          <li>Robust to vocabulary mismatch — no exact words needed.</li>
+          <li>Scales with disk-backed stores (LanceDB) + quantization.</li>
+          <li>High recall for vague/underspecified questions.</li>
+        </ul></div>
+        <div class="col bad"><h4>Problems</h4><ul>
+          <li><b>Query-embed latency ~1.2s (measured)</b> — the dominant per-query cost; every query pays it unless cached.</li>
+          <li><b>Brute force is O(N·768)</b> — breaks past ~tens of thousands (NV's current impl); <b>must</b> move to HNSW/LanceDB.</li>
+          <li><b>Memory/disk heavy</b> — 768-dim f32 ≈ 300MB@100k, 3GB@1M → needs int8 quantization or disk-backing.</li>
+          <li><b>ANN is approximate</b> — recall &lt;100%; can miss the true nearest (tunable ef/M, speed↔recall tradeoff).</li>
+          <li><b>Weak on exact tokens</b> — IDs, codes, names; can sound right but be wrong (inverse of lexical).</li>
+          <li><b>Embeddings go stale</b> — must re-embed on edit; new notes invisible until embedded (NV embeds at launch only).</li>
+          <li>Expensive index build (embed every note); a model change = full reindex.</li>
+          <li>Hard to explain a ranking; chunking long notes affects quality; embedder quality caps the ceiling.</li>
+          <li>Needs a model present (offline only if the embedder is local).</li>
+        </ul></div>
+      </div>
+      <div class="foot"><span><b>Best for:</b> natural-language / conceptual questions (Cortex's core need).</span><span class="nv">NV today: brute-force cosine, in-memory vectors.json; LanceDB is the planned M2 upgrade.</span></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="tcard">
+      <div class="h"><div class="badge" style="background:linear-gradient(135deg,#fbbf24,#7c3aed)">5</div><b>Hybrid + reranker</b><div class="tag">RRF (lex+vec) → cross-encoder<br>best accuracy, highest cost</div></div>
+      <div class="body">
+        <div class="col good"><h4>Upsides</h4><ul>
+          <li><b>Best accuracy</b> — exact (lexical) + semantic (vector) cover each other's blind spots.</li>
+          <li><b>RRF is normalization-free</b>, simple, robust, scalable (k=60 default — NV uses this).</li>
+          <li><b>Reranker</b> (cross-encoder on top ~50) gives top-tier final precision.</li>
+          <li>Scales — every component scales; rerank is constant cost on top-k only.</li>
+          <li>Graceful degradation — fall back to lexical if the embed times out.</li>
+        </ul></div>
+        <div class="col bad"><h4>Problems</h4><ul>
+          <li><b>Slowest</b> — pays embed + both searches + fusion + a second (reranker) model.</li>
+          <li><b>Most complex</b> to build, tune, and maintain (two indexes + fusion + reranker).</li>
+          <li>Reranker = another model dependency + latency (tens–hundreds of ms on top-k).</li>
+          <li>More moving parts → more failure modes.</li>
+          <li>Overkill for simple exact lookups.</li>
+          <li>Tuning burden — RRF k/weights, rerank cutoff, candidate pool sizes.</li>
+          <li>Highest overall resource cost (CPU/RAM/disk).</li>
+        </ul></div>
+      </div>
+      <div class="foot"><span><b>Best for:</b> when the answer must be exactly right and the query is conversational.</span><span class="nv">NV today: hybrid (RRF) implemented; reranker not yet. Embed 600ms budget &lt; 1.2s real → often degrades to lexical.</span></div>
+    </div>
+
+  </div>
+
+  <div class="reco">
+    <h3>★ Recommended pipeline for "which client did I talk to yesterday?"</h3>
+    <div class="steps">
+      <div class="step"><div class="k">1</div><div><b>Metadata filter</b> — <span class="num">date = yesterday</span> (+ folder/entity). Sub-ms, scales to millions → collapses the vault to ~3 notes.</div></div>
+      <div class="step"><div class="k">2</div><div><b>Hybrid (lexical + vector-ANN, RRF)</b> — run only on what's left (basically free). Catches exact names AND conversational phrasing.</div></div>
+      <div class="step"><div class="k">3</div><div><b>Reranker</b> — order the top few; hand <b>top ~5</b> to Cortex.</div></div>
+      <div class="step"><div class="k">4</div><div><b>Stream a fast LLM</b> — the answer-writing is the only real wait; streaming + a fast model makes it feel instant.</div></div>
+    </div>
+    <div class="legend">Because step 1 narrows the corpus <b>before</b> any embedding or LLM work, vault size (10k → 1M) barely changes the answer time. Make NV scale by: raise the 600ms embed budget → ~2s · faster/quantized query embedder · HNSW/LanceDB instead of brute-force cosine · int8 vectors · add date/entity metadata fields + a reranker.</div>
+  </div>
+</div>
+</body>
+</html>
