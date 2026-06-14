@@ -143,7 +143,7 @@ SELENE_COVER = {"letter":"A", "title":"SELENE, South Pole Design Map",
       "Panel B, EOS-3 open-track section: no tube, the Moon is the vacuum vessel (Ø3.0 m bore)",
       "Panel C, Side profile: the raised track on its regolith embankment (true 1:1)",
       "Panel D, Engineering charts: track length vs g, Δv destinations, ridge illumination, energy",
-      "Panel E, Return missions: direct Earth entry, satellite dispenser, cislunar depot supply",
+      "Panel E, Return &amp; delivery: the Earth–Moon system, Lagrange points, and how orbits actually work",
       "Panel F, Build cost summary (revised Ø3 m estimate, $2.0B–$2.5B mid-case)"]}
 
 def split_v2a():
@@ -166,7 +166,7 @@ def main(only=None):
         "v2a_a":  (a_path, None, None),
         "v2a_b":  (b_path, None, None),
         "bronte": (os.path.join(HERE, "2026-06-12-bronte-chimborazo-routemap.html"), [0,1,2,3,4], BRONTE_COVER),
-        "selene": (os.path.join(HERE, "2026-06-12-selene-design-map.html"), [0,2,3,5], SELENE_COVER),
+        "selene": (os.path.join(HERE, "2026-06-12-selene-design-map.html"), [0,2,3], SELENE_COVER),
         "v2b":    (os.path.join(HERE, "keraunos-v2b.html"), None, None),
     }
     pdfs = {}
